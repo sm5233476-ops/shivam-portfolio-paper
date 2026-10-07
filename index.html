@@ -267,7 +267,7 @@
         </div>
 
         <ul class="skills-checklist" role="list">
-          <!-- Item 1 -->
+          <!-- Item 1: Business websites -->
           <li class="checklist-item">
             <div class="tick-box" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" class="tick-svg">
@@ -279,7 +279,7 @@
             </div>
           </li>
 
-          <!-- Item 2 -->
+          <!-- Item 2: Online stores -->
           <li class="checklist-item">
             <div class="tick-box" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" class="tick-svg">
@@ -291,7 +291,7 @@
             </div>
           </li>
 
-          <!-- Item 3 -->
+          <!-- Item 3: Booking and quote tools -->
           <li class="checklist-item">
             <div class="tick-box" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" class="tick-svg">
@@ -303,7 +303,7 @@
             </div>
           </li>
 
-          <!-- Item 4 -->
+          <!-- Item 4: Smooth animations -->
           <li class="checklist-item">
             <div class="tick-box" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" class="tick-svg">
@@ -315,7 +315,7 @@
             </div>
           </li>
 
-          <!-- Item 5 -->
+          <!-- Item 5: AI chat assistants -->
           <li class="checklist-item">
             <div class="tick-box" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" class="tick-svg">
@@ -327,7 +327,7 @@
             </div>
           </li>
 
-          <!-- Item 6 -->
+          <!-- Item 6: Web apps and dashboards -->
           <li class="checklist-item">
             <div class="tick-box" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" class="tick-svg">
@@ -363,7 +363,7 @@
                   <span class="stamp-icon" aria-hidden="true">💬</span>
                   <span class="stamp-text-wrap">
                     <span class="stamp-label">WhatsApp</span>
-                    <span class="stamp-value" id="val-whatsapp">Chat directly</span>
+                    <span class="stamp-value" id="val-whatsapp">Chat on WhatsApp</span>
                   </span>
                 </a>
 
@@ -393,8 +393,8 @@
 
   </main>
 
-  <!-- Pull-out Project Modal (Hand-sketched browser frame dialog) -->
-  <dialog id="project-modal" class="project-modal" aria-labelledby="modal-project-title" aria-modal="true">
+  <!-- Pull-out Project Modal (Hand-sketched browser frame dialog with native scroll guard) -->
+  <dialog id="project-modal" class="project-modal" data-lenis-prevent aria-labelledby="modal-project-title" aria-modal="true">
     <div class="modal-card paper-sheet" id="modal-card">
       <div class="modal-browser-header">
         <div class="browser-dots" aria-hidden="true">
@@ -411,7 +411,7 @@
         <a href="#" id="modal-live-link" class="btn btn-secondary modal-live-btn" target="_blank" rel="noopener noreferrer">View live site ↗</a>
       </div>
 
-      <div class="modal-scroll-frame" id="modal-scroll-frame" tabindex="0" aria-label="Scrollable preview of the full website design">
+      <div class="modal-scroll-frame" id="modal-scroll-frame" data-lenis-prevent tabindex="0" aria-label="Scrollable preview of the full website design">
         <img src="dental.jpg" alt="Full website preview" id="modal-img" width="1200" height="2400" decoding="async" class="modal-screenshot" onerror="this.style.display='none'; document.getElementById('modal-fallback').style.display='block';">
         <div id="modal-fallback" class="modal-fallback-paper" style="display: none;">
           <p class="handwritten-note">Screenshot preview unavailable</p>

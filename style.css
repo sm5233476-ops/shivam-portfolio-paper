@@ -118,7 +118,7 @@ a {
   transform: translateY(0);
 }
 
-/* Thin Pencil Line Scroll Progress */
+/* Thin Pencil Line Scroll Progress (GPU transform: scaleX only) */
 .pencil-progress-bar {
   position: fixed;
   top: 0;
@@ -130,10 +130,26 @@ a {
 }
 
 .pencil-progress-lead {
-  width: 0%;
+  width: 100%;
   height: 100%;
   background-color: var(--color-pencil-red);
+  transform: scaleX(0);
   transform-origin: left center;
+  will-change: transform;
+}
+
+/* Optional Pencil Cursor (Transform only, native cursor remains visible) */
+.pencil-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  z-index: 99999;
+  opacity: 0;
+  transform: translate(-100px, -100px);
+  will-change: transform;
 }
 
 /* --------------------------------------------------------------------------
@@ -1322,7 +1338,7 @@ a {
 
 @media (max-width: 768px) {
   .desk-header {
-    width: calc(100% - 24px);
+    width: calc(100% - 40px);
     top: 8px;
   }
 
@@ -1342,7 +1358,7 @@ a {
   }
 
   .desk-container {
-    width: calc(100% - 24px);
+    width: calc(100% - 40px); /* Enforces strict 20px padding on each side */
     margin: 18px auto 60px auto;
     gap: 48px;
   }

@@ -1,0 +1,1401 @@
+/* ==========================================================================
+   THE DESK — PERSONAL PORTFOLIO OF SHIVAM MISHRA
+   Pure CSS Design System, Layout, and Handmade Paper Aesthetics
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   01. DESIGN TOKENS (CSS VARIABLES)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Desk & Paper Palette */
+  --color-paper: #F1EADB;
+  --color-desk: #E3D9C3;
+  --color-ink: #1D1812;
+  --color-pencil-red: #D8432A;
+  --color-highlighter: #F7D84B;
+  --color-blue-ink: #2742C8;
+  --color-muted: #6B6254;
+
+  /* Typography */
+  --font-headline: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-hand: "Caveat", "Comic Sans MS", cursive;
+  --font-signature: "Mrs Saint Delafield", cursive;
+
+  /* Layout & Spacing */
+  --container-max: 1280px;
+  --spacing-unit: 8px;
+  --radius-paper: 4px;
+  --radius-pill: 9999px;
+
+  /* Paper Shadow Tokens */
+  --shadow-sheet: 2px 4px 14px rgba(29, 24, 18, 0.08), 0 1px 3px rgba(29, 24, 18, 0.05);
+  --shadow-lift: 8px 18px 32px rgba(29, 24, 18, 0.14), 0 3px 8px rgba(29, 24, 18, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   02. BASE RESETS & SAFEGUARDS (Mobile Safe: 360px, 390px, 412px)
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  max-width: 100%;
+  overflow-x: clip;
+  scroll-behavior: auto; /* Handled smoothly by Lenis when available */
+  -webkit-text-size-adjust: 100%;
+}
+
+body.desk-surface {
+  min-height: 100vh;
+  max-width: 100%;
+  overflow-x: clip;
+  background-color: var(--color-desk);
+  /* Static, seamless subtle paper grain background */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.11 0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Flex/Grid Child Overflow Prevention */
+* {
+  min-width: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Keyboard Accessibility Focus */
+:focus-visible {
+  outline: 2px dashed var(--color-pencil-red);
+  outline-offset: 4px;
+}
+
+/* Accessible Skip Link */
+.skip-link {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10000;
+  padding: 10px 18px;
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: var(--radius-paper);
+  transform: translateY(-150%);
+  transition: transform 0.2s ease-out;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Thin Pencil Line Scroll Progress */
+.pencil-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.pencil-progress-lead {
+  width: 0%;
+  height: 100%;
+  background-color: var(--color-pencil-red);
+  transform-origin: left center;
+}
+
+/* --------------------------------------------------------------------------
+   03. TYPOGRAPHY & WORD SPLITTER UTILITIES
+   -------------------------------------------------------------------------- */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+.word {
+  display: inline-block;
+  transform-origin: bottom left;
+}
+
+.handwritten-note {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--color-pencil-red);
+  line-height: 1.2;
+}
+
+/* --------------------------------------------------------------------------
+   04. PAPER SHEETS & DESK ARTIFACTS
+   -------------------------------------------------------------------------- */
+.paper-sheet {
+  position: relative;
+  background-color: var(--color-paper);
+  border: 1px solid rgba(29, 24, 18, 0.12);
+  border-radius: var(--radius-paper);
+  box-shadow: var(--shadow-sheet);
+}
+
+/* Hover shadow via pseudo-element opacity (Strict Rule: No box-shadow transition) */
+.paper-sheet::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--shadow-lift);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
+}
+
+.paper-sheet:hover::after {
+  opacity: 1;
+}
+
+/* Washi Tape Strip */
+.washi-tape {
+  position: absolute;
+  width: 110px;
+  height: 28px;
+  background-color: rgba(230, 220, 196, 0.72);
+  border-left: 2px dashed rgba(180, 160, 130, 0.4);
+  border-right: 2px dashed rgba(180, 160, 130, 0.4);
+  box-shadow: 0 1px 3px rgba(29, 24, 18, 0.08);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Sticky Note pinned artifact */
+.sticky-note {
+  position: absolute;
+  background-color: #FFF6C2;
+  border: 1px solid rgba(220, 205, 140, 0.6);
+  padding: 16px 20px 20px 20px;
+  box-shadow: 3px 6px 14px rgba(29, 24, 18, 0.09);
+  border-bottom-right-radius: 12px 3px;
+  z-index: 15;
+}
+
+.sticky-note-pin {
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-pencil-red);
+  border-radius: 50%;
+  margin: 0 auto 8px auto;
+  box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sticky-note-text {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  line-height: 1.25;
+  text-align: center;
+}
+
+/* Rubber Ink Stamp */
+.project-stamp {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 4px 10px;
+  font-family: var(--font-headline);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-pencil-red);
+  border: 1.5px dashed var(--color-pencil-red);
+  border-radius: 3px;
+  transform: rotate(-3deg);
+  opacity: 0.88;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* /* @@SLOT:css-intro @@ */
+/* --------------------------------------------------------------------------
+   05. INTRO OVERLAY (Full Sheet Lift Reveal)
+   -------------------------------------------------------------------------- */
+.intro-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background-color: var(--color-paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center bottom;
+  box-shadow: 0 20px 50px rgba(29, 24, 18, 0.2);
+}
+
+.intro-sheet-inner {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.intro-sheet-content {
+  position: relative;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.intro-signature-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.intro-signature-text {
+  font-family: var(--font-signature);
+  font-size: clamp(4.5rem, 14vw, 8.5rem);
+  color: var(--color-ink);
+  line-height: 0.95;
+  white-space: nowrap;
+  clip-path: inset(0 100% 0 0); /* Revealing pen wipe */
+}
+
+.pen-dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-pencil-red);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+.intro-squiggle {
+  display: block;
+  width: min(240px, 70vw);
+  height: 24px;
+  margin: 12px auto 0 auto;
+}
+
+#intro-squiggle-path {
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+}
+
+.intro-star {
+  position: absolute;
+  top: -12px;
+  right: -24px;
+  width: 32px;
+  height: 32px;
+}
+
+#intro-star-path {
+  stroke-dasharray: 90;
+  stroke-dashoffset: 90;
+}
+
+.intro-skip-btn {
+  position: absolute;
+  bottom: -48px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-hand);
+  font-size: 1.05rem;
+  color: var(--color-muted);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  transition: color 0.2s ease;
+}
+
+.intro-skip-btn:hover {
+  color: var(--color-ink);
+}
+
+/* --------------------------------------------------------------------------
+   06. STICKY PAPER TABS NAVIGATION
+   -------------------------------------------------------------------------- */
+.desk-header {
+  position: sticky;
+  top: 14px;
+  z-index: 500;
+  width: min(var(--container-max), calc(100% - 32px));
+  margin: 14px auto 0 auto;
+  pointer-events: none;
+}
+
+.paper-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: auto;
+}
+
+.nav-brand-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 14px;
+  background-color: var(--color-paper);
+  border: 1px solid rgba(29, 24, 18, 0.12);
+  border-radius: var(--radius-paper);
+  box-shadow: 1px 2px 6px rgba(29, 24, 18, 0.06);
+}
+
+.brand-monogram {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-pencil-red);
+}
+
+.brand-tag {
+  font-family: var(--font-hand);
+  font-size: 1.05rem;
+  color: var(--color-muted);
+}
+
+.paper-tabs {
+  display: inline-flex;
+  list-style: none;
+  gap: 4px;
+  padding: 4px 6px;
+  background-color: rgba(227, 217, 195, 0.85);
+  border: 1px solid rgba(29, 24, 18, 0.1);
+  border-radius: 8px 8px 4px 4px;
+  box-shadow: 0 2px 6px rgba(29, 24, 18, 0.05);
+}
+
+.paper-tab {
+  position: relative;
+  display: inline-block;
+  padding: 8px 14px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  border: 1px solid rgba(29, 24, 18, 0.1);
+  border-radius: 6px 6px 2px 2px;
+  overflow: hidden;
+}
+
+.tab-label {
+  position: relative;
+  z-index: 2;
+}
+
+.tab-highlighter {
+  position: absolute;
+  inset: auto 4px 6px 4px;
+  height: 8px;
+  background-color: var(--color-highlighter);
+  border-radius: 2px;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.paper-tab.active .tab-highlighter {
+  opacity: 0.85;
+  transform: scaleX(1);
+}
+
+/* --------------------------------------------------------------------------
+   07. DESK CONTAINER
+   -------------------------------------------------------------------------- */
+.desk-container {
+  width: min(var(--container-max), calc(100% - 40px));
+  margin: 32px auto 80px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+}
+
+/* /* @@SLOT:css-hero @@ */
+/* --------------------------------------------------------------------------
+   08. HERO SECTION
+   -------------------------------------------------------------------------- */
+.hero-section {
+  position: relative;
+}
+
+.paper-sheet-hero {
+  padding: clamp(32px, 6vw, 68px) clamp(24px, 5vw, 56px);
+  transform: rotate(-0.35deg);
+}
+
+.washi-tape-hero {
+  top: -14px;
+  left: 64px;
+  transform: rotate(-2deg);
+}
+
+.hero-card .sticky-note {
+  top: -24px;
+  right: 28px;
+  transform: rotate(3.5deg);
+  max-width: 180px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 980px;
+}
+
+.hero-greeting {
+  font-size: 1.45rem;
+  margin-bottom: 14px;
+}
+
+.hero-headline {
+  font-family: var(--font-headline);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5.8vw, 4.85rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+  margin-bottom: 36px;
+}
+
+.highlight-wrap {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.circled-word {
+  position: relative;
+  z-index: 2;
+  font-style: italic;
+}
+
+.doodle-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 125%;
+  height: 155%;
+  transform: translate(-50%, -48%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#doodle-circle-path {
+  stroke-dasharray: 560;
+  stroke-dashoffset: 560;
+}
+
+.doodle-arrow {
+  position: absolute;
+  top: 85%;
+  left: 60%;
+  width: 65px;
+  height: 55px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+#doodle-arrow-stem {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+}
+
+#doodle-arrow-head {
+  stroke-dasharray: 45;
+  stroke-dashoffset: 45;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+/* Action Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 26px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: var(--radius-paper);
+  border: 1.5px solid var(--color-ink);
+}
+
+.btn-primary {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.btn-primary:hover {
+  background-color: #2b251d;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-ink);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(29, 24, 18, 0.05);
+}
+
+/* Washi Tape Marquee Track */
+.tape-strip-marquee {
+  position: relative;
+  margin-top: 48px;
+  padding: 10px 0;
+  background-color: #E8DECA;
+  border-top: 1px dashed rgba(29, 24, 18, 0.2);
+  border-bottom: 1px dashed rgba(29, 24, 18, 0.2);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.tape-marquee-track {
+  display: inline-flex;
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  will-change: transform;
+  animation: marqueeTicker 24s linear infinite;
+}
+
+@keyframes marqueeTicker {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+/* --------------------------------------------------------------------------
+   09. ABOUT SECTION
+   -------------------------------------------------------------------------- */
+.about-section {
+  position: relative;
+}
+
+.about-card {
+  padding: clamp(28px, 5vw, 48px);
+  transform: rotate(0.4deg);
+}
+
+.washi-tape-about {
+  top: -12px;
+  right: 56px;
+  transform: rotate(3deg);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: clamp(24px, 4vw, 54px);
+  align-items: center;
+}
+
+.about-photo-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.photo-frame {
+  position: relative;
+  padding: 12px 12px 28px 12px;
+  background-color: #FCF9F2;
+  border: 1px solid rgba(29, 24, 18, 0.12);
+  box-shadow: 2px 4px 12px rgba(29, 24, 18, 0.09);
+  transform: rotate(-1.5deg);
+  width: 240px;
+}
+
+.about-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border: 1px solid rgba(29, 24, 18, 0.08);
+}
+
+.photo-monogram-fallback {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #EBE4D5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(29, 24, 18, 0.2);
+}
+
+.fallback-initials {
+  font-family: var(--font-headline);
+  font-size: 3.5rem;
+  color: var(--color-pencil-red);
+}
+
+.photo-caption {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+.section-tag {
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: var(--font-headline);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15;
+  color: var(--color-ink);
+  margin-bottom: 16px;
+}
+
+.about-description {
+  font-size: 1.08rem;
+  color: #383127;
+  max-width: 680px;
+  line-height: 1.7;
+}
+
+/* /* @@SLOT:css-works @@ */
+/* --------------------------------------------------------------------------
+   10. WORKS SECTION
+   -------------------------------------------------------------------------- */
+.works-section {
+  position: relative;
+}
+
+.section-header-works {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.section-title-large {
+  font-family: var(--font-headline);
+  font-size: clamp(2.6rem, 5vw, 3.8rem);
+  line-height: 1.1;
+  color: var(--color-ink);
+}
+
+.works-subtitle {
+  font-size: 1.15rem;
+}
+
+.works-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.project-sheet {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transform-origin: center center;
+}
+
+/* Individual slight desk rotations */
+.project-sheet[data-project="lumina"] {
+  transform: rotate(-1.2deg);
+}
+
+.project-sheet[data-project="ironcrest"] {
+  transform: rotate(0.8deg);
+}
+
+.project-sheet[data-project="coffee"] {
+  transform: rotate(-0.6deg);
+}
+
+.tape-corner {
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  width: 60px;
+  height: 20px;
+  background-color: rgba(230, 220, 196, 0.7);
+  border-left: 2px dashed rgba(180, 160, 130, 0.35);
+  border-right: 2px dashed rgba(180, 160, 130, 0.35);
+  transform: rotate(-5deg);
+}
+
+.card-preview {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  border: 1px solid rgba(29, 24, 18, 0.12);
+  border-radius: 2px;
+  background-color: #E6DCBE;
+  margin-top: 18px;
+  margin-bottom: 16px;
+}
+
+.project-screenshot {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.preview-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(29, 24, 18, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.project-sheet:hover .preview-overlay {
+  opacity: 1;
+}
+
+.btn-inspect-sheet {
+  padding: 8px 16px;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: var(--radius-paper);
+}
+
+.project-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.project-number {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--color-pencil-red);
+  font-weight: 700;
+}
+
+.project-name {
+  font-family: var(--font-headline);
+  font-size: 1.55rem;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.project-desc {
+  font-size: 0.94rem;
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin-bottom: 18px;
+  flex-grow: 1;
+}
+
+.project-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(29, 24, 18, 0.15);
+}
+
+.sheet-action-link {
+  font-family: var(--font-hand);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-blue-ink);
+  text-decoration: underline;
+}
+
+.live-site-link {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.live-site-link:hover {
+  text-decoration: underline;
+}
+
+/* Fallback paper block for broken project screenshots */
+.card-preview.img-failed::before {
+  content: "Preview Sheet (Render failed)";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-hand);
+  font-size: 1.1rem;
+  color: var(--color-muted);
+  background-color: #E8E0CE;
+}
+
+/* /* @@SLOT:css-skills @@ */
+/* --------------------------------------------------------------------------
+   11. SKILLS SECTION: HANDWRITTEN CHECKLIST
+   -------------------------------------------------------------------------- */
+.skills-section {
+  position: relative;
+}
+
+.skills-card {
+  padding: clamp(28px, 5vw, 48px);
+  transform: rotate(-0.25deg);
+}
+
+.skills-header {
+  margin-bottom: 32px;
+}
+
+.skills-title-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.skills-title {
+  font-family: var(--font-headline);
+  font-size: clamp(2.4rem, 4.8vw, 3.6rem);
+  line-height: 1.1;
+  color: var(--color-ink);
+}
+
+.skills-highlighter-stroke {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+#skills-wipe-path {
+  stroke-dasharray: 240;
+  stroke-dashoffset: 240;
+}
+
+.skills-note {
+  margin-top: 6px;
+}
+
+.skills-checklist {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px 36px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 1.04rem;
+  color: #2F2920;
+  line-height: 1.55;
+}
+
+.tick-box {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+}
+
+.tick-svg {
+  width: 24px;
+  height: 24px;
+}
+
+.tick-path {
+  stroke-dasharray: 28;
+  stroke-dashoffset: 28;
+}
+
+.checklist-body strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.skill-link {
+  color: var(--color-blue-ink);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+/* /* @@SLOT:css-contact @@ */
+/* --------------------------------------------------------------------------
+   12. CONTACT SECTION: ENVELOPE & LETTER
+   -------------------------------------------------------------------------- */
+.contact-section {
+  position: relative;
+  perspective: 1200px;
+}
+
+.envelope-desk-wrapper {
+  position: relative;
+  width: min(840px, 100%);
+  margin: 0 auto;
+}
+
+.envelope {
+  position: relative;
+  background-color: #D6C8AF;
+  border: 1px solid rgba(29, 24, 18, 0.16);
+  border-radius: 6px;
+  padding-top: 20px;
+  box-shadow: 4px 10px 24px rgba(29, 24, 18, 0.12);
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background-color: #CBBCA1;
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  transform-origin: top center;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.envelope-letter {
+  position: relative;
+  background-color: var(--color-paper);
+  padding: clamp(32px, 6vw, 56px) clamp(24px, 5vw, 44px);
+  margin: 0 16px 16px 16px;
+  border-radius: var(--radius-paper);
+  z-index: 2;
+  transform-origin: center bottom;
+}
+
+.letter-inner {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.contact-subnote {
+  margin-bottom: 8px;
+}
+
+.contact-title {
+  font-family: var(--font-headline);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.contact-text {
+  font-size: 1.1rem;
+  color: #3A3227;
+  margin-bottom: 36px;
+}
+
+.contact-stamps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.stamp-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 12px;
+  background-color: #FAF5EB;
+  border: 1.5px dashed rgba(29, 24, 18, 0.25);
+  border-radius: var(--radius-paper);
+  text-align: center;
+  transform-origin: center center;
+}
+
+.stamp-whatsapp {
+  border-color: rgba(39, 130, 75, 0.4);
+}
+
+.stamp-email {
+  border-color: rgba(39, 66, 200, 0.4);
+}
+
+.stamp-instagram {
+  border-color: rgba(216, 67, 42, 0.4);
+}
+
+.stamp-icon {
+  font-size: 1.6rem;
+  margin-bottom: 6px;
+}
+
+.stamp-label {
+  display: block;
+  font-family: var(--font-headline);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.stamp-value {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+
+/* --------------------------------------------------------------------------
+   13. PULL-OUT PROJECT MODAL
+   -------------------------------------------------------------------------- */
+.project-modal {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  background: rgba(29, 24, 18, 0.65);
+  border: none;
+  padding: 24px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.project-modal[open] {
+  display: flex;
+}
+
+.modal-card {
+  position: relative;
+  width: min(960px, 100%);
+  max-height: calc(100dvh - 48px);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+.modal-browser-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  background-color: #E2D7C0;
+  border-bottom: 1px solid rgba(29, 24, 18, 0.15);
+}
+
+.browser-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-red { background-color: #E05C50; }
+.dot-yellow { background-color: #E8B946; }
+.dot-green { background-color: #55B467; }
+
+.browser-address-bar {
+  flex-grow: 1;
+  background-color: var(--color-paper);
+  border: 1px solid rgba(29, 24, 18, 0.12);
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modal-close-btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-ink);
+  padding: 4px 10px;
+  border-radius: 3px;
+  background-color: rgba(29, 24, 18, 0.08);
+}
+
+.modal-info-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background-color: var(--color-paper);
+  border-bottom: 1px dashed rgba(29, 24, 18, 0.15);
+}
+
+.modal-title {
+  font-family: var(--font-headline);
+  font-size: 1.4rem;
+}
+
+.modal-live-btn {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+}
+
+.modal-scroll-frame {
+  overflow-y: auto;
+  max-height: calc(75dvh - 90px);
+  background-color: #EFE8DC;
+  overscroll-behavior: contain;
+}
+
+.modal-screenshot {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.modal-fallback-paper {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   14. FOOTER & SIGNATURE
+   -------------------------------------------------------------------------- */
+.desk-footer {
+  width: min(var(--container-max), calc(100% - 40px));
+  margin: 0 auto 60px auto;
+}
+
+.footer-sheet {
+  padding: 40px 28px;
+  text-align: center;
+  transform: rotate(0.15deg);
+}
+
+.footer-signature-container {
+  display: inline-block;
+  margin-bottom: 18px;
+}
+
+.footer-signature {
+  font-family: var(--font-signature);
+  font-size: clamp(4rem, 9vw, 6.5rem);
+  line-height: 0.9;
+  color: var(--color-ink);
+  clip-path: inset(0 100% 0 0); /* Revealing pen wipe */
+}
+
+.footer-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-copy {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.footer-note {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+}
+
+.footer-replay-btn {
+  margin-top: 10px;
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-pencil-red);
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   15. SAFE PROGRESSIVE ENHANCEMENT (JS Hiding Rules)
+   -------------------------------------------------------------------------- */
+/* Elements start hidden ONLY if .has-js is active, so without JS they remain 100% visible */
+.has-js .hero-headline .word {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.has-js .project-sheet {
+  opacity: 0;
+  transform: translateY(36px) rotate(0deg);
+}
+
+.has-js .checklist-item {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.has-js .stamp-btn {
+  opacity: 0;
+  transform: scale(1.15) rotate(2deg);
+}
+
+/* --------------------------------------------------------------------------
+   16. RESPONSIVE BREAKPOINTS (Tablet & Mobile: 360px - 768px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .works-grid {
+    grid-template-columns: 1fr;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .skills-checklist {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .contact-stamps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .desk-header {
+    width: calc(100% - 24px);
+    top: 8px;
+  }
+
+  .paper-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .paper-tabs {
+    justify-content: space-around;
+  }
+
+  .paper-tab {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  .desk-container {
+    width: calc(100% - 24px);
+    margin: 18px auto 60px auto;
+    gap: 48px;
+  }
+
+  .paper-sheet-hero {
+    padding: 28px 20px;
+  }
+
+  .hero-card .sticky-note {
+    position: static;
+    display: inline-block;
+    margin-bottom: 20px;
+    transform: rotate(1deg);
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .photo-frame {
+    margin: 0 auto;
+  }
+
+  .doodle-arrow {
+    display: none; /* Hide pointing arrow on small narrow screens to avoid clutter */
+  }
+}
+
+/* --------------------------------------------------------------------------
+   17. REDUCED MOTION (Strict Rule)
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .intro-sheet {
+    display: none !important;
+  }
+
+  .tape-marquee-track {
+    animation: none !important;
+  }
+
+  .intro-signature-text,
+  .footer-signature {
+    clip-path: none !important;
+  }
+
+  #doodle-circle-path,
+  #doodle-arrow-stem,
+  #doodle-arrow-head,
+  #skills-wipe-path,
+  .tick-path,
+  #intro-squiggle-path,
+  #intro-star-path {
+    stroke-dashoffset: 0 !important;
+  }
+
+  .has-js .hero-headline .word,
+  .has-js .project-sheet,
+  .has-js .checklist-item,
+  .has-js .stamp-btn {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

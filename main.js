@@ -9,8 +9,8 @@
 window.SITE = {
   INTRO: true,
   MOTION_LEVEL: "rich", // "rich" = full creative paper motion; "calm" = simple fades & rise only
-  PENCIL_CURSOR: false,
-  replayIntro: null // Populated below
+  PENCIL_CURSOR: false, // Set to true to enable pencil pointer trail on fine pointer devices
+  replayIntro: null     // Populated below
 };
 
 // THE ONLY SOURCE OF TRUTH FOR CONTACT DETAILS (No plain phone number in text)
@@ -195,12 +195,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Thin Pencil Lead Scroll Progress Bar
+  // Pencil Lead Scroll Progress Bar (Pure transform scaleX, zero layout reflow)
   const progressLead = document.getElementById("pencil-progress-lead");
   function updateScrollProgress(currentScroll, maxScroll) {
     if (!progressLead) return;
-    const progress = maxScroll > 0 ? (currentScroll / maxScroll) * 100 : 0;
-    progressLead.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+    const ratio = maxScroll > 0 ? Math.min(1, Math.max(0, currentScroll / maxScroll)) : 0;
+    progressLead.style.transform = `scaleX(${ratio})`;
   }
 
   if (lenis) {
@@ -475,6 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (fallback) fallback.style.display = "none";
 
     projectModal.showModal();
+    document.body.style.overflow = "hidden"; // Universal background scroll lock
 
     if (lenis) {
       lenis.stop();
@@ -485,6 +486,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function closeProjectModal() {
     if (!projectModal) return;
     projectModal.close();
+    document.body.style.overflow = ""; // Restore background scroll
 
     if (lenis) {
       lenis.start();
@@ -717,4 +719,21 @@ document.addEventListener("DOMContentLoaded", () => {
       ScrollTrigger.refresh();
     }
   });
+
+  // PENCIL CURSOR: Active only when window.SITE.PENCIL_CURSOR === true on fine pointer devices
+  const isFinePointer = window.matchMedia("(pointer: fine)").matches;
+  const pencilCursorEl = document.getElementById("pencil-cursor");
+
+  if (window.SITE.PENCIL_CURSOR && isFinePointer && pencilCursorEl && !isReducedMotion) {
+    gsap.set(pencilCursorEl, { opacity: 1 });
+
+    const xTo = gsap.quickTo(pencilCursorEl, "x", { duration: 0.18, ease: "power3.out" });
+    const yTo = gsap.quickTo(pencilCursorEl, "y", { duration: 0.18, ease: "power3.out" });
+
+    window.addEventListener("pointermove", (e) => {
+      // Small offset so pencil tip aligns naturally near the native cursor
+      xTo(e.clientX + 4);
+      yTo(e.clientY - 20);
+    }, { passive: true });
+  }
 });

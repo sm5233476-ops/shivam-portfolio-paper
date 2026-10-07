@@ -48,7 +48,7 @@ html {
   font-size: 16px;
   max-width: 100%;
   overflow-x: clip;
-  scroll-behavior: auto; /* Handled smoothly by Lenis when available */
+  scroll-behavior: auto; /* Managed smoothly by Lenis */
   -webkit-text-size-adjust: 100%;
 }
 
@@ -249,7 +249,7 @@ a {
   z-index: 5;
 }
 
-/* /* @@SLOT:css-intro @@ */
+/* @@SLOT:css-intro @@ */
 /* --------------------------------------------------------------------------
    05. INTRO OVERLAY (Full Sheet Lift Reveal)
    -------------------------------------------------------------------------- */
@@ -451,7 +451,7 @@ a {
   gap: 72px;
 }
 
-/* /* @@SLOT:css-hero @@ */
+/* @@SLOT:css-hero @@ */
 /* --------------------------------------------------------------------------
    08. HERO SECTION
    -------------------------------------------------------------------------- */
@@ -701,7 +701,7 @@ a {
   line-height: 1.7;
 }
 
-/* /* @@SLOT:css-works @@ */
+/* @@SLOT:css-works @@ */
 /* --------------------------------------------------------------------------
    10. WORKS SECTION
    -------------------------------------------------------------------------- */
@@ -882,7 +882,7 @@ a {
   background-color: #E8E0CE;
 }
 
-/* /* @@SLOT:css-skills @@ */
+/* @@SLOT:css-skills @@ */
 /* --------------------------------------------------------------------------
    11. SKILLS SECTION: HANDWRITTEN CHECKLIST
    -------------------------------------------------------------------------- */
@@ -974,7 +974,7 @@ a {
   font-weight: 500;
 }
 
-/* /* @@SLOT:css-contact @@ */
+/* @@SLOT:css-contact @@ */
 /* --------------------------------------------------------------------------
    12. CONTACT SECTION: ENVELOPE & LETTER
    -------------------------------------------------------------------------- */
@@ -1063,6 +1063,10 @@ a {
   transform-origin: center center;
 }
 
+.stamp-btn:hover {
+  background-color: #F5EEDA;
+}
+
 .stamp-whatsapp {
   border-color: rgba(39, 130, 75, 0.4);
 }
@@ -1095,7 +1099,7 @@ a {
 }
 
 /* --------------------------------------------------------------------------
-   13. PULL-OUT PROJECT MODAL
+   13. PULL-OUT PROJECT MODAL (Fixed Smooth Scrolling)
    -------------------------------------------------------------------------- */
 .project-modal {
   position: fixed;
@@ -1196,11 +1200,15 @@ a {
   font-size: 0.85rem;
 }
 
+/* Flex boundary with smooth overflow scrolling inside frame */
 .modal-scroll-frame {
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   max-height: calc(75dvh - 90px);
   background-color: #EFE8DC;
   overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-screenshot {
@@ -1360,7 +1368,7 @@ a {
   }
 
   .doodle-arrow {
-    display: none; /* Hide pointing arrow on small narrow screens to avoid clutter */
+    display: none; /* Hidden on narrow screens for clean spacing */
   }
 }
 

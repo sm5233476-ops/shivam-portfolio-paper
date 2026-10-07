@@ -9,7 +9,7 @@
 window.SITE = {
   INTRO: true,
   MOTION_LEVEL: "rich", // "rich" = full creative paper motion; "calm" = simple fades & rise only
-  PENCIL_CURSOR: false, // Set to true to enable pencil pointer trail on fine pointer devices
+  PENCIL_CURSOR: true, // Set to true to enable pencil pointer trail on fine pointer devices
   replayIntro: null     // Populated below
 };
 

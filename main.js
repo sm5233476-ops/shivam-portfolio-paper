@@ -9,10 +9,11 @@
 window.SITE = {
   INTRO: true,
   MOTION_LEVEL: "rich", // "rich" = full creative paper motion; "calm" = simple fades & rise only
-  PENCIL_CURSOR: false
+  PENCIL_CURSOR: false,
+  replayIntro: null // Populated below
 };
 
-// THE ONLY SOURCE OF TRUTH FOR CONTACT DETAILS
+// THE ONLY SOURCE OF TRUTH FOR CONTACT DETAILS (No plain phone number in text)
 window.CONTACT = {
   name: "Shivam Mishra",
   email: "8hivammishra8@gmail.com",
@@ -104,20 +105,20 @@ function splitElementIntoWords(element) {
 }
 
 /* --------------------------------------------------------------------------
-   03. CONTACT & LINK HYDRATION
+   03. CONTACT & LINK HYDRATION (Only WA, Email & Instagram)
    -------------------------------------------------------------------------- */
 function hydrateContactLinks() {
   const c = window.CONTACT;
 
-  // WhatsApp prefilled URL
+  // WhatsApp link with exact prefilled text
   const waMessage = encodeURIComponent("Hi Shivam, I saw your portfolio and would like to discuss a website.");
   const waUrl = `https://wa.me/${c.whatsapp}?text=${waMessage}`;
 
-  // Email mailto URL
+  // Email mailto link with exact subject
   const mailSubject = encodeURIComponent("Website project");
   const emailUrl = `mailto:${c.email}?subject=${mailSubject}`;
 
-  // Instagram URL
+  // Instagram profile link
   const instaUrl = `https://instagram.com/${c.instagram}`;
 
   // Hero WhatsApp button
@@ -194,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Pencil Lead Scroll Progress Bar
+  // Thin Pencil Lead Scroll Progress Bar
   const progressLead = document.getElementById("pencil-progress-lead");
   function updateScrollProgress(currentScroll, maxScroll) {
     if (!progressLead) return;
@@ -253,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* /* @@SLOT:js-intro @@ */
+  /* @@SLOT:js-intro @@ */
   /* --------------------------------------------------------------------------
      05. INTRO OPENING PAPER LIFT ANIMATION
      -------------------------------------------------------------------------- */
@@ -280,7 +281,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Step 1: Pen dot appears and cursive "Portfolio" writes on left-to-right
+    // Step 1: Pen dot leads cursive "Portfolio" write-on reveal left-to-right
     introTimeline
       .set(introSheet, { display: "flex", opacity: 1, y: 0, rotate: 0 })
       .set(penDot, { opacity: 1, left: "2%" })
@@ -298,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
         opacity: 0,
         duration: 0.15
       })
-      // Step 2: Red squiggle doodle and star doodle draw
+      // Step 2: Red squiggle and star doodle draw
       .to(introSquigglePath, {
         strokeDashoffset: 0,
         duration: 0.5,
@@ -309,7 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
         duration: 0.4,
         ease: "power2.out"
       }, "-=0.25")
-      // Step 3: Entire intro sheet lifts up and off the desk with slight rotation
+      // Step 3: Full page lifts like a sheet of paper with slight rotation
       .to(introSheet, {
         y: "-110%",
         rotate: -3,
@@ -329,7 +330,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* /* @@SLOT:js-hero @@ */
+  /* @@SLOT:js-hero @@ */
   /* --------------------------------------------------------------------------
      06. HERO SECTION MOTION
      -------------------------------------------------------------------------- */
@@ -350,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const heroTl = gsap.timeline({ delay: 0.1 });
 
-    // Words drop onto the paper sheet with stagger
+    // Words drop onto paper sheet with stagger
     heroTl.to(headlineWords, {
       opacity: 1,
       y: 0,
@@ -360,14 +361,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (motionMode === "rich") {
-      // Red pencil circle around "customers" draws itself
+      // Red circle around "customers" draws
       heroTl.to(circlePath, {
         strokeDashoffset: 0,
         duration: 0.65,
         ease: "power2.out"
       }, "-=0.35");
 
-      // Pointer arrow draws towards the action buttons
+      // Pointer arrow draws towards buttons
       heroTl.to(arrowStem, {
         strokeDashoffset: 0,
         duration: 0.4,
@@ -380,7 +381,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power2.out"
       });
 
-      // Sticky note settles with a small paper overshoot
+      // Sticky note enters with paper overshoot
       if (stickyNote) {
         heroTl.fromTo(stickyNote, 
           { scale: 0.85, opacity: 0, rotate: 8 },
@@ -389,12 +390,11 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       }
     } else {
-      // Calm mode: simple reveals without loops/overshoot
       gsap.set([circlePath, arrowStem, arrowHead], { strokeDashoffset: 0 });
     }
   }
 
- /* ==== WORKS START ==== */
+  /* @@SLOT:js-works @@ */
   /* --------------------------------------------------------------------------
      07. WORKS SECTION: SHEETS & PULL-OUT MODAL VIEW
      -------------------------------------------------------------------------- */
@@ -435,7 +435,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalScrollFrame = document.getElementById("modal-scroll-frame");
   let lastActiveElement = null;
 
-  // Lenis wheel interception bypass & flex scroll frame setup
+  // Lenis wheel interception bypass & native scroll protection
   if (projectModal) {
     projectModal.setAttribute("data-lenis-prevent", "true");
   }
@@ -447,7 +447,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalScrollFrame.style.overflowY = "auto";
     modalScrollFrame.style.webkitOverflowScrolling = "touch";
 
-    // Stop wheel event bubbling to prevent background scroll interference
+    // Stop wheel event bubbling so native scroll is 100% responsive
     modalScrollFrame.addEventListener("wheel", (e) => {
       e.stopPropagation();
     }, { passive: true });
@@ -466,7 +466,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalImg.alt = `${data.name} full preview`;
     modalImg.style.display = "block";
 
-    // Reset screenshot view to top on open
+    // Reset screenshot scroll position to top
     if (modalScrollFrame) {
       modalScrollFrame.scrollTop = 0;
     }
@@ -520,8 +520,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-/* ==== WORKS END ==== */
-  /* /* @@SLOT:js-skills @@ */
+
+  /* @@SLOT:js-skills @@ */
   /* --------------------------------------------------------------------------
      08. SKILLS SECTION: CHECKLIST TICKS & HIGHLIGHTER WIPE
      -------------------------------------------------------------------------- */
@@ -537,20 +537,20 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Yellow highlighter wipe under "What I can do"
+    // Yellow highlighter wipes under "What I can do"
     if (highlighterWipe) {
       gsap.to(highlighterWipe, {
         strokeDashoffset: 0,
-        duration: 0.75,
+        duration: 0.8,
         ease: "power2.inOut",
         scrollTrigger: {
-          trigger: highlighterWipe,
-          start: "top 80%"
+          trigger: "#skills",
+          start: "top 78%"
         }
       });
     }
 
-    // Checklist items fade in with pen ticks drawing sequentially
+    // Checklist items fade in sequentially
     const skillsTl = gsap.timeline({
       scrollTrigger: {
         trigger: ".skills-checklist",
@@ -561,24 +561,25 @@ document.addEventListener("DOMContentLoaded", () => {
     skillsTl.to(checklistItems, {
       opacity: 1,
       y: 0,
-      duration: 0.65,
+      duration: 0.6,
       stagger: 0.08,
       ease: "power3.out"
     });
 
+    // Pen ticks draw one after another
     if (motionMode === "rich") {
       skillsTl.to(ticks, {
         strokeDashoffset: 0,
         duration: 0.35,
         stagger: 0.08,
         ease: "power2.out"
-      }, "<0.1");
+      }, "<0.12");
     } else {
       gsap.set(ticks, { strokeDashoffset: 0 });
     }
   }
 
-  /* /* @@SLOT:js-contact @@ */
+  /* @@SLOT:js-contact @@ */
   /* --------------------------------------------------------------------------
      09. CONTACT SECTION: ENVELOPE OPEN & STAMP BUTTONS
      -------------------------------------------------------------------------- */
@@ -600,30 +601,38 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (motionMode === "rich" && flap && letter) {
-      // Flap unfolds open
+      // Envelope flap opens with 3D rotateX
       contactTl.to(flap, {
         rotateX: 180,
-        duration: 0.7,
+        duration: 0.75,
         ease: "power2.inOut"
       });
 
-      // Letter slides out slightly
+      // Letter slides out of the pocket
       contactTl.fromTo(letter,
-        { y: 30 },
-        { y: 0, duration: 0.6, ease: "power3.out" },
+        { y: 35, opacity: 0.7 },
+        { y: 0, opacity: 1, duration: 0.65, ease: "power3.out" },
         "-=0.3"
       );
     }
 
-    // Three stamps stamp onto the page with slight paper tilt
-    contactTl.to(stamps, {
-      opacity: 1,
-      scale: 1,
-      rotate: (idx) => (idx === 0 ? -1.5 : idx === 1 ? 1 : -0.5),
-      duration: 0.55,
-      stagger: 0.09,
-      ease: motionMode === "rich" ? "back.out(1.4)" : "power3.out"
-    }, "-=0.2");
+    // Three big action buttons stamp in (scale 1.2 to 1 with slight paper rotation)
+    contactTl.fromTo(stamps,
+      {
+        opacity: 0,
+        scale: 1.2,
+        rotate: (idx) => (idx === 0 ? -2.5 : idx === 1 ? 2 : -1.5)
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        rotate: (idx) => (idx === 0 ? -1 : idx === 1 ? 0.8 : -0.5),
+        duration: 0.55,
+        stagger: 0.1,
+        ease: "back.out(1.5)"
+      },
+      "-=0.2"
+    );
   }
 
   /* --------------------------------------------------------------------------
@@ -638,9 +647,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Write-on cursive signature "Shivam" reveals on scroll
     gsap.to(footerSig, {
       clipPath: "inset(0% 0% 0% 0%)",
-      duration: 1.25,
+      duration: 1.3,
       ease: "power2.inOut",
       scrollTrigger: {
         trigger: "#footer",
@@ -649,25 +659,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Replay Intro Button
+  // GLOBAL REPLAY INTRO CALL
+  window.SITE.replayIntro = function() {
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+
+    if (introCursive) introCursive.style.clipPath = "inset(0 100% 0 0)";
+    if (introSquigglePath) introSquigglePath.style.strokeDashoffset = "260";
+    if (introStarPath) introStarPath.style.strokeDashoffset = "90";
+
+    runOpeningSequence(() => {
+      initHeroAnimations();
+    });
+  };
+
+  // Replay Intro Button Listener
   const replayBtn = document.getElementById("replay-intro-btn");
   if (replayBtn) {
     replayBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "instant" });
-      if (introCursive) introCursive.style.clipPath = "inset(0 100% 0 0)";
-      if (introSquigglePath) introSquigglePath.style.strokeDashoffset = "260";
-      if (introStarPath) introStarPath.style.strokeDashoffset = "90";
-
-      runOpeningSequence(() => {
-        initHeroAnimations();
-      });
+      window.SITE.replayIntro();
     });
   }
 
   /* --------------------------------------------------------------------------
      11. ASSET OPTIMIZATION & STARTUP SEQUENCE
      -------------------------------------------------------------------------- */
-  // Decode images cleanly in background
   function decodeProjectImages() {
     const images = document.querySelectorAll("img");
     images.forEach((img) => {
@@ -683,7 +702,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(decodeProjectImages, 200);
   }
 
-  // Start sequence when fonts are ready
+  // Run sequence once fonts are loaded
   document.fonts.ready.then(() => {
     runOpeningSequence(() => {
       initHeroAnimations();

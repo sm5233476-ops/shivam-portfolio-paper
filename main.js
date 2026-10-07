@@ -394,7 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* /* @@SLOT:js-works @@ */
+ /* ==== WORKS START ==== */
   /* --------------------------------------------------------------------------
      07. WORKS SECTION: SHEETS & PULL-OUT MODAL VIEW
      -------------------------------------------------------------------------- */
@@ -432,7 +432,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalAddressBar = document.getElementById("modal-address-bar");
   const modalLiveLink = document.getElementById("modal-live-link");
   const modalImg = document.getElementById("modal-img");
+  const modalScrollFrame = document.getElementById("modal-scroll-frame");
   let lastActiveElement = null;
+
+  // Lenis wheel interception bypass & flex scroll frame setup
+  if (projectModal) {
+    projectModal.setAttribute("data-lenis-prevent", "true");
+  }
+
+  if (modalScrollFrame) {
+    modalScrollFrame.setAttribute("data-lenis-prevent", "true");
+    modalScrollFrame.style.flex = "1 1 auto";
+    modalScrollFrame.style.minHeight = "0";
+    modalScrollFrame.style.overflowY = "auto";
+    modalScrollFrame.style.webkitOverflowScrolling = "touch";
+
+    // Stop wheel event bubbling to prevent background scroll interference
+    modalScrollFrame.addEventListener("wheel", (e) => {
+      e.stopPropagation();
+    }, { passive: true });
+  }
 
   function openProjectModal(index) {
     const data = PROJECTS_DATA[index];
@@ -446,6 +465,11 @@ document.addEventListener("DOMContentLoaded", () => {
     modalImg.src = data.image;
     modalImg.alt = `${data.name} full preview`;
     modalImg.style.display = "block";
+
+    // Reset screenshot view to top on open
+    if (modalScrollFrame) {
+      modalScrollFrame.scrollTop = 0;
+    }
 
     const fallback = document.getElementById("modal-fallback");
     if (fallback) fallback.style.display = "none";
@@ -496,7 +520,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
+/* ==== WORKS END ==== */
   /* /* @@SLOT:js-skills @@ */
   /* --------------------------------------------------------------------------
      08. SKILLS SECTION: CHECKLIST TICKS & HIGHLIGHTER WIPE

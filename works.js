@@ -11,9 +11,9 @@
      PHASE MODULE SLOTS (Will be populated in upcoming phases)
      ========================================================================== */
 
-  /* START: WORKS_CHAPTERS_JS */
+/* START: WORKS_CHAPTERS_JS */
   // --------------------------------------------------------------------------
-  // WORKS CHAPTERS & BROWSER SCROLL ENGINE (Animation Plan 8)
+  // WORKS CHAPTERS & INTERACTIVE BROWSER SCROLL ENGINE (Phase 5 Fix)
   // --------------------------------------------------------------------------
   function initWorksChapters() {
     if (!window.gsap || !window.ScrollTrigger) return;
@@ -36,7 +36,7 @@
       onLeaveBack: () => tracker && tracker.classList.remove("is-visible"),
     });
 
-    // 2. Per Chapter: Mockup Rise + Tall Screenshot Scroll Scrub
+    // 2. Per Chapter Setup
     stages.forEach((stage, idx) => {
       const chapterIndex = idx + 1;
       const mockup = stage.querySelector(".browser-mockup");
@@ -72,41 +72,88 @@
         });
       }
 
-      // Tall screenshot scrub inside browser viewport
-      function setupImageScrub() {
-        if (!viewport || !scrollImg) return;
+      // 3. Dedicated Interactive Frame Scroll (Direct Hover / Drag on Frame only)
+      if (viewport && scrollImg) {
+        let targetY = 0;
+        const scrollSpeedMultiplier = 0.55; // Gentle, natural speed
 
-        const viewportHeight = viewport.clientHeight;
-        const imgHeight = scrollImg.naturalHeight
-          ? (scrollImg.clientWidth / scrollImg.naturalWidth) * scrollImg.naturalHeight
-          : scrollImg.clientHeight;
-
-        const travelDistance = Math.max(0, imgHeight - viewportHeight);
-
-        if (travelDistance > 20 && !window.Midnight.isCalm) {
-          window.gsap.fromTo(
-            scrollImg,
-            { y: 0 },
-            {
-              y: -travelDistance,
-              ease: "none",
-              scrollTrigger: {
-                trigger: stage,
-                start: "top 70%",
-                end: "bottom 20%",
-                scrub: 0.7,
-                invalidateOnRefresh: true
-              }
-            }
-          );
+        function getMaxTravel() {
+          const viewportH = viewport.clientHeight;
+          const imgH = scrollImg.clientHeight || scrollImg.getBoundingClientRect().height;
+          return Math.max(0, imgH - viewportH);
         }
-      }
 
-      // If image is already cached/loaded, calculate immediately; else wait for load
-      if (scrollImg.complete) {
-        setupImageScrub();
-      } else {
-        scrollImg.addEventListener("load", setupImageScrub, { once: true });
+        // Wheel Event inside browser frame
+        viewport.addEventListener("wheel", (e) => {
+          const maxTravel = getMaxTravel();
+          if (maxTravel <= 0) return;
+
+          const scrollingDown = e.deltaY > 0;
+          const scrollingUp = e.deltaY < 0;
+
+          const atBottom = targetY >= maxTravel - 2;
+          const atTop = targetY <= 2;
+
+          // If reached edges, release wheel event to let main page scroll normally
+          if ((scrollingDown && atBottom) || (scrollingUp && atTop)) {
+            return;
+          }
+
+          // Otherwise, capture wheel and gently scroll screenshot inside the frame
+          e.preventDefault();
+          targetY = Math.max(0, Math.min(maxTravel, targetY + e.deltaY * scrollSpeedMultiplier));
+
+          window.gsap.to(scrollImg, {
+            y: -targetY,
+            duration: 0.5,
+            ease: "power2.out",
+            overwrite: "auto"
+          });
+        }, { passive: false });
+
+        // Touch Drag Support for mobile/tablet inside frame
+        let touchStartY = 0;
+        let isTouching = false;
+
+        viewport.addEventListener("touchstart", (e) => {
+          if (e.touches.length === 1) {
+            touchStartY = e.touches[0].clientY;
+            isTouching = true;
+          }
+        }, { passive: true });
+
+        viewport.addEventListener("touchmove", (e) => {
+          if (!isTouching || e.touches.length !== 1) return;
+          const currentY = e.touches[0].clientY;
+          const delta = (touchStartY - currentY) * 1.1;
+          touchStartY = currentY;
+
+          const maxTravel = getMaxTravel();
+          if (maxTravel <= 0) return;
+
+          const movingDown = delta > 0;
+          const movingUp = delta < 0;
+          const atBottom = targetY >= maxTravel - 2;
+          const atTop = targetY <= 2;
+
+          if ((movingDown && atBottom) || (movingUp && atTop)) {
+            return;
+          }
+
+          e.preventDefault();
+          targetY = Math.max(0, Math.min(maxTravel, targetY + delta));
+
+          window.gsap.to(scrollImg, {
+            y: -targetY,
+            duration: 0.35,
+            ease: "power1.out",
+            overwrite: "auto"
+          });
+        }, { passive: false });
+
+        viewport.addEventListener("touchend", () => {
+          isTouching = false;
+        }, { passive: true });
       }
     });
 

@@ -364,7 +364,58 @@
 
     <!-- Contact Section (Sliding Sheet) -->
     <section id="contact" class="section-sheet" data-scroll-section>
-      <!-- SLOT: CONTACT -->
+      <!-- START: CONTACT_HTML -->
+      <div class="container contact-container">
+        <div class="contact-spotlight" aria-hidden="true"></div>
+
+        <div class="contact-header">
+          <h2 class="contact-title">Say hello.</h2>
+          <p class="contact-desc">Tell me about your business and what you'd like to build. I'll get back to you soon.</p>
+        </div>
+
+        <!-- Luxury Interactive Envelope -->
+        <div class="envelope-stage" id="envelope-stage">
+          <div class="envelope-wrapper" id="envelope-wrapper">
+            <!-- Envelope Back Interior -->
+            <div class="envelope-back"></div>
+
+            <!-- Sliding Letter with 3 Big Stamped Buttons -->
+            <div class="envelope-letter" id="envelope-letter">
+              <div class="letter-content">
+                <span class="letter-badge">✦ Direct contact</span>
+                <div class="contact-buttons-grid">
+                  <a href="#" class="contact-stamp-btn" data-contact="whatsapp" data-msg="Hi Shivam, I saw your portfolio and would like to discuss a website.">
+                    <span class="stamp-icon">✦</span>
+                    <span class="stamp-label">WhatsApp</span>
+                    <span class="stamp-arrow">↗</span>
+                  </a>
+                  <a href="#" class="contact-stamp-btn" data-contact="email" data-subject="Website project">
+                    <span class="stamp-icon">✦</span>
+                    <span class="stamp-label">Email</span>
+                    <span class="stamp-arrow">↗</span>
+                  </a>
+                  <a href="#" class="contact-stamp-btn" data-contact="instagram" target="_blank" rel="noopener noreferrer">
+                    <span class="stamp-icon">✦</span>
+                    <span class="stamp-label">Instagram</span>
+                    <span class="stamp-arrow">↗</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Front Envelope Pocket -->
+            <div class="envelope-pocket"></div>
+
+            <!-- Flap & Seal -->
+            <div class="envelope-flap" id="envelope-flap">
+              <div class="envelope-seal" id="envelope-seal" aria-hidden="true">
+                <span>✦</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- END: CONTACT_HTML -->
     </section>
   </main>
 

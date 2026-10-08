@@ -1,11 +1,10 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (ARCHITECTURAL LUXURY & BALANCED HERO)
+   SHIVAM MISHRA — THE COSMIC HORIZON (ZERO-LAG 120FPS & PERFECT PROPORTIONS)
    ========================================================================== */
 
 :root {
   --bg-deep: #020308;
   --accent-cyan: #38bdf8;
-  --accent-glow: rgba(56, 189, 248, 0.35);
   --text-primary: #ffffff;
   --text-silver: #cbd5e1;
   --text-muted: #94a3b8;
@@ -42,7 +41,7 @@ html, body {
 }
 
 /* ==========================================================================
-   HEADER & KINETIC NAVIGATION (TUNED GAP & ZERO CHEAP GLOW)
+   HEADER & KINETIC NAVIGATION
    ========================================================================== */
 
 .site-header {
@@ -64,11 +63,10 @@ html, body {
   align-items: center;
 }
 
-/* Finely Tuned Balanced Nav Gap (2.8rem) */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 2.8rem; /* Perfectly dialed-in breathing room */
+  gap: 2.8rem;
   background: transparent !important;
   border: none !important;
   pointer-events: auto;
@@ -148,7 +146,7 @@ html, body {
 }
 
 /* ==========================================================================
-   HERO SECTION — BALANCED, SLEEK & PROPORTIONAL TYPOGRAPHY
+   HERO SECTION — SILKY SMOOTH, HARDWARE ACCELERATED & PROPORTIONAL
    ========================================================================== */
 
 main {
@@ -170,22 +168,22 @@ main {
 }
 
 .hero-content {
-  max-width: 980px;
+  max-width: 900px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Architectural 2-Line Headline (Proportional, Sleek & Confident) */
+/* Perfectly Scaled, Sleek Headline (Slightly smaller, 100% Elegant) */
 .hero-title {
   font-family: var(--font-sans);
-  font-size: clamp(2.4rem, 5.2vw, 4.8rem); /* Perfectly balanced scale */
+  font-size: clamp(2.2rem, 4.4vw, 4.2rem); /* Scaled down slightly for pure elegance */
   font-weight: 700;
-  line-height: 1.12;
+  line-height: 1.14;
   letter-spacing: -0.035em;
   color: var(--text-primary);
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -196,7 +194,7 @@ main {
   white-space: nowrap;
 }
 
-/* Metallic Ice-Cyan Sheen on Second Line */
+/* Ice-Cyan Metallic Sheen */
 .highlight-text {
   background: linear-gradient(135deg, #ffffff 40%, #7dd3fc 100%);
   -webkit-background-clip: text;
@@ -205,33 +203,33 @@ main {
 
 /* Subtitle */
 .hero-subtitle {
-  max-width: 620px;
-  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  max-width: 600px;
+  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
   font-weight: 400;
   line-height: 1.65;
   color: var(--text-muted);
-  margin-bottom: 2.6rem;
+  margin-bottom: 2.4rem;
   letter-spacing: -0.01em;
 }
 
-/* Luxury Glass Action Buttons */
+/* Action Buttons */
 .hero-actions {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.3rem;
+  gap: 1.2rem;
 }
 
 .btn-hero-primary {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.85rem 2rem;
+  padding: 0.82rem 1.9rem;
   border-radius: 9999px;
   background: #ffffff;
   color: #020308;
   font-family: var(--font-sans);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-decoration: none;
@@ -241,7 +239,7 @@ main {
 
 .btn-hero-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 38px rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 35px rgba(255, 255, 255, 0.35);
 }
 
 .btn-hero-primary svg {
@@ -255,13 +253,13 @@ main {
 .btn-hero-secondary {
   display: inline-flex;
   align-items: center;
-  padding: 0.85rem 2rem;
+  padding: 0.82rem 1.9rem;
   border-radius: 9999px;
   background: rgba(15, 23, 42, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.18);
   color: var(--text-primary);
   font-family: var(--font-sans);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-decoration: none;
@@ -284,9 +282,9 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   color: var(--text-muted);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -294,8 +292,8 @@ main {
 }
 
 .scroll-track {
-  width: 17px;
-  height: 26px;
+  width: 16px;
+  height: 25px;
   border-radius: 99px;
   border: 1.5px solid rgba(255, 255, 255, 0.22);
   position: relative;
@@ -318,12 +316,11 @@ main {
   100% { transform: translateY(0); opacity: 0; }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .site-header { padding: 1.2rem 1.5rem; }
   .nav-links { display: none; }
   .hero-section { padding: 6.5rem 1.2rem 3rem 1.2rem; }
-  .hero-title { font-size: 2.3rem; }
+  .hero-title { font-size: 2.2rem; }
   .title-line { white-space: normal; }
   .hero-actions { flex-direction: column; width: 100%; gap: 1rem; }
   .btn-hero-primary, .btn-hero-secondary { width: 100%; justify-content: center; }

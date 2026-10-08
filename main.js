@@ -1,5 +1,6 @@
 /* ==========================================================================
-   SHIVAM MISHRA — COSMIC HORIZON (SHOOTING STARS + CINEMATIC BLUR ENGINE)
+   SHIVAM MISHRA — THE COSMIC HORIZON MASTER ENGINE (AWWWARDS / BEHFAR.DEV LEVEL)
+   3 GALAXY CLUSTERS + SHOOTING STARS + CINEMATIC BLUR + 3D PARALLAX
    ========================================================================== */
 
 window.CONTACT = {
@@ -12,60 +13,48 @@ window.CONTACT = {
 // ==========================================================================
 // 1. GSAP CINEMATIC BLUR-TO-FOCUS REVEAL TIMELINE
 // ==========================================================================
-(function initCinematicHeroReveal() {
+(function initCinematicReveal() {
   function startReveal() {
     if (typeof gsap === 'undefined') {
       setTimeout(startReveal, 40);
       return;
     }
 
-    // Set initial heavy cinematic blur state
     gsap.set(".reveal-blur", {
       opacity: 0,
-      y: 40,
+      y: 35,
       filter: "blur(18px)",
       willChange: "transform, filter, opacity"
     });
 
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-    // Step 1: Status Badge Focus
-    tl.to(".hero-badge", {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      duration: 1.1,
-      delay: 0.2
-    })
-    // Step 2: The Grand Title Lines (Staggered Focus)
-    .to(".title-line", {
+    tl.to(".title-line", {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
       duration: 1.3,
-      stagger: 0.2
-    }, "-=0.8")
-    // Step 3: Subtitle Focus
+      stagger: 0.18,
+      delay: 0.15
+    })
     .to(".hero-subtitle", {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
       duration: 1.2
-    }, "-=0.9")
-    // Step 4: Glass Buttons Snap In
+    }, "-=0.85")
     .to(".hero-actions", {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
       duration: 1.1
-    }, "-=0.9")
-    // Step 5: Bottom Scroll Indicator
+    }, "-=0.85")
     .to(".hero-scroll", {
-      opacity: 0.7,
+      opacity: 0.65,
       y: 0,
       filter: "blur(0px)",
       duration: 1.0
-    }, "-=0.8");
+    }, "-=0.75");
   }
 
   if (document.readyState === 'loading') {
@@ -76,36 +65,37 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 2. 3D MAGNETIC TILT ON CONNECT BUTTON
+// 2. 3D MAGNETIC BUTTON TILT MICRO-INTERACTION
 // ==========================================================================
-(function initButtonTilt() {
-  const btn = document.querySelector('.btn-connect');
-  if (!btn) return;
+(function initMagneticTilt() {
+  const tiltElements = document.querySelectorAll('.btn-connect, .btn-hero-primary, .btn-hero-secondary');
 
-  btn.addEventListener('mousemove', (e) => {
-    const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    
-    const tiltX = -(y / (rect.height / 2)) * 14;
-    const tiltY = (x / (rect.width / 2)) * 14;
-    
-    btn.style.transform = `perspective(500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translate3d(${x * 0.15}px, ${y * 0.15}px, 0)`;
-  });
+  tiltElements.forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
 
-  btn.addEventListener('mouseleave', () => {
-    btn.style.transform = `perspective(500px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)`;
-    btn.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
-    setTimeout(() => { btn.style.transition = ''; }, 400);
+      const tiltX = -(y / (rect.height / 2)) * 12;
+      const tiltY = (x / (rect.width / 2)) * 12;
+
+      el.style.transform = `perspective(500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translate3d(${x * 0.12}px, ${y * 0.12}px, 0)`;
+    });
+
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = `perspective(500px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)`;
+      el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      setTimeout(() => { el.style.transition = ''; }, 400);
+    });
   });
 })();
 
 // ==========================================================================
-// 3. THREE.JS COSMIC STARFIELD & SHOOTING STARS (METEOR ENGINE)
+// 3. THREE.JS 3D UNIVERSE (3 GALAXY CLUSTERS + METEORS + MULTI-DEPTH PARALLAX)
 // ==========================================================================
-(function initCosmicEngine() {
+(function initCosmicMasterpiece() {
   if (typeof THREE === 'undefined') {
-    setTimeout(initCosmicEngine, 40);
+    setTimeout(initCosmicMasterpiece, 40);
     return;
   }
 
@@ -117,8 +107,8 @@ window.CONTACT = {
   }
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 4000);
-  camera.position.z = 850;
+  const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 4500);
+  camera.position.z = 820;
 
   const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
@@ -129,8 +119,8 @@ window.CONTACT = {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  // Razor-Sharp Crystalline Star Texture
-  function createSharpStarTexture() {
+  // 256x256 Ultra-Crisp Star Sprite
+  function createStarTexture() {
     const size = 128;
     const c = document.createElement('canvas');
     c.width = size;
@@ -138,10 +128,10 @@ window.CONTACT = {
     const ctx = c.getContext('2d');
 
     const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
-    grad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');
-    grad.addColorStop(0.15, 'rgba(240, 248, 255, 0.95)');
-    grad.addColorStop(0.32, 'rgba(186, 230, 253, 0.6)');
-    grad.addColorStop(0.55, 'rgba(56, 189, 248, 0.12)');
+    grad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');          // Diamond Core
+    grad.addColorStop(0.14, 'rgba(240, 248, 255, 0.95)');
+    grad.addColorStop(0.3, 'rgba(186, 230, 253, 0.65)');       // Ice Blue
+    grad.addColorStop(0.55, 'rgba(56, 189, 248, 0.14)');       // Sky Blue Halo
     grad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, size, size);
@@ -151,87 +141,143 @@ window.CONTACT = {
     return tex;
   }
 
-  const starTexture = createSharpStarTexture();
+  const starTexture = createStarTexture();
 
-  // Layer 1: Panoramic Starfield
-  const starsCount = 2200;
-  const starGeo = new THREE.BufferGeometry();
-  const starPos = new Float32Array(starsCount * 3);
-  const starColors = new Float32Array(starsCount * 3);
+  // Helper Function: Create Organic Gaussian 3D Galaxy Cluster
+  function createOrganicCluster(count, radius, centerPos, colorInner, colorOuter, starSize) {
+    const geo = new THREE.BufferGeometry();
+    const pos = new Float32Array(count * 3);
+    const col = new Float32Array(count * 3);
 
-  const colWhite = new THREE.Color('#ffffff');
-  const colIce = new THREE.Color('#bae6fd');
-  const colAmber = new THREE.Color('#fef08a');
+    const c1 = new THREE.Color(colorInner);
+    const c2 = new THREE.Color(colorOuter);
 
-  for (let i = 0; i < starsCount; i++) {
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+
+      // 3D Organic Gaussian Distribution (Natural Galaxy Scatter, No Pinwheel!)
+      const r = Math.pow(Math.random(), 2.4) * radius;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos((Math.random() * 2) - 1);
+
+      pos[i3] = centerPos.x + (r * Math.sin(phi) * Math.cos(theta));
+      pos[i3 + 1] = centerPos.y + (r * Math.sin(phi) * Math.sin(theta)) * 0.75;
+      pos[i3 + 2] = centerPos.z + (r * Math.cos(phi)) * 0.9;
+
+      // Color falloff from core to outer edge
+      const mixRatio = Math.min(1, r / radius);
+      const starCol = c1.clone().lerp(c2, mixRatio);
+
+      col[i3] = starCol.r;
+      col[i3 + 1] = starCol.g;
+      col[i3 + 2] = starCol.b;
+    }
+
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+
+    const mat = new THREE.PointsMaterial({
+      size: starSize,
+      sizeAttenuation: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      vertexColors: true,
+      transparent: true,
+      map: starTexture,
+      opacity: 0.95
+    });
+
+    return new THREE.Points(geo, mat);
+  }
+
+  // =========================================================================
+  // THE 3 DISTINCT CELESTIAL CLUSTERS (behfar.dev Awwwards Style)
+  // =========================================================================
+
+  // 1. TOP-RIGHT: Warm Amber & Radiant Gold Star Cluster
+  const amberGalaxy = createOrganicCluster(
+    1100,                                   // Count
+    480,                                    // Radius
+    new THREE.Vector3(550, 280, -250),      // Position (Top-Right Depth)
+    '#fffbeb', '#f59e0b',                   // White core -> Amber Gold
+    16                                      // Star Size
+  );
+  scene.add(amberGalaxy);
+
+  // 2. TOP-LEFT: Electric Cyan & Ice Blue Nebula Ring Cluster
+  const cyanGalaxy = createOrganicCluster(
+    1200,
+    520,
+    new THREE.Vector3(-600, 220, -320),     // Position (Top-Left Depth)
+    '#ffffff', '#0284c7',                   // Pure White -> Deep Electric Cyan
+    17
+  );
+  scene.add(cyanGalaxy);
+
+  // 3. CENTER-BOTTOM: Dazzling Diamond White Star Core
+  const coreGalaxy = createOrganicCluster(
+    950,
+    380,
+    new THREE.Vector3(0, -220, -180),       // Position (Center-Bottom)
+    '#ffffff', '#38bdf8',                   // Brilliant White -> Sky Blue
+    15
+  );
+  scene.add(coreGalaxy);
+
+  // =========================================================================
+  // PANORAMIC WIDE BACKGROUND STARFIELD (1,600 Crisp Stars)
+  // =========================================================================
+  const fieldCount = 1600;
+  const fieldGeo = new THREE.BufferGeometry();
+  const fieldPos = new Float32Array(fieldCount * 3);
+  const fieldCol = new Float32Array(fieldCount * 3);
+
+  const white = new THREE.Color('#ffffff');
+  const ice = new THREE.Color('#bae6fd');
+  const gold = new THREE.Color('#fef08a');
+
+  for (let i = 0; i < fieldCount; i++) {
     const i3 = i * 3;
-    starPos[i3] = (Math.random() - 0.5) * 3600;
-    starPos[i3 + 1] = (Math.random() - 0.5) * 2200;
-    starPos[i3 + 2] = (Math.random() - 0.5) * 2400;
+    fieldPos[i3] = (Math.random() - 0.5) * 3800;
+    fieldPos[i3 + 1] = (Math.random() - 0.5) * 2400;
+    fieldPos[i3 + 2] = (Math.random() - 0.5) * 2600;
 
     const r = Math.random();
-    let c = colWhite;
-    if (r > 0.65) c = colIce;
-    else if (r > 0.92) c = colAmber;
+    let c = white;
+    if (r > 0.7) c = ice;
+    else if (r > 0.93) c = gold;
 
-    starColors[i3] = c.r;
-    starColors[i3 + 1] = c.g;
-    starColors[i3 + 2] = c.b;
+    fieldCol[i3] = c.r;
+    fieldCol[i3 + 1] = c.g;
+    fieldCol[i3 + 2] = c.b;
   }
-  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-  starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
+  fieldGeo.setAttribute('position', new THREE.BufferAttribute(fieldPos, 3));
+  fieldGeo.setAttribute('color', new THREE.BufferAttribute(fieldCol, 3));
 
-  const starMat = new THREE.PointsMaterial({
-    size: 11,
+  const fieldMat = new THREE.PointsMaterial({
+    size: 10,
     sizeAttenuation: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
     vertexColors: true,
     transparent: true,
     map: starTexture,
-    opacity: 0.95
-  });
-  const starMesh = new THREE.Points(starGeo, starMat);
-  scene.add(starMesh);
-
-  // Layer 2: Twinkling Beacon Stars
-  const beaconCount = 90;
-  const beaconGeo = new THREE.BufferGeometry();
-  const beaconPos = new Float32Array(beaconCount * 3);
-
-  for (let i = 0; i < beaconCount; i++) {
-    const i3 = i * 3;
-    beaconPos[i3] = (Math.random() - 0.5) * 2400;
-    beaconPos[i3 + 1] = (Math.random() - 0.5) * 1400;
-    beaconPos[i3 + 2] = (Math.random() - 0.5) * 1200 + 100;
-  }
-  beaconGeo.setAttribute('position', new THREE.BufferAttribute(beaconPos, 3));
-
-  const beaconMat = new THREE.PointsMaterial({
-    size: 22,
-    sizeAttenuation: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    transparent: true,
-    map: starTexture,
-    color: 0xffffff,
     opacity: 0.9
   });
-  const beaconMesh = new THREE.Points(beaconGeo, beaconMat);
-  scene.add(beaconMesh);
+  const backgroundField = new THREE.Points(fieldGeo, fieldMat);
+  scene.add(backgroundField);
 
   // =========================================================================
-  // SHOOTING STAR (METEOR STREAK SYSTEM)
+  // SHOOTING STARS ENGINE (METEOR LASER TRAILS)
   // =========================================================================
-  const meteorCount = 2;
   const meteors = [];
+  const meteorCount = 2;
 
   for (let m = 0; m < meteorCount; m++) {
-    const meteorGeo = new THREE.BufferGeometry();
-    const meteorPositions = new Float32Array([0, 0, 0, 0, 0, 0]); // Tail & Head
-    meteorGeo.setAttribute('position', new THREE.BufferAttribute(meteorPositions, 3));
+    const mGeo = new THREE.BufferGeometry();
+    mGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
 
-    const meteorMat = new THREE.LineBasicMaterial({
+    const mMat = new THREE.LineBasicMaterial({
       color: 0x38bdf8,
       transparent: true,
       opacity: 0,
@@ -239,20 +285,20 @@ window.CONTACT = {
       linewidth: 2
     });
 
-    const meteorLine = new THREE.Line(meteorGeo, meteorMat);
-    scene.add(meteorLine);
+    const mLine = new THREE.Line(mGeo, mMat);
+    scene.add(mLine);
 
     meteors.push({
-      mesh: meteorLine,
-      geo: meteorGeo,
-      mat: meteorMat,
+      mesh: mLine,
+      geo: mGeo,
+      mat: mMat,
       active: false,
       pos: new THREE.Vector3(),
       vel: new THREE.Vector3(),
-      length: 160,
+      length: 180,
       life: 0,
-      maxLife: 60,
-      timer: Math.random() * 200 + 100 // Stagger initial spawn
+      maxLife: 55,
+      timer: Math.random() * 220 + 80
     });
   }
 
@@ -261,15 +307,13 @@ window.CONTACT = {
     meteor.life = 0;
     meteor.maxLife = Math.floor(Math.random() * 25 + 40);
 
-    // Spawn from random upper region
-    const startX = (Math.random() - 0.5) * 1800 + 400;
+    const startX = (Math.random() - 0.5) * 1600 + 400;
     const startY = Math.random() * 800 + 400;
-    const startZ = (Math.random() - 0.5) * 600;
+    const startZ = (Math.random() - 0.5) * 500;
     meteor.pos.set(startX, startY, startZ);
 
-    // Diagonal high-speed velocity vector
-    const speed = Math.random() * 18 + 26;
-    meteor.vel.set(-speed, -speed * 0.7, (Math.random() - 0.5) * 6);
+    const speed = Math.random() * 20 + 26;
+    meteor.vel.set(-speed, -speed * 0.72, (Math.random() - 0.5) * 6);
     meteor.mat.opacity = 1;
   }
 
@@ -279,28 +323,21 @@ window.CONTACT = {
         meteor.timer--;
         if (meteor.timer <= 0) {
           spawnMeteor(meteor);
-          meteor.timer = Math.random() * 280 + 180; // Respawn every ~4-7 seconds
+          meteor.timer = Math.random() * 280 + 180; // Respawn every 4-7 sec
         }
       } else {
         meteor.life++;
         meteor.pos.add(meteor.vel);
 
-        // Head and Tail positions
         const head = meteor.pos;
         const tail = meteor.pos.clone().sub(meteor.vel.clone().normalize().multiplyScalar(meteor.length));
 
-        const positions = meteor.geo.attributes.position.array;
-        positions[0] = tail.x;
-        positions[1] = tail.y;
-        positions[2] = tail.z;
-        positions[3] = head.x;
-        positions[4] = head.y;
-        positions[5] = head.z;
+        const p = meteor.geo.attributes.position.array;
+        p[0] = tail.x; p[1] = tail.y; p[2] = tail.z;
+        p[3] = head.x; p[4] = head.y; p[5] = head.z;
         meteor.geo.attributes.position.needsUpdate = true;
 
-        // Fade out towards end of life
         meteor.mat.opacity = Math.max(0, 1 - (meteor.life / meteor.maxLife));
-
         if (meteor.life >= meteor.maxLife) {
           meteor.active = false;
           meteor.mat.opacity = 0;
@@ -309,7 +346,9 @@ window.CONTACT = {
     });
   }
 
-  // Mouse Parallax & Render Loop
+  // =========================================================================
+  // 3D MULTI-DEPTH MOUSE PARALLAX & ANIMATION LOOP
+  // =========================================================================
   let mouseX = 0;
   let mouseY = 0;
   let targetX = 0;
@@ -324,21 +363,24 @@ window.CONTACT = {
 
   function animate() {
     requestAnimationFrame(animate);
-    const elapsedTime = clock.getElapsedTime();
+    const t = clock.getElapsedTime();
 
-    // Subtle breathing twinkle
-    beaconMat.opacity = 0.75 + Math.sin(elapsedTime * 2.2) * 0.22;
+    // Natural Organic Cluster Drift (Independent Micro-Rotations)
+    amberGalaxy.rotation.y = t * 0.008;
+    amberGalaxy.rotation.z = Math.sin(t * 0.005) * 0.04;
 
-    // Organic drift
-    starMesh.rotation.y = elapsedTime * 0.005;
-    beaconMesh.rotation.y = elapsedTime * 0.008;
+    cyanGalaxy.rotation.y = -t * 0.009;
+    cyanGalaxy.rotation.x = Math.cos(t * 0.006) * 0.04;
 
-    // Shooting stars physics
+    coreGalaxy.rotation.y = t * 0.006;
+    backgroundField.rotation.y = t * 0.003;
+
+    // Meteors
     updateMeteors();
 
-    // 3D Camera Orbit
-    targetX = mouseX * 220;
-    targetY = -mouseY * 160;
+    // Camera 3D Orbit with Smooth Damping (Depth Occlusion Parallax)
+    targetX = mouseX * 240;
+    targetY = -mouseY * 170;
 
     camera.position.x += (targetX - camera.position.x) * 0.045;
     camera.position.y += (targetY - camera.position.y) * 0.045;

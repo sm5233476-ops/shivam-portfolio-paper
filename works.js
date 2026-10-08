@@ -156,8 +156,75 @@
   }
   /* END: WORKS_CHAPTERS_JS */
 
-  /* SLOT: WORKS_FOOTER_INIT */
+ /* START: WORKS_FOOTER_JS */
+  // --------------------------------------------------------------------------
+  // WORKS FOOTER SIGNATURE CONTROLLER
+  // --------------------------------------------------------------------------
+  function initWorksFooterSignature() {
+    const sigWrap = document.getElementById("footer-sig-wrap");
+    if (!sigWrap || !window.opentype) return;
 
+    const fontUrl = "https://cdn.jsdelivr.net/fontsource/fonts/pinyon-script@latest/latin-400-normal.woff";
+
+    window.opentype.load(fontUrl, (err, font) => {
+      if (err || !font) return;
+
+      try {
+        const path = font.getPath("Shivam", 0, 0, 140);
+        const box = path.getBoundingBox();
+
+        const width = box.x2 - box.x1;
+        const height = box.y2 - box.y1;
+        const padX = width * 0.15;
+        const padY = height * 0.15;
+
+        const vx = box.x1 - padX;
+        const vy = box.y1 - padY;
+        const vw = width + padX * 2;
+        const vh = height + padY * 2;
+
+        const pathData = path.toPathData(2);
+
+        sigWrap.innerHTML = `
+          <svg viewBox="${vx} ${vy} ${vw} ${vh}" preserveAspectRatio="xMidYMid meet" aria-label="Shivam">
+            <path id="works-footer-sig-path" d="${pathData}"></path>
+          </svg>
+        `;
+
+        const pathEl = document.getElementById("works-footer-sig-path");
+        if (!pathEl || !window.gsap || !window.ScrollTrigger) return;
+
+        const len = pathEl.getTotalLength ? pathEl.getTotalLength() : 800;
+
+        window.gsap.set(pathEl, {
+          strokeDasharray: len,
+          strokeDashoffset: len,
+          fill: "transparent"
+        });
+
+        // Scrub write-on signature as user scrolls to footer
+        window.gsap.to(pathEl, {
+          strokeDashoffset: 0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#site-footer",
+            start: "top 80%",
+            end: "bottom 95%",
+            scrub: window.Midnight && window.Midnight.isCalm ? false : 0.8
+          }
+        });
+      } catch (e) {
+        console.warn("Works footer signature render error:", e);
+      }
+    });
+  }
+
+  try {
+    initWorksFooterSignature();
+  } catch (e) {
+    console.error("Works footer signature error:", e);
+  }
+  /* END: WORKS_FOOTER_JS */
   // --------------------------------------------------------------------------
   // SAFE INITIALIZATION BOOTSTRAP
   // --------------------------------------------------------------------------

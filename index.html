@@ -163,7 +163,71 @@
 
     <!-- Selected Work Section (Sliding Sheet) -->
     <section id="selected-work" class="section-sheet" data-scroll-section>
-      <!-- SLOT: SELECTED_WORK -->
+   <!-- START: SELECTED_WORK_HTML -->
+      <div class="container selected-work-container">
+        <div class="selected-work-header">
+          <span class="section-label">Selected work</span>
+        </div>
+
+        <div class="work-rows-list" id="work-rows-list">
+          <!-- Row 01 -->
+          <a href="works.html#chapter-1" class="work-row" data-preview="dental.jpg">
+            <div class="work-row-meta">
+              <span class="work-row-num">01</span>
+              <h3 class="work-row-title">Lumina Dental Studio</h3>
+            </div>
+            <div class="work-row-side">
+              <span class="work-row-kind">Concept project</span>
+              <span class="work-row-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div class="work-row-mobile-thumb">
+              <img src="dental.jpg" alt="Lumina Dental Studio preview" width="600" height="380" decoding="async" onerror="this.classList.add('img-fallback')">
+            </div>
+          </a>
+
+          <!-- Row 02 -->
+          <a href="works.html#chapter-2" class="work-row" data-preview="roofing.jpg">
+            <div class="work-row-meta">
+              <span class="work-row-num">02</span>
+              <h3 class="work-row-title">Ironcrest Roofing & Restoration</h3>
+            </div>
+            <div class="work-row-side">
+              <span class="work-row-kind">Concept project</span>
+              <span class="work-row-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div class="work-row-mobile-thumb">
+              <img src="roofing.jpg" alt="Ironcrest Roofing & Restoration preview" width="600" height="380" decoding="async" onerror="this.classList.add('img-fallback')">
+            </div>
+          </a>
+
+          <!-- Row 03 -->
+          <a href="works.html#chapter-3" class="work-row" data-preview="coffee.jpg">
+            <div class="work-row-meta">
+              <span class="work-row-num">03</span>
+              <h3 class="work-row-title">Cinder & Cedar Coffee Roasters</h3>
+            </div>
+            <div class="work-row-side">
+              <span class="work-row-kind">Concept project</span>
+              <span class="work-row-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div class="work-row-mobile-thumb">
+              <img src="coffee.jpg" alt="Cinder & Cedar Coffee Roasters preview" width="600" height="380" decoding="async" onerror="this.classList.add('img-fallback')">
+            </div>
+          </a>
+        </div>
+
+        <!-- Floating Desktop Cursor Preview Thumbnail -->
+        <div class="work-floating-preview" id="work-floating-preview" aria-hidden="true">
+          <div class="work-preview-inner">
+            <img id="work-preview-img" src="dental.jpg" alt="Project preview" width="480" height="320" decoding="async" onerror="this.classList.add('img-fallback')">
+          </div>
+        </div>
+
+        <div class="selected-work-footer">
+          <a href="works.html" class="btn btn-secondary">All works <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+<!-- END: SELECTED_WORK_HTML -->
     </section>
 
     <!-- Skills Section (Sliding Sheet) -->

@@ -599,12 +599,151 @@
   }
   /* END: HOME_MARQUEE_ABOUT_WORK_JS */
 
-  /* SLOT: HOME_SKILLS */
+/* START: HOME_SKILLS_CONTACT_FOOTER_JS */
+  // --------------------------------------------------------------------------
+  // SKILLS ACCORDION CONTROLLER
+  // --------------------------------------------------------------------------
+  function initSkillsAccordion() {
+    const accordion = document.getElementById("skills-accordion");
+    const toolsLine = document.getElementById("skills-tools-line");
 
-  /* SLOT: HOME_CONTACT */
+    if (toolsLine && window.SITE.SHOW_TOOLS_LINE === false) {
+      toolsLine.style.display = "none";
+    }
 
-  /* SLOT: HOME_FOOTER */
+    if (!accordion) return;
 
+    const rows = accordion.querySelectorAll(".skills-row");
+
+    rows.forEach((row) => {
+      const trigger = row.querySelector(".skills-row-trigger");
+      if (!trigger) return;
+
+      trigger.addEventListener("click", () => {
+        const isOpen = row.classList.contains("is-open");
+
+        // Close other rows on tap
+        rows.forEach((r) => {
+          r.classList.remove("is-open");
+          const btn = r.querySelector(".skills-row-trigger");
+          if (btn) btn.setAttribute("aria-expanded", "false");
+        });
+
+        if (!isOpen) {
+          row.classList.add("is-open");
+          trigger.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // CONTACT ENVELOPE CONTROLLER (Animation Plan 9)
+  // --------------------------------------------------------------------------
+  function initContactEnvelope() {
+    const stage = document.getElementById("envelope-stage");
+    if (!stage || !window.gsap || !window.ScrollTrigger) return;
+
+    // Trigger envelope opening smoothly when scrolling into contact view
+    window.ScrollTrigger.create({
+      trigger: stage,
+      start: "top 72%",
+      onEnter: () => {
+        stage.classList.add("is-open");
+      },
+      once: true
+    });
+
+    // Also support direct click to toggle
+    stage.addEventListener("click", (e) => {
+      if (!e.target.closest(".contact-stamp-btn")) {
+        stage.classList.toggle("is-open");
+      }
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // FOOTER SIGNATURE & REPLAY INTRO (Animation Plan 10)
+  // --------------------------------------------------------------------------
+  function initFooterSignature() {
+    const sigWrap = document.getElementById("footer-sig-wrap");
+    const replayBtn = document.getElementById("footer-replay-btn");
+
+    if (replayBtn) {
+      replayBtn.addEventListener("click", () => {
+        if (window.SITE && window.SITE.replayIntro) {
+          window.SITE.replayIntro();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      });
+    }
+
+    if (!sigWrap || !window.opentype) return;
+
+    const fontUrl = "https://cdn.jsdelivr.net/fontsource/fonts/pinyon-script@latest/latin-400-normal.woff";
+
+    window.opentype.load(fontUrl, (err, font) => {
+      if (err || !font) return;
+
+      try {
+        const path = font.getPath("Shivam", 0, 0, 140);
+        const box = path.getBoundingBox();
+
+        const width = box.x2 - box.x1;
+        const height = box.y2 - box.y1;
+        const padX = width * 0.15;
+        const padY = height * 0.15;
+
+        const vx = box.x1 - padX;
+        const vy = box.y1 - padY;
+        const vw = width + padX * 2;
+        const vh = height + padY * 2;
+
+        const pathData = path.toPathData(2);
+
+        sigWrap.innerHTML = `
+          <svg viewBox="${vx} ${vy} ${vw} ${vh}" preserveAspectRatio="xMidYMid meet" aria-label="Shivam">
+            <path id="footer-sig-path" d="${pathData}"></path>
+          </svg>
+        `;
+
+        const pathEl = document.getElementById("footer-sig-path");
+        if (!pathEl || !window.gsap || !window.ScrollTrigger) return;
+
+        const len = pathEl.getTotalLength ? pathEl.getTotalLength() : 800;
+
+        window.gsap.set(pathEl, {
+          strokeDasharray: len,
+          strokeDashoffset: len,
+          fill: "transparent"
+        });
+
+        // Scrub write-on signature as user scrolls to footer
+        window.gsap.to(pathEl, {
+          strokeDashoffset: 0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#site-footer",
+            start: "top 80%",
+            end: "bottom 95%",
+            scrub: window.Midnight && window.Midnight.isCalm ? false : 0.8
+          }
+        });
+      } catch (e) {
+        console.warn("Footer signature render error:", e);
+      }
+    });
+  }
+
+  // Safe bootstrap
+  try {
+    initSkillsAccordion();
+    initContactEnvelope();
+    initFooterSignature();
+  } catch (err) {
+    console.error("Skills / Contact / Footer initialization error:", err);
+  }
+  /* END: HOME_SKILLS_CONTACT_FOOTER_JS */
   // --------------------------------------------------------------------------
   // SAFE INITIALIZATION BOOTSTRAP
   // --------------------------------------------------------------------------

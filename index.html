@@ -3,21 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Shivam Mishra — Web Developer</title>
-  <meta name="description" content="A web developer who loves to build. Fast, high-converting websites and modern digital experiences.">
+  <title>Shivam Mishra — A Web Developer Who Loves to Build</title>
+  <meta name="description" content="Crafting fast, high-converting websites, web apps, and AI assistants with relentless focus on design and motion.">
+  
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <!-- Three.js CDN -->
+  
+  <!-- Libraries (Three.js 3D + GSAP Cinematic Motion) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <link rel="stylesheet" href="style.css?v=2">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
-  <!-- Fullscreen 3D WebGL Canvas -->
+  <!-- Fullscreen 3D WebGL Cosmic Canvas -->
   <canvas id="universe-canvas"></canvas>
 
-  <!-- Clean Floating Header -->
+  <!-- Minimal Kinetic Header -->
   <header class="site-header">
     <nav class="nav-container">
       <div class="nav-links">
@@ -33,15 +38,59 @@
     </nav>
   </header>
 
-  <!-- Main Content Slots (For Hero, Works, etc.) -->
+  <!-- Main Experience -->
   <main>
-    <!-- @@SLOT:hero @@ -->
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+      <div class="hero-content">
+        
+        <!-- Status / Category Badge -->
+        <div class="hero-badge reveal-blur">
+          <span class="badge-dot"></span>
+          <span>available for new opportunities</span>
+        </div>
+
+        <!-- The Iconic Statement Headline -->
+        <h1 class="hero-title">
+          <span class="title-line reveal-blur">A web developer</span>
+          <span class="title-line reveal-blur highlight-text">who loves to build.</span>
+        </h1>
+
+        <!-- Universal Modern Subtitle -->
+        <p class="hero-subtitle reveal-blur">
+          Crafting fast, animated websites, interactive web applications, and AI assistants. 
+          Clean aesthetics, ultra-fast performance, and zero compromises.
+        </p>
+
+        <!-- Luxury Glass Action Buttons -->
+        <div class="hero-actions reveal-blur">
+          <a href="#works" class="btn-hero-primary">
+            <span>Explore Works</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1V13M7 13L1 7M7 13L13 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#contact" class="btn-hero-secondary">
+            <span>Say Hello</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Minimal Bottom Scroll Cue -->
+      <div class="hero-scroll reveal-blur">
+        <div class="scroll-track">
+          <div class="scroll-pill"></div>
+        </div>
+        <span>scroll to explore</span>
+      </div>
+    </section>
+
+    <!-- Slots for Upcoming Next-Level Sections -->
     <!-- @@SLOT:about @@ -->
     <!-- @@SLOT:works @@ -->
     <!-- @@SLOT:skills @@ -->
     <!-- @@SLOT:contact @@ -->
   </main>
 
-  <script src="main.js?v=2"></script>
+  <script src="main.js?v=3"></script>
 </body>
 </html>

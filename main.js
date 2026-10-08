@@ -1,7 +1,7 @@
 /**
  * ============================================================================
- * THE COSMIC HORIZON — CORE ENGINE
- * Shivam Mishra | Procedural Nebula, Rich Starfield & Spotlight Controllers
+ * THE COSMIC HORIZON — CORE ENGINE (PHASE 1 FINAL LOCK)
+ * Shivam Mishra | 3D Perspective Parallax, Nebula Currents & Micro-Interactions
  * ============================================================================
  */
 
@@ -9,7 +9,7 @@
   'use strict';
 
   /* ==========================================================================
-     1. PROCEDURAL COSMIC NEBULA & RICH STAR ENGINE
+     1. DEEP 3D PARALLAX & COSMIC CANVAS ENGINE (BEHFAR.DEV & VISUVATE.COM)
      ========================================================================== */
 
   class CosmicCanvas {
@@ -23,36 +23,37 @@
       this.width = window.innerWidth;
       this.height = window.innerHeight;
 
-      // Smooth 3D Mouse Parallax Physics
+      // High-Reactivity 3D Parallax Tracking
       this.mouse = {
         targetX: 0,
         targetY: 0,
         currentX: 0,
         currentY: 0,
-        ease: 0.045
+        ease: 0.055 // Snappy yet silky-smooth spring response
       };
 
-      // Entities
+      // Cosmic Entities
       this.stars = [];
-      this.microParticles = [];
-      this.nebulaClouds = [];
+      this.nebulaNodes = [];
+      this.dustParticles = [];
+
       this.starCount = this.calculateStarCount();
-      this.microCount = 28;
+      this.dustCount = 32;
 
       this.init();
     }
 
     calculateStarCount() {
       const area = window.innerWidth * window.innerHeight;
-      // Richer star density (~35% increase) while preserving 60fps performance
-      return Math.min(Math.floor(area / 5800), 185);
+      // Balanced rich starlight without overcrowding
+      return Math.min(Math.floor(area / 5500), 195);
     }
 
     init() {
       this.resize();
-      this.createNebula();
-      this.createStars();
-      this.createMicroParticles();
+      this.createNebulaCurrents();
+      this.createMultiDepthStars();
+      this.createDustParticles();
       this.bindEvents();
       this.render();
     }
@@ -60,18 +61,18 @@
     bindEvents() {
       window.addEventListener('resize', () => this.resize(), { passive: true });
 
-      // Cursor Parallax Tracker (-1.0 to 1.0 relative to center)
+      // Cursor Parallax Tracker: Normalized coordinate space (-1.0 to +1.0)
       window.addEventListener('mousemove', (e) => {
         this.mouse.targetX = (e.clientX / this.width - 0.5) * 2;
         this.mouse.targetY = (e.clientY / this.height - 0.5) * 2;
       }, { passive: true });
 
-      // Mobile Touch Parallax Support
+      // Responsive Touch Parallax
       window.addEventListener('touchmove', (e) => {
         if (e.touches.length > 0) {
           const touch = e.touches[0];
-          this.mouse.targetX = (touch.clientX / this.width - 0.5) * 1.5;
-          this.mouse.targetY = (touch.clientY / this.height - 0.5) * 1.5;
+          this.mouse.targetX = (touch.clientX / this.width - 0.5) * 1.6;
+          this.mouse.targetY = (touch.clientY / this.height - 0.5) * 1.6;
         }
       }, { passive: true });
     }
@@ -89,111 +90,113 @@
       this.ctx.scale(this.dpr, this.dpr);
 
       const newStarCount = this.calculateStarCount();
-      if (Math.abs(this.stars.length - newStarCount) > 35) {
+      if (Math.abs(this.stars.length - newStarCount) > 30) {
         this.starCount = newStarCount;
-        this.createStars();
+        this.createMultiDepthStars();
       }
     }
 
-    createNebula() {
-      // Atmospheric deep-blue and indigo nebula clouds
-      this.nebulaClouds = [
+    createNebulaCurrents() {
+      // Visuvate.com inspired glowing blue & indigo energetic backdrops
+      this.nebulaNodes = [
         {
-          xRel: 0.25,
-          yRel: 0.35,
-          radius: Math.max(this.width, this.height) * 0.42,
-          colorCenter: 'rgba(12, 74, 110, 0.16)', // Deep Cyan/Sky Void
+          xRel: 0.28,
+          yRel: 0.38,
+          baseRadius: Math.max(this.width, this.height) * 0.44,
+          colorCenter: 'rgba(14, 116, 144, 0.18)', // Cyan energy core
           colorOuter: 'rgba(3, 7, 18, 0)',
           phase: 0,
           speed: 0.003,
-          depth: 0.15
+          tiltFactor: 24 // Midground moderate parallax (~24px)
         },
         {
-          xRel: 0.75,
-          yRel: 0.65,
-          radius: Math.max(this.width, this.height) * 0.48,
-          colorCenter: 'rgba(30, 27, 75, 0.22)', // Deep Indigo Abyss
+          xRel: 0.72,
+          yRel: 0.62,
+          baseRadius: Math.max(this.width, this.height) * 0.5,
+          colorCenter: 'rgba(30, 27, 75, 0.24)', // Deep indigo abyss
           colorOuter: 'rgba(3, 7, 18, 0)',
-          phase: 1.8,
-          speed: 0.0025,
-          depth: 0.2
+          phase: 2.1,
+          speed: 0.002,
+          tiltFactor: 18
         },
         {
           xRel: 0.5,
-          yRel: 0.48,
-          radius: Math.max(this.width, this.height) * 0.32,
-          colorCenter: 'rgba(56, 189, 248, 0.07)', // Electric Sky Core
+          yRel: 0.46,
+          baseRadius: Math.max(this.width, this.height) * 0.35,
+          colorCenter: 'rgba(56, 189, 248, 0.09)', // Electric Sky spotlight
           colorOuter: 'rgba(3, 7, 18, 0)',
-          phase: 3.2,
+          phase: 4.3,
           speed: 0.004,
-          depth: 0.35
+          tiltFactor: 32
         }
       ];
     }
 
-    createStars() {
+    createMultiDepthStars() {
       this.stars = [];
-      const tints = [
-        'rgba(255, 255, 255, ',        // Pure White
-        'rgba(224, 242, 254, ',        // Ice Blue
-        'rgba(56, 189, 248, ',         // Electric Sky Blue
-        'rgba(186, 230, 253, '         // Soft Starlight
+      const palettes = [
+        'rgba(255, 255, 255, ',     // Crisp diamond white
+        'rgba(224, 242, 254, ',     // Ice starlight
+        'rgba(56, 189, 248, ',      // Electric Sky Blue
+        'rgba(186, 230, 253, '      // Soft galactic blue
       ];
 
       for (let i = 0; i < this.starCount; i++) {
-        const depth = Math.random() * 0.85 + 0.15; // 3D depth layer
+        // Depth gradient: 0.15 (deep background) to 1.0 (crisp foreground)
+        const depth = Math.random() * 0.85 + 0.15;
         this.stars.push({
           x: Math.random() * this.width,
           y: Math.random() * this.height,
-          radius: (Math.random() * 1.3 + 0.4) * depth,
-          colorBase: tints[Math.floor(Math.random() * tints.length)],
-          baseAlpha: Math.random() * 0.6 + 0.25,
-          twinkleSpeed: Math.random() * 0.02 + 0.006,
+          radius: (Math.random() * 1.35 + 0.4) * depth,
+          colorBase: palettes[Math.floor(Math.random() * palettes.length)],
+          baseAlpha: Math.random() * 0.6 + 0.2,
+          twinkleSpeed: Math.random() * 0.025 + 0.008,
           twinklePhase: Math.random() * Math.PI * 2,
-          vx: (Math.random() - 0.5) * 0.15 * depth,
-          vy: (Math.random() - 0.5) * 0.15 * depth,
+          vx: (Math.random() - 0.5) * 0.14 * depth,
+          vy: (Math.random() - 0.5) * 0.14 * depth,
           depth: depth
         });
       }
     }
 
-    createMicroParticles() {
-      this.microParticles = [];
-      for (let i = 0; i < this.microCount; i++) {
-        this.microParticles.push({
+    createDustParticles() {
+      this.dustParticles = [];
+      for (let i = 0; i < this.dustCount; i++) {
+        this.dustParticles.push({
           x: Math.random() * this.width,
           y: Math.random() * this.height,
-          radius: Math.random() * 16 + 8, // Soft micro-glow bubble
-          alpha: Math.random() * 0.05 + 0.015,
-          vx: (Math.random() - 0.5) * 0.2,
-          vy: -Math.random() * 0.25 - 0.05, // Gentle upward cosmic drift
-          depth: Math.random() * 0.5 + 0.2
+          radius: Math.random() * 20 + 8,
+          alpha: Math.random() * 0.045 + 0.012,
+          vx: (Math.random() - 0.5) * 0.22,
+          vy: -Math.random() * 0.3 - 0.06, // Soft upward drift
+          depth: Math.random() * 0.6 + 0.3
         });
       }
     }
 
     render() {
-      // 60fps Damped Parallax Mouse Lerp
+      // 60fps Spring/Lerp Parallax update
       this.mouse.currentX += (this.mouse.targetX - this.mouse.currentX) * this.mouse.ease;
       this.mouse.currentY += (this.mouse.targetY - this.mouse.currentY) * this.mouse.ease;
 
       this.ctx.clearRect(0, 0, this.width, this.height);
 
-      // 1. Procedural Deep-Blue Nebula Clouds
-      for (let i = 0; i < this.nebulaClouds.length; i++) {
-        const c = this.nebulaClouds[i];
-        c.phase += c.speed;
+      // 1. Render Deep Blue Nebula Energy Currents
+      for (let i = 0; i < this.nebulaNodes.length; i++) {
+        const node = this.nebulaNodes[i];
+        node.phase += node.speed;
 
-        const pulse = Math.sin(c.phase) * 25;
-        const currentRadius = c.radius + pulse;
+        const pulse = Math.sin(node.phase) * 28;
+        const currentRadius = node.baseRadius + pulse;
 
-        const posX = c.xRel * this.width + this.mouse.currentX * 50 * c.depth;
-        const posY = c.yRel * this.height + this.mouse.currentY * 50 * c.depth;
+        // Midground tilt parallax (~18px - 32px)
+        const posX = node.xRel * this.width + this.mouse.currentX * node.tiltFactor;
+        const posY = node.yRel * this.height + this.mouse.currentY * node.tiltFactor;
 
         const grad = this.ctx.createRadialGradient(posX, posY, 0, posX, posY, currentRadius);
-        grad.addColorStop(0, c.colorCenter);
-        grad.addColorStop(0.65, c.colorCenter.replace(/[\d\.]+\)$/, '0.04)'));
-        grad.addColorStop(1, c.colorOuter);
+        grad.addColorStop(0, node.colorCenter);
+        grad.addColorStop(0.65, node.colorCenter.replace(/[\d\.]+\)$/, '0.035)'));
+        grad.addColorStop(1, node.colorOuter);
 
         this.ctx.fillStyle = grad;
         this.ctx.beginPath();
@@ -201,35 +204,35 @@
         this.ctx.fill();
       }
 
-      // 2. Slow-Motion Floating Micro-Bubbles
-      for (let i = 0; i < this.microParticles.length; i++) {
-        const m = this.microParticles[i];
-        m.x += m.vx;
-        m.y += m.vy;
+      // 2. Render Drifting Cosmic Dust Specks
+      for (let i = 0; i < this.dustParticles.length; i++) {
+        const d = this.dustParticles[i];
+        d.x += d.vx;
+        d.y += d.vy;
 
-        if (m.y < -m.radius) {
-          m.y = this.height + m.radius;
-          m.x = Math.random() * this.width;
+        if (d.y < -d.radius) {
+          d.y = this.height + d.radius;
+          d.x = Math.random() * this.width;
         }
 
-        const renderX = m.x + this.mouse.currentX * 30 * m.depth;
-        const renderY = m.y + this.mouse.currentY * 30 * m.depth;
+        const renderX = d.x + this.mouse.currentX * 32 * d.depth;
+        const renderY = d.y + this.mouse.currentY * 32 * d.depth;
 
-        const bubbleGrad = this.ctx.createRadialGradient(
+        const dustGrad = this.ctx.createRadialGradient(
           renderX, renderY, 0,
-          renderX, renderY, m.radius
+          renderX, renderY, d.radius
         );
-        bubbleGrad.addColorStop(0, `rgba(56, 189, 248, ${m.alpha * 1.5})`);
-        bubbleGrad.addColorStop(0.6, `rgba(56, 189, 248, ${m.alpha * 0.4})`);
-        bubbleGrad.addColorStop(1, 'transparent');
+        dustGrad.addColorStop(0, `rgba(56, 189, 248, ${d.alpha * 1.5})`);
+        dustGrad.addColorStop(0.6, `rgba(56, 189, 248, ${d.alpha * 0.3})`);
+        dustGrad.addColorStop(1, 'transparent');
 
-        this.ctx.fillStyle = bubbleGrad;
+        this.ctx.fillStyle = dustGrad;
         this.ctx.beginPath();
-        this.ctx.arc(renderX, renderY, m.radius, 0, Math.PI * 2);
+        this.ctx.arc(renderX, renderY, d.radius, 0, Math.PI * 2);
         this.ctx.fill();
       }
 
-      // 3. Multi-Depth Twinkling Starfield
+      // 3. Render Multi-Depth Sparkling Stars (Foreground moves up to 55px)
       for (let i = 0; i < this.stars.length; i++) {
         const s = this.stars[i];
         s.x += s.vx;
@@ -240,11 +243,14 @@
         if (s.y < 0) s.y = this.height;
         if (s.y > this.height) s.y = 0;
 
+        // Sparkling twinkle modulation
         s.twinklePhase += s.twinkleSpeed;
-        const alpha = Math.max(0.08, s.baseAlpha + Math.sin(s.twinklePhase) * 0.28);
+        const alpha = Math.max(0.08, s.baseAlpha + Math.sin(s.twinklePhase) * 0.32);
 
-        const renderX = s.x + this.mouse.currentX * 42 * s.depth;
-        const renderY = s.y + this.mouse.currentY * 42 * s.depth;
+        // Deep 3D perspective displacement: foreground stars displace significantly faster
+        const parallaxDisplacement = 55 * s.depth;
+        const renderX = s.x + this.mouse.currentX * parallaxDisplacement;
+        const renderY = s.y + this.mouse.currentY * parallaxDisplacement;
 
         this.ctx.fillStyle = `${s.colorBase}${alpha})`;
         this.ctx.beginPath();
@@ -257,18 +263,16 @@
   }
 
   /* ==========================================================================
-     2. DYNAMIC SPOTLIGHT CONTROLLER (NAV PILL & CONNECT BUTTON)
+     2. INTERACTIVE SPOTLIGHT CONTROLLER ("LET'S CONNECT")
      ========================================================================== */
 
-  class SpotlightController {
+  class ButtonSpotlightController {
     constructor() {
       this.buttons = document.querySelectorAll('.btn-connect');
-      this.navPill = document.querySelector('.nav-pill');
       this.init();
     }
 
     init() {
-      // Connect Button Spotlight Tracking
       this.buttons.forEach((button) => {
         button.addEventListener('mousemove', (e) => {
           const rect = button.getBoundingClientRect();
@@ -281,20 +285,6 @@
           button.style.removeProperty('--mouse-y');
         });
       });
-
-      // Navigation Pill Spotlight Tracking
-      if (this.navPill) {
-        this.navPill.addEventListener('mousemove', (e) => {
-          const rect = this.navPill.getBoundingClientRect();
-          this.navPill.style.setProperty('--nav-x', `${e.clientX - rect.left}px`);
-          this.navPill.style.setProperty('--nav-y', `${e.clientY - rect.top}px`);
-        });
-
-        this.navPill.addEventListener('mouseleave', () => {
-          this.navPill.style.removeProperty('--nav-x');
-          this.navPill.style.removeProperty('--nav-y');
-        });
-      }
     }
   }
 
@@ -304,7 +294,6 @@
 
   class NavigationController {
     constructor() {
-      this.header = document.getElementById('site-header');
       this.mobileToggle = document.getElementById('mobile-toggle');
       this.mobileMenu = document.getElementById('mobile-menu');
       this.mobileLinks = document.querySelectorAll('.mobile-nav-link');
@@ -318,12 +307,12 @@
 
       this.mobileToggle.addEventListener('click', () => this.toggleMobileMenu());
 
-      // Close drawer when any mobile nav link is selected
+      // Auto-close drawer on mobile link click
       this.mobileLinks.forEach(link => {
         link.addEventListener('click', () => this.closeMobileMenu());
       });
 
-      // Keyboard accessibility support
+      // Keyboard accessibility
       window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && this.isOpen) {
           this.closeMobileMenu();
@@ -373,18 +362,18 @@
      ========================================================================== */
 
   document.addEventListener('DOMContentLoaded', () => {
-    // 1. Cosmic Deep Space Nebula & Rich Starfield Canvas
+    // 1. High-Reactivity 3D Cosmic Canvas
     new CosmicCanvas('cosmic-canvas');
 
-    // 2. Interactive Spotlight on Nav Pill & Connect Buttons
-    new SpotlightController();
+    // 2. Cursor Spotlight on Connect Button
+    new ButtonSpotlightController();
 
     // 3. Navigation Controller
     new NavigationController();
 
     // Verification Log
     if (window.CONTACT) {
-      console.log(`%c[The Cosmic Horizon]%c Initialized for ${window.CONTACT.name}`, 'color: #38bdf8; font-weight: bold;', 'color: #94A3B8;');
+      console.log(`%c[The Cosmic Horizon]%c Phase 1 Locked for ${window.CONTACT.name}`, 'color: #38bdf8; font-weight: bold;', 'color: #94A3B8;');
     }
   });
 

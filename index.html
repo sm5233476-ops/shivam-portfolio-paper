@@ -39,7 +39,7 @@
   <!-- Static Grain Overlay -->
   <div class="grain-overlay" aria-hidden="true"></div>
 
-<!-- START: INTRO_HTML -->
+  <!-- Intro Overlay -->
   <div id="intro" class="intro-overlay" role="dialog" aria-modal="true" aria-label="Introduction">
     <button type="button" class="intro-skip-btn" id="intro-skip-btn" aria-label="Skip introduction">
       Skip <span aria-hidden="true">→</span>
@@ -51,7 +51,32 @@
       <span class="intro-glint" id="intro-glint" aria-hidden="true">✦</span>
     </div>
   </div>
-<!-- END: INTRO_HTML -->
+
+  <!-- Persistent Header & Navigation -->
+  <header id="site-header">
+    <div class="nav-container">
+      <div class="nav-pill-wrapper">
+        <a href="index.html" class="nav-logo" aria-label="Shivam Mishra Home">
+          Shivam <span class="nav-logo-star">✦</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary Navigation">
+          <a href="#about" class="nav-link" data-nav-link="about">About</a>
+          <a href="works.html" class="nav-link" data-nav-link="works">Works</a>
+          <a href="#skills" class="nav-link" data-nav-link="skills">Skills</a>
+          <a href="#contact" class="nav-link" data-nav-link="contact">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a href="#" class="btn btn-primary btn-pill" data-contact="whatsapp">Let's talk</a>
+          <button type="button" class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Open mobile menu" aria-controls="mobile-menu-dialog">
+            ✦
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
   <!-- Fullscreen Mobile Menu Dialog -->
   <div id="mobile-menu-dialog" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Navigation Menu">
     <div class="mobile-menu-header">
@@ -77,7 +102,6 @@
   <main id="main">
     <!-- Hero Section -->
     <section id="hero">
-     <!-- START: HERO_HTML -->
       <div class="hero-stage container">
         <div class="hero-label-wrap">
           <span class="section-label">Web developer</span>
@@ -122,10 +146,8 @@
           </div>
         </div>
       </div>
-<!-- END: HERO_HTML -->
     </section>
 
-<!-- START: MARQUEE_HTML -->
     <!-- Velocity Marquee Section -->
     <section id="marquee" aria-hidden="true">
       <div class="marquee-strip">
@@ -137,11 +159,9 @@
         </div>
       </div>
     </section>
-<!-- END: MARQUEE_HTML -->
 
     <!-- About Section (Sliding Sheet) -->
     <section id="about" class="section-sheet" data-scroll-section>
- <!-- START: ABOUT_HTML -->
       <div class="container about-container">
         <div class="about-header">
           <span class="section-label">About</span>
@@ -158,12 +178,10 @@
           </div>
         </div>
       </div>
-<!-- END: ABOUT_HTML -->
     </section>
 
     <!-- Selected Work Section (Sliding Sheet) -->
     <section id="selected-work" class="section-sheet" data-scroll-section>
-   <!-- START: SELECTED_WORK_HTML -->
       <div class="container selected-work-container">
         <div class="selected-work-header">
           <span class="section-label">Selected work</span>
@@ -227,12 +245,10 @@
           <a href="works.html" class="btn btn-secondary">All works <span aria-hidden="true">→</span></a>
         </div>
       </div>
-<!-- END: SELECTED_WORK_HTML -->
     </section>
 
     <!-- Skills Section (Sliding Sheet) -->
     <section id="skills" class="section-sheet" data-scroll-section>
-      <!-- START: SKILLS_HTML -->
       <div class="container skills-container">
         <div class="skills-header">
           <span class="section-label">Skills</span>
@@ -356,15 +372,13 @@
         </div>
 
         <div class="skills-tools-line" id="skills-tools-line">
-          <span>HTML, CSS, JavaScript, GSAP, Vercel, GitHub, Google AI Studio</span>
+          <span>React, Tailwind CSS, JavaScript, TypeScript, Vite, Node.js, Python, Supabase, GSAP, Vercel, GitHub, Google AI Studio</span>
         </div>
       </div>
-<!-- END: SKILLS_HTML -->
     </section>
 
     <!-- Contact Section (Sliding Sheet) -->
     <section id="contact" class="section-sheet" data-scroll-section>
-      <!-- START: CONTACT_HTML -->
       <div class="container contact-container">
         <div class="contact-spotlight" aria-hidden="true"></div>
 
@@ -415,18 +429,16 @@
           </div>
         </div>
       </div>
-<!-- END: CONTACT_HTML -->
     </section>
   </main>
 
   <!-- Footer Shell (Sliding Sheet) -->
-<!-- START: HOME_FOOTER_HTML -->
   <footer id="site-footer" class="section-sheet">
     <div class="container footer-container">
-      <div class="footer-signature-wrap">
-        <div class="footer-sig-canvas-wrap" id="footer-sig-wrap">
-          <!-- Dynamic Signature Path Drawn by opentype.js -->
-        </div>
+      <div class="footer-brand-wrap">
+        <h2 class="footer-brand-title">
+          Shivam Mishra <span class="footer-brand-star">✦</span>
+        </h2>
       </div>
 
       <div class="footer-bottom-grid">
@@ -442,7 +454,6 @@
       </div>
     </div>
   </footer>
-<!-- END: HOME_FOOTER_HTML -->
 
   <!-- External Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>

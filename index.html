@@ -1,159 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-  <title>Shivam Mishra — The Cosmic Horizon</title>
-  <meta name="description" content="A web developer who loves to build. Fluid motion, creative technology, and deep cosmic experiences." />
-  <meta name="theme-color" content="#030712" />
-
-  <!-- Preconnect for Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet" />
-
-  <!-- Three.js WebGL Engine (behfar.dev Galaxy Depth) -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Shivam Mishra — Web Developer</title>
+  <meta name="description" content="A web developer who loves to build. Fast, high-converting websites and modern digital experiences.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-  <!-- Core Stylesheet -->
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
-<body class="cosmic-body">
-  <!-- Accessibility Skip Link -->
-  <a href="#main-content" class="skip-to-content">Skip to content</a>
+<body>
 
-  <!-- Three.js WebGL 3D Universe Canvas -->
-  <canvas id="cosmic-canvas" class="cosmic-canvas" aria-hidden="true"></canvas>
-  <div class="cosmic-vignette" aria-hidden="true"></div>
+  <!-- Fullscreen 3D WebGL Canvas -->
+  <canvas id="universe-canvas"></canvas>
 
-  <!-- Primary Navigation (Bare Minimalist Floating Links — No Pill, No Box) -->
-  <header class="site-header" id="site-header">
-    <div class="header-inner">
-      <!-- Bare Text Links Floating Directly on Space -->
-      <nav class="nav-bare" aria-label="Main Navigation">
-        <a href="#about" class="nav-bare-link">about</a>
-        <a href="#works" class="nav-bare-link">works</a>
-        <a href="#skills" class="nav-bare-link">skills</a>
-        <a href="#contact" class="nav-bare-link">contact</a>
-      </nav>
-
-      <!-- Right: Action Connect Button with Interactive Spotlight & Mobile Toggle -->
-      <div class="header-actions">
-        <a 
-          href="https://wa.me/919899452192?text=Hi%20Shivam%2C%20let%27s%20build%20something%20extraordinary." 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          class="btn-connect"
-          id="cta-connect-nav"
-          aria-label="Connect with Shivam on WhatsApp"
-        >
-          <span class="btn-connect-spotlight" aria-hidden="true"></span>
-          <span class="btn-connect-text">Let's Connect</span>
-          <svg class="btn-connect-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-
-        <!-- Mobile Menu Toggle Button -->
-        <button 
-          class="mobile-toggle" 
-          id="mobile-toggle" 
-          aria-label="Toggle navigation menu" 
-          aria-expanded="false" 
-          aria-controls="mobile-menu"
-        >
-          <span class="toggle-bar"></span>
-          <span class="toggle-bar"></span>
-        </button>
+  <!-- Clean Floating Header -->
+  <header class="site-header">
+    <nav class="nav-container">
+      <div class="nav-links">
+        <a href="#about" class="nav-item">about</a>
+        <a href="#works" class="nav-item">works</a>
+        <a href="#skills" class="nav-item">skills</a>
+        <a href="#contact" class="nav-item">contact</a>
       </div>
-    </div>
-
-    <!-- Mobile Full-Screen Overlay Navigation -->
-    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-      <div class="mobile-menu-backdrop" aria-hidden="true"></div>
-      <div class="mobile-menu-container">
-        <nav class="mobile-nav-list" aria-label="Mobile Navigation">
-          <a href="#about" class="mobile-nav-link">
-            <span class="nav-index">01</span>
-            <span class="nav-title">about</span>
-          </a>
-          <a href="#works" class="mobile-nav-link">
-            <span class="nav-index">02</span>
-            <span class="nav-title">works</span>
-          </a>
-          <a href="#skills" class="mobile-nav-link">
-            <span class="nav-index">03</span>
-            <span class="nav-title">skills</span>
-          </a>
-          <a href="#contact" class="mobile-nav-link">
-            <span class="nav-index">04</span>
-            <span class="nav-title">contact</span>
-          </a>
-        </nav>
-
-        <div class="mobile-menu-footer">
-          <a 
-            href="https://wa.me/919899452192?text=Hi%20Shivam%2C%20let%27s%20build%20something%20extraordinary." 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            class="btn-connect btn-connect-mobile"
-          >
-            <span class="btn-connect-spotlight" aria-hidden="true"></span>
-            <span class="btn-connect-text">Let's Connect</span>
-            <svg class="btn-connect-arrow" width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
+      <a href="https://wa.me/919899452192?text=Hi%20Shivam,%20let's%20build%20something%20extraordinary." class="btn-connect" target="_blank" rel="noopener noreferrer">
+        <span>Let's Connect</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </nav>
   </header>
 
-  <!-- Main Content Structure -->
-  <main id="main-content" class="main-content">
-    <!-- Hero Section -->
-    <section id="hero" class="section section-hero" aria-label="Hero">
-      <!-- @@SLOT:hero @@ -->
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section section-about" aria-label="About">
-      <!-- @@SLOT:about @@ -->
-    </section>
-
-    <!-- Selected Works Section -->
-    <section id="works" class="section section-works" aria-label="Works">
-      <!-- @@SLOT:works @@ -->
-    </section>
-
-    <!-- Skills & Craft Section -->
-    <section id="skills" class="section section-skills" aria-label="Skills">
-      <!-- @@SLOT:skills @@ -->
-    </section>
-
-    <!-- Contact & Outro Section -->
-    <section id="contact" class="section section-contact" aria-label="Contact">
-      <!-- @@SLOT:contact @@ -->
-    </section>
+  <!-- Main Content Slots (For Hero, Works, etc.) -->
+  <main>
+    <!-- @@SLOT:hero @@ -->
+    <!-- @@SLOT:about @@ -->
+    <!-- @@SLOT:works @@ -->
+    <!-- @@SLOT:skills @@ -->
+    <!-- @@SLOT:contact @@ -->
   </main>
 
-  <!-- Global Contact State -->
-  <script>
-    window.CONTACT = {
-      name: "Shivam Mishra",
-      email: "8hivammishra8@gmail.com",
-      whatsapp: "919899452192",
-      instagram: "shivam.0nyx"
-    };
-  </script>
-
-  <!-- Animation Engines: GSAP + ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-  <!-- Main Application Script -->
-  <script src="main.js"></script>
+  <script src="main.js?v=2"></script>
 </body>
 </html>

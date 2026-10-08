@@ -33,7 +33,7 @@
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isCalmMode = window.SITE.MOTION_LEVEL === "calm" || prefersReducedMotion;
 
-  // 5. LENIS + GSAP UNIFIED RAF LOOP
+  // 5. LENIS + GSAP UNIFIED RAF LOOP (ONE Loop Only)
   let lenisInstance = null;
 
   function initSmoothScroll() {
@@ -53,7 +53,6 @@
       infinite: false,
     });
 
-    // Synchronize Lenis scroll with GSAP ScrollTrigger
     if (typeof window.gsap !== "undefined" && typeof window.ScrollTrigger !== "undefined") {
       lenisInstance.on("scroll", window.ScrollTrigger.update);
 
@@ -87,7 +86,6 @@
   }
 
   function fillContactLinks() {
-    // Fill WhatsApp triggers
     document.querySelectorAll('[data-contact="whatsapp"]').forEach((el) => {
       const msg = el.getAttribute("data-msg");
       el.href = getWhatsAppUrl(msg);
@@ -95,18 +93,15 @@
       el.rel = "noopener noreferrer";
     });
 
-    // Fill Email triggers
     document.querySelectorAll('[data-contact="email"]').forEach((el) => {
       const sub = el.getAttribute("data-subject");
       el.href = getEmailUrl(sub);
     });
 
-    // Fill Instagram triggers
     document.querySelectorAll('[data-contact="instagram"]').forEach((el) => {
       el.href = getInstagramUrl();
       el.target = "_blank";
       el.rel = "noopener noreferrer";
-      // Update label if the element is meant to display the handle
       if (el.getAttribute("data-contact-text") === "handle") {
         el.textContent = `@${window.CONTACT.instagram}`;
       }
@@ -146,9 +141,7 @@
       }
     });
 
-    // Accessibility: preserve accessible name for assistive technology
     element.setAttribute("aria-label", rawText);
-
     return wordInners;
   }
 
@@ -249,9 +242,8 @@
     );
   }
 
-  // 10. NAVIGATION HIGHLIGHT & MOBILE MENU DIALOG
+  // 10. NAVIGATION HIGHLIGHT, MOBILE MENU DIALOG & ACCESSIBLE FOCUS TRAP
   function initNavigation() {
-    // Nav links active state based on page URL
     const currentPath = window.location.pathname.replace(/\/$/, "");
     const isWorks = currentPath.endsWith("works.html") || currentPath.endsWith("/works");
 
@@ -259,17 +251,20 @@
       const href = link.getAttribute("href") || "";
       if (isWorks && href.includes("works.html")) {
         link.classList.add("is-active");
-      } else if (!isWorks && (href === "index.html" || href === "./" || href === "#")) {
-        // Default highlight handled per section on scroll
       }
     });
 
-    // Mobile menu toggle
     const toggleBtn = document.getElementById("mobile-menu-toggle");
     const closeBtn = document.getElementById("mobile-menu-close");
     const menuDialog = document.getElementById("mobile-menu-dialog");
 
     if (toggleBtn && menuDialog) {
+      function getFocusableElements() {
+        return menuDialog.querySelectorAll(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+      }
+
       function openMenu() {
         menuDialog.classList.add("is-open");
         menuDialog.setAttribute("aria-hidden", "false");
@@ -289,23 +284,43 @@
       toggleBtn.addEventListener("click", openMenu);
       if (closeBtn) closeBtn.addEventListener("click", closeMenu);
 
-      // Close when clicking mobile nav links
       menuDialog.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => {
-          closeMenu();
-        });
+        link.addEventListener("click", closeMenu);
       });
 
-      // Close on Escape key
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && menuDialog.classList.contains("is-open")) {
+      // Accessible Focus Trap & Escape Key Handler
+      menuDialog.addEventListener("keydown", (e) => {
+        if (!menuDialog.classList.contains("is-open")) return;
+
+        if (e.key === "Escape") {
           closeMenu();
+          return;
+        }
+
+        if (e.key === "Tab") {
+          const focusables = getFocusableElements();
+          if (focusables.length === 0) return;
+
+          const firstEl = focusables[0];
+          const lastEl = focusables[focusables.length - 1];
+
+          if (e.shiftKey) {
+            if (document.activeElement === firstEl) {
+              e.preventDefault();
+              lastEl.focus();
+            }
+          } else {
+            if (document.activeElement === lastEl) {
+              e.preventDefault();
+              firstEl.focus();
+            }
+          }
         }
       });
     }
   }
 
-  // 11. CUSTOM RING CURSOR (Only active when SITE.CURSOR === 'ring')
+  // 11. CUSTOM RING CURSOR (Transform-only execution)
   function initCursorRing() {
     if (window.SITE.CURSOR !== "ring" || window.matchMedia("(pointer: coarse)").matches) {
       return;
@@ -322,6 +337,7 @@
     let mouseY = -100;
     let ringX = -100;
     let ringY = -100;
+    let isHovered = false;
 
     window.addEventListener(
       "mousemove",
@@ -335,31 +351,50 @@
     function loop() {
       ringX += (mouseX - ringX) * 0.22;
       ringY += (mouseY - ringY) * 0.22;
-      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+      const scale = isHovered ? "scale(2.2)" : "scale(1)";
+      ring.style.transform = `translate3d(${ringX - 7}px, ${ringY - 7}px, 0) ${scale}`;
       requestAnimationFrame(loop);
     }
     requestAnimationFrame(loop);
 
-    // Enlarge on interactive targets
     const hoverTargets = 'a, button, [role="button"], input, textarea, select';
     document.addEventListener("mouseover", (e) => {
       if (e.target.closest(hoverTargets)) {
+        isHovered = true;
         ring.classList.add("cursor-hover");
       }
     });
     document.addEventListener("mouseout", (e) => {
       if (e.target.closest(hoverTargets)) {
+        isHovered = false;
         ring.classList.remove("cursor-hover");
       }
     });
   }
 
-  // 12. IMAGE FALLBACK & PREWARM
+  // 12. IMAGE DECODE WARM-UP & SAFE FALLBACK
   function initImageFallbacks() {
     document.querySelectorAll("img").forEach((img) => {
+      // Decode pre-warm to avoid scroll stutter
+      if (img.complete) {
+        if (typeof img.decode === "function") {
+          img.decode().catch(() => {});
+        }
+      } else {
+        img.addEventListener(
+          "load",
+          () => {
+            if (typeof img.decode === "function") {
+              img.decode().catch(() => {});
+            }
+          },
+          { once: true }
+        );
+      }
+
+      // Dark fallback error boundary
       img.addEventListener("error", function () {
         this.classList.add("img-fallback");
-        // Dark placeholder styling
         this.style.backgroundColor = "#111113";
         this.style.border = "1px solid rgba(244, 241, 234, 0.12)";
         this.removeAttribute("src");
@@ -399,12 +434,10 @@
     initCursorRing();
     initImageFallbacks();
 
-    // Fonts ready refresh
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(refreshScrollTrigger);
     }
 
-    // Window load refresh
     window.addEventListener("load", refreshScrollTrigger);
   }
 

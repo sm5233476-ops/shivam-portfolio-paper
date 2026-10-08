@@ -1,6 +1,6 @@
 /* ==========================================================================
-   THE COSMIC HORIZON — DESIGN SYSTEM & REFINED TOKENS
-   Shivam Mishra | Deep Void & Electric Sky Blue Palette
+   THE COSMIC HORIZON — DESIGN SYSTEM & TOKENS
+   Shivam Mishra | Deep Void & Electric Sky Blue Architecture
    ========================================================================== */
 
 :root {
@@ -21,7 +21,7 @@
   --accent-sky-border: rgba(56, 189, 248, 0.25);
   --accent-indigo: #6366F1;
 
-  /* Glassmorphism & Highlights */
+  /* Glassmorphism & High-Tech Blur */
   --glass-bg: rgba(3, 7, 18, 0.65);
   --glass-border: rgba(56, 189, 248, 0.25);
   --glass-border-hover: rgba(56, 189, 248, 0.55);
@@ -38,7 +38,7 @@
   --max-width: 1320px;
   --container-px: clamp(20px, 4vw, 48px);
 
-  /* Animation Easing */
+  /* Cinematic Animation Easing */
   --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
   --trans-fast: 0.25s var(--ease-cinematic);
   --trans-smooth: 0.45s var(--ease-cinematic);
@@ -99,7 +99,7 @@ ul, ol {
   list-style: none;
 }
 
-/* Skip Link */
+/* Accessibility Skip Link */
 .skip-to-content {
   position: fixed;
   top: 16px;
@@ -148,7 +148,7 @@ ul, ol {
 }
 
 /* ==========================================================================
-   PRIMARY NAVIGATION (REFINED GLASSMORPHISM)
+   PRIMARY NAVIGATION (100% SEAMLESS UNIVERSE)
    ========================================================================== */
 
 .site-header {
@@ -160,8 +160,10 @@ ul, ol {
   z-index: 100;
   display: flex;
   align-items: center;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   pointer-events: none;
-  transition: transform var(--trans-smooth), background-color var(--trans-smooth);
 }
 
 .header-inner {
@@ -175,36 +177,39 @@ ul, ol {
   pointer-events: auto;
 }
 
-/* Logo Replacement: Aashish Thakuri Inspired Heavy Clean Typography */
+/* Logo Replacement: Aashish Thakuri Style Stacked 2-Line Typography */
 .brand-mark {
   display: inline-flex;
-  align-items: center;
+  flex-direction: column;
   text-decoration: none;
   user-select: none;
+  gap: 0;
   transition: opacity var(--trans-fast);
 }
 
-.brand-text {
+.brand-line {
   font-family: var(--font-sans);
   font-weight: 800;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
+  line-height: 0.88;
   letter-spacing: -0.04em;
   color: #FFFFFF;
   text-transform: lowercase;
-  line-height: 1;
 }
 
 .brand-mark:hover {
-  opacity: 0.85;
+  opacity: 0.82;
 }
 
-/* Center Navigation Pill */
+/* Center Navigation Pill with Interactive Cursor Spotlight */
 .nav-pill-wrapper {
   display: flex;
   align-items: center;
 }
 
 .nav-pill {
+  --nav-x: 50%;
+  --nav-y: 50%;
   position: relative;
   display: flex;
   align-items: center;
@@ -216,6 +221,8 @@ ul, ol {
   border: 1px solid var(--accent-sky-border);
   border-radius: 9999px;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), 0 0 20px -6px rgba(56, 189, 248, 0.12);
+  overflow: hidden;
+  isolation: isolate;
   transition: border-color var(--trans-fast), box-shadow var(--trans-fast);
 }
 
@@ -224,8 +231,29 @@ ul, ol {
   box-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.9), 0 0 25px -4px rgba(56, 189, 248, 0.22);
 }
 
+/* Nav Pill Cursor-Following Spotlight */
+.nav-pill-spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    130px circle at var(--nav-x, 50%) var(--nav-y, 50%),
+    rgba(56, 189, 248, 0.35) 0%,
+    rgba(56, 189, 248, 0.12) 40%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 0;
+}
+
+.nav-pill:hover .nav-pill-spotlight {
+  opacity: 1;
+}
+
 .nav-pill-link {
   position: relative;
+  z-index: 1;
   padding: 8px 18px;
   font-size: 0.85rem;
   font-weight: 500;
@@ -277,7 +305,6 @@ ul, ol {
   transition: border-color var(--trans-smooth), transform var(--trans-smooth), box-shadow var(--trans-smooth);
 }
 
-/* Dense, Vibrant Sky Blue Radial Cursor Spotlight */
 .btn-connect-spotlight {
   position: absolute;
   inset: 0;
@@ -319,7 +346,7 @@ ul, ol {
   color: #FFFFFF;
 }
 
-/* Mobile Toggle */
+/* Mobile Toggle Hamburger */
 .mobile-toggle {
   display: none;
   flex-direction: column;
@@ -500,8 +527,8 @@ ul, ol {
     --container-px: 20px;
   }
 
-  .brand-text {
-    font-size: 1.05rem;
+  .brand-line {
+    font-size: 1rem;
   }
 
   .mobile-nav-link {

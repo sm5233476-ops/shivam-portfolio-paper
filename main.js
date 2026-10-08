@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SHIVAM MISHRA — ULTRA-HD 4K THREE.JS GALAXY ENGINE (60FPS WebGL)
+   SHIVAM MISHRA — COSMIC HORIZON BULLETPROOF THREE.JS & 3D TILT
    ========================================================================== */
 
 window.CONTACT = {
@@ -9,26 +9,60 @@ window.CONTACT = {
   instagram: "shivam.0nyx"
 };
 
-(function initCosmicEngine() {
-  const canvas = document.getElementById('universe-canvas');
-  if (!canvas || typeof THREE === 'undefined') return;
+// 1. Interactive 3D Magnetic Tilt for Let's Connect Button
+(function initButtonTilt() {
+  const btn = document.querySelector('.btn-connect');
+  if (!btn) return;
 
-  // 1. Scene, Camera, Renderer
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    
+    // 3D Perspective Tilt calculation
+    const tiltX = -(y / (rect.height / 2)) * 14; // Degrees
+    const tiltY = (x / (rect.width / 2)) * 14;
+    
+    btn.style.transform = `perspective(500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translate3d(${x * 0.15}px, ${y * 0.15}px, 0)`;
+  });
+
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = `perspective(500px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)`;
+    btn.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+    setTimeout(() => { btn.style.transition = ''; }, 400);
+  });
+})();
+
+// 2. Three.js Cosmic Galaxy Engine with Auto-Heal
+(function checkAndStartUniverse() {
+  // If Three.js library is still loading, wait 40ms and retry
+  if (typeof THREE === 'undefined') {
+    setTimeout(checkAndStartUniverse, 40);
+    return;
+  }
+
+  // Auto-heal canvas: Ensure canvas exists in DOM
+  let canvas = document.getElementById('universe-canvas');
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.id = 'universe-canvas';
+    document.body.prepend(canvas);
+  }
+
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
-  camera.position.z = 700;
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 4000);
+  camera.position.z = 750;
 
   const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     alpha: true,
-    antialias: true,
-    powerPreference: 'high-performance'
+    antialias: true
   });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // 4K Crisp on Retina
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  // 2. Procedural 4K Star Texture Generator (Hot Core + Electric Cyan Glow)
-  function createGlowingStarTexture() {
+  // Generate 4K Glowing Star Texture
+  function createStarTexture() {
     const size = 128;
     const offCanvas = document.createElement('canvas');
     offCanvas.width = size;
@@ -36,56 +70,55 @@ window.CONTACT = {
     const ctx = offCanvas.getContext('2d');
 
     const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-    gradient.addColorStop(0.0, 'rgba(255, 255, 255, 1)');          // Pure hot-white center
-    gradient.addColorStop(0.15, 'rgba(235, 248, 255, 0.95)');       // Soft white core
-    gradient.addColorStop(0.4, 'rgba(56, 189, 248, 0.65)');        // Electric Sky Blue glow
-    gradient.addColorStop(0.7, 'rgba(14, 165, 233, 0.2)');         // Deep ocean cyan rim
-    gradient.addColorStop(1.0, 'rgba(0, 0, 0, 0)');                // Transparent edge
+    gradient.addColorStop(0.0, 'rgba(255, 255, 255, 1)');
+    gradient.addColorStop(0.18, 'rgba(240, 248, 255, 0.95)');
+    gradient.addColorStop(0.45, 'rgba(56, 189, 248, 0.65)'); // Cyan Glow
+    gradient.addColorStop(0.75, 'rgba(14, 165, 233, 0.2)');
+    gradient.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
 
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, size, size);
 
-    return new THREE.CanvasTexture(offCanvas);
+    const texture = new THREE.CanvasTexture(offCanvas);
+    texture.needsUpdate = true;
+    return texture;
   }
 
-  const starTexture = createGlowingStarTexture();
+  const starTexture = createStarTexture();
 
-  // 3. Spiral Galaxy 1: Logarithmic Multi-Arm Spiral (behfar.dev style)
+  // Spiral Galaxy: 3,500 Multi-Arm Points
   const galaxyParams = {
     count: 3500,
-    size: 14,
+    size: 16,
     radius: 950,
     branches: 3,
     spin: 1.1,
     randomness: 0.35,
-    power: 3.2
+    power: 3.0
   };
 
   const galaxyGeometry = new THREE.BufferGeometry();
   const galaxyPositions = new Float32Array(galaxyParams.count * 3);
   const galaxyColors = new Float32Array(galaxyParams.count * 3);
 
-  const coreColor = new THREE.Color('#ffffff');       // Brilliant white core
-  const midColor = new THREE.Color('#38bdf8');        // Electric Sky Blue
-  const outerColor = new THREE.Color('#0284c7');      // Deep Nebula Cyan
+  const coreColor = new THREE.Color('#ffffff');
+  const midColor = new THREE.Color('#38bdf8');
+  const outerColor = new THREE.Color('#0369a1');
 
   for (let i = 0; i < galaxyParams.count; i++) {
     const i3 = i * 3;
-
-    // Radius distribution (exponential density towards center)
     const r = Math.pow(Math.random(), galaxyParams.power) * galaxyParams.radius;
     const branchAngle = ((i % galaxyParams.branches) / galaxyParams.branches) * Math.PI * 2;
     const spinAngle = r * galaxyParams.spin * 0.003;
 
-    const randomX = (Math.random() - 0.5) * galaxyParams.randomness * (r + 80);
-    const randomY = (Math.random() - 0.5) * galaxyParams.randomness * (r + 40);
-    const randomZ = (Math.random() - 0.5) * galaxyParams.randomness * (r + 80);
+    const randomX = (Math.random() - 0.5) * galaxyParams.randomness * (r + 70);
+    const randomY = (Math.random() - 0.5) * galaxyParams.randomness * (r + 35);
+    const randomZ = (Math.random() - 0.5) * galaxyParams.randomness * (r + 70);
 
     galaxyPositions[i3] = Math.cos(branchAngle + spinAngle) * r + randomX;
     galaxyPositions[i3 + 1] = randomY;
     galaxyPositions[i3 + 2] = Math.sin(branchAngle + spinAngle) * r + randomZ;
 
-    // Color interpolation
     const mixedColor = coreColor.clone();
     if (r < galaxyParams.radius * 0.35) {
       mixedColor.lerp(midColor, r / (galaxyParams.radius * 0.35));
@@ -112,10 +145,10 @@ window.CONTACT = {
   });
 
   const galaxyMesh = new THREE.Points(galaxyGeometry, galaxyMaterial);
-  galaxyMesh.rotation.x = 0.45; // Tilted towards the camera
+  galaxyMesh.rotation.x = 0.5;
   scene.add(galaxyMesh);
 
-  // 4. Ambient 3D Starfield (Full Universe Spread)
+  // Deep Starfield: 1,200 Distant Stars
   const starsCount = 1200;
   const starsGeometry = new THREE.BufferGeometry();
   const starsPositions = new Float32Array(starsCount * 3);
@@ -123,14 +156,13 @@ window.CONTACT = {
 
   for (let i = 0; i < starsCount; i++) {
     const i3 = i * 3;
-    starsPositions[i3] = (Math.random() - 0.5) * 2600;
-    starsPositions[i3 + 1] = (Math.random() - 0.5) * 2600;
-    starsPositions[i3 + 2] = (Math.random() - 0.5) * 2200;
+    starsPositions[i3] = (Math.random() - 0.5) * 2800;
+    starsPositions[i3 + 1] = (Math.random() - 0.5) * 2800;
+    starsPositions[i3 + 2] = (Math.random() - 0.5) * 2400;
 
-    // Subtle blue and white star color variations
     const isBlue = Math.random() > 0.4;
-    starsColors[i3] = isBlue ? 0.6 : 1.0;
-    starsColors[i3 + 1] = isBlue ? 0.85 : 1.0;
+    starsColors[i3] = isBlue ? 0.65 : 1.0;
+    starsColors[i3 + 1] = isBlue ? 0.88 : 1.0;
     starsColors[i3 + 2] = 1.0;
   }
 
@@ -138,48 +170,44 @@ window.CONTACT = {
   starsGeometry.setAttribute('color', new THREE.BufferAttribute(starsColors, 3));
 
   const starsMaterial = new THREE.PointsMaterial({
-    size: 10,
+    size: 11,
     sizeAttenuation: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
     vertexColors: true,
     transparent: true,
-    map: starTexture,
-    opacity: 0.85
+    map: starTexture
   });
 
   const starsMesh = new THREE.Points(starsGeometry, starsMaterial);
   scene.add(starsMesh);
 
-  // 5. Heavy, Smooth 3D Mouse Parallax
+  // Responsive 3D Mouse Parallax
   let mouseX = 0;
   let mouseY = 0;
   let targetX = 0;
   let targetY = 0;
 
   window.addEventListener('mousemove', (e) => {
-    // Normalized coordinates from screen center (-1 to 1)
     mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
     mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
   }, { passive: true });
 
-  // 6. 60fps Animation Loop
   const clock = new THREE.Clock();
 
   function animate() {
     requestAnimationFrame(animate);
     const elapsedTime = clock.getElapsedTime();
 
-    // Subtle natural galaxy rotation
     galaxyMesh.rotation.y = elapsedTime * 0.035;
-    starsMesh.rotation.y = elapsedTime * 0.008;
+    starsMesh.rotation.y = elapsedTime * 0.006;
 
-    // 3D Camera Orbit & Pan with smooth lerp physics
-    targetX = mouseX * 220; // Pronounced, responsive 3D movement
-    targetY = -mouseY * 160;
+    // Smooth camera drift
+    targetX = mouseX * 240;
+    targetY = -mouseY * 180;
 
-    camera.position.x += (targetX - camera.position.x) * 0.04;
-    camera.position.y += (targetY - camera.position.y) * 0.04;
+    camera.position.x += (targetX - camera.position.x) * 0.045;
+    camera.position.y += (targetY - camera.position.y) * 0.045;
     camera.lookAt(0, 0, 0);
 
     renderer.render(scene, camera);
@@ -187,7 +215,6 @@ window.CONTACT = {
 
   animate();
 
-  // 7. Window Resize Handler
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();

@@ -1,480 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
- <title>Shivam Mishra | Web Developer</title>
-  <meta name="description" content="I design and build fast, animated websites, online stores and AI chat assistants for small businesses.">
-  <link rel="canonical" href="https://shivam-portfolio-paper.vercel.app/">
-
-  <!-- Hand-crafted Desk Star (✦) SVG Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2L18.5 11.5L28 14L18.5 16.5L16 26L13.5 16.5L4 14L13.5 11.5L16 2Z' fill='%23D8432A' stroke='%23D8432A' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E">
-
-  <!-- Mobile Browser Theme Bar (Paper Desk Warmth) -->
-  <meta name="theme-color" content="#E3D9C3">
-
-  <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shivam Mishra — Web Developer</title>
+  <meta name="description" content="Portfolio of Shivam Mishra, a web developer building fast, animated websites, online stores and AI assistants.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Shivam Mishra — Web Developer">
+  <meta property="og:description" content="Fast, animated websites, online stores and AI assistants.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://shivam-portfolio-paper.vercel.app/">
-  <meta property="og:title" content="Shivam Mishra | Web Developer">
-  <meta property="og:description" content="I design and build fast, animated websites, online stores and AI chat assistants for small businesses.">
-  <meta property="og:image" content="https://shivam-portfolio-paper.vercel.app/dental.jpg">
+  <meta property="og:image" content="og.jpg">
 
-  <!-- Twitter Cards -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://shivam-portfolio-paper.vercel.app/">
-  <meta name="twitter:title" content="Shivam Mishra | Web Developer">
-  <meta name="twitter:description" content="I design and build fast, animated websites, online stores and AI chat assistants for small businesses.">
-  <meta name="twitter:image" content="https://shivam-portfolio-paper.vercel.app/dental.jpg">
-
-  <!-- Safety check script: Adds .has-js immediately and falls back gracefully if JS fails -->
+  <!-- Immediate JS Detection Fail-safe -->
   <script>
+    document.documentElement.classList.remove('no-js');
     document.documentElement.classList.add('has-js');
-    window.__motionTimeout = setTimeout(function() {
-      if (!window.__motionReady) {
-        document.documentElement.classList.remove('has-js');
-      }
-    }, 8000);
   </script>
 
-  <!-- Google Fonts: Instrument Serif, Inter, Caveat, Mrs Saint Delafield -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=1">
 </head>
-<body class="desk-surface">
-
+<body>
   <!-- Accessible Skip Link -->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- Thin Pencil Line Scroll Progress Bar -->
-  <div id="pencil-progress" class="pencil-progress-bar" aria-hidden="true">
-    <div class="pencil-progress-lead" id="pencil-progress-lead"></div>
-  </div>
+  <!-- Top Scroll Progress Line -->
+  <div id="scroll-progress" aria-hidden="true"></div>
 
-  <!-- @@SLOT:intro @@ -->
-  <!-- Opening Intro Sheet (Full-screen paper lift reveal) -->
-  <aside id="intro-sheet" class="intro-sheet" aria-label="Welcome screen">
-    <div class="intro-sheet-inner">
-      <div class="intro-sheet-content">
-        <div class="intro-signature-wrap">
-          <p class="intro-signature-text" id="intro-cursive">Portfolio</p>
-          <span class="pen-dot" id="pen-dot" aria-hidden="true"></span>
-        </div>
-        <svg class="intro-squiggle" viewBox="0 0 240 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path id="intro-squiggle-path" d="M4 14C35 4 65 24 95 12C125 1 155 22 185 11C205 3 225 15 236 12" stroke="#D8432A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <svg class="intro-star" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path id="intro-star-path" d="M16 2L18.5 11.5L28 14L18.5 16.5L16 26L13.5 16.5L4 14L13.5 11.5L16 2Z" stroke="#D8432A" stroke-width="2" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <button type="button" class="intro-skip-btn" id="intro-skip-btn" aria-label="Skip introduction animation">Skip intro ↵</button>
-    </div>
-  </aside>
+  <!-- Ambient Living Glow Container -->
+  <div id="ambient-container" aria-hidden="true"></div>
 
-  <!-- Sticky Top Paper Tabs Navigation -->
-  <header class="desk-header">
-    <nav class="paper-nav" aria-label="Primary portfolio navigation">
-      <div class="nav-brand">
-        <a href="#hero" class="nav-brand-link" aria-label="Shivam Mishra home">
-          <span class="brand-monogram">SM</span>
-          <span class="brand-tag">The Desk</span>
+  <!-- Static Grain Overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- SLOT: INTRO_OVERLAY -->
+
+  <!-- Persistent Header & Navigation -->
+  <header id="site-header">
+    <div class="nav-container">
+      <div class="nav-pill-wrapper">
+        <a href="index.html" class="nav-logo" aria-label="Shivam Mishra Home">
+          Shivam <span class="nav-logo-star">✦</span>
         </a>
+
+        <nav class="nav-links" aria-label="Primary Navigation">
+          <a href="#about" class="nav-link" data-nav-link="about">About</a>
+          <a href="works.html" class="nav-link" data-nav-link="works">Works</a>
+          <a href="#skills" class="nav-link" data-nav-link="skills">Skills</a>
+          <a href="#contact" class="nav-link" data-nav-link="contact">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a href="#" class="btn btn-primary btn-pill" data-contact="whatsapp">Let's talk</a>
+          <button type="button" class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Open mobile menu" aria-controls="mobile-menu-dialog">
+            ✦
+          </button>
+        </div>
       </div>
-      <ul class="paper-tabs" role="tablist">
-        <li role="presentation">
-          <a href="#about" class="paper-tab" role="tab" id="tab-about" aria-controls="about" data-target="about">
-            <span class="tab-label">About</span>
-            <span class="tab-highlighter" aria-hidden="true"></span>
-          </a>
-        </li>
-        <li role="presentation">
-          <a href="#works" class="paper-tab" role="tab" id="tab-works" aria-controls="works" data-target="works">
-            <span class="tab-label">Works</span>
-            <span class="tab-highlighter" aria-hidden="true"></span>
-          </a>
-        </li>
-        <li role="presentation">
-          <a href="#skills" class="paper-tab" role="tab" id="tab-skills" aria-controls="skills" data-target="skills">
-            <span class="tab-label">Skills</span>
-            <span class="tab-highlighter" aria-hidden="true"></span>
-          </a>
-        </li>
-        <li role="presentation">
-          <a href="#contact" class="paper-tab" role="tab" id="tab-contact" aria-controls="contact" data-target="contact">
-            <span class="tab-label">Contact</span>
-            <span class="tab-highlighter" aria-hidden="true"></span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    </div>
   </header>
 
-  <main id="main-content" class="desk-container">
-
-    <!-- @@SLOT:hero @@ -->
-    <!-- Hero Section -->
-    <section id="hero" class="hero-section" aria-label="Introduction">
-      <div class="hero-card paper-sheet paper-sheet-hero">
-        <!-- Sticky Note pinned to top right -->
-        <aside class="sticky-note" aria-label="Current status">
-          <div class="sticky-note-pin" aria-hidden="true"></div>
-          <p class="sticky-note-text">Available for new projects</p>
-        </aside>
-
-        <!-- Washi Tape decorative top anchor -->
-        <div class="washi-tape washi-tape-hero" aria-hidden="true"></div>
-
-        <div class="hero-content">
-          <!-- Handwritten Greeting Note -->
-          <p class="handwritten-note hero-greeting">Hi, I'm Shivam ✦</p>
-
-          <!-- Fluid Headline with Red Pencil Circle and Pointer Arrow -->
-          <h1 class="hero-headline" id="hero-headline">
-            I build websites that bring
-            <span class="highlight-wrap">
-              <span class="circled-word" id="hero-circled-word">customers</span>
-              <svg class="doodle-circle" viewBox="0 0 200 70" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path id="doodle-circle-path" d="M12 36C10 20 50 8 100 7C160 6 190 18 190 35C190 52 145 64 90 63C38 62 8 50 14 30C16 22 36 14 65 11" stroke="#D8432A" stroke-width="2.5" stroke-linecap="round"/>
-              </svg>
-              <svg class="doodle-arrow" viewBox="0 0 80 70" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path id="doodle-arrow-stem" d="M65 4C60 25 45 42 16 56" stroke="#D8432A" stroke-width="2.2" stroke-linecap="round"/>
-                <path id="doodle-arrow-head" d="M30 48L14 57L19 39" stroke="#D8432A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            through the door.
-          </h1>
-
-          <!-- Action Buttons -->
-          <div class="hero-actions">
-            <a href="#works" class="btn btn-primary" id="btn-see-work">See my work</a>
-            <a href="#" class="btn btn-secondary" id="hero-whatsapp" target="_blank" rel="noopener noreferrer">Say hello on WhatsApp</a>
-          </div>
-        </div>
-
-        <!-- Infinite Washi Tape Marquee Strip -->
-        <div class="tape-strip-marquee" aria-hidden="true">
-          <div class="tape-marquee-track">
-            <span>websites ✦ online stores ✦ AI assistants ✦ booking tools ✦&nbsp;</span>
-            <span>websites ✦ online stores ✦ AI assistants ✦ booking tools ✦&nbsp;</span>
-            <span>websites ✦ online stores ✦ AI assistants ✦ booking tools ✦&nbsp;</span>
-            <span>websites ✦ online stores ✦ AI assistants ✦ booking tools ✦&nbsp;</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about-section" aria-labelledby="about-heading">
-      <div class="about-card paper-sheet">
-        <div class="washi-tape washi-tape-about" aria-hidden="true"></div>
-        <div class="about-grid">
-          <div class="about-photo-wrapper">
-            <div class="photo-frame">
-              <img src="me.jpg" alt="Shivam Mishra portrait" width="320" height="320" decoding="async" class="about-img" onerror="this.style.display='none'; document.getElementById('me-monogram-fallback').style.display='flex';">
-              <div id="me-monogram-fallback" class="photo-monogram-fallback" style="display: none;" aria-label="Shivam Mishra portrait placeholder">
-                <span class="fallback-initials">SM</span>
-              </div>
-              <p class="photo-caption handwritten-note">Shivam Mishra</p>
-            </div>
-          </div>
-          <div class="about-text-content">
-            <p class="section-tag handwritten-note">About the developer ✦</p>
-            <h2 id="about-heading" class="section-title">A web developer from Delhi, India.</h2>
-            <p class="about-description">
-              I'm Shivam Mishra, a web developer from Delhi, India. I design and build fast, animated websites, online stores and AI chat assistants for small businesses. The three projects on this desk are concept builds: they show what I can make for your industry.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- @@SLOT:works @@ -->
-    <!-- Works Section -->
-    <section id="works" class="works-section" aria-labelledby="works-heading">
-      <div class="section-header-works">
-        <h2 id="works-heading" class="section-title-large">Works</h2>
-        <p class="handwritten-note works-subtitle">Tap any sheet to pull out live preview ✦</p>
-      </div>
-
-      <div class="works-grid">
-
-        <!-- Project 01: Lumina Dental Studio -->
-        <article class="project-sheet paper-sheet" data-project="lumina">
-          <div class="tape-corner" aria-hidden="true"></div>
-          <div class="project-stamp" aria-label="Project status">Concept project</div>
-          
-          <div class="card-preview">
-            <img src="dental.jpg" alt="Lumina Dental Studio website screenshot" width="1200" height="2400" decoding="async" class="project-screenshot" onerror="this.parentElement.classList.add('img-failed');">
-            <div class="preview-overlay">
-              <button type="button" class="btn-inspect-sheet" data-project-idx="0" aria-label="Inspect Lumina Dental Studio">Inspect Sheet ↗</button>
-            </div>
-          </div>
-
-          <div class="project-info">
-            <span class="project-number">01</span>
-            <h3 class="project-name">Lumina Dental Studio</h3>
-            <p class="project-desc">Dental clinic website. Booking flow, financing calculator, before/after slider.</p>
-            <div class="project-links">
-              <button type="button" class="sheet-action-link" data-project-idx="0">Pull out sheet</button>
-              <a href="https://lumina-dental-studio-iota.vercel.app/" class="live-site-link" target="_blank" rel="noopener noreferrer">View live site ↗</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 02: Ironcrest Roofing & Restoration -->
-        <article class="project-sheet paper-sheet" data-project="ironcrest">
-          <div class="tape-corner" aria-hidden="true"></div>
-          <div class="project-stamp" aria-label="Project status">Concept project</div>
-
-          <div class="card-preview">
-            <img src="roofing.jpg" alt="Ironcrest Roofing & Restoration website screenshot" width="1200" height="2400" decoding="async" class="project-screenshot" onerror="this.parentElement.classList.add('img-failed');">
-            <div class="preview-overlay">
-              <button type="button" class="btn-inspect-sheet" data-project-idx="1" aria-label="Inspect Ironcrest Roofing">Inspect Sheet ↗</button>
-            </div>
-          </div>
-
-          <div class="project-info">
-            <span class="project-number">02</span>
-            <h3 class="project-name">Ironcrest Roofing & Restoration</h3>
-            <p class="project-desc">Roofing company website. Instant estimate calculator, inspection booking, project sliders.</p>
-            <div class="project-links">
-              <button type="button" class="sheet-action-link" data-project-idx="1">Pull out sheet</button>
-              <a href="https://roofing-portfolio-two.vercel.app/" class="live-site-link" target="_blank" rel="noopener noreferrer">View live site ↗</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 03: Cinder & Cedar Coffee Roasters -->
-        <article class="project-sheet paper-sheet" data-project="coffee">
-          <div class="tape-corner" aria-hidden="true"></div>
-          <div class="project-stamp" aria-label="Project status">Concept project</div>
-
-          <div class="card-preview">
-            <img src="coffee.jpg" alt="Cinder & Cedar Coffee Roasters website screenshot" width="1200" height="2400" decoding="async" class="project-screenshot" onerror="this.parentElement.classList.add('img-failed');">
-            <div class="preview-overlay">
-              <button type="button" class="btn-inspect-sheet" data-project-idx="2" aria-label="Inspect Cinder and Cedar Coffee">Inspect Sheet ↗</button>
-            </div>
-          </div>
-
-          <div class="project-info">
-            <span class="project-number">03</span>
-            <h3 class="project-name">Cinder & Cedar Coffee Roasters</h3>
-            <p class="project-desc">Online coffee store. Product search, cart drawer, demo checkout, subscriptions.</p>
-            <div class="project-links">
-              <button type="button" class="sheet-action-link" data-project-idx="2">Pull out sheet</button>
-              <a href="https://cinder-cedar-coffee-roasters.vercel.app/" class="live-site-link" target="_blank" rel="noopener noreferrer">View live site ↗</a>
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- @@SLOT:skills @@ -->
-    <!-- Skills Section: Handwritten Checklist -->
-    <section id="skills" class="skills-section" aria-labelledby="skills-heading">
-      <div class="skills-card paper-sheet">
-        <div class="skills-header">
-          <div class="skills-title-wrap">
-            <h2 id="skills-heading" class="skills-title">What I can do</h2>
-            <svg class="skills-highlighter-stroke" viewBox="0 0 240 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path id="skills-wipe-path" d="M4 8C70 4 170 12 236 7" stroke="#F7D84B" stroke-width="12" stroke-linecap="round" stroke-opacity="0.6"/>
-            </svg>
-          </div>
-          <p class="handwritten-note skills-note">Tested checklist on my desk ✦</p>
-        </div>
-
-        <ul class="skills-checklist" role="list">
-          <!-- Item 1: Business websites -->
-          <li class="checklist-item">
-            <div class="tick-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" class="tick-svg">
-                <path class="tick-path" d="M4 13L9 18L20 6" stroke="#2742C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="checklist-body">
-              <strong>Business websites:</strong> fast, mobile-first sites that make it easy to contact you.
-            </div>
-          </li>
-
-          <!-- Item 2: Online stores -->
-          <li class="checklist-item">
-            <div class="tick-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" class="tick-svg">
-                <path class="tick-path" d="M4 13L9 18L20 6" stroke="#2742C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="checklist-body">
-              <strong>Online stores:</strong> product browsing, cart and checkout flows.
-            </div>
-          </li>
-
-          <!-- Item 3: Booking and quote tools -->
-          <li class="checklist-item">
-            <div class="tick-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" class="tick-svg">
-                <path class="tick-path" d="M4 13L9 18L20 6" stroke="#2742C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="checklist-body">
-              <strong>Booking and quote tools:</strong> calculators and booking flows that turn visitors into enquiries.
-            </div>
-          </li>
-
-          <!-- Item 4: Smooth animations -->
-          <li class="checklist-item">
-            <div class="tick-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" class="tick-svg">
-                <path class="tick-path" d="M4 13L9 18L20 6" stroke="#2742C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="checklist-body">
-              <strong>Smooth animations:</strong> scroll effects that feel premium without slowing the site.
-            </div>
-          </li>
-
-          <!-- Item 5: AI chat assistants -->
-          <li class="checklist-item">
-            <div class="tick-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" class="tick-svg">
-                <path class="tick-path" d="M4 13L9 18L20 6" stroke="#2742C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="checklist-body">
-              <strong>AI chat assistants:</strong> an assistant that answers common questions and captures leads.
-            </div>
-          </li>
-
-          <!-- Item 6: Web apps and dashboards -->
-          <li class="checklist-item">
-            <div class="tick-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" class="tick-svg">
-                <path class="tick-path" d="M4 13L9 18L20 6" stroke="#2742C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="checklist-body">
-              <strong>Web apps and dashboards:</strong> custom tools for everyday business tasks (<a href="https://www.smartreviewshield.com/" class="skill-link" target="_blank" rel="noopener noreferrer">ReviewShield AI ↗</a> [^1]).
-            </div>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- @@SLOT:contact @@ -->
-    <!-- Contact Section: Envelope & Letter Reveal -->
-    <section id="contact" class="contact-section" aria-labelledby="contact-heading">
-      <div class="envelope-desk-wrapper">
-        <div class="envelope" id="contact-envelope">
-          <div class="envelope-flap" id="envelope-flap" aria-hidden="true"></div>
-          
-          <div class="envelope-letter paper-sheet" id="envelope-letter">
-            <div class="letter-inner">
-              <p class="handwritten-note contact-subnote">Direct desk inquiry ✦</p>
-              <h2 id="contact-heading" class="contact-title">Say hello.</h2>
-              <p class="contact-text">
-                Tell me about your business and what you'd like to build. I'll get back to you soon.
-              </p>
-
-              <!-- Three Big Stamp Action Buttons (Filled dynamically by main.js from window.CONTACT) -->
-              <div class="contact-stamps-grid">
-                <a href="#" id="contact-whatsapp" class="stamp-btn stamp-whatsapp" target="_blank" rel="noopener noreferrer">
-                  <span class="stamp-icon" aria-hidden="true">💬</span>
-                  <span class="stamp-text-wrap">
-                    <span class="stamp-label">WhatsApp</span>
-                    <span class="stamp-value" id="val-whatsapp">Chat on WhatsApp</span>
-                  </span>
-                </a>
-
-                <a href="#" id="contact-email" class="stamp-btn stamp-email">
-                  <span class="stamp-icon" aria-hidden="true">✉️</span>
-                  <span class="stamp-text-wrap">
-                    <span class="stamp-label">Email</span>
-                    <span class="stamp-value" id="val-email">Send a message</span>
-                  </span>
-                </a>
-
-                <a href="#" id="contact-instagram" class="stamp-btn stamp-instagram" target="_blank" rel="noopener noreferrer">
-                  <span class="stamp-icon" aria-hidden="true">📸</span>
-                  <span class="stamp-text-wrap">
-                    <span class="stamp-label">Instagram</span>
-                    <span class="stamp-value" id="val-instagram">@shivam.0nyx</span>
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="envelope-pocket" aria-hidden="true"></div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Pull-out Project Modal (Hand-sketched browser frame dialog with native scroll guard) -->
-  <dialog id="project-modal" class="project-modal" data-lenis-prevent aria-labelledby="modal-project-title" aria-modal="true">
-    <div class="modal-card paper-sheet" id="modal-card">
-      <div class="modal-browser-header">
-        <div class="browser-dots" aria-hidden="true">
-          <span class="dot dot-red"></span>
-          <span class="dot dot-yellow"></span>
-          <span class="dot dot-green"></span>
-        </div>
-        <div class="browser-address-bar" id="modal-address-bar">https://preview.local</div>
-        <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close project view">✕ Close</button>
-      </div>
-
-      <div class="modal-info-bar">
-        <h3 id="modal-project-title" class="modal-title">Project Title</h3>
-        <a href="#" id="modal-live-link" class="btn btn-secondary modal-live-btn" target="_blank" rel="noopener noreferrer">View live site ↗</a>
-      </div>
-
-      <div class="modal-scroll-frame" id="modal-scroll-frame" data-lenis-prevent tabindex="0" aria-label="Scrollable preview of the full website design">
-        <img src="dental.jpg" alt="Full website preview" id="modal-img" width="1200" height="2400" decoding="async" class="modal-screenshot" onerror="this.style.display='none'; document.getElementById('modal-fallback').style.display='block';">
-        <div id="modal-fallback" class="modal-fallback-paper" style="display: none;">
-          <p class="handwritten-note">Screenshot preview unavailable</p>
-        </div>
-      </div>
+  <!-- Fullscreen Mobile Menu Dialog -->
+  <div id="mobile-menu-dialog" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Navigation Menu">
+    <div class="mobile-menu-header">
+      <span class="nav-logo">Shivam <span class="nav-logo-star">✦</span></span>
+      <button type="button" class="mobile-menu-close" id="mobile-menu-close" aria-label="Close mobile menu">
+        ✕
+      </button>
     </div>
-  </dialog>
 
-  <!-- Footer Section -->
-  <footer class="desk-footer" id="footer" aria-label="Desk footer">
-    <div class="footer-sheet paper-sheet">
-      <div class="footer-signature-container">
-        <!-- Handwritten Mrs Saint Delafield cursive signature reveal -->
-        <p class="footer-signature" id="footer-signature">Shivam</p>
-      </div>
+    <nav class="mobile-menu-links">
+      <a href="#about" class="mobile-menu-link">About</a>
+      <a href="works.html" class="mobile-menu-link">Works</a>
+      <a href="#skills" class="mobile-menu-link">Skills</a>
+      <a href="#contact" class="mobile-menu-link">Contact</a>
+    </nav>
 
-      <div class="footer-meta">
-        <p class="footer-copy">&copy; 2026 Shivam Mishra</p>
-        <p class="footer-note">Projects shown are concept builds for fictional businesses.</p>
-        <button type="button" id="replay-intro-btn" class="footer-replay-btn">Replay intro ↺</button>
-      </div>
+    <div class="mobile-menu-footer">
+      <a href="#" class="btn btn-primary" data-contact="whatsapp" style="width: 100%;">Let's talk on WhatsApp</a>
     </div>
-  </footer>
-
-  <!-- Optional Pencil Cursor (Active only when window.SITE.PENCIL_CURSOR is true on fine pointers) -->
-  <div id="pencil-cursor" class="pencil-cursor" aria-hidden="true">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3 21L6.5 20L19.5 7L16 3.5L3 16.5L3 21Z" fill="#FAF5EB" stroke="#D8432A" stroke-width="1.8" stroke-linejoin="round"/>
-      <path d="M14 5.5L17.5 9" stroke="#D8432A" stroke-width="1.8"/>
-      <path d="M3 21L5 19" stroke="#1D1812" stroke-width="2"/>
-    </svg>
   </div>
 
-  <!-- GSAP & ScrollTrigger from cdnjs -->
+  <!-- Main Content Structure -->
+  <main id="main">
+    <!-- Hero Section -->
+    <section id="hero">
+      <!-- SLOT: HERO -->
+    </section>
+
+    <!-- Velocity Marquee Section -->
+    <section id="marquee">
+      <!-- SLOT: MARQUEE -->
+    </section>
+
+    <!-- About Section (Sliding Sheet) -->
+    <section id="about" class="section-sheet" data-scroll-section>
+      <!-- SLOT: ABOUT -->
+    </section>
+
+    <!-- Selected Work Section (Sliding Sheet) -->
+    <section id="selected-work" class="section-sheet" data-scroll-section>
+      <!-- SLOT: SELECTED_WORK -->
+    </section>
+
+    <!-- Skills Section (Sliding Sheet) -->
+    <section id="skills" class="section-sheet" data-scroll-section>
+      <!-- SLOT: SKILLS -->
+    </section>
+
+    <!-- Contact Section (Sliding Sheet) -->
+    <section id="contact" class="section-sheet" data-scroll-section>
+      <!-- SLOT: CONTACT -->
+    </section>
+  </main>
+
+  <!-- Footer Shell (Sliding Sheet) -->
+  <footer id="site-footer" class="section-sheet">
+    <!-- SLOT: FOOTER_CONTENT -->
+  </footer>
+
+  <!-- External Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.18/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js"></script>
 
-  <!-- Lenis Smooth Scroll -->
-  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
-
-  <!-- Main Application Script -->
-  <script src="main.js"></script>
+  <!-- Core Scripts -->
+  <script src="main.js?v=1"></script>
+  <script src="home.js?v=1"></script>
 
   <!-- ALWAYSON WIDGET SNIPPET GOES HERE -->
 </body>

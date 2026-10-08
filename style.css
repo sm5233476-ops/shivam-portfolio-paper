@@ -1126,12 +1126,13 @@ h1, h2, h3, h4, .font-serif {
     border: 1px solid var(--line);
     margin-top: 8px;
   }
-  .work-row-mobile-thumb img {
+.work-row-mobile-thumb img {
     width: 100%;
     height: auto;
     display: block;
     aspect-ratio: 16 / 10;
     object-fit: cover;
+    object-position: top center;
   }
 }
 /* END: MARQUEE_ABOUT_WORK_CSS */

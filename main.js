@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SHIVAM MISHRA — ORGANIC DEEP SPACE UNIVERSE & 3D MAGNETIC ENGINE
+   SHIVAM MISHRA — AWWWARDS-GRADE 3-LAYER COSMIC HORIZON (THREE.JS)
    ========================================================================== */
 
 window.CONTACT = {
@@ -32,10 +32,10 @@ window.CONTACT = {
   });
 })();
 
-// 2. 4K Organic Deep Cosmic Starfield (No Pinwheel, Pure Star Clusters)
-(function initOrganicCosmos() {
+// 2. Multi-Layered Deep Cosmic Universe Engine
+(function initTrueUniverse() {
   if (typeof THREE === 'undefined') {
-    setTimeout(initOrganicCosmos, 40);
+    setTimeout(initTrueUniverse, 40);
     return;
   }
 
@@ -47,8 +47,8 @@ window.CONTACT = {
   }
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 4000);
-  camera.position.z = 800;
+  const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 4000);
+  camera.position.z = 850;
 
   const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
@@ -59,78 +59,114 @@ window.CONTACT = {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  // 256x256 Ultra-HD Smooth Radial Gaussian Bloom Star Texture
-  function createCrispStarTexture() {
-    const size = 256;
-    const offCanvas = document.createElement('canvas');
-    offCanvas.width = size;
-    offCanvas.height = size;
-    const ctx = offCanvas.getContext('2d');
+  // --- TEXTURE 1: Needle-Sharp Star Sprite ---
+  function createSharpStarTexture() {
+    const size = 128;
+    const c = document.createElement('canvas');
+    c.width = size;
+    c.height = size;
+    const ctx = c.getContext('2d');
 
-    const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-    gradient.addColorStop(0.0, 'rgba(255, 255, 255, 1)');          // Brilliant Core
-    gradient.addColorStop(0.1, 'rgba(245, 252, 255, 0.95)');       // Inner Hot Halo
-    gradient.addColorStop(0.25, 'rgba(125, 211, 252, 0.65)');      // Sky Blue Mid-Falloff
-    gradient.addColorStop(0.5, 'rgba(56, 189, 248, 0.25)');        // Outer Ambient Blue
-    gradient.addColorStop(0.75, 'rgba(14, 165, 233, 0.08)');       // Deep Nebula Rim
-    gradient.addColorStop(1.0, 'rgba(0, 0, 0, 0)');                // Complete Fade
-
-    ctx.fillStyle = gradient;
+    const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+    grad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');          // Diamond Core
+    grad.addColorStop(0.12, 'rgba(255, 255, 255, 0.95)');
+    grad.addColorStop(0.28, 'rgba(186, 230, 253, 0.6)');       // Crystalline Ice Blue
+    grad.addColorStop(0.55, 'rgba(56, 189, 248, 0.15)');       // Soft Outer Aura
+    grad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = grad;
     ctx.fillRect(0, 0, size, size);
 
-    const texture = new THREE.CanvasTexture(offCanvas);
-    texture.needsUpdate = true;
-    return texture;
+    const tex = new THREE.CanvasTexture(c);
+    tex.needsUpdate = true;
+    return tex;
   }
 
-  const starTexture = createCrispStarTexture();
+  // --- TEXTURE 2: Volumetric Soft Cosmic Gas Cloud ---
+  function createNebulaCloudTexture() {
+    const size = 256;
+    const c = document.createElement('canvas');
+    c.width = size;
+    c.height = size;
+    const ctx = c.getContext('2d');
 
-  // Organic Starfield: 4,500 Natural Distributed Stars (No geometric pinwheels!)
-  const starsCount = 4500;
-  const geometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(starsCount * 3);
-  const colors = new Float32Array(starsCount * 3);
+    const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+    grad.addColorStop(0.0, 'rgba(14, 116, 144, 0.35)');        // Deep Nebula Core
+    grad.addColorStop(0.35, 'rgba(3, 105, 161, 0.18)');
+    grad.addColorStop(0.7, 'rgba(2, 44, 94, 0.06)');
+    grad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, size, size);
 
-  const whiteColor = new THREE.Color('#ffffff');
-  const skyBlueColor = new THREE.Color('#38bdf8');
-  const deepCyanColor = new THREE.Color('#0ea5e9');
-  const warmGlowColor = new THREE.Color('#fef08a'); // Gentle amber twinkles
+    const tex = new THREE.CanvasTexture(c);
+    tex.needsUpdate = true;
+    return tex;
+  }
+
+  const starTexture = createSharpStarTexture();
+  const cloudTexture = createNebulaCloudTexture();
+
+  // =========================================================================
+  // LAYER 1: Distant Volumetric Cosmic Gas (Nebula Horizon)
+  // =========================================================================
+  const cloudCount = 60;
+  const cloudGeo = new THREE.BufferGeometry();
+  const cloudPos = new Float32Array(cloudCount * 3);
+
+  for (let i = 0; i < cloudCount; i++) {
+    const i3 = i * 3;
+    // Wide panoramic spread across the horizon
+    cloudPos[i3] = (Math.random() - 0.5) * 3200;
+    cloudPos[i3 + 1] = (Math.random() - 0.5) * 1600;
+    cloudPos[i3 + 2] = -400 - Math.random() * 1200; // Deep in the background
+  }
+  cloudGeo.setAttribute('position', new THREE.BufferAttribute(cloudPos, 3));
+
+  const cloudMat = new THREE.PointsMaterial({
+    size: 550, // Massive soft glowing clouds
+    sizeAttenuation: true,
+    depthWrite: false,
+    transparent: true,
+    blending: THREE.AdditiveBlending,
+    map: cloudTexture,
+    opacity: 0.85
+  });
+  const nebulaMesh = new THREE.Points(cloudGeo, cloudMat);
+  scene.add(nebulaMesh);
+
+  // =========================================================================
+  // LAYER 2: Balanced, Expansive Needle-Sharp Starfield (No central ball!)
+  // =========================================================================
+  const starsCount = 2000; // Perfectly balanced: neither crowded nor empty
+  const starGeo = new THREE.BufferGeometry();
+  const starPos = new Float32Array(starsCount * 3);
+  const starColors = new Float32Array(starsCount * 3);
+
+  const colWhite = new THREE.Color('#ffffff');
+  const colIce = new THREE.Color('#bae6fd');
+  const colAmber = new THREE.Color('#fef08a');
 
   for (let i = 0; i < starsCount; i++) {
     const i3 = i * 3;
 
-    // Natural 3D Ellipsoid & Depth Volume (Organic Space Spread)
-    const radius = Math.random() * 1600;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos((Math.random() * 2) - 1);
+    // True Panoramic Galactic Horizon (Wide Rectangular Spread, Not a Sphere Ball)
+    starPos[i3] = (Math.random() - 0.5) * 3600;
+    starPos[i3 + 1] = (Math.random() - 0.5) * 2200;
+    starPos[i3 + 2] = (Math.random() - 0.5) * 2400;
 
-    positions[i3] = radius * Math.sin(phi) * Math.cos(theta);
-    positions[i3 + 1] = (radius * Math.sin(phi) * Math.sin(theta)) * 0.75; // Subtle galactic flattening
-    positions[i3 + 2] = (radius * Math.cos(phi)) * 1.2;                    // Deep z-depth
+    const r = Math.random();
+    let c = colWhite;
+    if (r > 0.65) c = colIce;
+    else if (r > 0.92) c = colAmber; // Rare warm stars
 
-    // Organic Color Variation
-    const rand = Math.random();
-    let starColor;
-    if (rand < 0.5) {
-      starColor = whiteColor;
-    } else if (rand < 0.8) {
-      starColor = skyBlueColor;
-    } else if (rand < 0.95) {
-      starColor = deepCyanColor;
-    } else {
-      starColor = warmGlowColor;
-    }
-
-    colors[i3] = starColor.r;
-    colors[i3 + 1] = starColor.g;
-    colors[i3 + 2] = starColor.b;
+    starColors[i3] = c.r;
+    starColors[i3 + 1] = c.g;
+    starColors[i3 + 2] = c.b;
   }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
 
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-  const material = new THREE.PointsMaterial({
-    size: 15,
+  const starMat = new THREE.PointsMaterial({
+    size: 11, // Crisp and delicate
     sizeAttenuation: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
@@ -139,11 +175,40 @@ window.CONTACT = {
     map: starTexture,
     opacity: 0.95
   });
+  const starMesh = new THREE.Points(starGeo, starMat);
+  scene.add(starMesh);
 
-  const cosmosMesh = new THREE.Points(geometry, material);
-  scene.add(cosmosMesh);
+  // =========================================================================
+  // LAYER 3: Twinkling Beacon Stars (Prominent Foreground Sparkles)
+  // =========================================================================
+  const beaconCount = 80;
+  const beaconGeo = new THREE.BufferGeometry();
+  const beaconPos = new Float32Array(beaconCount * 3);
 
-  // Smooth, High-Reaction 3D Mouse Parallax (Exact physics preserved!)
+  for (let i = 0; i < beaconCount; i++) {
+    const i3 = i * 3;
+    beaconPos[i3] = (Math.random() - 0.5) * 2400;
+    beaconPos[i3 + 1] = (Math.random() - 0.5) * 1400;
+    beaconPos[i3 + 2] = (Math.random() - 0.5) * 1000 + 100; // Closer to camera
+  }
+  beaconGeo.setAttribute('position', new THREE.BufferAttribute(beaconPos, 3));
+
+  const beaconMat = new THREE.PointsMaterial({
+    size: 22, // Large sparkling gems
+    sizeAttenuation: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    transparent: true,
+    map: starTexture,
+    color: 0xffffff,
+    opacity: 0.9
+  });
+  const beaconMesh = new THREE.Points(beaconGeo, beaconMat);
+  scene.add(beaconMesh);
+
+  // =========================================================================
+  // 3D Mouse Parallax & Living Atmosphere Loop
+  // =========================================================================
   let mouseX = 0;
   let mouseY = 0;
   let targetX = 0;
@@ -160,13 +225,17 @@ window.CONTACT = {
     requestAnimationFrame(animate);
     const elapsedTime = clock.getElapsedTime();
 
-    // Subtle majestic organic drift
-    cosmosMesh.rotation.y = elapsedTime * 0.012;
-    cosmosMesh.rotation.x = Math.sin(elapsedTime * 0.008) * 0.05;
+    // Subtle breathing twinkle on foreground beacon stars
+    beaconMat.opacity = 0.75 + Math.sin(elapsedTime * 2.2) * 0.22;
+
+    // Slow, majestic background drift
+    nebulaMesh.rotation.y = elapsedTime * 0.003;
+    starMesh.rotation.y = elapsedTime * 0.005;
+    beaconMesh.rotation.y = elapsedTime * 0.008;
 
     // Smooth camera orbit
-    targetX = mouseX * 240;
-    targetY = -mouseY * 180;
+    targetX = mouseX * 220;
+    targetY = -mouseY * 160;
 
     camera.position.x += (targetX - camera.position.x) * 0.045;
     camera.position.y += (targetY - camera.position.y) * 0.045;

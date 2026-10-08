@@ -1,10 +1,11 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (ZERO-LAG 120FPS & PERFECT PROPORTIONS)
+   SHIVAM MISHRA — THE COSMIC HORIZON (METALLIC 3D TYPOGRAPHY & UNIFIED LUXURY)
    ========================================================================== */
 
 :root {
   --bg-deep: #020308;
   --accent-cyan: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.35);
   --text-primary: #ffffff;
   --text-silver: #cbd5e1;
   --text-muted: #94a3b8;
@@ -41,7 +42,7 @@ html, body {
 }
 
 /* ==========================================================================
-   HEADER & KINETIC NAVIGATION
+   HEADER & UNIFIED LUXURY NAVIGATION
    ========================================================================== */
 
 .site-header {
@@ -109,32 +110,34 @@ html, body {
   transform-origin: left center;
 }
 
-/* 3D Magnetic Button in Header */
+/* 3D Magnetic "Let's Connect" Button (Matching the Silver/White Luxury Style) */
 .btn-connect {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.65rem;
   padding: 0.65rem 1.5rem;
-  background: rgba(12, 19, 36, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08); /* Frosted Silver Glass */
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 9999px;
-  color: var(--text-primary);
+  color: #ffffff;
   font-size: 0.88rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-decoration: none;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), inset 0 0 12px rgba(255, 255, 255, 0.05);
   pointer-events: auto;
   transform-style: preserve-3d;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
 .btn-connect:hover {
-  border-color: rgba(56, 189, 248, 0.6);
-  background: rgba(15, 26, 52, 0.7);
+  background: #ffffff;
+  color: #020308; /* Snaps to crisp luxury dark text on hover */
+  border-color: #ffffff;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
 }
 
 .btn-connect svg {
@@ -146,7 +149,7 @@ html, body {
 }
 
 /* ==========================================================================
-   HERO SECTION — SILKY SMOOTH, HARDWARE ACCELERATED & PROPORTIONAL
+   HERO SECTION — 3D METALLIC CHROME TYPOGRAPHY
    ========================================================================== */
 
 main {
@@ -168,22 +171,37 @@ main {
 }
 
 .hero-content {
-  max-width: 900px;
+  max-width: 940px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
-/* Perfectly Scaled, Sleek Headline (Slightly smaller, 100% Elegant) */
+/* Soft Cosmic Scrim: Ensures text is 100% crisp over the galaxy */
+.hero-content::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(ellipse at center, rgba(2, 3, 8, 0.45) 0%, rgba(2, 3, 8, 0) 75%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* The Grand 3D Metallic Headline */
 .hero-title {
   font-family: var(--font-sans);
-  font-size: clamp(2.2rem, 4.4vw, 4.2rem); /* Scaled down slightly for pure elegance */
-  font-weight: 700;
-  line-height: 1.14;
-  letter-spacing: -0.035em;
+  font-size: clamp(2.3rem, 4.6vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
   color: var(--text-primary);
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -194,22 +212,32 @@ main {
   white-space: nowrap;
 }
 
-/* Ice-Cyan Metallic Sheen */
-.highlight-text {
-  background: linear-gradient(135deg, #ffffff 40%, #7dd3fc 100%);
+/* Line 1: Pure Titanium White with Soft Sheen */
+.title-line:first-child {
+  background: linear-gradient(180deg, #ffffff 40%, #e2e8f0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.8));
+}
+
+/* Line 2: 3D Dimensional Metallic Ice-Cyan Sheen */
+.highlight-text {
+  background: linear-gradient(135deg, #ffffff 15%, #7dd3fc 60%, #0284c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 20px rgba(56, 189, 248, 0.35)); /* 3D-Like Pop */
 }
 
 /* Subtitle */
 .hero-subtitle {
-  max-width: 600px;
-  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+  max-width: 620px;
+  font-size: clamp(1rem, 1.35vw, 1.12rem);
   font-weight: 400;
   line-height: 1.65;
-  color: var(--text-muted);
-  margin-bottom: 2.4rem;
+  color: var(--text-silver);
+  margin-bottom: 2.6rem;
   letter-spacing: -0.01em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
 
 /* Action Buttons */
@@ -217,29 +245,29 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.2rem;
+  gap: 1.3rem;
 }
 
 .btn-hero-primary {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.82rem 1.9rem;
+  padding: 0.88rem 2.1rem;
   border-radius: 9999px;
   background: #ffffff;
   color: #020308;
   font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-decoration: none;
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
 }
 
 .btn-hero-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 35px rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 45px rgba(255, 255, 255, 0.45);
 }
 
 .btn-hero-primary svg {
@@ -253,23 +281,23 @@ main {
 .btn-hero-secondary {
   display: inline-flex;
   align-items: center;
-  padding: 0.82rem 1.9rem;
+  padding: 0.88rem 2.1rem;
   border-radius: 9999px;
-  background: rgba(15, 23, 42, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: var(--text-primary);
   font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-decoration: none;
-  backdrop-filter: blur(12px);
-  transition: background 0.35s ease, border-color 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(14px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-hero-secondary:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
 }
 
@@ -295,7 +323,7 @@ main {
   width: 16px;
   height: 25px;
   border-radius: 99px;
-  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
   position: relative;
   display: flex;
   justify-content: center;

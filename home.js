@@ -7,13 +7,8 @@
 (function () {
   "use strict";
 
-  /* ==========================================================================
-     PHASE MODULE SLOTS (Will be populated in upcoming phases)
-     ========================================================================== */
-
- /* START: HOME_INTRO */
   // --------------------------------------------------------------------------
-  // INTRO ANIMATION CONTROLLER (Animation Plan 1)
+  // 1. INTRO ANIMATION CONTROLLER (Animation Plan 1)
   // --------------------------------------------------------------------------
   let resolveIntroPromise;
   window.SITE.introReady = new Promise((resolve) => {
@@ -37,7 +32,6 @@
     const glintEl = document.getElementById("intro-glint");
     const skipBtn = document.getElementById("intro-skip-btn");
 
-    // 1. Checks: Force replay URL, reduced motion, SITE toggle & SessionStorage
     const urlParams = new URLSearchParams(window.location.search);
     const forceReplay = urlParams.get("intro") === "1";
     let alreadySeen = false;
@@ -56,7 +50,7 @@
       return;
     }
 
-    // 2. Lock scroll & Lenis while playing
+    // Lock scrolling while intro is visible
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
     if (window.Midnight && window.Midnight.lenis()) {
@@ -74,7 +68,6 @@
         window.sessionStorage.setItem("introSeen", "true");
       } catch (e) {}
 
-      // Unlock scroll & Lenis
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
       if (window.Midnight && window.Midnight.lenis()) {
@@ -101,12 +94,10 @@
       });
     }
 
-    // Fail-safe 1: 7-second hard cutoff timer
     const hardTimer = setTimeout(() => {
       finishIntro(false);
     }, 7000);
 
-    // Escape key & Skip button listeners
     function onSkip() {
       clearTimeout(hardTimer);
       finishIntro(false);
@@ -120,7 +111,6 @@
       }
     });
 
-    // 3. Fallback text renderer if font or opentype fails
     function renderFallback() {
       if (!wrapEl) return;
       wrapEl.innerHTML = '<div class="intro-fallback-text" id="intro-fallback-word">Portfolio</div>';
@@ -140,7 +130,6 @@
         .to([wordEl, glintEl], { opacity: 0, scale: 1.04, duration: 0.6, ease: "power2.in", delay: 0.4 });
     }
 
-    // 4. Render opentype SVG Path
     function renderVectorSignature(font) {
       try {
         const textToRender = "Portfolio";
@@ -148,7 +137,6 @@
         const opentypePath = font.getPath(textToRender, 0, 0, fontSize);
         const box = opentypePath.getBoundingBox();
 
-        // 15% safe padding around bounding box
         const width = box.x2 - box.x1;
         const height = box.y2 - box.y1;
         const padX = width * 0.15;
@@ -189,19 +177,16 @@
         });
 
         masterTl
-          // Outline draws itself
           .to(pathEl, {
             strokeDashoffset: 0,
             duration: 2.6,
             ease: "power1.inOut"
           })
-          // White fill fades in
           .to(pathEl, {
             fill: "#F4F1EA",
             duration: 0.8,
             ease: "power2.out"
           }, "-=0.4")
-          // Champagne star glints
           .to(glintEl, {
             opacity: 1,
             scale: 1,
@@ -216,7 +201,6 @@
             repeat: 1,
             duration: 0.25
           })
-          // Outro: Signature & star scale slightly while fading out
           .to([wrapEl, glintEl], {
             scale: 1.04,
             opacity: 0,
@@ -231,14 +215,12 @@
       }
     }
 
-    // 5. Load Font with 2.5s Timeout Fail-safe
     const targetFontKey = window.SITE.SIGNATURE_FONT || "pinyon-script";
     const fontUrl = FONT_MAP[targetFontKey] || FONT_MAP["pinyon-script"];
 
     let fontLoaded = false;
     const fontTimer = setTimeout(() => {
       if (!fontLoaded) {
-        console.warn("Font loading timed out (2.5s). Using fallback.");
         renderFallback();
       }
     }, 2500);
@@ -248,7 +230,6 @@
         clearTimeout(fontTimer);
         fontLoaded = true;
         if (err || !font) {
-          console.warn("Could not load opentype font file:", err);
           renderFallback();
         } else {
           renderVectorSignature(font);
@@ -260,7 +241,6 @@
     }
   }
 
-  // Expose Replay method globally
   window.SITE.replayIntro = function () {
     try {
       window.sessionStorage.removeItem("introSeen");
@@ -274,35 +254,21 @@
     }
   };
 
-  // Safe invocation on boot
-  try {
-    playIntroAnimation();
-  } catch (err) {
-    console.error("Intro initialization error:", err);
-    const introEl = document.getElementById("intro");
-    if (introEl) introEl.style.display = "none";
-    if (resolveIntroPromise) resolveIntroPromise();
-  }
-  /* END: HOME_INTRO */
-
- /* START: HOME_HERO */
   // --------------------------------------------------------------------------
-  // AMBIENT LIVING BACKGROUND (Animation Plan 2)
+  // 2. AMBIENT LIVING BACKGROUND (Animation Plan 2)
   // --------------------------------------------------------------------------
   function initAmbientBackground() {
     const ambientContainer = document.getElementById("ambient-container");
-    if (!ambientContainer || window.SITE.AMBIENT === false || window.Midnight.isReducedMotion) {
+    if (!ambientContainer || window.SITE.AMBIENT === false || (window.Midnight && window.Midnight.isReducedMotion)) {
       return;
     }
 
-    // 1. Inject 3 radial glow layers
     ambientContainer.innerHTML = `
       <div class="ambient-glow ambient-glow-1" id="ambient-glow-1"></div>
       <div class="ambient-glow ambient-glow-2" id="ambient-glow-2"></div>
       <div class="ambient-glow ambient-glow-3" id="ambient-glow-3"></div>
     `;
 
-    // 2. Inject twinkling champagne stars
     const starCount = 14;
     for (let i = 0; i < starCount; i++) {
       const star = document.createElement("span");
@@ -323,14 +289,12 @@
     const g2 = document.getElementById("ambient-glow-2");
     const g3 = document.getElementById("ambient-glow-3");
 
-    // 3. Slow drift animations (18s-26s yoyo loops)
     const driftTweens = [
       window.gsap.to(g1, { x: 70, y: 50, duration: 20, ease: "sine.inOut", repeat: -1, yoyo: true }),
       window.gsap.to(g2, { x: -80, y: 65, duration: 25, ease: "sine.inOut", repeat: -1, yoyo: true }),
       window.gsap.to(g3, { x: 60, y: -70, duration: 22, ease: "sine.inOut", repeat: -1, yoyo: true })
     ];
 
-    // 4. Soft mouse reaction (max 20px delta)
     const setGlow1X = window.gsap.quickTo(g1, "x", { duration: 1.8, ease: "power2.out" });
     const setGlow1Y = window.gsap.quickTo(g1, "y", { duration: 1.8, ease: "power2.out" });
     const setGlow2X = window.gsap.quickTo(g2, "x", { duration: 2.2, ease: "power2.out" });
@@ -342,7 +306,6 @@
     window.addEventListener("mousemove", (e) => {
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
-      // Clamp between -20px and +20px
       currentMouseX = Math.max(-20, Math.min(20, (e.clientX - centerX) * 0.03));
       currentMouseY = Math.max(-20, Math.min(20, (e.clientY - centerY) * 0.03));
 
@@ -352,7 +315,6 @@
       setGlow2Y(-currentMouseY);
     }, { passive: true });
 
-    // 5. Pause when tab is inactive to preserve performance
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         driftTweens.forEach((t) => t.pause());
@@ -363,7 +325,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // HERO REVEAL ANIMATION (Animation Plan 3)
+  // 3. HERO REVEAL ANIMATION (Animation Plan 3)
   // --------------------------------------------------------------------------
   function playHeroReveal() {
     const heroTitle = document.getElementById("hero-title");
@@ -375,7 +337,6 @@
     const actions = document.getElementById("hero-actions");
     const scrollCue = document.getElementById("hero-scroll-cue");
 
-    // Dynamic underline path length calculation
     const pathLen = underlinePath && underlinePath.getTotalLength ? underlinePath.getTotalLength() : 250;
     if (underlinePath) {
       window.gsap.set(underlinePath, {
@@ -388,13 +349,11 @@
       defaults: { ease: "power3.out" }
     });
 
-    if (window.Midnight.isCalm) {
-      // Calm mode: gentle fade & rise without aggressive masks
+    if (window.Midnight && window.Midnight.isCalm) {
       tl.to(wordInners, { opacity: 1, y: 0, duration: 0.8, stagger: 0.04 })
         .to(underlinePath, { strokeDashoffset: 0, duration: 0.9, ease: "power2.out" }, "-=0.3")
         .to([subtext, actions, scrollCue], { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, "-=0.4");
     } else {
-      // Rich mode: words rise through masks, champagne underline draws itself
       tl.to(wordInners, {
         y: "0%",
         opacity: 1,
@@ -423,13 +382,11 @@
       }, "-=0.4");
     }
 
-    // Ensure links are prefilled
     if (window.Midnight && window.Midnight.fillContactLinks) {
       window.Midnight.fillContactLinks();
     }
   }
 
-  // Hook Hero animation to intro completion
   function setupHeroSequence() {
     initAmbientBackground();
 
@@ -442,16 +399,8 @@
     }
   }
 
-  try {
-    setupHeroSequence();
-  } catch (e) {
-    console.error("Hero initialization error:", e);
-  }
-  /* END: HOME_HERO */
-
-/* START: HOME_MARQUEE_ABOUT_WORK_JS */
   // --------------------------------------------------------------------------
-  // MARQUEE TICKER (Animation Plan 4)
+  // 4. MARQUEE TICKER (Animation Plan 4)
   // --------------------------------------------------------------------------
   function initMarquee() {
     const track = document.getElementById("marquee-track");
@@ -467,13 +416,11 @@
       const lenis = window.Midnight ? window.Midnight.lenis() : null;
       const velocity = lenis ? Math.abs(lenis.velocity) : 0;
 
-      // Accelerate smoothly based on scroll velocity
       const targetSpeed = baseSpeed + Math.min(velocity * 0.16, 6);
       currentSpeed += (targetSpeed - currentSpeed) * 0.1;
 
       xPos -= currentSpeed;
 
-      // Loop after single item length (half of the duplicated content)
       const halfWidth = track.scrollWidth / 2;
       if (Math.abs(xPos) >= halfWidth) {
         xPos = 0;
@@ -484,20 +431,18 @@
   }
 
   // --------------------------------------------------------------------------
-  // ABOUT WORD FILL ON SCROLL (Animation Plan 5)
+  // 5. ABOUT WORD FILL ON SCROLL (Animation Plan 5)
   // --------------------------------------------------------------------------
   function initAboutFill() {
     const statementEl = document.getElementById("about-statement");
     if (!statementEl || !window.gsap || !window.ScrollTrigger) return;
 
-    // Use Midnight word splitter to create accessible word inner spans
     const inners = window.Midnight.splitWords(statementEl);
     if (!inners.length) return;
 
     window.gsap.set(inners, { opacity: 0.15 });
 
-    if (window.Midnight.isCalm) {
-      // Calm mode: clean batch fade without scrub
+    if (window.Midnight && window.Midnight.isCalm) {
       window.gsap.to(inners, {
         opacity: 1,
         duration: 0.7,
@@ -510,7 +455,6 @@
         }
       });
     } else {
-      // Rich mode: scrubbed word filling on scroll
       window.gsap.to(inners, {
         opacity: 1,
         stagger: {
@@ -529,7 +473,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // SELECTED WORK ROW HOVER PREVIEW (Animation Plan 6)
+  // 6. SELECTED WORK HOVER PREVIEW (Animation Plan 6)
   // --------------------------------------------------------------------------
   function initSelectedWork() {
     const workList = document.getElementById("work-rows-list");
@@ -539,14 +483,12 @@
     if (!workList || !previewCard || !previewImg || !window.gsap) return;
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
-    // Smooth cursor follow with quickTo
     const setPrevX = window.gsap.quickTo(previewCard, "x", { duration: 0.45, ease: "power3.out" });
     const setPrevY = window.gsap.quickTo(previewCard, "y", { duration: 0.45, ease: "power3.out" });
 
     let activeRow = null;
 
     window.addEventListener("mousemove", (e) => {
-      // Offset slightly to the right-bottom of mouse cursor
       setPrevX(e.clientX + 24);
       setPrevY(e.clientY - 120);
     }, { passive: true });
@@ -589,19 +531,8 @@
     });
   }
 
-  // Safe bootstrap
-  try {
-    initMarquee();
-    initAboutFill();
-    initSelectedWork();
-  } catch (err) {
-    console.error("Marquee / About / Work initialization error:", err);
-  }
-  /* END: HOME_MARQUEE_ABOUT_WORK_JS */
-
-/* START: HOME_SKILLS_CONTACT_FOOTER_JS */
   // --------------------------------------------------------------------------
-  // SKILLS ACCORDION CONTROLLER
+  // 7. SKILLS ACCORDION CONTROLLER
   // --------------------------------------------------------------------------
   function initSkillsAccordion() {
     const accordion = document.getElementById("skills-accordion");
@@ -622,7 +553,6 @@
       trigger.addEventListener("click", () => {
         const isOpen = row.classList.contains("is-open");
 
-        // Close other rows on tap
         rows.forEach((r) => {
           r.classList.remove("is-open");
           const btn = r.querySelector(".skills-row-trigger");
@@ -638,13 +568,12 @@
   }
 
   // --------------------------------------------------------------------------
-  // CONTACT ENVELOPE CONTROLLER (Animation Plan 9)
+  // 8. CONTACT ENVELOPE CONTROLLER (Animation Plan 9)
   // --------------------------------------------------------------------------
   function initContactEnvelope() {
     const stage = document.getElementById("envelope-stage");
     if (!stage || !window.gsap || !window.ScrollTrigger) return;
 
-    // Trigger envelope opening smoothly when scrolling into contact view
     window.ScrollTrigger.create({
       trigger: stage,
       start: "top 72%",
@@ -654,7 +583,6 @@
       once: true
     });
 
-    // Also support direct click to toggle
     stage.addEventListener("click", (e) => {
       if (!e.target.closest(".contact-stamp-btn")) {
         stage.classList.toggle("is-open");
@@ -663,12 +591,10 @@
   }
 
   // --------------------------------------------------------------------------
-  // FOOTER SIGNATURE & REPLAY INTRO (Animation Plan 10)
+  // 9. FOOTER REPLAY INTRO
   // --------------------------------------------------------------------------
-  function initFooterSignature() {
-    const sigWrap = document.getElementById("footer-sig-wrap");
+  function initFooterReplay() {
     const replayBtn = document.getElementById("footer-replay-btn");
-
     if (replayBtn) {
       replayBtn.addEventListener("click", () => {
         if (window.SITE && window.SITE.replayIntro) {
@@ -677,89 +603,33 @@
         }
       });
     }
-
-    if (!sigWrap || !window.opentype) return;
-
-    const fontUrl = "https://cdn.jsdelivr.net/fontsource/fonts/pinyon-script@latest/latin-400-normal.woff";
-
-    window.opentype.load(fontUrl, (err, font) => {
-      if (err || !font) return;
-
-      try {
-        const path = font.getPath("Shivam", 0, 0, 140);
-        const box = path.getBoundingBox();
-
-        const width = box.x2 - box.x1;
-        const height = box.y2 - box.y1;
-        const padX = width * 0.15;
-        const padY = height * 0.15;
-
-        const vx = box.x1 - padX;
-        const vy = box.y1 - padY;
-        const vw = width + padX * 2;
-        const vh = height + padY * 2;
-
-        const pathData = path.toPathData(2);
-
-        sigWrap.innerHTML = `
-          <svg viewBox="${vx} ${vy} ${vw} ${vh}" preserveAspectRatio="xMidYMid meet" aria-label="Shivam">
-            <path id="footer-sig-path" d="${pathData}"></path>
-          </svg>
-        `;
-
-        const pathEl = document.getElementById("footer-sig-path");
-        if (!pathEl || !window.gsap || !window.ScrollTrigger) return;
-
-        const len = pathEl.getTotalLength ? pathEl.getTotalLength() : 800;
-
-        window.gsap.set(pathEl, {
-          strokeDasharray: len,
-          strokeDashoffset: len,
-          fill: "transparent"
-        });
-
-        // Scrub write-on signature as user scrolls to footer
-        window.gsap.to(pathEl, {
-          strokeDashoffset: 0,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: "#site-footer",
-            start: "top 80%",
-            end: "bottom 95%",
-            scrub: window.Midnight && window.Midnight.isCalm ? false : 0.8
-          }
-        });
-      } catch (e) {
-        console.warn("Footer signature render error:", e);
-      }
-    });
   }
 
-  // Safe bootstrap
-  try {
-    initSkillsAccordion();
-    initContactEnvelope();
-    initFooterSignature();
-  } catch (err) {
-    console.error("Skills / Contact / Footer initialization error:", err);
-  }
-  /* END: HOME_SKILLS_CONTACT_FOOTER_JS */
   // --------------------------------------------------------------------------
-  // SAFE INITIALIZATION BOOTSTRAP
+  // 10. SAFE BOOTSTRAP INITIALIZATION
   // --------------------------------------------------------------------------
   function initHomePage() {
-    // Check if core engine is available
     if (typeof window.Midnight === "undefined") {
-      console.warn("Midnight core engine not yet ready. Retrying...");
       setTimeout(initHomePage, 50);
       return;
     }
 
-    // Refresh layout calculations once ready
+    try {
+      playIntroAnimation();
+      setupHeroSequence();
+      initMarquee();
+      initAboutFill();
+      initSelectedWork();
+      initSkillsAccordion();
+      initContactEnvelope();
+      initFooterReplay();
+    } catch (err) {
+      console.error("Home page initialization error:", err);
+    }
+
     window.Midnight.refreshScrollTrigger();
   }
 
-  // Ensure DOM is ready before executing
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initHomePage);
   } else {

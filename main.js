@@ -1,7 +1,7 @@
 /**
  * ============================================================================
- * THE COSMIC HORIZON — CORE ENGINE (REFINED)
- * Shivam Mishra | Procedural Nebula, 3D Parallax & Spotlight Controllers
+ * THE COSMIC HORIZON — CORE ENGINE
+ * Shivam Mishra | Procedural Nebula, Rich Starfield & Spotlight Controllers
  * ============================================================================
  */
 
@@ -9,7 +9,7 @@
   'use strict';
 
   /* ==========================================================================
-     1. UPGRADED PROCEDURAL COSMIC NEBULA & STAR ENGINE
+     1. PROCEDURAL COSMIC NEBULA & RICH STAR ENGINE
      ========================================================================== */
 
   class CosmicCanvas {
@@ -23,7 +23,7 @@
       this.width = window.innerWidth;
       this.height = window.innerHeight;
 
-      // Mouse Parallax Physics
+      // Smooth 3D Mouse Parallax Physics
       this.mouse = {
         targetX: 0,
         targetY: 0,
@@ -44,7 +44,8 @@
 
     calculateStarCount() {
       const area = window.innerWidth * window.innerHeight;
-      return Math.min(Math.floor(area / 8500), 130);
+      // Richer star density (~35% increase) while preserving 60fps performance
+      return Math.min(Math.floor(area / 5800), 185);
     }
 
     init() {
@@ -59,7 +60,7 @@
     bindEvents() {
       window.addEventListener('resize', () => this.resize(), { passive: true });
 
-      // Cursor Parallax Tracker (-1.0 to 1.0)
+      // Cursor Parallax Tracker (-1.0 to 1.0 relative to center)
       window.addEventListener('mousemove', (e) => {
         this.mouse.targetX = (e.clientX / this.width - 0.5) * 2;
         this.mouse.targetY = (e.clientY / this.height - 0.5) * 2;
@@ -88,7 +89,7 @@
       this.ctx.scale(this.dpr, this.dpr);
 
       const newStarCount = this.calculateStarCount();
-      if (Math.abs(this.stars.length - newStarCount) > 25) {
+      if (Math.abs(this.stars.length - newStarCount) > 35) {
         this.starCount = newStarCount;
         this.createStars();
       }
@@ -101,7 +102,7 @@
           xRel: 0.25,
           yRel: 0.35,
           radius: Math.max(this.width, this.height) * 0.42,
-          colorCenter: 'rgba(12, 74, 110, 0.16)', // Deep Cyan/Sky
+          colorCenter: 'rgba(12, 74, 110, 0.16)', // Deep Cyan/Sky Void
           colorOuter: 'rgba(3, 7, 18, 0)',
           phase: 0,
           speed: 0.003,
@@ -111,7 +112,7 @@
           xRel: 0.75,
           yRel: 0.65,
           radius: Math.max(this.width, this.height) * 0.48,
-          colorCenter: 'rgba(30, 27, 75, 0.22)', // Indigo Abyss
+          colorCenter: 'rgba(30, 27, 75, 0.22)', // Deep Indigo Abyss
           colorOuter: 'rgba(3, 7, 18, 0)',
           phase: 1.8,
           speed: 0.0025,
@@ -121,7 +122,7 @@
           xRel: 0.5,
           yRel: 0.48,
           radius: Math.max(this.width, this.height) * 0.32,
-          colorCenter: 'rgba(56, 189, 248, 0.07)', // Electric Sky Heart
+          colorCenter: 'rgba(56, 189, 248, 0.07)', // Electric Sky Core
           colorOuter: 'rgba(3, 7, 18, 0)',
           phase: 3.2,
           speed: 0.004,
@@ -136,7 +137,7 @@
         'rgba(255, 255, 255, ',        // Pure White
         'rgba(224, 242, 254, ',        // Ice Blue
         'rgba(56, 189, 248, ',         // Electric Sky Blue
-        'rgba(186, 230, 253, '         // Soft Sky
+        'rgba(186, 230, 253, '         // Soft Starlight
       ];
 
       for (let i = 0; i < this.starCount; i++) {
@@ -165,7 +166,7 @@
           radius: Math.random() * 16 + 8, // Soft micro-glow bubble
           alpha: Math.random() * 0.05 + 0.015,
           vx: (Math.random() - 0.5) * 0.2,
-          vy: -Math.random() * 0.25 - 0.05, // Gentle upward cosmic float
+          vy: -Math.random() * 0.25 - 0.05, // Gentle upward cosmic drift
           depth: Math.random() * 0.5 + 0.2
         });
       }
@@ -178,7 +179,7 @@
 
       this.ctx.clearRect(0, 0, this.width, this.height);
 
-      // 1. Render Procedural Deep Nebula Clouds
+      // 1. Procedural Deep-Blue Nebula Clouds
       for (let i = 0; i < this.nebulaClouds.length; i++) {
         const c = this.nebulaClouds[i];
         c.phase += c.speed;
@@ -200,7 +201,7 @@
         this.ctx.fill();
       }
 
-      // 2. Render Floating Micro-Bubbles
+      // 2. Slow-Motion Floating Micro-Bubbles
       for (let i = 0; i < this.microParticles.length; i++) {
         const m = this.microParticles[i];
         m.x += m.vx;
@@ -228,7 +229,7 @@
         this.ctx.fill();
       }
 
-      // 3. Render Multi-Depth Twinkling Stars
+      // 3. Multi-Depth Twinkling Starfield
       for (let i = 0; i < this.stars.length; i++) {
         const s = this.stars[i];
         s.x += s.vx;
@@ -256,24 +257,23 @@
   }
 
   /* ==========================================================================
-     2. DYNAMIC BUTTON SPOTLIGHT CONTROLLER ("LET'S CONNECT")
+     2. DYNAMIC SPOTLIGHT CONTROLLER (NAV PILL & CONNECT BUTTON)
      ========================================================================== */
 
-  class ButtonSpotlightController {
+  class SpotlightController {
     constructor() {
       this.buttons = document.querySelectorAll('.btn-connect');
+      this.navPill = document.querySelector('.nav-pill');
       this.init();
     }
 
     init() {
+      // Connect Button Spotlight Tracking
       this.buttons.forEach((button) => {
         button.addEventListener('mousemove', (e) => {
           const rect = button.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-
-          button.style.setProperty('--mouse-x', `${x}px`);
-          button.style.setProperty('--mouse-y', `${y}px`);
+          button.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+          button.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
         });
 
         button.addEventListener('mouseleave', () => {
@@ -281,6 +281,20 @@
           button.style.removeProperty('--mouse-y');
         });
       });
+
+      // Navigation Pill Spotlight Tracking
+      if (this.navPill) {
+        this.navPill.addEventListener('mousemove', (e) => {
+          const rect = this.navPill.getBoundingClientRect();
+          this.navPill.style.setProperty('--nav-x', `${e.clientX - rect.left}px`);
+          this.navPill.style.setProperty('--nav-y', `${e.clientY - rect.top}px`);
+        });
+
+        this.navPill.addEventListener('mouseleave', () => {
+          this.navPill.style.removeProperty('--nav-x');
+          this.navPill.style.removeProperty('--nav-y');
+        });
+      }
     }
   }
 
@@ -304,27 +318,17 @@
 
       this.mobileToggle.addEventListener('click', () => this.toggleMobileMenu());
 
+      // Close drawer when any mobile nav link is selected
       this.mobileLinks.forEach(link => {
         link.addEventListener('click', () => this.closeMobileMenu());
       });
 
+      // Keyboard accessibility support
       window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && this.isOpen) {
           this.closeMobileMenu();
         }
       });
-
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 40) {
-          this.header.style.backgroundColor = 'rgba(3, 7, 18, 0.82)';
-          this.header.style.backdropFilter = 'blur(16px)';
-          this.header.style.webkitBackdropFilter = 'blur(16px)';
-        } else {
-          this.header.style.backgroundColor = 'transparent';
-          this.header.style.backdropFilter = 'none';
-          this.header.style.webkitBackdropFilter = 'none';
-        }
-      }, { passive: true });
     }
 
     toggleMobileMenu() {
@@ -369,15 +373,16 @@
      ========================================================================== */
 
   document.addEventListener('DOMContentLoaded', () => {
-    // 1. Cosmic Deep Space Nebula & Stars Canvas
+    // 1. Cosmic Deep Space Nebula & Rich Starfield Canvas
     new CosmicCanvas('cosmic-canvas');
 
-    // 2. Interactive Spotlight on Connect Buttons
-    new ButtonSpotlightController();
+    // 2. Interactive Spotlight on Nav Pill & Connect Buttons
+    new SpotlightController();
 
     // 3. Navigation Controller
     new NavigationController();
 
+    // Verification Log
     if (window.CONTACT) {
       console.log(`%c[The Cosmic Horizon]%c Initialized for ${window.CONTACT.name}`, 'color: #38bdf8; font-weight: bold;', 'color: #94A3B8;');
     }

@@ -91,6 +91,7 @@ html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 body {
@@ -142,7 +143,7 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   5. PROGRESS LINE & CURSOR RING
+   5. PROGRESS LINE & TRANSFORM-ONLY CURSOR RING
    -------------------------------------------------------------------------- */
 #scroll-progress {
   position: fixed;
@@ -160,8 +161,8 @@ body {
 
 #cursor-ring {
   position: fixed;
-  top: -7px;
-  left: -7px;
+  top: 0;
+  left: 0;
   width: 14px;
   height: 14px;
   border: 1.5px solid var(--champagne);
@@ -169,19 +170,16 @@ body {
   pointer-events: none;
   z-index: 9999;
   transform: translate3d(-100px, -100px, 0);
-  transition: width 0.25s var(--ease-smooth),
-              height 0.25s var(--ease-smooth),
+  transition: transform 0.22s var(--ease-smooth),
               border-color 0.25s var(--ease-smooth),
               background-color 0.25s var(--ease-smooth);
+  will-change: transform;
 }
 
 #cursor-ring.cursor-hover {
-  width: 32px;
-  height: 32px;
-  top: -16px;
-  left: -16px;
   background-color: var(--champagne-glow);
   border-color: var(--champagne);
+  transform: translate3d(-100px, -100px, 0) scale(2.2);
 }
 
 /* --------------------------------------------------------------------------
@@ -940,6 +938,7 @@ h1, h2, h3, h4, .font-serif {
   margin-block: 32px 48px;
 }
 
+/* Work row: Layout-reflow free, no padding-left transitions */
 .work-row {
   display: flex;
   align-items: center;
@@ -948,7 +947,6 @@ h1, h2, h3, h4, .font-serif {
   border-bottom: 1px solid var(--line);
   text-decoration: none;
   position: relative;
-  transition: padding-left 0.3s var(--ease-smooth);
 }
 
 .work-row-meta {
@@ -1523,7 +1521,7 @@ h1, h2, h3, h4, .font-serif {
 }
 
 /* --------------------------------------------------------------------------
-   17. CONTACT SECTION & LUXURY ENVELOPE
+   17. CONTACT SECTION & LUXURY ENVELOPE (ZERO OVERFLOW GLITCH)
    -------------------------------------------------------------------------- */
 #contact {
   position: relative;

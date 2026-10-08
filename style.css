@@ -1383,6 +1383,8 @@ h1, h2, h3, h4, .font-serif {
   height: clamp(380px, 58vh, 600px);
   overflow: hidden;
   background-color: var(--surface-card);
+  cursor: grab;
+  touch-action: none;
 }
 
 .browser-scroll-img {
@@ -1393,6 +1395,9 @@ h1, h2, h3, h4, .font-serif {
   will-change: transform;
   object-fit: cover;
   object-position: top center;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 /* Works End CTA Band */

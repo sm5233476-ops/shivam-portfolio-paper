@@ -285,7 +285,169 @@
   }
   /* END: HOME_INTRO */
 
-  /* SLOT: HOME_HERO */
+ /* START: HOME_HERO */
+  // --------------------------------------------------------------------------
+  // AMBIENT LIVING BACKGROUND (Animation Plan 2)
+  // --------------------------------------------------------------------------
+  function initAmbientBackground() {
+    const ambientContainer = document.getElementById("ambient-container");
+    if (!ambientContainer || window.SITE.AMBIENT === false || window.Midnight.isReducedMotion) {
+      return;
+    }
+
+    // 1. Inject 3 radial glow layers
+    ambientContainer.innerHTML = `
+      <div class="ambient-glow ambient-glow-1" id="ambient-glow-1"></div>
+      <div class="ambient-glow ambient-glow-2" id="ambient-glow-2"></div>
+      <div class="ambient-glow ambient-glow-3" id="ambient-glow-3"></div>
+    `;
+
+    // 2. Inject twinkling champagne stars
+    const starCount = 14;
+    for (let i = 0; i < starCount; i++) {
+      const star = document.createElement("span");
+      star.className = "ambient-star";
+      star.textContent = "✦";
+      star.style.left = `${(Math.random() * 94 + 3).toFixed(1)}%`;
+      star.style.top = `${(Math.random() * 92 + 4).toFixed(1)}%`;
+      star.style.fontSize = `${Math.floor(Math.random() * 6 + 7)}px`;
+      const duration = (Math.random() * 2.5 + 2.5).toFixed(2);
+      const delay = (Math.random() * 3).toFixed(2);
+      star.style.animation = `starTwinkle ${duration}s ease-in-out ${delay}s infinite`;
+      ambientContainer.appendChild(star);
+    }
+
+    if (!window.gsap) return;
+
+    const g1 = document.getElementById("ambient-glow-1");
+    const g2 = document.getElementById("ambient-glow-2");
+    const g3 = document.getElementById("ambient-glow-3");
+
+    // 3. Slow drift animations (18s-26s yoyo loops)
+    const driftTweens = [
+      window.gsap.to(g1, { x: 70, y: 50, duration: 20, ease: "sine.inOut", repeat: -1, yoyo: true }),
+      window.gsap.to(g2, { x: -80, y: 65, duration: 25, ease: "sine.inOut", repeat: -1, yoyo: true }),
+      window.gsap.to(g3, { x: 60, y: -70, duration: 22, ease: "sine.inOut", repeat: -1, yoyo: true })
+    ];
+
+    // 4. Soft mouse reaction (max 20px delta)
+    const setGlow1X = window.gsap.quickTo(g1, "x", { duration: 1.8, ease: "power2.out" });
+    const setGlow1Y = window.gsap.quickTo(g1, "y", { duration: 1.8, ease: "power2.out" });
+    const setGlow2X = window.gsap.quickTo(g2, "x", { duration: 2.2, ease: "power2.out" });
+    const setGlow2Y = window.gsap.quickTo(g2, "y", { duration: 2.2, ease: "power2.out" });
+
+    let currentMouseX = 0;
+    let currentMouseY = 0;
+
+    window.addEventListener("mousemove", (e) => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      // Clamp between -20px and +20px
+      currentMouseX = Math.max(-20, Math.min(20, (e.clientX - centerX) * 0.03));
+      currentMouseY = Math.max(-20, Math.min(20, (e.clientY - centerY) * 0.03));
+
+      setGlow1X(currentMouseX);
+      setGlow1Y(currentMouseY);
+      setGlow2X(-currentMouseX);
+      setGlow2Y(-currentMouseY);
+    }, { passive: true });
+
+    // 5. Pause when tab is inactive to preserve performance
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        driftTweens.forEach((t) => t.pause());
+      } else {
+        driftTweens.forEach((t) => t.resume());
+      }
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // HERO REVEAL ANIMATION (Animation Plan 3)
+  // --------------------------------------------------------------------------
+  function playHeroReveal() {
+    const heroTitle = document.getElementById("hero-title");
+    if (!heroTitle || !window.gsap) return;
+
+    const wordInners = heroTitle.querySelectorAll(".word-inner");
+    const underlinePath = document.getElementById("hero-underline-path");
+    const subtext = document.getElementById("hero-subtext");
+    const actions = document.getElementById("hero-actions");
+    const scrollCue = document.getElementById("hero-scroll-cue");
+
+    // Dynamic underline path length calculation
+    const pathLen = underlinePath && underlinePath.getTotalLength ? underlinePath.getTotalLength() : 250;
+    if (underlinePath) {
+      window.gsap.set(underlinePath, {
+        strokeDasharray: pathLen,
+        strokeDashoffset: pathLen
+      });
+    }
+
+    const tl = window.gsap.timeline({
+      defaults: { ease: "power3.out" }
+    });
+
+    if (window.Midnight.isCalm) {
+      // Calm mode: gentle fade & rise without aggressive masks
+      tl.to(wordInners, { opacity: 1, y: 0, duration: 0.8, stagger: 0.04 })
+        .to(underlinePath, { strokeDashoffset: 0, duration: 0.9, ease: "power2.out" }, "-=0.3")
+        .to([subtext, actions, scrollCue], { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, "-=0.4");
+    } else {
+      // Rich mode: words rise through masks, champagne underline draws itself
+      tl.to(wordInners, {
+        y: "0%",
+        opacity: 1,
+        duration: 1.1,
+        stagger: 0.045,
+        ease: "power3.out"
+      })
+      .to(underlinePath, {
+        strokeDashoffset: 0,
+        duration: 1.2,
+        ease: "power2.inOut"
+      }, "-=0.5")
+      .to(subtext, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9
+      }, "-=0.7")
+      .to(actions, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8
+      }, "-=0.6")
+      .to(scrollCue, {
+        opacity: 1,
+        duration: 0.8
+      }, "-=0.4");
+    }
+
+    // Ensure links are prefilled
+    if (window.Midnight && window.Midnight.fillContactLinks) {
+      window.Midnight.fillContactLinks();
+    }
+  }
+
+  // Hook Hero animation to intro completion
+  function setupHeroSequence() {
+    initAmbientBackground();
+
+    if (window.SITE && window.SITE.introReady && typeof window.SITE.introReady.then === "function") {
+      window.SITE.introReady.then(() => {
+        playHeroReveal();
+      });
+    } else {
+      playHeroReveal();
+    }
+  }
+
+  try {
+    setupHeroSequence();
+  } catch (e) {
+    console.error("Hero initialization error:", e);
+  }
+  /* END: HOME_HERO */
 
   /* SLOT: HOME_MARQUEE */
 

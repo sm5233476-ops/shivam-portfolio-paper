@@ -1,150 +1,47 @@
 /* ==========================================================================
-   THE COSMIC HORIZON — DESIGN SYSTEM & TOKENS
-   Shivam Mishra | Bare Minimalist Navigation & Deep Three.js Void
+   SHIVAM MISHRA — THE COSMIC HORIZON (4K THREE.JS & MINIMAL TECH)
    ========================================================================== */
 
 :root {
-  /* Cosmic Void Palette */
-  --bg-deep: #030712;
-  --bg-surface: rgba(11, 19, 38, 0.65);
-  --bg-card: rgba(15, 23, 42, 0.45);
-
-  /* Typography Colors */
-  --text-primary: #FFFFFF;
-  --text-silver: #CBD5E1;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-
-  /* Primary Accent: Electric Sky Blue */
-  --accent-sky: #38bdf8;
-  --accent-sky-glow: rgba(56, 189, 248, 0.55);
-  --accent-sky-soft: rgba(56, 189, 248, 0.12);
-  --accent-sky-border: rgba(56, 189, 248, 0.25);
-
-  /* Glass Blur for CTA */
-  --glass-blur: blur(20px);
-
-  /* Typography */
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --bg-deep: #020308;
+  --accent-cyan: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.45);
+  --text-white: #ffffff;
+  --text-muted: #94a3b8;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-display: 'Syne', sans-serif;
-  --font-editorial: 'Instrument Serif', Georgia, serif;
-
-  /* Layout */
-  --header-height: 88px;
-  --max-width: 1320px;
-  --container-px: clamp(20px, 4vw, 48px);
-
-  /* Cinematic Animation Easing */
-  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
-  --trans-fast: 0.25s var(--ease-cinematic);
-  --trans-smooth: 0.45s var(--ease-cinematic);
 }
-
-/* ==========================================================================
-   CSS RESET & BASE
-   ========================================================================== */
 
 *, *::before, *::after {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-  background-color: var(--bg-deep);
-  color: var(--text-primary);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body.cosmic-body {
-  position: relative;
-  min-height: 100vh;
+html, body {
   width: 100%;
-  overflow-x: hidden;
+  min-height: 100vh;
   background-color: var(--bg-deep);
+  color: var(--text-white);
   font-family: var(--font-sans);
-  color: var(--text-primary);
-  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-::selection {
-  background: var(--accent-sky);
-  color: var(--bg-deep);
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-  transition: color var(--trans-fast);
-}
-
-button {
-  background: none;
-  border: none;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-  outline: none;
-}
-
-ul, ol {
-  list-style: none;
-}
-
-/* Accessibility Skip Link */
-.skip-to-content {
-  position: fixed;
-  top: 16px;
-  left: 20px;
-  z-index: 1000;
-  padding: 10px 18px;
-  background: var(--accent-sky);
-  color: var(--bg-deep);
-  font-weight: 700;
-  font-size: 0.875rem;
-  border-radius: 9999px;
-  transform: translateY(-150%);
-  transition: transform 0.3s ease;
-}
-
-.skip-to-content:focus {
-  transform: translateY(0);
-}
-
-/* ==========================================================================
-   THREE.JS WEBGL CANVAS & ATMOSPHERE
-   ========================================================================== */
-
-.cosmic-canvas {
+/* 3D WebGL Canvas Layer */
+#universe-canvas {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
-  display: block;
-}
-
-.cosmic-vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(
-    circle at 50% 50%,
-    transparent 35%,
-    rgba(3, 7, 18, 0.55) 70%,
-    rgba(3, 7, 18, 0.95) 100%
-  );
+  background: radial-gradient(circle at 50% 50%, #060b1e 0%, #020308 85%);
 }
 
 /* ==========================================================================
-   PRIMARY NAVIGATION (BARE FLOATING LINKS — BEHFAR.DEV STYLE)
+   HEADER & MINIMAL NAVIGATION (behfar.dev style — NO BOX, PURE GLOW)
    ========================================================================== */
 
 .site-header {
@@ -152,312 +49,125 @@ ul, ol {
   top: 0;
   left: 0;
   width: 100%;
-  height: var(--header-height);
   z-index: 100;
-  display: flex;
-  align-items: center;
+  padding: 1.8rem 3.5rem;
   background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  pointer-events: none;
+  pointer-events: none; /* Allows canvas mouse interaction everywhere */
 }
 
-.header-inner {
-  width: 100%;
-  max-width: var(--max-width);
+.nav-container {
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 var(--container-px);
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  pointer-events: auto;
+  align-items: center;
+  position: relative;
 }
 
-/* Bare Text Links: Floating Directly on Space (No Box, No Border, No Pill) */
-.nav-bare {
+/* Bare, Spacious Nav Links */
+.nav-links {
   display: flex;
   align-items: center;
-  gap: 3rem; /* 48px Generous Spacing */
-  background: none !important;
+  gap: 3.5rem; /* Generous breathing room */
+  background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
-  margin: 0 !important;
+  pointer-events: auto;
 }
 
-.nav-bare-link {
+.nav-item {
+  color: var(--accent-cyan);
   font-family: var(--font-sans);
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: lowercase;
-  color: var(--text-silver);
-  background: transparent;
-  border: none;
-  padding: 6px 0;
+  text-decoration: none;
   position: relative;
-  transition: color var(--trans-fast), text-shadow var(--trans-fast);
+  padding: 0.4rem 0;
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.3s;
 }
 
-/* Hover: Pure White with Electric Cyan/Blue Glow */
-.nav-bare-link:hover {
-  color: #FFFFFF;
-  text-shadow: 0 0 16px var(--accent-sky-glow), 0 0 32px rgba(56, 189, 248, 0.35);
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0%;
+  height: 2px;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 8px var(--accent-cyan);
+  transition: width 0.3s ease, left 0.3s ease;
+  border-radius: 99px;
 }
 
-/* "Let's Connect" Button: Sleek Floating Glass Action */
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+.nav-item:hover {
+  color: #ffffff;
+  text-shadow: 0 0 14px var(--accent-cyan), 0 0 24px rgba(56, 189, 248, 0.6);
 }
 
+.nav-item:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* "Let's Connect" Glowing Capsule Button */
 .btn-connect {
-  --mouse-x: 50%;
-  --mouse-y: 50%;
-  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 22px;
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: #FFFFFF;
-  background: rgba(11, 19, 38, 0.55);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--accent-sky-border);
+  gap: 0.6rem;
+  padding: 0.65rem 1.4rem;
+  background: rgba(8, 15, 30, 0.6);
+  border: 1px solid rgba(56, 189, 248, 0.4);
   border-radius: 9999px;
-  overflow: hidden;
-  isolation: isolate;
-  transition: border-color var(--trans-smooth), transform var(--trans-smooth), box-shadow var(--trans-smooth);
-}
-
-.btn-connect-spotlight {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    110px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(56, 189, 248, 0.45) 0%,
-    rgba(56, 189, 248, 0.16) 35%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  z-index: 0;
-}
-
-.btn-connect-text,
-.btn-connect-arrow {
-  position: relative;
-  z-index: 1;
-}
-
-.btn-connect-arrow {
-  transition: transform var(--trans-fast), color var(--trans-fast);
-  color: var(--accent-sky);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.15), inset 0 0 12px rgba(56, 189, 248, 0.08);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, box-shadow 0.3s;
+  pointer-events: auto;
 }
 
 .btn-connect:hover {
-  transform: translateY(-1px);
-  border-color: rgba(56, 189, 248, 0.65);
-  box-shadow: 0 0 28px -4px rgba(56, 189, 248, 0.4);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 25px var(--accent-cyan), inset 0 0 15px rgba(56, 189, 248, 0.25);
+  transform: translateY(-2px);
+  color: #ffffff;
 }
 
-.btn-connect:hover .btn-connect-spotlight {
-  opacity: 1;
+.btn-connect svg {
+  transition: transform 0.3s ease;
 }
 
-.btn-connect:hover .btn-connect-arrow {
+.btn-connect:hover svg {
   transform: translate(2px, -2px);
-  color: #FFFFFF;
 }
 
-/* Mobile Toggle Hamburger */
-.mobile-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(11, 19, 38, 0.6);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--accent-sky-border);
-  z-index: 102;
-  transition: border-color var(--trans-fast);
-}
-
-.toggle-bar {
-  width: 18px;
-  height: 1.5px;
-  background-color: var(--text-primary);
-  border-radius: 2px;
-  transition: transform var(--trans-smooth), background-color var(--trans-smooth);
-}
-
-.mobile-toggle.is-active .toggle-bar:nth-child(1) {
-  transform: translateY(3.75px) rotate(45deg);
-  background-color: var(--accent-sky);
-}
-
-.mobile-toggle.is-active .toggle-bar:nth-child(2) {
-  transform: translateY(-3.75px) rotate(-45deg);
-  background-color: var(--accent-sky);
-}
-
-/* ==========================================================================
-   MOBILE MENU OVERLAY
-   ========================================================================== */
-
-.mobile-menu {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 101;
-  pointer-events: none;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
-}
-
-.mobile-menu.is-active {
-  pointer-events: auto;
-  visibility: visible;
-  opacity: 1;
-}
-
-.mobile-menu-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(3, 7, 18, 0.94);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-}
-
-.mobile-menu-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: calc(var(--header-height) + 24px) var(--container-px) 48px;
-}
-
-.mobile-nav-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-top: 40px;
-}
-
-.mobile-nav-link {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 7vw, 3.2rem);
-  font-weight: 700;
-  color: var(--text-primary);
-  opacity: 0.85;
-  transition: transform var(--trans-fast), opacity var(--trans-fast), color var(--trans-fast);
-}
-
-.mobile-nav-link .nav-index {
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--accent-sky);
-  letter-spacing: 0.05em;
-}
-
-.mobile-nav-link:hover {
-  transform: translateX(10px);
-  opacity: 1;
-  color: var(--accent-sky);
-}
-
-.mobile-menu-footer {
-  margin-top: auto;
-  padding-top: 32px;
-  border-top: 1px solid rgba(56, 189, 248, 0.15);
-}
-
-.btn-connect-mobile {
-  width: 100%;
-  justify-content: center;
-  padding: 16px;
-  font-size: 1rem;
-}
-
-/* ==========================================================================
-   MAIN CONTENT & SECTION CONTAINERS
-   ========================================================================== */
-
-.main-content {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-}
-
-.section {
+/* Slot Placeholders */
+main {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: var(--header-height) var(--container-px) 80px;
-  max-width: var(--max-width);
-  margin: 0 auto;
 }
 
-/* @@SLOT:hero @@ */
-
-/* @@SLOT:about @@ */
-
-/* @@SLOT:works @@ */
-
-/* @@SLOT:skills @@ */
-
-/* @@SLOT:contact @@ */
-
-/* ==========================================================================
-   RESPONSIVE BREAKPOINTS
-   ========================================================================== */
-
-@media (max-width: 991px) {
-  :root {
-    --header-height: 74px;
+/* Responsive */
+@media (max-width: 768px) {
+  .site-header {
+    padding: 1.2rem 1.5rem;
   }
-
-  .nav-bare {
-    display: none;
+  .nav-links {
+    gap: 1.8rem;
   }
-
-  .mobile-toggle {
-    display: flex;
+  .nav-item {
+    font-size: 0.85rem;
   }
-
-  .btn-connect:not(.btn-connect-mobile) {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  :root {
-    --container-px: 20px;
-  }
-
-  .mobile-nav-link {
-    font-size: 2.1rem;
+  .btn-connect {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
   }
 }

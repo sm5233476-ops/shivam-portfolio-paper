@@ -663,9 +663,225 @@ h1, h2, h3, h4, .font-serif {
 }
 /* END: INTRO_CSS */
 
-/* SLOT: AMBIENT_CSS */
+/* START: HERO_AND_AMBIENT_CSS */
+/* --------------------------------------------------------------------------
+   AMBIENT BACKGROUND (Living Glows & Twinkling Stars)
+   -------------------------------------------------------------------------- */
+#ambient-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
 
-/* SLOT: HERO_CSS */
+.ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.85;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.ambient-glow-1 {
+  width: 640px;
+  height: 640px;
+  top: -120px;
+  left: 10%;
+  background: radial-gradient(circle, rgba(217, 185, 110, 0.13) 0%, rgba(217, 185, 110, 0) 70%);
+}
+
+.ambient-glow-2 {
+  width: 720px;
+  height: 720px;
+  top: 30%;
+  right: -100px;
+  background: radial-gradient(circle, rgba(110, 135, 160, 0.08) 0%, rgba(110, 135, 160, 0) 70%);
+}
+
+.ambient-glow-3 {
+  width: 680px;
+  height: 680px;
+  bottom: -150px;
+  left: 20%;
+  background: radial-gradient(circle, rgba(175, 95, 65, 0.07) 0%, rgba(175, 95, 65, 0) 70%);
+}
+
+.ambient-star {
+  position: absolute;
+  color: var(--champagne);
+  font-size: 10px;
+  line-height: 1;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.85); }
+  50% { opacity: 0.85; transform: scale(1.2); }
+}
+
+/* --------------------------------------------------------------------------
+   HERO SECTION
+   -------------------------------------------------------------------------- */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: calc(var(--header-height) + 48px);
+  padding-bottom: 72px;
+  z-index: 2;
+}
+
+.hero-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.hero-label-wrap {
+  margin-bottom: 20px;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.75rem, 7.2vw, 5.8rem);
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 28px;
+  max-width: 1080px;
+}
+
+.hero-line {
+  display: block;
+}
+
+.hero-line .word-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  margin-right: 0.24em;
+}
+
+.hero-line .word-inner {
+  display: inline-block;
+  transform: translateY(115%);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.hero-highlight {
+  position: relative;
+  display: inline-block;
+  font-style: italic;
+  margin-right: 0.24em;
+}
+
+.hero-highlight::after {
+  display: none; /* Replaced by the animated SVG path */
+}
+
+.hero-underline-svg {
+  position: absolute;
+  left: -2%;
+  bottom: -4px;
+  width: 104%;
+  height: 14px;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.hero-underline-svg path {
+  stroke-dasharray: 250;
+  stroke-dashoffset: 250;
+}
+
+.hero-subtext {
+  font-family: var(--font-sans);
+  font-size: clamp(1.0625rem, 1.8vw, 1.35rem);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text-muted);
+  max-width: 620px;
+  margin-bottom: 40px;
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 64px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.hero-scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.hero-scroll-line-wrap {
+  position: relative;
+  width: 48px;
+  height: 1px;
+  background-color: var(--line);
+  overflow: hidden;
+}
+
+.hero-scroll-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--champagne);
+  animation: heroLineScroll 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes heroLineScroll {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+@media (max-width: 640px) {
+  #hero {
+    padding-top: calc(var(--header-height) + 24px);
+    padding-bottom: 48px;
+  }
+  .hero-title {
+    margin-bottom: 20px;
+  }
+  .hero-subtext {
+    margin-bottom: 32px;
+  }
+  .hero-actions {
+    margin-bottom: 48px;
+    width: 100%;
+  }
+  .hero-actions .btn {
+    flex: 1 1 auto;
+  }
+}
+/* END: HERO_AND_AMBIENT_CSS */
 
 /* SLOT: MARQUEE_CSS */
 

@@ -1141,6 +1141,300 @@ h1, h2, h3, h4, .font-serif {
 
 /* SLOT: CONTACT_CSS */
 
-/* SLOT: WORKS_CSS */
+/* START: WORKS_CSS */
+/* --------------------------------------------------------------------------
+   WORKS PAGE STYLES (CHAPTERS & BROWSER MOCKUP ENGINE)
+   -------------------------------------------------------------------------- */
+#works-hero {
+  position: relative;
+  padding-top: calc(var(--header-height) + 56px);
+  padding-bottom: clamp(48px, 8vw, 84px);
+  z-index: 2;
+}
+
+.works-hero-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.works-hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(3.2rem, 8.5vw, 6.5rem);
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 16px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.works-hero-count {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 2.2vw, 1.5rem);
+  color: var(--champagne);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  font-feature-settings: 'tnum';
+}
+
+.works-hero-subline {
+  font-family: var(--font-sans);
+  font-size: clamp(1.0625rem, 1.8vw, 1.35rem);
+  color: var(--text-muted);
+  max-width: 620px;
+}
+
+/* Sticky Chapter Progress Indicator */
+.works-tracker {
+  position: fixed;
+  bottom: 32px;
+  left: 32px;
+  z-index: 90;
+  background-color: rgba(17, 17, 19, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--line);
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-feature-settings: 'tnum';
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.works-tracker.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#tracker-current {
+  color: var(--champagne);
+  font-weight: 500;
+}
+
+/* Chapter Stages */
+.works-chapter-stage {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: clamp(48px, 10vh, 100px);
+  border-top: 1px solid var(--line);
+}
+
+.works-anchor-target {
+  position: absolute;
+  top: -80px;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.chapter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+  width: 100%;
+}
+
+.chapter-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.chapter-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.chapter-num {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--champagne);
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+.chapter-chip {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background-color: rgba(244, 241, 234, 0.05);
+  border: 1px solid var(--line);
+  color: var(--text-muted);
+}
+
+.chapter-chip.chip-live {
+  background-color: rgba(217, 185, 110, 0.12);
+  border-color: rgba(217, 185, 110, 0.35);
+  color: var(--champagne);
+}
+
+.chapter-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 4.6vw, 3.8rem);
+  line-height: 1.1;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.chapter-desc {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  max-width: 520px;
+}
+
+.chapter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.chapter-tag {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  padding: 5px 14px;
+  border-radius: 9999px;
+}
+
+.chapter-action {
+  display: inline-flex;
+}
+
+/* Browser Mockup Frame */
+.chapter-mockup-wrap {
+  width: 100%;
+}
+
+.browser-mockup {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: #0E0E10;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.browser-chrome {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 18px;
+  background-color: #151518;
+  border-bottom: 1px solid var(--line);
+}
+
+.browser-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.browser-dots span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: rgba(244, 241, 234, 0.2);
+}
+
+.browser-address {
+  flex: 1;
+  max-width: 320px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background-color: #0A0A0B;
+  padding: 4px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.browser-viewport {
+  position: relative;
+  width: 100%;
+  height: clamp(380px, 58vh, 600px);
+  overflow: hidden;
+  background-color: var(--surface-card);
+}
+
+.browser-scroll-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  object-fit: cover;
+  object-position: top center;
+}
+
+/* Works End CTA Band */
+.works-cta-container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.works-cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+.works-cta-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5.5vw, 4.4rem);
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 32px;
+}
+
+.works-cta-action {
+  display: inline-flex;
+}
+
+@media (max-width: 960px) {
+  .chapter-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .browser-viewport {
+    height: 380px;
+  }
+  .works-tracker {
+    bottom: 20px;
+    left: 20px;
+  }
+}
+/* END: WORKS_CSS */
 
 /* SLOT: FOOTER_CSS */

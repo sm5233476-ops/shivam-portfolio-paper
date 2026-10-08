@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SHIVAM MISHRA — COSMIC HORIZON BULLETPROOF THREE.JS & 3D TILT
+   SHIVAM MISHRA — ORGANIC DEEP SPACE UNIVERSE & 3D MAGNETIC ENGINE
    ========================================================================== */
 
 window.CONTACT = {
@@ -9,7 +9,7 @@ window.CONTACT = {
   instagram: "shivam.0nyx"
 };
 
-// 1. Interactive 3D Magnetic Tilt for Let's Connect Button
+// 1. 3D Magnetic Tilt Micro-Interaction on Button
 (function initButtonTilt() {
   const btn = document.querySelector('.btn-connect');
   if (!btn) return;
@@ -19,8 +19,7 @@ window.CONTACT = {
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
     
-    // 3D Perspective Tilt calculation
-    const tiltX = -(y / (rect.height / 2)) * 14; // Degrees
+    const tiltX = -(y / (rect.height / 2)) * 14;
     const tiltY = (x / (rect.width / 2)) * 14;
     
     btn.style.transform = `perspective(500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translate3d(${x * 0.15}px, ${y * 0.15}px, 0)`;
@@ -33,15 +32,13 @@ window.CONTACT = {
   });
 })();
 
-// 2. Three.js Cosmic Galaxy Engine with Auto-Heal
-(function checkAndStartUniverse() {
-  // If Three.js library is still loading, wait 40ms and retry
+// 2. 4K Organic Deep Cosmic Starfield (No Pinwheel, Pure Star Clusters)
+(function initOrganicCosmos() {
   if (typeof THREE === 'undefined') {
-    setTimeout(checkAndStartUniverse, 40);
+    setTimeout(initOrganicCosmos, 40);
     return;
   }
 
-  // Auto-heal canvas: Ensure canvas exists in DOM
   let canvas = document.getElementById('universe-canvas');
   if (!canvas) {
     canvas = document.createElement('canvas');
@@ -51,30 +48,32 @@ window.CONTACT = {
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 4000);
-  camera.position.z = 750;
+  camera.position.z = 800;
 
   const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     alpha: true,
-    antialias: true
+    antialias: true,
+    powerPreference: 'high-performance'
   });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  // Generate 4K Glowing Star Texture
-  function createStarTexture() {
-    const size = 128;
+  // 256x256 Ultra-HD Smooth Radial Gaussian Bloom Star Texture
+  function createCrispStarTexture() {
+    const size = 256;
     const offCanvas = document.createElement('canvas');
     offCanvas.width = size;
     offCanvas.height = size;
     const ctx = offCanvas.getContext('2d');
 
     const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-    gradient.addColorStop(0.0, 'rgba(255, 255, 255, 1)');
-    gradient.addColorStop(0.18, 'rgba(240, 248, 255, 0.95)');
-    gradient.addColorStop(0.45, 'rgba(56, 189, 248, 0.65)'); // Cyan Glow
-    gradient.addColorStop(0.75, 'rgba(14, 165, 233, 0.2)');
-    gradient.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
+    gradient.addColorStop(0.0, 'rgba(255, 255, 255, 1)');          // Brilliant Core
+    gradient.addColorStop(0.1, 'rgba(245, 252, 255, 0.95)');       // Inner Hot Halo
+    gradient.addColorStop(0.25, 'rgba(125, 211, 252, 0.65)');      // Sky Blue Mid-Falloff
+    gradient.addColorStop(0.5, 'rgba(56, 189, 248, 0.25)');        // Outer Ambient Blue
+    gradient.addColorStop(0.75, 'rgba(14, 165, 233, 0.08)');       // Deep Nebula Rim
+    gradient.addColorStop(1.0, 'rgba(0, 0, 0, 0)');                // Complete Fade
 
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, size, size);
@@ -84,105 +83,67 @@ window.CONTACT = {
     return texture;
   }
 
-  const starTexture = createStarTexture();
+  const starTexture = createCrispStarTexture();
 
-  // Spiral Galaxy: 3,500 Multi-Arm Points
-  const galaxyParams = {
-    count: 3500,
-    size: 16,
-    radius: 950,
-    branches: 3,
-    spin: 1.1,
-    randomness: 0.35,
-    power: 3.0
-  };
+  // Organic Starfield: 4,500 Natural Distributed Stars (No geometric pinwheels!)
+  const starsCount = 4500;
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(starsCount * 3);
+  const colors = new Float32Array(starsCount * 3);
 
-  const galaxyGeometry = new THREE.BufferGeometry();
-  const galaxyPositions = new Float32Array(galaxyParams.count * 3);
-  const galaxyColors = new Float32Array(galaxyParams.count * 3);
-
-  const coreColor = new THREE.Color('#ffffff');
-  const midColor = new THREE.Color('#38bdf8');
-  const outerColor = new THREE.Color('#0369a1');
-
-  for (let i = 0; i < galaxyParams.count; i++) {
-    const i3 = i * 3;
-    const r = Math.pow(Math.random(), galaxyParams.power) * galaxyParams.radius;
-    const branchAngle = ((i % galaxyParams.branches) / galaxyParams.branches) * Math.PI * 2;
-    const spinAngle = r * galaxyParams.spin * 0.003;
-
-    const randomX = (Math.random() - 0.5) * galaxyParams.randomness * (r + 70);
-    const randomY = (Math.random() - 0.5) * galaxyParams.randomness * (r + 35);
-    const randomZ = (Math.random() - 0.5) * galaxyParams.randomness * (r + 70);
-
-    galaxyPositions[i3] = Math.cos(branchAngle + spinAngle) * r + randomX;
-    galaxyPositions[i3 + 1] = randomY;
-    galaxyPositions[i3 + 2] = Math.sin(branchAngle + spinAngle) * r + randomZ;
-
-    const mixedColor = coreColor.clone();
-    if (r < galaxyParams.radius * 0.35) {
-      mixedColor.lerp(midColor, r / (galaxyParams.radius * 0.35));
-    } else {
-      mixedColor.lerp(outerColor, (r - galaxyParams.radius * 0.35) / (galaxyParams.radius * 0.65));
-    }
-
-    galaxyColors[i3] = mixedColor.r;
-    galaxyColors[i3 + 1] = mixedColor.g;
-    galaxyColors[i3 + 2] = mixedColor.b;
-  }
-
-  galaxyGeometry.setAttribute('position', new THREE.BufferAttribute(galaxyPositions, 3));
-  galaxyGeometry.setAttribute('color', new THREE.BufferAttribute(galaxyColors, 3));
-
-  const galaxyMaterial = new THREE.PointsMaterial({
-    size: galaxyParams.size,
-    sizeAttenuation: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    vertexColors: true,
-    transparent: true,
-    map: starTexture
-  });
-
-  const galaxyMesh = new THREE.Points(galaxyGeometry, galaxyMaterial);
-  galaxyMesh.rotation.x = 0.5;
-  scene.add(galaxyMesh);
-
-  // Deep Starfield: 1,200 Distant Stars
-  const starsCount = 1200;
-  const starsGeometry = new THREE.BufferGeometry();
-  const starsPositions = new Float32Array(starsCount * 3);
-  const starsColors = new Float32Array(starsCount * 3);
+  const whiteColor = new THREE.Color('#ffffff');
+  const skyBlueColor = new THREE.Color('#38bdf8');
+  const deepCyanColor = new THREE.Color('#0ea5e9');
+  const warmGlowColor = new THREE.Color('#fef08a'); // Gentle amber twinkles
 
   for (let i = 0; i < starsCount; i++) {
     const i3 = i * 3;
-    starsPositions[i3] = (Math.random() - 0.5) * 2800;
-    starsPositions[i3 + 1] = (Math.random() - 0.5) * 2800;
-    starsPositions[i3 + 2] = (Math.random() - 0.5) * 2400;
 
-    const isBlue = Math.random() > 0.4;
-    starsColors[i3] = isBlue ? 0.65 : 1.0;
-    starsColors[i3 + 1] = isBlue ? 0.88 : 1.0;
-    starsColors[i3 + 2] = 1.0;
+    // Natural 3D Ellipsoid & Depth Volume (Organic Space Spread)
+    const radius = Math.random() * 1600;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos((Math.random() * 2) - 1);
+
+    positions[i3] = radius * Math.sin(phi) * Math.cos(theta);
+    positions[i3 + 1] = (radius * Math.sin(phi) * Math.sin(theta)) * 0.75; // Subtle galactic flattening
+    positions[i3 + 2] = (radius * Math.cos(phi)) * 1.2;                    // Deep z-depth
+
+    // Organic Color Variation
+    const rand = Math.random();
+    let starColor;
+    if (rand < 0.5) {
+      starColor = whiteColor;
+    } else if (rand < 0.8) {
+      starColor = skyBlueColor;
+    } else if (rand < 0.95) {
+      starColor = deepCyanColor;
+    } else {
+      starColor = warmGlowColor;
+    }
+
+    colors[i3] = starColor.r;
+    colors[i3 + 1] = starColor.g;
+    colors[i3 + 2] = starColor.b;
   }
 
-  starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPositions, 3));
-  starsGeometry.setAttribute('color', new THREE.BufferAttribute(starsColors, 3));
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-  const starsMaterial = new THREE.PointsMaterial({
-    size: 11,
+  const material = new THREE.PointsMaterial({
+    size: 15,
     sizeAttenuation: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
     vertexColors: true,
     transparent: true,
-    map: starTexture
+    map: starTexture,
+    opacity: 0.95
   });
 
-  const starsMesh = new THREE.Points(starsGeometry, starsMaterial);
-  scene.add(starsMesh);
+  const cosmosMesh = new THREE.Points(geometry, material);
+  scene.add(cosmosMesh);
 
-  // Responsive 3D Mouse Parallax
+  // Smooth, High-Reaction 3D Mouse Parallax (Exact physics preserved!)
   let mouseX = 0;
   let mouseY = 0;
   let targetX = 0;
@@ -199,10 +160,11 @@ window.CONTACT = {
     requestAnimationFrame(animate);
     const elapsedTime = clock.getElapsedTime();
 
-    galaxyMesh.rotation.y = elapsedTime * 0.035;
-    starsMesh.rotation.y = elapsedTime * 0.006;
+    // Subtle majestic organic drift
+    cosmosMesh.rotation.y = elapsedTime * 0.012;
+    cosmosMesh.rotation.x = Math.sin(elapsedTime * 0.008) * 0.05;
 
-    // Smooth camera drift
+    // Smooth camera orbit
     targetX = mouseX * 240;
     targetY = -mouseY * 180;
 

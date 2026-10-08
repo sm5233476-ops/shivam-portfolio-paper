@@ -1,449 +1,338 @@
 /**
- * MIDNIGHT SIGNATURE - CORE ENGINE
- * Developer: Shivam Mishra
- * Shared across index.html and works.html
+ * ============================================================================
+ * THE COSMIC HORIZON — CORE ENGINE
+ * Shivam Mishra | Elite Creative Technologist Portfolio
+ * ============================================================================
  */
 
 (function () {
-  "use strict";
+  'use strict';
 
-  // 1. FAIL-SAFE: Immediately replace no-js with has-js on root
-  document.documentElement.classList.remove("no-js");
-  document.documentElement.classList.add("has-js");
+  /* ==========================================================================
+     1. COSMIC CANVAS ENGINE (STARS, DUST & GLOWING BUBBLES)
+     ========================================================================== */
 
-  // 2. CONTACT DATA (The single source of truth)
-  window.CONTACT = {
-    name: "Shivam Mishra",
-    email: "8hivammishra8@gmail.com",
-    whatsapp: "919899452192",
-    instagram: "shivam.0nyx",
-  };
+  class CosmicCanvas {
+    constructor(canvasId) {
+      this.canvas = document.getElementById(canvasId);
+      if (!this.canvas) return;
 
-  // 3. FEATURE SWITCHES
-  window.SITE = {
-    INTRO: true,
-    MOTION_LEVEL: "rich", // "rich" or "calm"
-    CURSOR: "none", // "none" or "ring"
-    AMBIENT: true,
-    SIGNATURE_FONT: "pinyon-script",
-    SHOW_TOOLS_LINE: true,
-  };
+      this.ctx = this.canvas.getContext('2d');
+      this.dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-  // 4. MOTION ENVIRONMENT CHECKS
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const isCalmMode = window.SITE.MOTION_LEVEL === "calm" || prefersReducedMotion;
+      // Viewport Dimensions
+      this.width = window.innerWidth;
+      this.height = window.innerHeight;
 
-  // 5. LENIS + GSAP UNIFIED RAF LOOP (ONE Loop Only)
-  let lenisInstance = null;
+      // Mouse Parallax Physics
+      this.mouse = {
+        targetX: 0,
+        targetY: 0,
+        currentX: 0,
+        currentY: 0,
+        ease: 0.05
+      };
 
-  function initSmoothScroll() {
-    if (typeof window.Lenis === "undefined") {
-      console.warn("Lenis library not detected. Running native scroll.");
-      return;
+      // Entities
+      this.particles = [];
+      this.bubbles = [];
+      this.particleCount = this.calculateParticleCount();
+      this.bubbleCount = 6;
+
+      this.animationFrameId = null;
+
+      this.init();
     }
 
-    lenisInstance = new window.Lenis({
-      duration: isCalmMode ? 0.8 : 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: "vertical",
-      gestureOrientation: "vertical",
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.5,
-      infinite: false,
-    });
-
-    if (typeof window.gsap !== "undefined" && typeof window.ScrollTrigger !== "undefined") {
-      lenisInstance.on("scroll", window.ScrollTrigger.update);
-
-      window.gsap.ticker.add((time) => {
-        lenisInstance.raf(time * 1000);
-      });
-
-      window.gsap.ticker.lagSmoothing(0);
-    } else {
-      function raf(time) {
-        lenisInstance.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
+    calculateParticleCount() {
+      const area = window.innerWidth * window.innerHeight;
+      return Math.min(Math.floor(area / 7500), 160);
     }
-  }
 
-  // 6. CONTACT LINK GENERATORS & DOM FILLER
-  function getWhatsAppUrl(customText) {
-    const text = customText || "Hi Shivam, I saw your portfolio and would like to discuss a website.";
-    return `https://wa.me/${window.CONTACT.whatsapp}?text=${encodeURIComponent(text)}`;
-  }
+    init() {
+      this.resize();
+      this.createParticles();
+      this.createBubbles();
+      this.bindEvents();
+      this.render();
+    }
 
-  function getEmailUrl(customSubject) {
-    const subject = customSubject || "Website project";
-    return `mailto:${window.CONTACT.email}?subject=${encodeURIComponent(subject)}`;
-  }
+    bindEvents() {
+      window.addEventListener('resize', () => this.resize(), { passive: true });
 
-  function getInstagramUrl() {
-    return `https://instagram.com/${window.CONTACT.instagram}`;
-  }
+      // Cursor Parallax Tracker
+      window.addEventListener('mousemove', (e) => {
+        // Map cursor coordinates from -1.0 to 1.0 relative to screen center
+        this.mouse.targetX = (e.clientX / this.width - 0.5) * 2;
+        this.mouse.targetY = (e.clientY / this.height - 0.5) * 2;
+      }, { passive: true });
 
-  function fillContactLinks() {
-    document.querySelectorAll('[data-contact="whatsapp"]').forEach((el) => {
-      const msg = el.getAttribute("data-msg");
-      el.href = getWhatsAppUrl(msg);
-      el.target = "_blank";
-      el.rel = "noopener noreferrer";
-    });
+      // Subtle Touch Parallax for Mobile Devices
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+          const touch = e.touches[0];
+          this.mouse.targetX = (touch.clientX / this.width - 0.5) * 1.5;
+          this.mouse.targetY = (touch.clientY / this.height - 0.5) * 1.5;
+        }
+      }, { passive: true });
+    }
 
-    document.querySelectorAll('[data-contact="email"]').forEach((el) => {
-      const sub = el.getAttribute("data-subject");
-      el.href = getEmailUrl(sub);
-    });
+    resize() {
+      this.width = window.innerWidth;
+      this.height = window.innerHeight;
+      this.dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    document.querySelectorAll('[data-contact="instagram"]').forEach((el) => {
-      el.href = getInstagramUrl();
-      el.target = "_blank";
-      el.rel = "noopener noreferrer";
-      if (el.getAttribute("data-contact-text") === "handle") {
-        el.textContent = `@${window.CONTACT.instagram}`;
+      this.canvas.width = this.width * this.dpr;
+      this.canvas.height = this.height * this.dpr;
+      this.canvas.style.width = `${this.width}px`;
+      this.canvas.style.height = `${this.height}px`;
+
+      this.ctx.scale(this.dpr, this.dpr);
+
+      // Re-populate counts if screen size changes drastically
+      const newCount = this.calculateParticleCount();
+      if (Math.abs(this.particles.length - newCount) > 30) {
+        this.particleCount = newCount;
+        this.createParticles();
       }
-    });
-  }
+    }
 
-  // 7. TEXT SPLITTER (Preserves real spaces and layout stability)
-  function splitWords(element) {
-    if (!element || element.dataset.splitDone === "true") return [];
+    createParticles() {
+      this.particles = [];
+      const colors = [
+        'rgba(243, 243, 247, ', // Crisp Starlight
+        'rgba(230, 198, 135, ', // Champagne Accent
+        'rgba(100, 210, 255, ', // Subtle Electric Cyan
+        'rgba(180, 175, 220, '  // Ethereal Violet
+      ];
 
-    const rawText = element.textContent.trim();
-    if (!rawText) return [];
-
-    const words = rawText.split(/\s+/);
-    element.innerHTML = "";
-    element.dataset.splitDone = "true";
-
-    const wordInners = [];
-
-    words.forEach((word, index) => {
-      const wrap = document.createElement("span");
-      wrap.className = "word-wrap";
-      wrap.setAttribute("aria-hidden", "true");
-
-      const inner = document.createElement("span");
-      inner.className = "word-inner";
-      inner.textContent = word;
-
-      wrap.appendChild(inner);
-      element.appendChild(wrap);
-      wordInners.push(inner);
-
-      // Preserve real space between words
-      if (index < words.length - 1) {
-        const space = document.createTextNode(" ");
-        element.appendChild(space);
+      for (let i = 0; i < this.particleCount; i++) {
+        const depth = Math.random() * 0.85 + 0.15; // 3D depth layer (0.15 - 1.0)
+        this.particles.push({
+          x: Math.random() * this.width,
+          y: Math.random() * this.height,
+          radius: (Math.random() * 1.4 + 0.4) * depth,
+          colorBase: colors[Math.floor(Math.random() * colors.length)],
+          baseAlpha: Math.random() * 0.65 + 0.25,
+          twinkleSpeed: Math.random() * 0.02 + 0.005,
+          twinklePhase: Math.random() * Math.PI * 2,
+          vx: (Math.random() - 0.5) * 0.18 * depth,
+          vy: (Math.random() - 0.5) * 0.18 * depth,
+          depth: depth
+        });
       }
-    });
+    }
 
-    element.setAttribute("aria-label", rawText);
-    return wordInners;
-  }
-
-  // 8. ANIMATION HELPERS (GSAP based with calm mode fallback)
-  function reveal(targets, options = {}) {
-    if (!window.gsap || !targets) return;
-
-    if (isCalmMode) {
-      return window.gsap.fromTo(
-        targets,
-        { opacity: 0, y: 14 },
+    createBubbles() {
+      this.bubbles = [];
+      const palettes = [
         {
-          opacity: 1,
-          y: 0,
-          duration: options.duration || 0.7,
-          stagger: options.stagger || 0.06,
-          ease: "power2.out",
-          scrollTrigger: options.scrollTrigger || null,
+          start: 'rgba(230, 198, 135, 0.08)',
+          mid: 'rgba(230, 198, 135, 0.02)'
+        },
+        {
+          start: 'rgba(137, 112, 255, 0.07)',
+          mid: 'rgba(100, 150, 255, 0.02)'
+        },
+        {
+          start: 'rgba(100, 210, 255, 0.06)',
+          mid: 'rgba(80, 120, 240, 0.015)'
         }
-      );
+      ];
+
+      for (let i = 0; i < this.bubbleCount; i++) {
+        const palette = palettes[i % palettes.length];
+        this.bubbles.push({
+          x: Math.random() * this.width,
+          y: Math.random() * this.height,
+          radius: Math.random() * 180 + 140, // 140px to 320px soft radius
+          vx: (Math.random() - 0.5) * 0.22,
+          vy: (Math.random() - 0.5) * 0.22,
+          palette: palette,
+          pulseSpeed: Math.random() * 0.008 + 0.004,
+          pulsePhase: Math.random() * Math.PI * 2,
+          depth: Math.random() * 0.4 + 0.2
+        });
+      }
     }
 
-    return window.gsap.fromTo(
-      targets,
-      {
-        opacity: 0,
-        y: options.y !== undefined ? options.y : 32,
-        scale: options.scale !== undefined ? options.scale : 1,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: options.duration || 1.1,
-        stagger: options.stagger || 0.08,
-        ease: options.ease || "power3.out",
-        scrollTrigger: options.scrollTrigger || null,
-      }
-    );
-  }
+    render() {
+      // Smooth Damped Mouse Lerp for 60fps Parallax
+      this.mouse.currentX += (this.mouse.targetX - this.mouse.currentX) * this.mouse.ease;
+      this.mouse.currentY += (this.mouse.targetY - this.mouse.currentY) * this.mouse.ease;
 
-  function drawPath(pathElement, options = {}) {
-    if (!window.gsap || !pathElement) return;
+      this.ctx.clearRect(0, 0, this.width, this.height);
 
-    const length = pathElement.getTotalLength ? pathElement.getTotalLength() : 300;
-    window.gsap.set(pathElement, {
-      strokeDasharray: length,
-      strokeDashoffset: length,
-    });
+      // Render Soft Drifting Glowing Bubbles (withhoney.com inspiration)
+      for (let i = 0; i < this.bubbles.length; i++) {
+        const b = this.bubbles[i];
 
-    return window.gsap.to(pathElement, {
-      strokeDashoffset: 0,
-      duration: options.duration || 1.4,
-      ease: options.ease || "power2.out",
-      scrollTrigger: options.scrollTrigger || null,
-      delay: options.delay || 0,
-    });
-  }
+        // Drift
+        b.x += b.vx;
+        b.y += b.vy;
 
-  function fillWords(container, options = {}) {
-    if (!window.gsap || !window.ScrollTrigger || !container) return;
+        // Wrap viewport edges smoothly with padding
+        if (b.x < -b.radius) b.x = this.width + b.radius;
+        if (b.x > this.width + b.radius) b.x = -b.radius;
+        if (b.y < -b.radius) b.y = this.height + b.radius;
+        if (b.y > this.height + b.radius) b.y = -b.radius;
 
-    const inners = splitWords(container);
-    if (!inners.length) return;
+        // Subtle Breathing Radius
+        b.pulsePhase += b.pulseSpeed;
+        const dynamicRadius = b.radius + Math.sin(b.pulsePhase) * 20;
 
-    window.gsap.set(inners, { opacity: 0.16 });
+        // 3D Parallax offset
+        const parallaxX = b.x + this.mouse.currentX * 35 * b.depth;
+        const parallaxY = b.y + this.mouse.currentY * 35 * b.depth;
 
-    return window.gsap.to(inners, {
-      opacity: 1,
-      stagger: {
-        each: 0.05,
-        from: "start",
-      },
-      ease: "none",
-      scrollTrigger: {
-        trigger: container,
-        start: options.start || "top 78%",
-        end: options.end || "bottom 55%",
-        scrub: isCalmMode ? false : 0.6,
-      },
-    });
-  }
-
-  // 9. TOP PROGRESS LINE
-  function initProgressLine() {
-    const progressEl = document.getElementById("scroll-progress");
-    if (!progressEl) return;
-
-    window.addEventListener(
-      "scroll",
-      () => {
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = docHeight > 0 ? scrollTop / docHeight : 0;
-        progressEl.style.transform = `scaleX(${Math.min(1, Math.max(0, progress))})`;
-      },
-      { passive: true }
-    );
-  }
-
-  // 10. NAVIGATION HIGHLIGHT, MOBILE MENU DIALOG & ACCESSIBLE FOCUS TRAP
-  function initNavigation() {
-    const currentPath = window.location.pathname.replace(/\/$/, "");
-    const isWorks = currentPath.endsWith("works.html") || currentPath.endsWith("/works");
-
-    document.querySelectorAll(".nav-link").forEach((link) => {
-      const href = link.getAttribute("href") || "";
-      if (isWorks && href.includes("works.html")) {
-        link.classList.add("is-active");
-      }
-    });
-
-    const toggleBtn = document.getElementById("mobile-menu-toggle");
-    const closeBtn = document.getElementById("mobile-menu-close");
-    const menuDialog = document.getElementById("mobile-menu-dialog");
-
-    if (toggleBtn && menuDialog) {
-      function getFocusableElements() {
-        return menuDialog.querySelectorAll(
-          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        // Draw Soft Radial Glow
+        const gradient = this.ctx.createRadialGradient(
+          parallaxX, parallaxY, 0,
+          parallaxX, parallaxY, dynamicRadius
         );
+        gradient.addColorStop(0, b.palette.start);
+        gradient.addColorStop(0.55, b.palette.mid);
+        gradient.addColorStop(1, 'transparent');
+
+        this.ctx.fillStyle = gradient;
+        this.ctx.beginPath();
+        this.ctx.arc(parallaxX, parallaxY, dynamicRadius, 0, Math.PI * 2);
+        this.ctx.fill();
       }
 
-      function openMenu() {
-        menuDialog.classList.add("is-open");
-        menuDialog.setAttribute("aria-hidden", "false");
-        document.body.style.overflow = "hidden";
-        if (lenisInstance) lenisInstance.stop();
-        if (closeBtn) closeBtn.focus();
+      // Render Cosmic Dust & Twinkling Starfield (behfar.dev inspiration)
+      for (let i = 0; i < this.particles.length; i++) {
+        const p = this.particles[i];
+
+        // Drift
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Boundary wrap
+        if (p.x < 0) p.x = this.width;
+        if (p.x > this.width) p.x = 0;
+        if (p.y < 0) p.y = this.height;
+        if (p.y > this.height) p.y = 0;
+
+        // Twinkle Alpha Modulation
+        p.twinklePhase += p.twinkleSpeed;
+        const alpha = Math.max(0.08, p.baseAlpha + Math.sin(p.twinklePhase) * 0.3);
+
+        // 3D Depth Perspective Parallax Displacement
+        const offsetX = this.mouse.currentX * 45 * p.depth;
+        const offsetY = this.mouse.currentY * 45 * p.depth;
+        const renderX = p.x + offsetX;
+        const renderY = p.y + offsetY;
+
+        this.ctx.fillStyle = `${p.colorBase}${alpha})`;
+        this.ctx.beginPath();
+        this.ctx.arc(renderX, renderY, p.radius, 0, Math.PI * 2);
+        this.ctx.fill();
       }
 
-      function closeMenu() {
-        menuDialog.classList.remove("is-open");
-        menuDialog.setAttribute("aria-hidden", "true");
-        document.body.style.overflow = "";
-        if (lenisInstance) lenisInstance.start();
-        toggleBtn.focus();
-      }
+      this.animationFrameId = requestAnimationFrame(() => this.render());
+    }
+  }
 
-      toggleBtn.addEventListener("click", openMenu);
-      if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+  /* ==========================================================================
+     2. NAVIGATION & MOBILE DRAWER CONTROLLER
+     ========================================================================== */
 
-      menuDialog.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", closeMenu);
+  class NavigationController {
+    constructor() {
+      this.header = document.getElementById('site-header');
+      this.mobileToggle = document.getElementById('mobile-toggle');
+      this.mobileMenu = document.getElementById('mobile-menu');
+      this.mobileLinks = document.querySelectorAll('.mobile-nav-link');
+      this.pillLinks = document.querySelectorAll('.nav-pill-link');
+      this.isOpen = false;
+
+      this.init();
+    }
+
+    init() {
+      if (!this.mobileToggle || !this.mobileMenu) return;
+
+      this.mobileToggle.addEventListener('click', () => this.toggleMobileMenu());
+
+      // Close drawer when any mobile nav link is clicked
+      this.mobileLinks.forEach(link => {
+        link.addEventListener('click', () => this.closeMobileMenu());
       });
 
-      // Accessible Focus Trap & Escape Key Handler
-      menuDialog.addEventListener("keydown", (e) => {
-        if (!menuDialog.classList.contains("is-open")) return;
-
-        if (e.key === "Escape") {
-          closeMenu();
-          return;
-        }
-
-        if (e.key === "Tab") {
-          const focusables = getFocusableElements();
-          if (focusables.length === 0) return;
-
-          const firstEl = focusables[0];
-          const lastEl = focusables[focusables.length - 1];
-
-          if (e.shiftKey) {
-            if (document.activeElement === firstEl) {
-              e.preventDefault();
-              lastEl.focus();
-            }
-          } else {
-            if (document.activeElement === lastEl) {
-              e.preventDefault();
-              firstEl.focus();
-            }
-          }
+      // Escape key accessibility support
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.isOpen) {
+          this.closeMobileMenu();
         }
       });
-    }
-  }
 
-  // 11. CUSTOM RING CURSOR (Transform-only execution)
-  function initCursorRing() {
-    if (window.SITE.CURSOR !== "ring" || window.matchMedia("(pointer: coarse)").matches) {
-      return;
-    }
-
-    let ring = document.getElementById("cursor-ring");
-    if (!ring) {
-      ring = document.createElement("div");
-      ring.id = "cursor-ring";
-      document.body.appendChild(ring);
-    }
-
-    let mouseX = -100;
-    let mouseY = -100;
-    let ringX = -100;
-    let ringY = -100;
-    let isHovered = false;
-
-    window.addEventListener(
-      "mousemove",
-      (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      },
-      { passive: true }
-    );
-
-    function loop() {
-      ringX += (mouseX - ringX) * 0.22;
-      ringY += (mouseY - ringY) * 0.22;
-      const scale = isHovered ? "scale(2.2)" : "scale(1)";
-      ring.style.transform = `translate3d(${ringX - 7}px, ${ringY - 7}px, 0) ${scale}`;
-      requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
-
-    const hoverTargets = 'a, button, [role="button"], input, textarea, select';
-    document.addEventListener("mouseover", (e) => {
-      if (e.target.closest(hoverTargets)) {
-        isHovered = true;
-        ring.classList.add("cursor-hover");
-      }
-    });
-    document.addEventListener("mouseout", (e) => {
-      if (e.target.closest(hoverTargets)) {
-        isHovered = false;
-        ring.classList.remove("cursor-hover");
-      }
-    });
-  }
-
-  // 12. IMAGE DECODE WARM-UP & SAFE FALLBACK
-  function initImageFallbacks() {
-    document.querySelectorAll("img").forEach((img) => {
-      // Decode pre-warm to avoid scroll stutter
-      if (img.complete) {
-        if (typeof img.decode === "function") {
-          img.decode().catch(() => {});
+      // Scroll listener for subtle header elevation
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+          this.header.style.backgroundColor = 'rgba(3, 3, 5, 0.75)';
+          this.header.style.backdropFilter = 'blur(16px)';
+          this.header.style.webkitBackdropFilter = 'blur(16px)';
+        } else {
+          this.header.style.backgroundColor = 'transparent';
+          this.header.style.backdropFilter = 'none';
+          this.header.style.webkitBackdropFilter = 'none';
         }
-      } else {
-        img.addEventListener(
-          "load",
-          () => {
-            if (typeof img.decode === "function") {
-              img.decode().catch(() => {});
-            }
-          },
-          { once: true }
-        );
-      }
+      }, { passive: true });
+    }
 
-      // Dark fallback error boundary
-      img.addEventListener("error", function () {
-        this.classList.add("img-fallback");
-        this.style.backgroundColor = "#111113";
-        this.style.border = "1px solid rgba(244, 241, 234, 0.12)";
-        this.removeAttribute("src");
-      });
-    });
-  }
+    toggleMobileMenu() {
+      this.isOpen ? this.closeMobileMenu() : this.openMobileMenu();
+    }
 
-  // 13. REFRESH SCROLLTRIGGER AFTER FONTS & ASSETS LOAD
-  function refreshScrollTrigger() {
-    if (typeof window.ScrollTrigger !== "undefined") {
-      window.ScrollTrigger.refresh();
+    openMobileMenu() {
+      this.isOpen = true;
+      this.mobileToggle.classList.add('is-active');
+      this.mobileToggle.setAttribute('aria-expanded', 'true');
+      this.mobileMenu.classList.add('is-active');
+      this.mobileMenu.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    closeMobileMenu() {
+      this.isOpen = false;
+      this.mobileToggle.classList.remove('is-active');
+      this.mobileToggle.setAttribute('aria-expanded', 'false');
+      this.mobileMenu.classList.remove('is-active');
+      this.mobileMenu.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
     }
   }
 
-  // 14. PUBLIC API EXPOSURE
-  window.Midnight = {
-    lenis: () => lenisInstance,
-    splitWords,
-    reveal,
-    drawPath,
-    fillWords,
-    fillContactLinks,
-    getWhatsAppUrl,
-    getEmailUrl,
-    getInstagramUrl,
-    refreshScrollTrigger,
-    isCalm: isCalmMode,
-    isReducedMotion: prefersReducedMotion,
-  };
+  /* ==========================================================================
+     3. SLOT MARKERS & EXTENSIONS
+     ========================================================================== */
 
-  // 15. DOM READY BOOTSTRAP
-  function onReady() {
-    fillContactLinks();
-    initSmoothScroll();
-    initProgressLine();
-    initNavigation();
-    initCursorRing();
-    initImageFallbacks();
+  // @@SLOT:hero @@
 
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(refreshScrollTrigger);
+  // @@SLOT:about @@
+
+  // @@SLOT:works @@
+
+  // @@SLOT:skills @@
+
+  // @@SLOT:contact @@
+
+  /* ==========================================================================
+     4. BOOTSTRAP APPLICATION
+     ========================================================================== */
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Cosmic Canvas
+    new CosmicCanvas('cosmic-canvas');
+
+    // Initialize Navigation
+    new NavigationController();
+
+    // Verification log
+    if (window.CONTACT) {
+      console.log(`%c[Cosmic Horizon]%c Ready for ${window.CONTACT.name}`, 'color: #E6C687; font-weight: bold;', 'color: #A0A0B0;');
     }
+  });
 
-    window.addEventListener("load", refreshScrollTrigger);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", onReady);
-  } else {
-    onReady();
-  }
 })();

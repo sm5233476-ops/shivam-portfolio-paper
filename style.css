@@ -1,6 +1,6 @@
 /* ==========================================================================
    THE COSMIC HORIZON — DESIGN SYSTEM & TOKENS
-   Shivam Mishra | Deep Void & Electric Sky Blue Architecture
+   Shivam Mishra | Minimalist Liquid-Silver & Deep Void Architecture
    ========================================================================== */
 
 :root {
@@ -14,19 +14,22 @@
   --text-secondary: #94A3B8;
   --text-muted: #64748B;
 
-  /* Primary Accent: Electric Sky Blue (Strict: 0% Champagne/Yellow) */
+  /* Smoke-Silver Palette (behfar.dev Style) */
+  --smoke-silver: #E2E8F0;
+  --smoke-silver-dim: rgba(226, 232, 240, 0.75);
+  --smoke-silver-border: rgba(226, 232, 240, 0.09);
+
+  /* Primary Accent: Electric Sky Blue */
   --accent-sky: #38bdf8;
-  --accent-sky-glow: rgba(56, 189, 248, 0.45);
+  --accent-sky-glow: rgba(56, 189, 248, 0.5);
   --accent-sky-soft: rgba(56, 189, 248, 0.12);
   --accent-sky-border: rgba(56, 189, 248, 0.25);
-  --accent-indigo: #6366F1;
 
-  /* Glassmorphism & High-Tech Blur */
-  --glass-bg: rgba(3, 7, 18, 0.65);
-  --glass-border: rgba(56, 189, 248, 0.25);
-  --glass-border-hover: rgba(56, 189, 248, 0.55);
-  --glass-blur: blur(20px);
-  --glass-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.85);
+  /* Liquid Frosted Highlights */
+  --liquid-glass-bg: rgba(226, 232, 240, 0.035);
+  --liquid-glass-border: rgba(226, 232, 240, 0.08);
+  --liquid-blur: blur(20px);
+  --liquid-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.7);
 
   /* Typography */
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -34,7 +37,7 @@
   --font-editorial: 'Instrument Serif', Georgia, serif;
 
   /* Layout */
-  --header-height: 84px;
+  --header-height: 88px;
   --max-width: 1320px;
   --container-px: clamp(20px, 4vw, 48px);
 
@@ -148,7 +151,7 @@ ul, ol {
 }
 
 /* ==========================================================================
-   PRIMARY NAVIGATION (100% SEAMLESS UNIVERSE)
+   PRIMARY NAVIGATION (MINIMALIST BEHFAR.DEV STYLE)
    ========================================================================== */
 
 .site-header {
@@ -177,105 +180,72 @@ ul, ol {
   pointer-events: auto;
 }
 
-/* Logo Replacement: Aashish Thakuri Style Stacked 2-Line Typography */
-.brand-mark {
-  display: inline-flex;
-  flex-direction: column;
-  text-decoration: none;
-  user-select: none;
-  gap: 0;
-  transition: opacity var(--trans-fast);
+/* Optical Counter-Balance Spacer for Centered Nav */
+.header-spacer {
+  width: 145px;
+  display: block;
 }
 
-.brand-line {
-  font-family: var(--font-sans);
-  font-weight: 800;
-  font-size: 1.1rem;
-  line-height: 0.88;
-  letter-spacing: -0.04em;
-  color: #FFFFFF;
-  text-transform: lowercase;
-}
-
-.brand-mark:hover {
-  opacity: 0.82;
-}
-
-/* Center Navigation Pill with Interactive Cursor Spotlight */
-.nav-pill-wrapper {
+/* Minimalist Liquid-Silver Frosted Navigation Bar */
+.nav-liquid-bar {
   display: flex;
   align-items: center;
-}
-
-.nav-pill {
-  --nav-x: 50%;
-  --nav-y: 50%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 6px;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--accent-sky-border);
+  gap: 28px;
+  padding: 8px 26px;
+  background: var(--liquid-glass-bg);
+  backdrop-filter: var(--liquid-blur);
+  -webkit-backdrop-filter: var(--liquid-blur);
+  border: 1px solid var(--liquid-glass-border);
   border-radius: 9999px;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), 0 0 20px -6px rgba(56, 189, 248, 0.12);
-  overflow: hidden;
-  isolation: isolate;
+  box-shadow: var(--liquid-shadow);
   transition: border-color var(--trans-fast), box-shadow var(--trans-fast);
 }
 
-.nav-pill:hover {
-  border-color: rgba(56, 189, 248, 0.45);
-  box-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.9), 0 0 25px -4px rgba(56, 189, 248, 0.22);
+.nav-liquid-bar:hover {
+  border-color: rgba(56, 189, 248, 0.22);
 }
 
-/* Nav Pill Cursor-Following Spotlight */
-.nav-pill-spotlight {
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 2px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--smoke-silver-dim);
+  transition: color var(--trans-fast), text-shadow var(--trans-fast);
+}
+
+.nav-link:hover {
+  color: #FFFFFF;
+  text-shadow: 0 0 16px var(--accent-sky-glow);
+}
+
+/* Subtle Animated Hover Glow Indicator */
+.nav-link-indicator {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    130px circle at var(--nav-x, 50%) var(--nav-y, 50%),
-    rgba(56, 189, 248, 0.35) 0%,
-    rgba(56, 189, 248, 0.12) 40%,
-    transparent 70%
-  );
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 14px;
+  height: 2px;
+  background: var(--accent-sky);
+  border-radius: 2px;
+  box-shadow: 0 0 10px var(--accent-sky);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
   opacity: 0;
-  transition: opacity 0.25s ease;
-  z-index: 0;
 }
 
-.nav-pill:hover .nav-pill-spotlight {
+.nav-link:hover .nav-link-indicator,
+.nav-link.is-active .nav-link-indicator {
+  transform: translateX(-50%) scaleX(1);
   opacity: 1;
 }
 
-.nav-pill-link {
-  position: relative;
-  z-index: 1;
-  padding: 8px 18px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--text-secondary);
-  border-radius: 9999px;
-  transition: color var(--trans-fast), background-color var(--trans-fast), text-shadow var(--trans-fast);
-}
-
-.nav-pill-link:hover {
-  color: var(--accent-sky);
-  background: rgba(56, 189, 248, 0.08);
-  text-shadow: 0 0 14px var(--accent-sky-glow);
-}
-
-.nav-pill-link.is-active {
-  color: #FFFFFF;
-  background: rgba(56, 189, 248, 0.15);
-  font-weight: 600;
-}
-
-/* "Let's Connect" Button: Interactive Mouse-Following Spotlight */
+/* "Let's Connect" Button: Sleek Spotlight Trigger */
 .header-actions {
   display: flex;
   align-items: center;
@@ -289,15 +259,15 @@ ul, ol {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 22px;
+  padding: 9px 20px;
   font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: #FFFFFF;
-  background: rgba(11, 19, 38, 0.6);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  background: rgba(11, 19, 38, 0.55);
+  backdrop-filter: var(--liquid-blur);
+  -webkit-backdrop-filter: var(--liquid-blur);
   border: 1px solid var(--accent-sky-border);
   border-radius: 9999px;
   overflow: hidden;
@@ -312,7 +282,7 @@ ul, ol {
   background: radial-gradient(
     110px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
     rgba(56, 189, 248, 0.45) 0%,
-    rgba(56, 189, 248, 0.18) 35%,
+    rgba(56, 189, 248, 0.16) 35%,
     transparent 70%
   );
   opacity: 0;
@@ -356,9 +326,9 @@ ul, ol {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  background: var(--liquid-glass-bg);
+  backdrop-filter: var(--liquid-blur);
+  -webkit-backdrop-filter: var(--liquid-blur);
   border: 1px solid var(--accent-sky-border);
   z-index: 102;
   transition: border-color var(--trans-fast);
@@ -407,7 +377,7 @@ ul, ol {
 .mobile-menu-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(3, 7, 18, 0.92);
+  background: rgba(3, 7, 18, 0.94);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
 }
@@ -509,7 +479,11 @@ ul, ol {
     --header-height: 74px;
   }
 
-  .nav-pill-wrapper {
+  .header-spacer {
+    display: none;
+  }
+
+  .nav-liquid-bar {
     display: none;
   }
 
@@ -525,10 +499,6 @@ ul, ol {
 @media (max-width: 480px) {
   :root {
     --container-px: 20px;
-  }
-
-  .brand-line {
-    font-size: 1rem;
   }
 
   .mobile-nav-link {

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE 3D ANDROMEDA GALAXY ENGINE (AWWWARDS 120FPS ZERO-LAG)
+   SHIVAM MISHRA — COSMIC HORIZON (ANDROMEDA HORIZON + ZERO-LAG BLUR REVEAL)
    ========================================================================== */
 
 window.CONTACT = {
@@ -10,46 +10,59 @@ window.CONTACT = {
 };
 
 // ==========================================================================
-// 1. HARDWARE-ACCELERATED ZERO-LAG TEXT REVEAL TIMELINE
+// 1. SILKY CINEMATIC BLUR-TO-FOCUS REVEAL TIMELINE (OPTIMIZED ZERO-LAG)
 // ==========================================================================
-(function initSmoothReveal() {
+(function initCinematicBlurReveal() {
   function startReveal() {
     if (typeof gsap === 'undefined') {
       setTimeout(startReveal, 40);
       return;
     }
 
-    // Set initial GPU-accelerated state (Zero-Lag Composite)
+    // Set initial cinematic blur state
     gsap.set(".reveal-blur", {
       opacity: 0,
-      y: 28,
-      willChange: "transform, opacity"
+      y: 32,
+      filter: "blur(12px)",
+      willChange: "transform, opacity, filter"
     });
 
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
+    // Step 1: The Grand 3D Metallic Headline
     tl.to(".title-line", {
       opacity: 1,
       y: 0,
-      duration: 1.2,
-      stagger: 0.16,
-      delay: 0.1
+      filter: "blur(0px)",
+      duration: 1.15,
+      stagger: 0.15,
+      delay: 0.15,
+      clearProps: "filter,willChange" // Removes GPU raster overhead once sharp!
     })
+    // Step 2: Subtitle
     .to(".hero-subtitle", {
       opacity: 1,
       y: 0,
-      duration: 1.1
-    }, "-=0.85")
+      filter: "blur(0px)",
+      duration: 1.05,
+      clearProps: "filter,willChange"
+    }, "-=0.75")
+    // Step 3: Luxury Glass Action Buttons
     .to(".hero-actions", {
       opacity: 1,
       y: 0,
-      duration: 1.0
-    }, "-=0.85")
+      filter: "blur(0px)",
+      duration: 0.95,
+      clearProps: "filter,willChange"
+    }, "-=0.75")
+    // Step 4: Scroll Cue
     .to(".hero-scroll", {
       opacity: 0.65,
       y: 0,
-      duration: 0.9
-    }, "-=0.75");
+      filter: "blur(0px)",
+      duration: 0.85,
+      clearProps: "filter,willChange"
+    }, "-=0.65");
   }
 
   if (document.readyState === 'loading') {
@@ -60,7 +73,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 2. 3D MAGNETIC BUTTON TILT
+// 2. 3D MAGNETIC BUTTON TILT (HEADER & HERO BUTTONS)
 // ==========================================================================
 (function initMagneticTilt() {
   const tiltElements = document.querySelectorAll('.btn-connect, .btn-hero-primary, .btn-hero-secondary');
@@ -86,11 +99,11 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 3. THE 3D ANDROMEDA GALAXY COSMIC ENGINE (THREE.JS)
+// 3. THREE.JS 3D ANDROMEDA HORIZON & STARFIELD ENGINE
 // ==========================================================================
-(function initAndromedaGalaxy() {
+(function initCosmicAndromeda() {
   if (typeof THREE === 'undefined') {
-    setTimeout(initAndromedaGalaxy, 40);
+    setTimeout(initCosmicAndromeda, 40);
     return;
   }
 
@@ -114,8 +127,8 @@ window.CONTACT = {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  // --- 1. PROCEDURAL 4K ANDROMEDA GALAXY DISK TEXTURE (WallpaperCat Style) ---
-  function createAndromedaDiskTexture() {
+  // --- 1. PROCEDURAL 4K ANDROMEDA GALAXY DISK TEXTURE ---
+  function createAndromedaTexture() {
     const size = 1024;
     const c = document.createElement('canvas');
     c.width = size;
@@ -125,26 +138,26 @@ window.CONTACT = {
     const cx = size / 2;
     const cy = size / 2;
 
-    // A. Outer Deep Cosmic Halo
+    // Outer Cosmic Nebula Dust
     const outerGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, size * 0.48);
-    outerGrad.addColorStop(0.0, 'rgba(14, 116, 144, 0.4)');     // Deep Cyan
-    outerGrad.addColorStop(0.35, 'rgba(3, 105, 161, 0.22)');    // Nebula Blue
-    outerGrad.addColorStop(0.7, 'rgba(2, 44, 94, 0.08)');       // Deep Space
+    outerGrad.addColorStop(0.0, 'rgba(14, 116, 144, 0.35)');
+    outerGrad.addColorStop(0.35, 'rgba(3, 105, 161, 0.2)');
+    outerGrad.addColorStop(0.7, 'rgba(2, 44, 94, 0.06)');
     outerGrad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = outerGrad;
     ctx.fillRect(0, 0, size, size);
 
-    // B. Elliptical Galactic Disk (Angled Spiral Body)
+    // Elliptical Galaxy Disk
     ctx.save();
     ctx.translate(cx, cy);
-    ctx.scale(1.9, 0.65); // Elliptical Galaxy Flattening
+    ctx.scale(1.95, 0.62);
 
     const diskGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 0.24);
-    diskGrad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');       // Pure White Nucleus
-    diskGrad.addColorStop(0.12, 'rgba(254, 240, 138, 0.95)');   // Golden Core
-    diskGrad.addColorStop(0.28, 'rgba(245, 158, 11, 0.7)');     // Amber Dust Ring
-    diskGrad.addColorStop(0.55, 'rgba(56, 189, 248, 0.45)');    // Electric Cyan Arms
-    diskGrad.addColorStop(0.85, 'rgba(14, 165, 233, 0.15)');
+    diskGrad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');       // Pure White Core
+    diskGrad.addColorStop(0.12, 'rgba(254, 240, 138, 0.95)');   // Golden Nucleus
+    diskGrad.addColorStop(0.26, 'rgba(245, 158, 11, 0.65)');    // Amber Dust Lanes
+    diskGrad.addColorStop(0.55, 'rgba(56, 189, 248, 0.42)');    // Cyan Arms
+    diskGrad.addColorStop(0.85, 'rgba(14, 165, 233, 0.12)');
     diskGrad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = diskGrad;
     ctx.beginPath();
@@ -152,15 +165,15 @@ window.CONTACT = {
     ctx.fill();
     ctx.restore();
 
-    // C. Golden Core Intense Radiant Bloom
-    const coreGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 90);
+    // Radiant Core Glow Bloom
+    const coreGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 85);
     coreGrad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');
     coreGrad.addColorStop(0.3, 'rgba(254, 243, 199, 0.95)');
-    coreGrad.addColorStop(0.65, 'rgba(251, 191, 36, 0.5)');
+    coreGrad.addColorStop(0.65, 'rgba(251, 191, 36, 0.45)');
     coreGrad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = coreGrad;
     ctx.beginPath();
-    ctx.arc(cx, cy, 90, 0, Math.PI * 2);
+    ctx.arc(cx, cy, 85, 0, Math.PI * 2);
     ctx.fill();
 
     const tex = new THREE.CanvasTexture(c);
@@ -190,33 +203,33 @@ window.CONTACT = {
     return tex;
   }
 
-  const andromedaTexture = createAndromedaDiskTexture();
+  const andromedaTexture = createAndromedaTexture();
   const starTexture = createStarTexture();
 
   // =========================================================================
-  // THE 3D ANDROMEDA GALAXY PLANE (Tilted 35° Across the Horizon)
+  // THE 3D ANDROMEDA GALAXY PLANE (Flowing Diagonally Below the Text)
   // =========================================================================
-  const andromedaGeo = new THREE.PlaneGeometry(2600, 1500);
+  const andromedaGeo = new THREE.PlaneGeometry(2800, 1600);
   const andromedaMat = new THREE.MeshBasicMaterial({
     map: andromedaTexture,
     transparent: true,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
-    opacity: 0.92
+    opacity: 0.88
   });
 
   const andromedaMesh = new THREE.Mesh(andromedaGeo, andromedaMat);
-  // Tilted in 3D Space (Exactly like Screenshot 2 angle)
-  andromedaMesh.rotation.x = 0.95;
-  andromedaMesh.rotation.y = -0.32;
-  andromedaMesh.rotation.z = 0.58;
-  andromedaMesh.position.set(120, -40, -180);
+  // Tuned: Lower-mid depth horizon so the golden core cradles the viewport bottom
+  andromedaMesh.rotation.x = 0.92;
+  andromedaMesh.rotation.y = -0.28;
+  andromedaMesh.rotation.z = 0.52;
+  andromedaMesh.position.set(100, -140, -240);
   scene.add(andromedaMesh);
 
   // =========================================================================
-  // STELLAR DISK STARS (Floating Naturally Across the Galaxy Plane)
+  // STELLAR DISK STARS (Riding Along the Andromeda Plane)
   // =========================================================================
-  const diskStarCount = 1400;
+  const diskStarCount = 1300;
   const diskStarGeo = new THREE.BufferGeometry();
   const diskStarPos = new Float32Array(diskStarCount * 3);
   const diskStarCol = new Float32Array(diskStarCount * 3);
@@ -227,18 +240,16 @@ window.CONTACT = {
 
   for (let i = 0; i < diskStarCount; i++) {
     const i3 = i * 3;
-    // Distributed in an organic elliptical disk
     const angle = Math.random() * Math.PI * 2;
-    const dist = Math.pow(Math.random(), 1.8) * 1100;
+    const dist = Math.pow(Math.random(), 1.8) * 1150;
 
-    diskStarPos[i3] = Math.cos(angle) * dist * 1.5;
+    diskStarPos[i3] = Math.cos(angle) * dist * 1.55;
     diskStarPos[i3 + 1] = Math.sin(angle) * dist * 0.65;
     diskStarPos[i3 + 2] = (Math.random() - 0.5) * 220;
 
-    const r = Math.random();
     let c = colWhite;
-    if (dist < 320) c = colGold; // Core is golden
-    else if (r > 0.5) c = colCyan;
+    if (dist < 320) c = colGold;
+    else if (Math.random() > 0.5) c = colCyan;
 
     diskStarCol[i3] = c.r;
     diskStarCol[i3 + 1] = c.g;
@@ -256,18 +267,16 @@ window.CONTACT = {
     vertexColors: true,
     transparent: true,
     map: starTexture,
-    opacity: 0.9
+    opacity: 0.88
   });
 
   const diskStarMesh = new THREE.Points(diskStarGeo, diskStarMat);
-  diskStarMesh.rotation.x = andromedaMesh.rotation.x;
-  diskStarMesh.rotation.y = andromedaMesh.rotation.y;
-  diskStarMesh.rotation.z = andromedaMesh.rotation.z;
   diskStarMesh.position.copy(andromedaMesh.position);
+  diskStarMesh.rotation.copy(andromedaMesh.rotation);
   scene.add(diskStarMesh);
 
   // =========================================================================
-  // PANORAMIC WIDE BACKGROUND STARFIELD (1,200 Clean Stars)
+  // PANORAMIC WIDE BACKGROUND STARFIELD (1,200 Crisp Stars)
   // =========================================================================
   const fieldCount = 1200;
   const fieldGeo = new THREE.BufferGeometry();
@@ -398,8 +407,8 @@ window.CONTACT = {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
 
-    // The Entire Andromeda Galaxy Rotates Majestically in 3D Space
-    andromedaMesh.rotation.z = 0.58 + (t * 0.008);
+    // The Entire Andromeda Galaxy Rotates Majestically in 3D
+    andromedaMesh.rotation.z = 0.52 + (t * 0.006);
     diskStarMesh.rotation.z = andromedaMesh.rotation.z;
 
     backgroundField.rotation.y = t * 0.002;

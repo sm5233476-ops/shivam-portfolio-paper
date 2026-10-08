@@ -1,19 +1,19 @@
 /**
  * MIDNIGHT SIGNATURE - WORKS PAGE CONTROLLER
  * Developer: Shivam Mishra
- * Controls chapter stages and scroll interactions for works.html
+ * Controls chapter stages and interactive screenshot scroll for works.html
  */
 
 (function () {
   "use strict";
 
   /* ==========================================================================
-     PHASE MODULE SLOTS (Will be populated in upcoming phases)
+     PHASE MODULE SLOTS
      ========================================================================== */
 
-/* START: WORKS_CHAPTERS_JS */
+  /* START: WORKS_CHAPTERS_JS */
   // --------------------------------------------------------------------------
-  // WORKS CHAPTERS & INTERACTIVE BROWSER SCROLL ENGINE (Phase 5 Fix)
+  // WORKS CHAPTERS & INTERACTIVE BROWSER SCROLL ENGINE
   // --------------------------------------------------------------------------
   function initWorksChapters() {
     if (!window.gsap || !window.ScrollTrigger) return;
@@ -57,7 +57,7 @@
       });
 
       // Browser mockup entrance reveal
-      if (!window.Midnight.isCalm) {
+      if (!window.Midnight || !window.Midnight.isCalm) {
         window.gsap.from(mockup, {
           y: 44,
           opacity: 0.85,
@@ -72,13 +72,13 @@
         });
       }
 
-// 3. Dedicated Interactive Frame Scroll (Isolated - Never chains to page)
+      // 3. Dedicated Interactive Frame Scroll (Isolated - Never chains to outer page)
       if (viewport && scrollImg) {
-        // Prevent Lenis from capturing any scroll inside the frame
+        // Prevent Lenis smooth scroll from hijacking events inside this frame
         viewport.setAttribute("data-lenis-prevent", "true");
 
         let targetY = 0;
-        const scrollSpeedMultiplier = 0.55;
+        const scrollSpeedMultiplier = 0.55; // Gentle, natural scroll speed
 
         function getMaxTravel() {
           const viewportH = viewport.clientHeight;
@@ -86,7 +86,7 @@
           return Math.max(0, imgH - viewportH);
         }
 
-        // Wheel Event: Always prevent page scroll while mouse is over viewport
+        // Wheel Event: Strictly isolated to mockup viewport
         viewport.addEventListener("wheel", (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -94,7 +94,7 @@
           const maxTravel = getMaxTravel();
           if (maxTravel <= 0) return;
 
-          // Clamped strictly between 0 and maxTravel (stops at boundaries)
+          // Clamped strictly between 0 and maxTravel (locks at edges)
           targetY = Math.max(0, Math.min(maxTravel, targetY + e.deltaY * scrollSpeedMultiplier));
 
           window.gsap.to(scrollImg, {
@@ -105,7 +105,7 @@
           });
         }, { passive: false });
 
-        // Touch Drag: Always isolate swipe inside frame
+        // Touch Drag Event: Strictly isolated on mobile/tablet
         let touchStartY = 0;
         let isTouching = false;
 
@@ -128,79 +128,6 @@
           const maxTravel = getMaxTravel();
           if (maxTravel <= 0) return;
 
-          targetY = Math.max(0, Math.min(maxTravel, targetY + delta));
-
-          window.gsap.to(scrollImg, {
-            y: -targetY,
-            duration: 0.35,
-            ease: "power1.out",
-            overwrite: "auto"
-          });
-        }, { passive: false });
-
-        viewport.addEventListener("touchend", () => {
-          isTouching = false;
-        }, { passive: true });
-      }
-
-        // Wheel Event inside browser frame
-        viewport.addEventListener("wheel", (e) => {
-          const maxTravel = getMaxTravel();
-          if (maxTravel <= 0) return;
-
-          const scrollingDown = e.deltaY > 0;
-          const scrollingUp = e.deltaY < 0;
-
-          const atBottom = targetY >= maxTravel - 2;
-          const atTop = targetY <= 2;
-
-          // If reached edges, release wheel event to let main page scroll normally
-          if ((scrollingDown && atBottom) || (scrollingUp && atTop)) {
-            return;
-          }
-
-          // Otherwise, capture wheel and gently scroll screenshot inside the frame
-          e.preventDefault();
-          targetY = Math.max(0, Math.min(maxTravel, targetY + e.deltaY * scrollSpeedMultiplier));
-
-          window.gsap.to(scrollImg, {
-            y: -targetY,
-            duration: 0.5,
-            ease: "power2.out",
-            overwrite: "auto"
-          });
-        }, { passive: false });
-
-        // Touch Drag Support for mobile/tablet inside frame
-        let touchStartY = 0;
-        let isTouching = false;
-
-        viewport.addEventListener("touchstart", (e) => {
-          if (e.touches.length === 1) {
-            touchStartY = e.touches[0].clientY;
-            isTouching = true;
-          }
-        }, { passive: true });
-
-        viewport.addEventListener("touchmove", (e) => {
-          if (!isTouching || e.touches.length !== 1) return;
-          const currentY = e.touches[0].clientY;
-          const delta = (touchStartY - currentY) * 1.1;
-          touchStartY = currentY;
-
-          const maxTravel = getMaxTravel();
-          if (maxTravel <= 0) return;
-
-          const movingDown = delta > 0;
-          const movingUp = delta < 0;
-          const atBottom = targetY >= maxTravel - 2;
-          const atTop = targetY <= 2;
-
-          if ((movingDown && atBottom) || (movingUp && atTop)) {
-            return;
-          }
-
-          e.preventDefault();
           targetY = Math.max(0, Math.min(maxTravel, targetY + delta));
 
           window.gsap.to(scrollImg, {
@@ -227,13 +154,6 @@
       }, 400);
     }
   }
-
-  // Safe bootstrap
-  try {
-    initWorksChapters();
-  } catch (err) {
-    console.error("Works chapters initialization error:", err);
-  }
   /* END: WORKS_CHAPTERS_JS */
 
   /* SLOT: WORKS_FOOTER_INIT */
@@ -242,14 +162,18 @@
   // SAFE INITIALIZATION BOOTSTRAP
   // --------------------------------------------------------------------------
   function initWorksPage() {
-    // Check if core engine is ready
     if (typeof window.Midnight === "undefined") {
-      console.warn("Midnight core engine not yet ready. Retrying...");
       setTimeout(initWorksPage, 50);
       return;
     }
 
-    // Refresh layout calculations once ready
+    try {
+      initWorksChapters();
+    } catch (err) {
+      console.error("Works page initialization error:", err);
+    }
+
+    // Refresh calculations once ready
     window.Midnight.refreshScrollTrigger();
   }
 

@@ -72,16 +72,76 @@
         });
       }
 
-      // 3. Dedicated Interactive Frame Scroll (Direct Hover / Drag on Frame only)
+// 3. Dedicated Interactive Frame Scroll (Isolated - Never chains to page)
       if (viewport && scrollImg) {
+        // Prevent Lenis from capturing any scroll inside the frame
+        viewport.setAttribute("data-lenis-prevent", "true");
+
         let targetY = 0;
-        const scrollSpeedMultiplier = 0.55; // Gentle, natural speed
+        const scrollSpeedMultiplier = 0.55;
 
         function getMaxTravel() {
           const viewportH = viewport.clientHeight;
           const imgH = scrollImg.clientHeight || scrollImg.getBoundingClientRect().height;
           return Math.max(0, imgH - viewportH);
         }
+
+        // Wheel Event: Always prevent page scroll while mouse is over viewport
+        viewport.addEventListener("wheel", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const maxTravel = getMaxTravel();
+          if (maxTravel <= 0) return;
+
+          // Clamped strictly between 0 and maxTravel (stops at boundaries)
+          targetY = Math.max(0, Math.min(maxTravel, targetY + e.deltaY * scrollSpeedMultiplier));
+
+          window.gsap.to(scrollImg, {
+            y: -targetY,
+            duration: 0.5,
+            ease: "power2.out",
+            overwrite: "auto"
+          });
+        }, { passive: false });
+
+        // Touch Drag: Always isolate swipe inside frame
+        let touchStartY = 0;
+        let isTouching = false;
+
+        viewport.addEventListener("touchstart", (e) => {
+          if (e.touches.length === 1) {
+            touchStartY = e.touches[0].clientY;
+            isTouching = true;
+          }
+        }, { passive: true });
+
+        viewport.addEventListener("touchmove", (e) => {
+          if (!isTouching || e.touches.length !== 1) return;
+          e.preventDefault();
+          e.stopPropagation();
+
+          const currentY = e.touches[0].clientY;
+          const delta = (touchStartY - currentY) * 1.1;
+          touchStartY = currentY;
+
+          const maxTravel = getMaxTravel();
+          if (maxTravel <= 0) return;
+
+          targetY = Math.max(0, Math.min(maxTravel, targetY + delta));
+
+          window.gsap.to(scrollImg, {
+            y: -targetY,
+            duration: 0.35,
+            ease: "power1.out",
+            overwrite: "auto"
+          });
+        }, { passive: false });
+
+        viewport.addEventListener("touchend", () => {
+          isTouching = false;
+        }, { passive: true });
+      }
 
         // Wheel Event inside browser frame
         viewport.addEventListener("wheel", (e) => {

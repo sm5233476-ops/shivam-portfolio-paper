@@ -1,15 +1,9 @@
-/* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (4K THREE.JS & MINIMAL TECH)
-   ========================================================================== */
-
 :root {
   --bg-deep: #020308;
   --accent-cyan: #38bdf8;
-  --accent-glow: rgba(56, 189, 248, 0.45);
+  --text-ice: #E2EEF9;
   --text-white: #ffffff;
-  --text-muted: #94a3b8;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-display: 'Syne', sans-serif;
 }
 
 *, *::before, *::after {
@@ -28,22 +22,19 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* 3D WebGL Canvas Layer */
+/* 3D WebGL Canvas */
 #universe-canvas {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
-  background: radial-gradient(circle at 50% 50%, #060b1e 0%, #020308 85%);
+  background: radial-gradient(circle at 50% 50%, #060e24 0%, #020308 90%);
 }
 
-/* ==========================================================================
-   HEADER & MINIMAL NAVIGATION (behfar.dev style — NO BOX, PURE GLOW)
-   ========================================================================== */
-
+/* Header & Nav */
 .site-header {
   position: fixed;
   top: 0;
@@ -52,7 +43,7 @@ html, body {
   z-index: 100;
   padding: 1.8rem 3.5rem;
   background: transparent !important;
-  pointer-events: none; /* Allows canvas mouse interaction everywhere */
+  pointer-events: none;
 }
 
 .nav-container {
@@ -61,23 +52,19 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
 }
 
-/* Bare, Spacious Nav Links */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 3.5rem; /* Generous breathing room */
+  gap: 3.5rem;
   background: transparent !important;
   border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
   pointer-events: auto;
 }
 
 .nav-item {
-  color: var(--accent-cyan);
+  color: var(--text-ice);
   font-family: var(--font-sans);
   font-size: 0.95rem;
   font-weight: 600;
@@ -86,7 +73,8 @@ html, body {
   text-decoration: none;
   position: relative;
   padding: 0.4rem 0;
-  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.3s;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .nav-item::after {
@@ -104,7 +92,7 @@ html, body {
 
 .nav-item:hover {
   color: #ffffff;
-  text-shadow: 0 0 14px var(--accent-cyan), 0 0 24px rgba(56, 189, 248, 0.6);
+  text-shadow: 0 0 16px rgba(56, 189, 248, 0.8), 0 0 30px rgba(56, 189, 248, 0.4);
 }
 
 .nav-item:hover::after {
@@ -112,14 +100,14 @@ html, body {
   left: 0;
 }
 
-/* "Let's Connect" Glowing Capsule Button */
+/* 3D Magnetic Tilt Button */
 .btn-connect {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
   padding: 0.65rem 1.4rem;
-  background: rgba(8, 15, 30, 0.6);
-  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: rgba(10, 18, 36, 0.65);
+  border: 1px solid rgba(56, 189, 248, 0.3);
   border-radius: 9999px;
   color: #ffffff;
   font-size: 0.88rem;
@@ -128,16 +116,16 @@ html, body {
   text-decoration: none;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.15), inset 0 0 12px rgba(56, 189, 248, 0.08);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.15); /* Reduced clean glow */
   pointer-events: auto;
+  transform-style: preserve-3d;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  will-change: transform;
 }
 
 .btn-connect:hover {
   border-color: var(--accent-cyan);
-  box-shadow: 0 0 25px var(--accent-cyan), inset 0 0 15px rgba(56, 189, 248, 0.25);
-  transform: translateY(-2px);
-  color: #ffffff;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.35);
 }
 
 .btn-connect svg {
@@ -148,26 +136,16 @@ html, body {
   transform: translate(2px, -2px);
 }
 
-/* Slot Placeholders */
 main {
   position: relative;
+  z-index: 10;
   width: 100%;
   min-height: 100vh;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-  .site-header {
-    padding: 1.2rem 1.5rem;
-  }
-  .nav-links {
-    gap: 1.8rem;
-  }
-  .nav-item {
-    font-size: 0.85rem;
-  }
-  .btn-connect {
-    padding: 0.5rem 1rem;
-    font-size: 0.8rem;
-  }
+  .site-header { padding: 1.2rem 1.5rem; }
+  .nav-links { gap: 1.8rem; }
+  .nav-item { font-size: 0.85rem; }
+  .btn-connect { padding: 0.5rem 1rem; font-size: 0.8rem; }
 }

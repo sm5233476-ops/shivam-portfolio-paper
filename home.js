@@ -449,11 +449,155 @@
   }
   /* END: HOME_HERO */
 
-  /* SLOT: HOME_MARQUEE */
+/* START: HOME_MARQUEE_ABOUT_WORK_JS */
+  // --------------------------------------------------------------------------
+  // MARQUEE TICKER (Animation Plan 4)
+  // --------------------------------------------------------------------------
+  function initMarquee() {
+    const track = document.getElementById("marquee-track");
+    if (!track || !window.gsap) return;
 
-  /* SLOT: HOME_ABOUT */
+    let xPos = 0;
+    const baseSpeed = window.Midnight && window.Midnight.isCalm ? 0.8 : 1.1;
+    let currentSpeed = baseSpeed;
 
-  /* SLOT: HOME_WORK */
+    window.gsap.ticker.add(() => {
+      if (document.hidden) return;
+
+      const lenis = window.Midnight ? window.Midnight.lenis() : null;
+      const velocity = lenis ? Math.abs(lenis.velocity) : 0;
+
+      // Accelerate smoothly based on scroll velocity
+      const targetSpeed = baseSpeed + Math.min(velocity * 0.16, 6);
+      currentSpeed += (targetSpeed - currentSpeed) * 0.1;
+
+      xPos -= currentSpeed;
+
+      // Loop after single item length (half of the duplicated content)
+      const halfWidth = track.scrollWidth / 2;
+      if (Math.abs(xPos) >= halfWidth) {
+        xPos = 0;
+      }
+
+      track.style.transform = `translate3d(${xPos}px, 0, 0)`;
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // ABOUT WORD FILL ON SCROLL (Animation Plan 5)
+  // --------------------------------------------------------------------------
+  function initAboutFill() {
+    const statementEl = document.getElementById("about-statement");
+    if (!statementEl || !window.gsap || !window.ScrollTrigger) return;
+
+    // Use Midnight word splitter to create accessible word inner spans
+    const inners = window.Midnight.splitWords(statementEl);
+    if (!inners.length) return;
+
+    window.gsap.set(inners, { opacity: 0.15 });
+
+    if (window.Midnight.isCalm) {
+      // Calm mode: clean batch fade without scrub
+      window.gsap.to(inners, {
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.03,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: statementEl,
+          start: "top 78%",
+          toggleActions: "play none none none"
+        }
+      });
+    } else {
+      // Rich mode: scrubbed word filling on scroll
+      window.gsap.to(inners, {
+        opacity: 1,
+        stagger: {
+          each: 0.04,
+          from: "start"
+        },
+        ease: "none",
+        scrollTrigger: {
+          trigger: statementEl,
+          start: "top 80%",
+          end: "bottom 50%",
+          scrub: 0.6
+        }
+      });
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // SELECTED WORK ROW HOVER PREVIEW (Animation Plan 6)
+  // --------------------------------------------------------------------------
+  function initSelectedWork() {
+    const workList = document.getElementById("work-rows-list");
+    const previewCard = document.getElementById("work-floating-preview");
+    const previewImg = document.getElementById("work-preview-img");
+
+    if (!workList || !previewCard || !previewImg || !window.gsap) return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    // Smooth cursor follow with quickTo
+    const setPrevX = window.gsap.quickTo(previewCard, "x", { duration: 0.45, ease: "power3.out" });
+    const setPrevY = window.gsap.quickTo(previewCard, "y", { duration: 0.45, ease: "power3.out" });
+
+    let activeRow = null;
+
+    window.addEventListener("mousemove", (e) => {
+      // Offset slightly to the right-bottom of mouse cursor
+      setPrevX(e.clientX + 24);
+      setPrevY(e.clientY - 120);
+    }, { passive: true });
+
+    const rows = workList.querySelectorAll(".work-row");
+
+    rows.forEach((row) => {
+      const imgSrc = row.getAttribute("data-preview");
+
+      row.addEventListener("mouseenter", () => {
+        activeRow = row;
+        if (imgSrc && previewImg.getAttribute("src") !== imgSrc) {
+          previewImg.src = imgSrc;
+        }
+
+        window.gsap.to(previewCard, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.35,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+      });
+
+      row.addEventListener("mouseleave", () => {
+        if (activeRow === row) {
+          activeRow = null;
+        }
+      });
+    });
+
+    workList.addEventListener("mouseleave", () => {
+      window.gsap.to(previewCard, {
+        opacity: 0,
+        scale: 0.92,
+        duration: 0.3,
+        ease: "power2.in",
+        overwrite: "auto"
+      });
+    });
+  }
+
+  // Safe bootstrap
+  try {
+    initMarquee();
+    initAboutFill();
+    initSelectedWork();
+  } catch (err) {
+    console.error("Marquee / About / Work initialization error:", err);
+  }
+  /* END: HOME_MARQUEE_ABOUT_WORK_JS */
 
   /* SLOT: HOME_SKILLS */
 

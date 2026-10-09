@@ -1,6 +1,6 @@
 /* ==========================================================================
    SHIVAM MISHRA — MAIN APPLICATION ENTRY POINT (ES MODULE)
-   Universe Engine + Hero Blur Reveal + About Section ScrollTrigger
+   Universe Engine + Hero Reveal + Smart Auto-Hide Nav + About Wave Animations
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
@@ -25,7 +25,43 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 2. 3D MAGNETIC BUTTON TILT MICRO-INTERACTION
+// 2. SMART AUTO-HIDE NAVIGATION (Telegram Style Disappear/Reappear on Scroll)
+// ==========================================================================
+(function initSmartHeader() {
+  const header = document.getElementById('site-header');
+  if (!header) return;
+
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+
+        // If at top, always show
+        if (currentScrollY <= 60) {
+          header.classList.remove('nav-hidden');
+        } 
+        // Scrolling DOWN -> Hide
+        else if (currentScrollY > lastScrollY && currentScrollY > 120) {
+          header.classList.add('nav-hidden');
+        } 
+        // Scrolling UP -> Reveal smoothly
+        else if (currentScrollY < lastScrollY) {
+          header.classList.remove('nav-hidden');
+        }
+
+        lastScrollY = currentScrollY;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+})();
+
+// ==========================================================================
+// 3. 3D MAGNETIC BUTTON TILT MICRO-INTERACTION
 // ==========================================================================
 (function initMagneticTilt() {
   const tiltElements = document.querySelectorAll('.btn-connect, .btn-hero-primary, .btn-hero-secondary');
@@ -51,7 +87,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 3. HERO CINEMATIC BLUR-TO-FOCUS REVEAL TIMELINE
+// 4. HERO CINEMATIC BLUR-TO-FOCUS REVEAL TIMELINE
 // ==========================================================================
 (function initHeroReveal() {
   function startReveal() {
@@ -109,7 +145,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 4. ABOUT SECTION GSAP SCROLLTRIGGER REVEAL
+// 5. ABOUT SECTION CINEMATIC BLUR + 4-CARD FLOATING WAVE ENTRANCE
 // ==========================================================================
 (function initAboutScrollAnimations() {
   function startScrollTrigger() {
@@ -120,65 +156,81 @@ window.CONTACT = {
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // Initial Hidden State for About Elements
-    gsap.set([".section-tag-wrap", ".about-headline", ".about-exp-pill", ".about-p", ".about-card"], {
+    // Initial state: Blur-to-focus for About text
+    gsap.set(".about-anim", {
       opacity: 0,
-      y: 35,
+      y: 32,
+      filter: "blur(8px)",
+      willChange: "transform, opacity, filter"
+    });
+
+    // Initial state: Wave float for 4 cards
+    gsap.set(".card-flow", {
+      opacity: 0,
+      y: 55,
+      scale: 0.96,
       willChange: "transform, opacity"
     });
 
-    // 1. Tag & Left Headline Reveal
-    gsap.to(".section-tag-wrap", {
+    // 1. Tag & Left Headline Reveal (Blur-to-Focus)
+    gsap.to(".section-tag-wrap.about-anim", {
       scrollTrigger: {
         trigger: "#about",
+        start: "top 78%",
+        toggleActions: "play none none none"
+      },
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      duration: 0.85,
+      ease: "power2.out",
+      clearProps: "filter,willChange"
+    });
+
+    gsap.to([".about-headline.about-anim", ".about-exp-pill.about-anim"], {
+      scrollTrigger: {
+        trigger: ".about-left",
+        start: "top 75%",
+        toggleActions: "play none none none"
+      },
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      duration: 1.05,
+      stagger: 0.16,
+      ease: "power2.out",
+      clearProps: "filter,willChange"
+    });
+
+    // 2. Right Bio Paragraphs Reveal
+    gsap.to(".about-p.about-anim", {
+      scrollTrigger: {
+        trigger: ".about-right",
+        start: "top 75%",
+        toggleActions: "play none none none"
+      },
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      duration: 0.95,
+      stagger: 0.14,
+      ease: "power2.out",
+      clearProps: "filter,willChange"
+    });
+
+    // 3. Staggered Wave Entrance for the 4 Electric Beam Cards
+    gsap.to(".card-flow", {
+      scrollTrigger: {
+        trigger: ".about-cards-grid",
         start: "top 80%",
         toggleActions: "play none none none"
       },
       opacity: 1,
       y: 0,
+      scale: 1,
       duration: 0.9,
-      ease: "power2.out"
-    });
-
-    gsap.to([".about-headline", ".about-exp-pill"], {
-      scrollTrigger: {
-        trigger: ".about-left",
-        start: "top 78%",
-        toggleActions: "play none none none"
-      },
-      opacity: 1,
-      y: 0,
-      duration: 1.1,
-      stagger: 0.18,
-      ease: "power2.out"
-    });
-
-    // 2. Right Paragraphs Story Reveal
-    gsap.to(".about-p", {
-      scrollTrigger: {
-        trigger: ".about-right",
-        start: "top 78%",
-        toggleActions: "play none none none"
-      },
-      opacity: 1,
-      y: 0,
-      duration: 1.0,
-      stagger: 0.16,
-      ease: "power2.out"
-    });
-
-    // 3. Staggered 3D Entrance for Glass Capability Cards
-    gsap.to(".about-card", {
-      scrollTrigger: {
-        trigger: ".about-cards-grid",
-        start: "top 82%",
-        toggleActions: "play none none none"
-      },
-      opacity: 1,
-      y: 0,
-      duration: 0.95,
-      stagger: 0.14,
-      ease: "power2.out",
+      stagger: 0.12,
+      ease: "back.out(1.15)",
       clearProps: "willChange"
     });
   }

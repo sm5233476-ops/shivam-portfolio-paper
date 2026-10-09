@@ -20,9 +20,9 @@ export const UNIVERSE_SETTINGS = {
 
   // Enhanced Star Presence (Crisp & Noticeably Larger)
   starBrightness: 1.29,
-  nearStarsCount: 500,     // Large sparkling diamond beacons
-  midStarsCount: 4000,     // Medium prominent stars
-  farStarsCount: 9500,     // Background starry horizon
+  nearStarsCount: 600,     // Large sparkling diamond beacons
+  midStarsCount: 4300,     // Medium prominent stars
+  farStarsCount: 9900,     // Background starry horizon
 
   // Galaxies Radiance
   galaxyBrightness: 0.80,
@@ -36,7 +36,7 @@ export const UNIVERSE_SETTINGS = {
   grain: 0.025,
   exposure: 1.05,
 
-  mouseParallax: 6.9
+  mouseParallax: 7.3
 };
 
 function kelvinToRGB(kelvin) {
@@ -242,20 +242,20 @@ export class Universe {
         coreColor: '#E0F2FE',
         armColor: '#0284C7',
         arms: 3,                                  // 3 Arms = organic spiral, no 'S' curve!
-        spin: 0.0338,
-        speed: -0.255
+        spin: 0.0258,
+        speed: -0.275
       },
       // 2. GALAXY 2 (RIGHT MIDDLE-DOWN, CLOSER & SLIGHTLY LARGER)
       {
         name: 'Radiant Amber Galaxy',
-        pos: new THREE.Vector3(2220, -260, -2000),  // Right side, slightly below middle, closer
+        pos: new THREE.Vector3(2220, -290, -2100),  // Right side, slightly below middle, closer
         rot: new THREE.Euler(0.8, -0.48, 0.5),
-        radius: 320,                               // Bigger & majestic
+        radius: 310,                               // Bigger & majestic
         particles: 16000,
         coreColor: '#FFFBEB',
         armColor: '#F59E0B',
         arms: 4,                                  // 4 Arms = rich galactic bloom, no 'S' curve!
-        spin: 0.0232,
+        spin: 0.0172,
         speed: 0.50
       }
     ];

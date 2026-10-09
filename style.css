@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (HERO + EDITORIAL ABOUT SECTION)
+   SHIVAM MISHRA — THE COSMIC HORIZON (ELECTRIC BEAM CARDS & SMART NAV)
    ========================================================================== */
 
 :root {
@@ -46,7 +46,7 @@ html, body {
 }
 
 /* ==========================================================================
-   HEADER & KINETIC NAVIGATION
+   HEADER & SMART AUTO-HIDE NAVIGATION (Telegram Style Dissolve on Scroll)
    ========================================================================== */
 
 .site-header {
@@ -58,6 +58,14 @@ html, body {
   padding: 2rem 4rem;
   background: transparent !important;
   pointer-events: none;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+  will-change: transform, opacity;
+}
+
+/* Hidden State When Scrolling Down */
+.site-header.nav-hidden {
+  transform: translateY(-120%);
+  opacity: 0;
 }
 
 .nav-container {
@@ -324,7 +332,7 @@ main {
 .scroll-track {
   width: 16px;
   height: 25px;
-  border-radius: 999px;
+  border-radius: 99px;
   border: 1.5px solid rgba(255, 255, 255, 0.25);
   position: relative;
   display: flex;
@@ -347,50 +355,57 @@ main {
 }
 
 /* ==========================================================================
-   ABOUT SECTION — AASHISH THAKURI INSPIRED NARRATIVE EDITORIAL
+   ABOUT SECTION — 4 ELECTRIC BEAM CARDS & EDITORIAL SPACE
    ========================================================================== */
 
 .about-section {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  padding: 8rem 2rem 8rem 2rem;
+  padding: 10rem 2rem 9rem 2rem; /* Generous breathing room */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .about-container {
-  max-width: 1320px;
+  max-width: 1360px;
   width: 100%;
   margin: 0 auto;
   position: relative;
 }
 
-/* Section Tag / Index */
+/* Clean Tag (No 01 //) */
 .section-tag-wrap {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.75rem;
   margin-bottom: 3.5rem;
 }
 
-.section-num {
-  color: var(--accent-cyan);
-  font-size: 0.88rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+.tag-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan);
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
 }
 
 .section-tag {
-  color: var(--text-muted);
-  font-size: 0.82rem;
+  color: var(--text-silver-bright);
+  font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-/* 2-Column Editorial Grid */
+/* 2-Column Grid */
 .about-grid {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
@@ -398,14 +413,13 @@ main {
   align-items: start;
 }
 
-/* Left Column */
 .about-left {
   position: sticky;
   top: 7rem;
 }
 
 .about-headline {
-  font-size: clamp(2.2rem, 3.8vw, 3.6rem);
+  font-size: clamp(2.3rem, 3.8vw, 3.6rem);
   font-weight: 800;
   line-height: 1.18;
   letter-spacing: -0.035em;
@@ -413,13 +427,15 @@ main {
   margin-bottom: 2.8rem;
 }
 
-.highlight-cyan {
-  background: linear-gradient(135deg, #ffffff 10%, #38bdf8 70%, #0284c7 100%);
+/* Exact Hero Matching 3D Metallic Gradient */
+.highlight-metallic {
+  background: linear-gradient(135deg, #ffffff 15%, #7dd3fc 60%, #0284c7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 18px rgba(56, 189, 248, 0.35));
 }
 
-/* Experience Glass Pill */
+/* Experience Pill */
 .about-exp-pill {
   display: inline-flex;
   align-items: center;
@@ -447,7 +463,7 @@ main {
   color: var(--text-silver-bright);
 }
 
-/* Right Column (Narrative + Cards) */
+/* Right Column */
 .about-right {
   display: flex;
   flex-direction: column;
@@ -467,30 +483,77 @@ main {
   font-weight: 700;
 }
 
-/* 3 Glass Capability Cards Grid */
+/* ==========================================================================
+   4 CARDS GRID & ROTATING ELECTRIC BORDER BEAM
+   ========================================================================= */
+
 .about-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.3rem;
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(2, 1fr); /* Clean 2x2 Balanced Grid */
+  gap: 1.4rem;
+  margin-top: 1.8rem;
 }
 
 .about-card {
-  padding: 1.8rem 1.5rem;
-  background: rgba(12, 19, 36, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
   border-radius: 20px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, border-color, box-shadow;
+  overflow: hidden;
+  background: rgba(10, 16, 32, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  will-change: transform, box-shadow;
 }
 
 .about-card:hover {
-  transform: translateY(-5px);
-  background: rgba(15, 26, 52, 0.65);
-  border-color: rgba(56, 189, 248, 0.45);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.18);
+  transform: translateY(-6px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(56, 189, 248, 0.16);
+}
+
+/* The Rotating Electric Border Beam (Conic Laser Gradient) */
+.about-card .border-beam {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    transparent 0deg,
+    transparent 65deg,
+    rgba(56, 189, 248, 0.25) 75deg,
+    #38bdf8 85deg,
+    #ffffff 92deg,
+    rgba(56, 189, 248, 0.4) 98deg,
+    transparent 110deg
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about-card:hover .border-beam {
+  opacity: 1;
+  animation: spinBeam 3.2s linear infinite;
+}
+
+@keyframes spinBeam {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Inner Card Container (Floats above the beam) */
+.about-card-inner {
+  position: relative;
+  z-index: 1;
+  border-radius: 19px;
+  background: rgba(8, 14, 28, 0.88); /* Opaque enough to hide beam inside, exposes border */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 1.8rem 1.6rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-icon {
@@ -514,7 +577,7 @@ main {
 }
 
 /* ==========================================================================
-   RESPONSIVE (MOBILE & TABLETS)
+   RESPONSIVE (TABLETS & MOBILE)
    ========================================================================== */
 
 @media (max-width: 992px) {
@@ -532,6 +595,6 @@ main {
   .hero-actions { flex-direction: column; width: 100%; gap: 1rem; }
   .btn-hero-primary, .btn-hero-secondary { width: 100%; justify-content: center; }
   .hero-scroll { display: none; }
-  .about-section { padding: 5rem 1.2rem; }
+  .about-section { padding: 6rem 1.2rem; }
   .about-cards-grid { grid-template-columns: 1fr; }
 }

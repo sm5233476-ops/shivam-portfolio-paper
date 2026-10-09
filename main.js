@@ -1,6 +1,6 @@
 /* ==========================================================================
    SHIVAM MISHRA — MAIN APPLICATION ENTRY POINT (ES MODULE)
-   Integrates Universe Engine + GSAP Cinematic Reveal + Magnetic 3D Tilt
+   Universe Engine + Hero Blur Reveal + About Section ScrollTrigger
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
@@ -25,7 +25,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 2. 3D MAGNETIC BUTTON TILT
+// 2. 3D MAGNETIC BUTTON TILT MICRO-INTERACTION
 // ==========================================================================
 (function initMagneticTilt() {
   const tiltElements = document.querySelectorAll('.btn-connect, .btn-hero-primary, .btn-hero-secondary');
@@ -51,9 +51,9 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 3. HARDWARE-ACCELERATED ZERO-LAG TEXT REVEAL TIMELINE
+// 3. HERO CINEMATIC BLUR-TO-FOCUS REVEAL TIMELINE
 // ==========================================================================
-(function initCinematicReveal() {
+(function initHeroReveal() {
   function startReveal() {
     if (typeof gsap === 'undefined') {
       setTimeout(startReveal, 40);
@@ -105,5 +105,87 @@ window.CONTACT = {
     document.addEventListener('DOMContentLoaded', startReveal);
   } else {
     startReveal();
+  }
+})();
+
+// ==========================================================================
+// 4. ABOUT SECTION GSAP SCROLLTRIGGER REVEAL
+// ==========================================================================
+(function initAboutScrollAnimations() {
+  function startScrollTrigger() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      setTimeout(startScrollTrigger, 50);
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Initial Hidden State for About Elements
+    gsap.set([".section-tag-wrap", ".about-headline", ".about-exp-pill", ".about-p", ".about-card"], {
+      opacity: 0,
+      y: 35,
+      willChange: "transform, opacity"
+    });
+
+    // 1. Tag & Left Headline Reveal
+    gsap.to(".section-tag-wrap", {
+      scrollTrigger: {
+        trigger: "#about",
+        start: "top 80%",
+        toggleActions: "play none none none"
+      },
+      opacity: 1,
+      y: 0,
+      duration: 0.9,
+      ease: "power2.out"
+    });
+
+    gsap.to([".about-headline", ".about-exp-pill"], {
+      scrollTrigger: {
+        trigger: ".about-left",
+        start: "top 78%",
+        toggleActions: "play none none none"
+      },
+      opacity: 1,
+      y: 0,
+      duration: 1.1,
+      stagger: 0.18,
+      ease: "power2.out"
+    });
+
+    // 2. Right Paragraphs Story Reveal
+    gsap.to(".about-p", {
+      scrollTrigger: {
+        trigger: ".about-right",
+        start: "top 78%",
+        toggleActions: "play none none none"
+      },
+      opacity: 1,
+      y: 0,
+      duration: 1.0,
+      stagger: 0.16,
+      ease: "power2.out"
+    });
+
+    // 3. Staggered 3D Entrance for Glass Capability Cards
+    gsap.to(".about-card", {
+      scrollTrigger: {
+        trigger: ".about-cards-grid",
+        start: "top 82%",
+        toggleActions: "play none none none"
+      },
+      opacity: 1,
+      y: 0,
+      duration: 0.95,
+      stagger: 0.14,
+      ease: "power2.out",
+      clearProps: "willChange"
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startScrollTrigger);
+  } else {
+    startScrollTrigger();
   }
 })();

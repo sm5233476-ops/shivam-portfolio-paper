@@ -28,8 +28,8 @@ export const UNIVERSE_SETTINGS = {
   galaxyBrightness: 0.55,
 
   // Smooth Post-Processing Bloom
-  bloomStrength: 0.45,
-  bloomRadius: 0.48,
+  bloomStrength: 0.49,
+  bloomRadius: 0.49,
   bloomThreshold: 0.86,
   vignette: 0.38,
   aberration: 0.0005,
@@ -157,11 +157,11 @@ export class Universe {
   buildStars() {
     const layers = [
       // Far stars: increased from 0.8-1.3 to 1.4-2.2 px
-      { count: UNIVERSE_SETTINGS.farStarsCount, sizeMin: 1.4, sizeMax: 2.2, isNear: 0.0, radiusMin: 1800, radiusMax: 3400 },
+      { count: UNIVERSE_SETTINGS.farStarsCount, sizeMin: 1.5, sizeMax: 2.4, isNear: 0.0, radiusMin: 1800, radiusMax: 3400 },
       // Mid stars: increased from 1.3-2.2 to 2.4-3.8 px
       { count: UNIVERSE_SETTINGS.midStarsCount, sizeMin: 2.4, sizeMax: 3.8, isNear: 0.0, radiusMin: 1200, radiusMax: 2600 },
       // Near stars: increased from 3.2-5.5 to 4.5-7.5 px (with prominent spikes)
-      { count: UNIVERSE_SETTINGS.nearStarsCount, sizeMin: 4.5, sizeMax: 7.5, isNear: 1.0, radiusMin: 700, radiusMax: 1800 }
+      { count: UNIVERSE_SETTINGS.nearStarsCount, sizeMin: 4.6, sizeMax: 7.6, isNear: 1.0, radiusMin: 700, radiusMax: 1800 }
     ];
 
     layers.forEach(cfg => {
@@ -242,8 +242,8 @@ export class Universe {
         coreColor: '#E0F2FE',
         armColor: '#0284C7',
         arms: 3,                                  // 3 Arms = organic spiral, no 'S' curve!
-        spin: 0.0700,
-        speed: -0.300
+        spin: 0.200,
+        speed: -0.700
       },
       // 2. GALAXY 2 (RIGHT MIDDLE-DOWN, CLOSER & SLIGHTLY LARGER)
       {
@@ -255,8 +255,8 @@ export class Universe {
         coreColor: '#FFFBEB',
         armColor: '#F59E0B',
         arms: 4,                                  // 4 Arms = rich galactic bloom, no 'S' curve!
-        spin: 0.0170,
-        speed: 0.30
+        spin: 0.100,
+        speed: 0.50
       }
     ];
 

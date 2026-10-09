@@ -1,5 +1,6 @@
 /* ==========================================================================
-   SHIVAM MISHRA — COSMIC HORIZON (ANDROMEDA HORIZON + ZERO-LAG BLUR REVEAL)
+   SHIVAM MISHRA — ORION NEBULA 3D ENGINE (BRYAN GOFF ASTROPHOTOGRAPHY STYLE)
+   ORGANIC VOLUMETRIC GAS + MULTI-COLORED STARS + ZERO-LAG CINEMATIC FOCUS
    ========================================================================== */
 
 window.CONTACT = {
@@ -10,57 +11,53 @@ window.CONTACT = {
 };
 
 // ==========================================================================
-// 1. SILKY CINEMATIC BLUR-TO-FOCUS REVEAL TIMELINE (OPTIMIZED ZERO-LAG)
+// 1. HARDWARE-ACCELERATED ZERO-LAG TEXT REVEAL (BUTTERY SMOOTH 120FPS)
 // ==========================================================================
-(function initCinematicBlurReveal() {
+(function initSmoothReveal() {
   function startReveal() {
     if (typeof gsap === 'undefined') {
       setTimeout(startReveal, 40);
       return;
     }
 
-    // Set initial cinematic blur state
+    // Lightweight 6px micro-blur: zero GPU rasterization stutter
     gsap.set(".reveal-blur", {
       opacity: 0,
-      y: 32,
-      filter: "blur(12px)",
+      y: 26,
+      filter: "blur(6px)",
       willChange: "transform, opacity, filter"
     });
 
     const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
-    // Step 1: The Grand 3D Metallic Headline
     tl.to(".title-line", {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
-      duration: 1.15,
-      stagger: 0.15,
-      delay: 0.15,
-      clearProps: "filter,willChange" // Removes GPU raster overhead once sharp!
+      duration: 1.0,
+      stagger: 0.14,
+      delay: 0.1,
+      clearProps: "filter,willChange" // Clears filter overhead instantly
     })
-    // Step 2: Subtitle
     .to(".hero-subtitle", {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
-      duration: 1.05,
+      duration: 0.9,
       clearProps: "filter,willChange"
     }, "-=0.75")
-    // Step 3: Luxury Glass Action Buttons
     .to(".hero-actions", {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
-      duration: 0.95,
+      duration: 0.85,
       clearProps: "filter,willChange"
     }, "-=0.75")
-    // Step 4: Scroll Cue
     .to(".hero-scroll", {
       opacity: 0.65,
       y: 0,
       filter: "blur(0px)",
-      duration: 0.85,
+      duration: 0.8,
       clearProps: "filter,willChange"
     }, "-=0.65");
   }
@@ -73,7 +70,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 2. 3D MAGNETIC BUTTON TILT (HEADER & HERO BUTTONS)
+// 2. 3D MAGNETIC BUTTON TILT
 // ==========================================================================
 (function initMagneticTilt() {
   const tiltElements = document.querySelectorAll('.btn-connect, .btn-hero-primary, .btn-hero-secondary');
@@ -99,11 +96,11 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 3. THREE.JS 3D ANDROMEDA HORIZON & STARFIELD ENGINE
+// 3. THE 3D ORION NEBULA COSMIC ENGINE (THREE.JS)
 // ==========================================================================
-(function initCosmicAndromeda() {
+(function initOrionNebula() {
   if (typeof THREE === 'undefined') {
-    setTimeout(initCosmicAndromeda, 40);
+    setTimeout(initOrionNebula, 40);
     return;
   }
 
@@ -127,8 +124,8 @@ window.CONTACT = {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  // --- 1. PROCEDURAL 4K ANDROMEDA GALAXY DISK TEXTURE ---
-  function createAndromedaTexture() {
+  // --- 1. PROCEDURAL 4K ORION NEBULA CLOUD TEXTURE (Soft Gas, Zero Hard Lines) ---
+  function createOrionNebulaTexture() {
     const size = 1024;
     const c = document.createElement('canvas');
     c.width = size;
@@ -138,42 +135,35 @@ window.CONTACT = {
     const cx = size / 2;
     const cy = size / 2;
 
-    // Outer Cosmic Nebula Dust
+    // A. Outer Deep Indigo/Violet Gas Spread
     const outerGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, size * 0.48);
-    outerGrad.addColorStop(0.0, 'rgba(14, 116, 144, 0.35)');
-    outerGrad.addColorStop(0.35, 'rgba(3, 105, 161, 0.2)');
-    outerGrad.addColorStop(0.7, 'rgba(2, 44, 94, 0.06)');
+    outerGrad.addColorStop(0.0, 'rgba(88, 28, 135, 0.38)');    // Deep Violet
+    outerGrad.addColorStop(0.35, 'rgba(30, 27, 75, 0.22)');     // Cosmic Indigo
+    outerGrad.addColorStop(0.7, 'rgba(3, 7, 18, 0.08)');       // Deep Space Fade
     outerGrad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = outerGrad;
     ctx.fillRect(0, 0, size, size);
 
-    // Elliptical Galaxy Disk
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.scale(1.95, 0.62);
-
-    const diskGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 0.24);
-    diskGrad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');       // Pure White Core
-    diskGrad.addColorStop(0.12, 'rgba(254, 240, 138, 0.95)');   // Golden Nucleus
-    diskGrad.addColorStop(0.26, 'rgba(245, 158, 11, 0.65)');    // Amber Dust Lanes
-    diskGrad.addColorStop(0.55, 'rgba(56, 189, 248, 0.42)');    // Cyan Arms
-    diskGrad.addColorStop(0.85, 'rgba(14, 165, 233, 0.12)');
-    diskGrad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
-    ctx.fillStyle = diskGrad;
+    // B. Organic Volumetric Magenta & Rose Pink Gas Puff (Orion Heart)
+    const magentaGrad = ctx.createRadialGradient(cx + 20, cy + 30, 20, cx, cy, size * 0.32);
+    magentaGrad.addColorStop(0.0, 'rgba(219, 39, 119, 0.65)');   // Hot Rose Pink
+    magentaGrad.addColorStop(0.25, 'rgba(168, 85, 247, 0.5)');   // Magenta Violet
+    magentaGrad.addColorStop(0.55, 'rgba(79, 70, 229, 0.25)');   // Royal Violet
+    magentaGrad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = magentaGrad;
     ctx.beginPath();
-    ctx.arc(0, 0, size * 0.24, 0, Math.PI * 2);
+    ctx.arc(cx, cy, size * 0.35, 0, Math.PI * 2);
     ctx.fill();
-    ctx.restore();
 
-    // Radiant Core Glow Bloom
-    const coreGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 85);
-    coreGrad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');
-    coreGrad.addColorStop(0.3, 'rgba(254, 243, 199, 0.95)');
-    coreGrad.addColorStop(0.65, 'rgba(251, 191, 36, 0.45)');
-    coreGrad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
-    ctx.fillStyle = coreGrad;
+    // C. Glowing Electric Cyan & Aqua-Teal Core (Ionized Gas Center)
+    const tealGrad = ctx.createRadialGradient(cx - 30, cy - 20, 0, cx - 20, cy - 10, size * 0.22);
+    tealGrad.addColorStop(0.0, 'rgba(255, 255, 255, 0.95)');    // Diamond White Hot Star
+    tealGrad.addColorStop(0.2, 'rgba(45, 212, 191, 0.85)');     // Electric Aqua Teal
+    tealGrad.addColorStop(0.5, 'rgba(56, 189, 248, 0.45)');     // Sky Blue Halo
+    tealGrad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = tealGrad;
     ctx.beginPath();
-    ctx.arc(cx, cy, 85, 0, Math.PI * 2);
+    ctx.arc(cx - 20, cy - 10, size * 0.22, 0, Math.PI * 2);
     ctx.fill();
 
     const tex = new THREE.CanvasTexture(c);
@@ -203,113 +193,115 @@ window.CONTACT = {
     return tex;
   }
 
-  const andromedaTexture = createAndromedaTexture();
+  const nebulaTexture = createOrionNebulaTexture();
   const starTexture = createStarTexture();
 
   // =========================================================================
-  // THE 3D ANDROMEDA GALAXY PLANE (Flowing Diagonally Below the Text)
+  // THE 3D ORION NEBULA VOLUMETRIC CLOUD (Natural Soft Cloud, No Flat Strips)
   // =========================================================================
-  const andromedaGeo = new THREE.PlaneGeometry(2800, 1600);
-  const andromedaMat = new THREE.MeshBasicMaterial({
-    map: andromedaTexture,
+  const nebulaGeo = new THREE.PlaneGeometry(2400, 1800);
+  const nebulaMat = new THREE.MeshBasicMaterial({
+    map: nebulaTexture,
     transparent: true,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
-    opacity: 0.88
+    opacity: 0.82
   });
 
-  const andromedaMesh = new THREE.Mesh(andromedaGeo, andromedaMat);
-  // Tuned: Lower-mid depth horizon so the golden core cradles the viewport bottom
-  andromedaMesh.rotation.x = 0.92;
-  andromedaMesh.rotation.y = -0.28;
-  andromedaMesh.rotation.z = 0.52;
-  andromedaMesh.position.set(100, -140, -240);
-  scene.add(andromedaMesh);
+  const nebulaMesh = new THREE.Mesh(nebulaGeo, nebulaMat);
+  // Positioned naturally in deep 3D space behind the text
+  nebulaMesh.position.set(40, -30, -350);
+  scene.add(nebulaMesh);
 
   // =========================================================================
-  // STELLAR DISK STARS (Riding Along the Andromeda Plane)
+  // RICH MULTI-COLORED 3D STARFIELD (White, Cyan, Warm Gold & Rose Stars)
   // =========================================================================
-  const diskStarCount = 1300;
-  const diskStarGeo = new THREE.BufferGeometry();
-  const diskStarPos = new Float32Array(diskStarCount * 3);
-  const diskStarCol = new Float32Array(diskStarCount * 3);
+  const starsCount = 2000;
+  const starGeo = new THREE.BufferGeometry();
+  const starPos = new Float32Array(starsCount * 3);
+  const starCol = new Float32Array(starsCount * 3);
 
   const colWhite = new THREE.Color('#ffffff');
-  const colGold = new THREE.Color('#fef08a');
   const colCyan = new THREE.Color('#38bdf8');
+  const colTeal = new THREE.Color('#2dd4bf');
+  const colGold = new THREE.Color('#fef08a');
+  const colRose = new THREE.Color('#f472b6');
 
-  for (let i = 0; i < diskStarCount; i++) {
+  for (let i = 0; i < starsCount; i++) {
     const i3 = i * 3;
-    const angle = Math.random() * Math.PI * 2;
-    const dist = Math.pow(Math.random(), 1.8) * 1150;
 
-    diskStarPos[i3] = Math.cos(angle) * dist * 1.55;
-    diskStarPos[i3 + 1] = Math.sin(angle) * dist * 0.65;
-    diskStarPos[i3 + 2] = (Math.random() - 0.5) * 220;
+    // Wide organic spread filling the entire deep horizon
+    starPos[i3] = (Math.random() - 0.5) * 3800;
+    starPos[i3 + 1] = (Math.random() - 0.5) * 2400;
+    starPos[i3 + 2] = (Math.random() - 0.5) * 2600;
 
+    const r = Math.random();
     let c = colWhite;
-    if (dist < 320) c = colGold;
-    else if (Math.random() > 0.5) c = colCyan;
+    if (r > 0.45 && r <= 0.7) c = colCyan;      // 25% Cyan Stars
+    else if (r > 0.7 && r <= 0.85) c = colTeal; // 15% Teal Stars
+    else if (r > 0.85 && r <= 0.94) c = colGold; // 9% Warm Gold Stars
+    else if (r > 0.94) c = colRose;             // 6% Subtle Rose Stars
 
-    diskStarCol[i3] = c.r;
-    diskStarCol[i3 + 1] = c.g;
-    diskStarCol[i3 + 2] = c.b;
+    starCol[i3] = c.r;
+    starCol[i3 + 1] = c.g;
+    starCol[i3 + 2] = c.b;
   }
 
-  diskStarGeo.setAttribute('position', new THREE.BufferAttribute(diskStarPos, 3));
-  diskStarGeo.setAttribute('color', new THREE.BufferAttribute(diskStarCol, 3));
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  starGeo.setAttribute('color', new THREE.BufferAttribute(starCol, 3));
 
-  const diskStarMat = new THREE.PointsMaterial({
-    size: 13,
+  const starMat = new THREE.PointsMaterial({
+    size: 11,
     sizeAttenuation: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
     vertexColors: true,
     transparent: true,
     map: starTexture,
-    opacity: 0.88
+    opacity: 0.92
   });
-
-  const diskStarMesh = new THREE.Points(diskStarGeo, diskStarMat);
-  diskStarMesh.position.copy(andromedaMesh.position);
-  diskStarMesh.rotation.copy(andromedaMesh.rotation);
-  scene.add(diskStarMesh);
-
-  // =========================================================================
-  // PANORAMIC WIDE BACKGROUND STARFIELD (1,200 Crisp Stars)
-  // =========================================================================
-  const fieldCount = 1200;
-  const fieldGeo = new THREE.BufferGeometry();
-  const fieldPos = new Float32Array(fieldCount * 3);
-  const fieldCol = new Float32Array(fieldCount * 3);
-
-  for (let i = 0; i < fieldCount; i++) {
-    const i3 = i * 3;
-    fieldPos[i3] = (Math.random() - 0.5) * 3800;
-    fieldPos[i3 + 1] = (Math.random() - 0.5) * 2400;
-    fieldPos[i3 + 2] = (Math.random() - 0.5) * 2600;
-
-    const isCyan = Math.random() > 0.65;
-    fieldCol[i3] = isCyan ? 0.7 : 1.0;
-    fieldCol[i3 + 1] = isCyan ? 0.9 : 1.0;
-    fieldCol[i3 + 2] = 1.0;
-  }
-
-  fieldGeo.setAttribute('position', new THREE.BufferAttribute(fieldPos, 3));
-  fieldGeo.setAttribute('color', new THREE.BufferAttribute(fieldCol, 3));
-
-  const fieldMat = new THREE.PointsMaterial({
-    size: 10,
-    sizeAttenuation: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    vertexColors: true,
-    transparent: true,
-    map: starTexture,
-    opacity: 0.85
-  });
-  const backgroundField = new THREE.Points(fieldGeo, fieldMat);
+  const backgroundField = new THREE.Points(starGeo, starMat);
   scene.add(backgroundField);
+
+  // =========================================================================
+  // TWINKLING COLORFUL FOREGROUND BEACONS (Prominent Sparkling Gems)
+  // =========================================================================
+  const beaconCount = 95;
+  const beaconGeo = new THREE.BufferGeometry();
+  const beaconPos = new Float32Array(beaconCount * 3);
+  const beaconCol = new Float32Array(beaconCount * 3);
+
+  for (let i = 0; i < beaconCount; i++) {
+    const i3 = i * 3;
+    beaconPos[i3] = (Math.random() - 0.5) * 2600;
+    beaconPos[i3 + 1] = (Math.random() - 0.5) * 1600;
+    beaconPos[i3 + 2] = (Math.random() - 0.5) * 1200 + 100;
+
+    const r = Math.random();
+    let c = colWhite;
+    if (r > 0.5) c = colCyan;
+    else if (r > 0.8) c = colGold;
+
+    beaconCol[i3] = c.r;
+    beaconCol[i3 + 1] = c.g;
+    beaconCol[i3 + 2] = c.b;
+  }
+
+  beaconGeo.setAttribute('position', new THREE.BufferAttribute(beaconPos, 3));
+  beaconGeo.setAttribute('color', new THREE.BufferAttribute(beaconCol, 3));
+
+  const beaconMat = new THREE.PointsMaterial({
+    size: 20, // Sparkling gems
+    sizeAttenuation: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    vertexColors: true,
+    transparent: true,
+    map: starTexture,
+    opacity: 0.95
+  });
+  const beaconMesh = new THREE.Points(beaconGeo, beaconMat);
+  scene.add(beaconMesh);
 
   // =========================================================================
   // SHOOTING STARS (METEOR SYSTEM)
@@ -389,7 +381,7 @@ window.CONTACT = {
   }
 
   // =========================================================================
-  // 3D CAMERA PARALLAX & ANIMATION LOOP
+  // 3D CAMERA PARALLAX & ORGANIC DRIFT LOOP
   // =========================================================================
   let mouseX = 0;
   let mouseY = 0;
@@ -407,15 +399,18 @@ window.CONTACT = {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
 
-    // The Entire Andromeda Galaxy Rotates Majestically in 3D
-    andromedaMesh.rotation.z = 0.52 + (t * 0.006);
-    diskStarMesh.rotation.z = andromedaMesh.rotation.z;
+    // The Orion Nebula Breathes and Drifts Subtly in 3D Space
+    nebulaMesh.rotation.z = Math.sin(t * 0.008) * 0.05;
+    nebulaMesh.position.y = -30 + Math.sin(t * 0.012) * 12;
 
-    backgroundField.rotation.y = t * 0.002;
+    // Stars Organic Float
+    backgroundField.rotation.y = t * 0.003;
+    beaconMesh.rotation.y = t * 0.006;
+    beaconMat.opacity = 0.8 + Math.sin(t * 2.2) * 0.2;
 
     updateMeteors();
 
-    // Smooth Camera 3D Orbit
+    // Silky Smooth Camera 3D Orbit
     targetX = mouseX * 220;
     targetY = -mouseY * 160;
 

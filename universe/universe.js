@@ -20,15 +20,15 @@ export const UNIVERSE_SETTINGS = {
 
   // Enhanced Star Presence (Crisp & Noticeably Larger)
   starBrightness: 1.29,
-  nearStarsCount: 600,     // Large sparkling diamond beacons
-  midStarsCount: 4300,     // Medium prominent stars
-  farStarsCount: 9900,     // Background starry horizon
+  nearStarsCount: 650,     // Large sparkling diamond beacons
+  midStarsCount: 4500,     // Medium prominent stars
+  farStarsCount: 1100,     // Background starry horizon
 
   // Galaxies Radiance
   galaxyBrightness: 0.80,
 
   // Smooth Post-Processing Bloom
-  bloomStrength: 0.45,
+  bloomStrength: 0.47,
   bloomRadius: 0.48,
   bloomThreshold: 0.86,
   vignette: 0.38,
@@ -255,7 +255,7 @@ export class Universe {
         coreColor: '#FFFBEB',
         armColor: '#F59E0B',
         arms: 4,                                  // 4 Arms = rich galactic bloom, no 'S' curve!
-        spin: 0.0172,
+        spin: 0.0142,
         speed: 0.50
       }
     ];

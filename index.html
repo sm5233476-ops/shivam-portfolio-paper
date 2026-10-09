@@ -13,6 +13,7 @@
   
   <!-- GSAP Animation Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <!-- Modern ES Module Import Map for Three.js 0.169.0 & Addons -->
   <script type="importmap">
@@ -24,7 +25,7 @@
   }
   </script>
   
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 
@@ -87,14 +88,76 @@
       </div>
     </section>
 
-    <!-- Slots for Upcoming Next-Level Sections -->
-    <!-- @@SLOT:about @@ -->
+    <!-- ABOUT SECTION (Aashish Thakuri Style Confident Narrative) -->
+    <section id="about" class="about-section">
+      <div class="about-container">
+
+        <!-- Section Index / Label -->
+        <div class="section-tag-wrap">
+          <span class="section-num">01 //</span>
+          <span class="section-tag">ABOUT THE DEVELOPER</span>
+        </div>
+
+        <!-- 2-Column Editorial Grid -->
+        <div class="about-grid">
+
+          <!-- Left Column: Bold Architectural Thesis -->
+          <div class="about-left">
+            <h2 class="about-headline">
+              I build websites that balance <span class="highlight-cyan">raw aesthetic beauty</span> with engineering precision.
+            </h2>
+            
+            <div class="about-exp-pill">
+              <span class="exp-dot"></span>
+              <span class="exp-badge">1+ YEAR OF DEDICATED CRAFTSMANSHIP</span>
+            </div>
+          </div>
+
+          <!-- Right Column: The Narrative Story & Highlights -->
+          <div class="about-right">
+            <p class="about-p">
+              I’m <strong>Shivam Mishra</strong>. What began as a deep fascination with digital aesthetics has evolved into engineering high-performance websites and AI tools for modern brands and forward-thinking businesses.
+            </p>
+            <p class="about-p">
+              I believe a website shouldn’t just be a static landing page—it should be an immersive experience. Every project is built from scratch with silky 60fps motion, clean architecture, and a relentless focus on turning curious visitors into paying customers.
+            </p>
+
+            <!-- 3 Glass Capability Highlights -->
+            <div class="about-cards-grid">
+              
+              <div class="about-card">
+                <div class="card-icon">⚡</div>
+                <h3 class="card-title">Speed & 60FPS</h3>
+                <p class="card-desc">Sub-second loading times with GPU-accelerated motion and zero lag.</p>
+              </div>
+
+              <div class="about-card">
+                <div class="card-icon">✦</div>
+                <h3 class="card-title">High Conversion</h3>
+                <p class="card-desc">Designed with psychological intent to drive action and inquiries.</p>
+              </div>
+
+              <div class="about-card">
+                <div class="card-icon">⚙️</div>
+                <h3 class="card-title">Modern AI & Web3</h3>
+                <p class="card-desc">Powered by Three.js 3D, WebGL, custom AI assistants, and scalable code.</p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Slots for Upcoming Phases -->
     <!-- @@SLOT:works @@ -->
     <!-- @@SLOT:skills @@ -->
     <!-- @@SLOT:contact @@ -->
   </main>
 
   <!-- Main ES Module Script -->
-  <script type="module" src="main.js?v=5"></script>
+  <script type="module" src="main.js?v=6"></script>
 </body>
 </html>

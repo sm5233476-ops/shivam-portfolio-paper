@@ -19,24 +19,24 @@ export const UNIVERSE_SETTINGS = {
   tier: 'high',
 
   // Enhanced Star Presence (Crisp & Noticeably Larger)
-  starBrightness: 1.29,
+  starBrightness: 1.15,
   nearStarsCount: 500,     // Large sparkling diamond beacons
   midStarsCount: 4000,     // Medium prominent stars
   farStarsCount: 9500,     // Background starry horizon
 
   // Galaxies Radiance
-  galaxyBrightness: 0.55,
+  galaxyBrightness: 1.25,
 
   // Smooth Post-Processing Bloom
-  bloomStrength: 0.49,
-  bloomRadius: 0.49,
+  bloomStrength: 0.45,
+  bloomRadius: 0.48,
   bloomThreshold: 0.86,
   vignette: 0.38,
   aberration: 0.0005,
   grain: 0.025,
   exposure: 1.05,
 
-  mouseParallax: 7.0
+  mouseParallax: 2.2
 };
 
 function kelvinToRGB(kelvin) {
@@ -157,11 +157,11 @@ export class Universe {
   buildStars() {
     const layers = [
       // Far stars: increased from 0.8-1.3 to 1.4-2.2 px
-      { count: UNIVERSE_SETTINGS.farStarsCount, sizeMin: 1.5, sizeMax: 2.4, isNear: 0.0, radiusMin: 1800, radiusMax: 3400 },
+      { count: UNIVERSE_SETTINGS.farStarsCount, sizeMin: 1.4, sizeMax: 2.2, isNear: 0.0, radiusMin: 1800, radiusMax: 3400 },
       // Mid stars: increased from 1.3-2.2 to 2.4-3.8 px
       { count: UNIVERSE_SETTINGS.midStarsCount, sizeMin: 2.4, sizeMax: 3.8, isNear: 0.0, radiusMin: 1200, radiusMax: 2600 },
       // Near stars: increased from 3.2-5.5 to 4.5-7.5 px (with prominent spikes)
-      { count: UNIVERSE_SETTINGS.nearStarsCount, sizeMin: 4.6, sizeMax: 7.6, isNear: 1.0, radiusMin: 700, radiusMax: 1800 }
+      { count: UNIVERSE_SETTINGS.nearStarsCount, sizeMin: 4.5, sizeMax: 7.5, isNear: 1.0, radiusMin: 700, radiusMax: 1800 }
     ];
 
     layers.forEach(cfg => {
@@ -235,28 +235,28 @@ export class Universe {
       // 1. GALAXY 1 (FAR LEFT & UP, DISTANT & SMALL)
       {
         name: 'Distant Cyan Galaxy',
-        pos: new THREE.Vector3(-2750, 760, -2950), // Far out to the left & deep in distance
-        rot: new THREE.Euler(1.65, 0.5, -0.99),
-        radius: 170,                               // Small & elegant
+        pos: new THREE.Vector3(-1050, 460, -1650), // Far out to the left & deep in distance
+        rot: new THREE.Euler(1.15, 0.4, -0.75),
+        radius: 250,                               // Small & elegant
         particles: 11000,
         coreColor: '#E0F2FE',
         armColor: '#0284C7',
         arms: 3,                                  // 3 Arms = organic spiral, no 'S' curve!
-        spin: 0.200,
-        speed: -0.700
+        spin: 0.0038,
+        speed: -0.035
       },
       // 2. GALAXY 2 (RIGHT MIDDLE-DOWN, CLOSER & SLIGHTLY LARGER)
       {
         name: 'Radiant Amber Galaxy',
-        pos: new THREE.Vector3(2400, -720, -1700),  // Right side, slightly below middle, closer
-        rot: new THREE.Euler(0.9, -0.75, 0.6),
-        radius: 300,                               // Bigger & majestic
+        pos: new THREE.Vector3(820, -160, -1000),  // Right side, slightly below middle, closer
+        rot: new THREE.Euler(0.7, -0.45, 0.4),
+        radius: 390,                               // Bigger & majestic
         particles: 16000,
         coreColor: '#FFFBEB',
         armColor: '#F59E0B',
         arms: 4,                                  // 4 Arms = rich galactic bloom, no 'S' curve!
-        spin: 0.100,
-        speed: 0.50
+        spin: 0.0032,
+        speed: 0.04
       }
     ];
 

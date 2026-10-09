@@ -237,13 +237,13 @@ export class Universe {
         name: 'Distant Cyan Galaxy',
         pos: new THREE.Vector3(-2750, 760, -2950), // Far out to the left & deep in distance
         rot: new THREE.Euler(1.65, 0.5, -0.99),
-        radius: 150,                               // Small & elegant
+        radius: 170,                               // Small & elegant
         particles: 11000,
         coreColor: '#E0F2FE',
         armColor: '#0284C7',
         arms: 3,                                  // 3 Arms = organic spiral, no 'S' curve!
-        spin: 0.0500,
-        speed: -0.180
+        spin: 0.0700,
+        speed: -0.300
       },
       // 2. GALAXY 2 (RIGHT MIDDLE-DOWN, CLOSER & SLIGHTLY LARGER)
       {
@@ -255,8 +255,8 @@ export class Universe {
         coreColor: '#FFFBEB',
         armColor: '#F59E0B',
         arms: 4,                                  // 4 Arms = rich galactic bloom, no 'S' curve!
-        spin: 0.0130,
-        speed: 0.16
+        spin: 0.0170,
+        speed: 0.30
       }
     ];
 

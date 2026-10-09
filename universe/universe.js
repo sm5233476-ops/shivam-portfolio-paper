@@ -1,6 +1,6 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (ULTRA-LIGHTWEIGHT 60FPS ZERO-LAG ENGINE)
-   2 Dispersed Corner Galaxies + Optimized Particle Budget + Balanced Bloom
+   SHIVAM MISHRA — THE COSMIC HORIZON (PERFECTED POSITIONS & CRISP STARS)
+   2 Astronomical Galaxies (Far-Left & Mid-Right) + Enhanced Star Radiance
    ========================================================================== */
 
 import * as THREE from 'three';
@@ -13,31 +13,30 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { StarShader, PostShader } from './shaders.js';
 
 // ==========================================================================
-// 1. BALANCED, LUXURY TUNABLE SETTINGS (NO GPU OVERLOAD)
+// 1. MASTER SETTINGS (LARGER STARS & TUNED BRILLIANCE)
 // ==========================================================================
 export const UNIVERSE_SETTINGS = {
   tier: 'high',
 
-  // Balanced Starfield (Zero-Lag Count)
-  starBrightness: 1.05,
-  nearStarsCount: 400,     // Sharp foreground spikes
-  midStarsCount: 3500,     // Medium crisp stars
-  farStarsCount: 9000,     // Distant background starfield
+  // Enhanced Star Presence (Crisp & Noticeably Larger)
+  starBrightness: 1.15,
+  nearStarsCount: 500,     // Large sparkling diamond beacons
+  midStarsCount: 4000,     // Medium prominent stars
+  farStarsCount: 9500,     // Background starry horizon
 
-  // 2 Dispersed Corner Galaxies
-  galaxyBrightness: 1.1,
+  // Galaxies Radiance
+  galaxyBrightness: 1.25,
 
-  // Soft, Cinematic Bloom (Subtle, Not Blinding)
-  bloomStrength: 0.42,
-  bloomRadius: 0.45,
-  bloomThreshold: 0.88,    // Only the brightest cores bloom
-  vignette: 0.4,
+  // Smooth Post-Processing Bloom
+  bloomStrength: 0.45,
+  bloomRadius: 0.48,
+  bloomThreshold: 0.86,
+  vignette: 0.38,
   aberration: 0.0005,
   grain: 0.025,
-  exposure: 1.0,
+  exposure: 1.05,
 
-  // Camera Dynamics
-  mouseParallax: 2.0
+  mouseParallax: 2.2
 };
 
 function kelvinToRGB(kelvin) {
@@ -94,12 +93,10 @@ export class Universe {
   init(canvas) {
     this.canvas = canvas;
 
-    // 1. Scene & Camera Setup
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 4500);
+    this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 4800);
     this.camera.position.set(0, 0, 850);
 
-    // 2. Optimized WebGL2 Renderer (Safe DPR cap to prevent mobile/laptop lag)
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: false,
@@ -111,20 +108,17 @@ export class Universe {
     this.renderer.toneMappingExposure = UNIVERSE_SETTINGS.exposure;
     this.renderer.setClearColor(0x020308, 1.0);
 
-    // Cap DPR at 1.5 to guarantee 60fps on Retina laptop displays
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
-    // 3. Post-Processing Pipeline (Zero-Lag Render Target)
     this.initPostProcessing();
 
-    // 4. Construct GPU Scene Layers (Only 2 Corner Galaxies + Clean Stars)
+    // Construct Scene
     this.buildStars();
-    this.buildTwoCornerGalaxies();
+    this.buildTwoPerfectGalaxies();
     this.buildDustMotes();
     this.buildMeteors();
 
-    // 5. Events & GUI
     this.bindEvents();
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -138,7 +132,6 @@ export class Universe {
   initPostProcessing() {
     const size = new THREE.Vector2(window.innerWidth, window.innerHeight);
 
-    // No MSAA overhead (samples: 0) for pure 60fps performance
     const renderTarget = new THREE.WebGLRenderTarget(size.x, size.y, {
       type: THREE.HalfFloatType,
       samples: 0
@@ -160,12 +153,15 @@ export class Universe {
     this.composer.addPass(this.postPass);
   }
 
-  // --- LAYER 1: 3-TIER BALANCED STARS (Crisp, Not Overcrowded) ---
+  // --- LAYER 1: ENHANCED CRISP STARS (SLIGHTLY LARGER AS REQUESTED) ---
   buildStars() {
     const layers = [
-      { count: UNIVERSE_SETTINGS.farStarsCount, sizeMin: 0.8, sizeMax: 1.3, isNear: 0.0, radiusMin: 1800, radiusMax: 3200 },
-      { count: UNIVERSE_SETTINGS.midStarsCount, sizeMin: 1.3, sizeMax: 2.2, isNear: 0.0, radiusMin: 1200, radiusMax: 2600 },
-      { count: UNIVERSE_SETTINGS.nearStarsCount, sizeMin: 3.2, sizeMax: 5.5, isNear: 1.0, radiusMin: 700, radiusMax: 1800 }
+      // Far stars: increased from 0.8-1.3 to 1.4-2.2 px
+      { count: UNIVERSE_SETTINGS.farStarsCount, sizeMin: 1.4, sizeMax: 2.2, isNear: 0.0, radiusMin: 1800, radiusMax: 3400 },
+      // Mid stars: increased from 1.3-2.2 to 2.4-3.8 px
+      { count: UNIVERSE_SETTINGS.midStarsCount, sizeMin: 2.4, sizeMax: 3.8, isNear: 0.0, radiusMin: 1200, radiusMax: 2600 },
+      // Near stars: increased from 3.2-5.5 to 4.5-7.5 px (with prominent spikes)
+      { count: UNIVERSE_SETTINGS.nearStarsCount, sizeMin: 4.5, sizeMax: 7.5, isNear: 1.0, radiusMin: 700, radiusMax: 1800 }
     ];
 
     layers.forEach(cfg => {
@@ -195,13 +191,13 @@ export class Universe {
         const temp = 3500 + Math.random() * 8500;
         const c = kelvinToRGB(temp);
 
-        const hdrBoost = cfg.isNear > 0.5 ? 1.3 : 1.0;
+        const hdrBoost = cfg.isNear > 0.5 ? 1.35 : 1.0;
         colors[i3] = c.r * hdrBoost * UNIVERSE_SETTINGS.starBrightness;
         colors[i3 + 1] = c.g * hdrBoost * UNIVERSE_SETTINGS.starBrightness;
         colors[i3 + 2] = c.b * hdrBoost * UNIVERSE_SETTINGS.starBrightness;
 
         twinkles[i2] = Math.random() * Math.PI * 2;
-        twinkles[i2 + 1] = 0.5 + Math.random() * 2.0;
+        twinkles[i2 + 1] = 0.5 + Math.random() * 2.2;
         isNear[i] = cfg.isNear;
       }
 
@@ -232,35 +228,35 @@ export class Universe {
   }
 
   // =========================================================================
-  // LAYER 2: EXACTLY 2 CORNER DISPERSED GALAXIES (CENTER IS 100% CLEAN!)
+  // LAYER 2: 2 PERFECTED GALAXIES (EXACT USER COORDINATES & ORGANIC DISC)
   // =========================================================================
-  buildTwoCornerGalaxies() {
+  buildTwoPerfectGalaxies() {
     const galaxyConfigs = [
-      // 1. TOP-RIGHT: Warm Golden Amber Spiral (Far in the corner)
+      // 1. GALAXY 1 (FAR LEFT & UP, DISTANT & SMALL)
       {
-        name: 'Amber Spiral',
-        pos: new THREE.Vector3(880, 420, -1300), // Pushed far to top-right
-        rot: new THREE.Euler(0.7, -0.3, 0.4),
-        radius: 340,
-        particles: 12000,
-        coreColor: '#FFFBEB',
-        armColor: '#F59E0B',
-        arms: 2,
-        spin: 0.0035,
-        speed: 0.04
-      },
-      // 2. FAR LEFT / LOWER-LEFT: Deep Ice-Cyan Galaxy (Far on the other side)
-      {
-        name: 'Cyan Galaxy',
-        pos: new THREE.Vector3(-920, -380, -1450), // Pushed far to bottom-left
-        rot: new THREE.Euler(1.0, 0.3, -0.6),
-        radius: 360,
-        particles: 13000,
+        name: 'Distant Cyan Galaxy',
+        pos: new THREE.Vector3(-1050, 460, -1650), // Far out to the left & deep in distance
+        rot: new THREE.Euler(1.15, 0.4, -0.75),
+        radius: 250,                               // Small & elegant
+        particles: 11000,
         coreColor: '#E0F2FE',
         armColor: '#0284C7',
-        arms: 2,
-        spin: 0.003,
+        arms: 3,                                  // 3 Arms = organic spiral, no 'S' curve!
+        spin: 0.0038,
         speed: -0.035
+      },
+      // 2. GALAXY 2 (RIGHT MIDDLE-DOWN, CLOSER & SLIGHTLY LARGER)
+      {
+        name: 'Radiant Amber Galaxy',
+        pos: new THREE.Vector3(820, -160, -1000),  // Right side, slightly below middle, closer
+        rot: new THREE.Euler(0.7, -0.45, 0.4),
+        radius: 390,                               // Bigger & majestic
+        particles: 16000,
+        coreColor: '#FFFBEB',
+        armColor: '#F59E0B',
+        arms: 4,                                  // 4 Arms = rich galactic bloom, no 'S' curve!
+        spin: 0.0032,
+        speed: 0.04
       }
     ];
 
@@ -275,20 +271,22 @@ export class Universe {
       for (let i = 0; i < cfg.particles; i++) {
         const i3 = i * 3;
 
-        const r = Math.pow(Math.random(), 2.2) * cfg.radius;
+        // Multi-Arm Organic Galactic Scatter (Eliminates the caterpillar / S-curve)
+        const r = Math.pow(Math.random(), 2.0) * cfg.radius;
         const branchAngle = ((i % cfg.arms) / cfg.arms) * Math.PI * 2;
         const spin = r * cfg.spin;
-        const angle = branchAngle + spin + (Math.random() - 0.5) * 0.4;
+        const angle = branchAngle + spin + (Math.random() - 0.5) * 0.55;
 
-        const scatterX = (Math.random() - 0.5) * (r * 0.22 + 12);
-        const scatterY = (Math.random() - 0.5) * (r * 0.15 + 10);
-        const scatterZ = (Math.random() - 0.5) * (r * 0.22 + 12);
+        // Rich volumetric cloud scatter
+        const scatterX = (Math.random() - 0.5) * (r * 0.38 + 22);
+        const scatterY = (Math.random() - 0.5) * (r * 0.22 + 16);
+        const scatterZ = (Math.random() - 0.5) * (r * 0.38 + 22);
 
         pos[i3] = Math.cos(angle) * r + scatterX;
         pos[i3 + 1] = scatterY;
         pos[i3 + 2] = Math.sin(angle) * r + scatterZ;
 
-        const mixRatio = Math.min(1.0, r / (cfg.radius * 0.6));
+        const mixRatio = Math.min(1.0, r / (cfg.radius * 0.65));
         const c = cCore.clone().lerp(cArm, mixRatio);
 
         colors[i3] = c.r * UNIVERSE_SETTINGS.galaxyBrightness;
@@ -299,28 +297,28 @@ export class Universe {
       geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
       geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-      // Circular soft star sprite
+      // Circular High-Res Star Sprite
       const canvas = document.createElement('canvas');
       canvas.width = 64; canvas.height = 64;
       const ctx = canvas.getContext('2d');
       const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
       grad.addColorStop(0, 'rgba(255,255,255,1)');
-      grad.addColorStop(0.3, 'rgba(255,255,255,0.7)');
-      grad.addColorStop(0.7, 'rgba(255,255,255,0.12)');
+      grad.addColorStop(0.28, 'rgba(255,255,255,0.75)');
+      grad.addColorStop(0.65, 'rgba(255,255,255,0.14)');
       grad.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, 64, 64);
       const spriteTex = new THREE.CanvasTexture(canvas);
 
       const mat = new THREE.PointsMaterial({
-        size: 7.5,
+        size: 9.0, // Crisp and soft
         sizeAttenuation: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
         vertexColors: true,
         transparent: true,
         map: spriteTex,
-        opacity: 0.85
+        opacity: 0.88
       });
 
       const mesh = new THREE.Points(geo, mat);
@@ -333,7 +331,7 @@ export class Universe {
   }
 
   buildDustMotes() {
-    const count = 1200; // Cut in half for 60fps
+    const count = 1200;
     const geo = new THREE.BufferGeometry();
     const pos = new Float32Array(count * 3);
 
@@ -345,10 +343,10 @@ export class Universe {
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
 
     const mat = new THREE.PointsMaterial({
-      size: 1.8,
+      size: 2.2,
       color: 0x88ccff,
       transparent: true,
-      opacity: 0.25,
+      opacity: 0.28,
       blending: THREE.AdditiveBlending,
       depthWrite: false
     });
@@ -458,7 +456,6 @@ export class Universe {
 
     const elapsedTime = this.clock.getElapsedTime();
 
-    // Smooth Mouse Parallax
     this.mouseX += (this.targetMouseX - this.mouseX) * 0.04;
     this.mouseY += (this.targetMouseY - this.mouseY) * 0.04;
 
@@ -466,23 +463,19 @@ export class Universe {
     this.camera.rotation.y = -this.mouseX * maxRot;
     this.camera.rotation.x = -this.mouseY * (maxRot * 0.7);
 
-    // Update Stars
     this.starLayers.forEach(layer => {
       layer.material.uniforms.uTime.value = elapsedTime;
     });
 
-    // Rotate 2 Corner Galaxies
     this.miniGalaxies.forEach(g => {
       g.mesh.rotation.y = elapsedTime * (g.speed * 0.15);
     });
 
-    // Dust & Meteors
     if (this.dustMesh) {
       this.dustMesh.rotation.y = elapsedTime * 0.003;
     }
     this.updateMeteors();
 
-    // Post Pass
     if (this.postPass) {
       this.postPass.uniforms.uTime.value = elapsedTime;
     }
@@ -533,8 +526,7 @@ export class Universe {
     this.debugOverlay.innerHTML = `
       <strong>🌌 60FPS ZERO-LAG DEBUG (?debug=1)</strong><br>
       FPS: ${this.currentFps} | Tier: ${UNIVERSE_SETTINGS.tier}<br>
-      DPR: ${this.renderer.getPixelRatio().toFixed(2)} | Calls: ${this.renderer.info.render.calls}<br>
-      Active Stars: ${(UNIVERSE_SETTINGS.farStarsCount + UNIVERSE_SETTINGS.midStarsCount + UNIVERSE_SETTINGS.nearStarsCount).toLocaleString()}
+      DPR: ${this.renderer.getPixelRatio().toFixed(2)} | Calls: ${this.renderer.info.render.calls}
     `;
   }
 }

@@ -11,15 +11,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Libraries (Three.js 3D + GSAP Motion) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GSAP Animation Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Modern ES Module Import Map for Three.js 0.169.0 & Addons -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+    }
+  }
+  </script>
   
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
-  <!-- Fullscreen 3D WebGL Cosmic Canvas -->
+  <!-- Fullscreen WebGL2 Cosmic Canvas -->
   <canvas id="universe-canvas"></canvas>
 
   <!-- Minimal Kinetic Header -->
@@ -44,13 +53,13 @@
     <section id="hero" class="hero-section">
       <div class="hero-content">
 
-        <!-- The Iconic Statement (Balanced 2-Line Architecture) -->
+        <!-- Architectural 2-Line Headline -->
         <h1 class="hero-title">
           <span class="title-line reveal-blur">A web developer</span>
           <span class="title-line reveal-blur highlight-text">who loves to build.</span>
         </h1>
 
-        <!-- High-Impact Universal Subtitle -->
+        <!-- High-Impact Subtitle -->
         <p class="hero-subtitle reveal-blur">
           Designing and engineering high-impact digital experiences, web apps, and AI solutions.
           Focused on clean aesthetics, ultra-fast performance, and scalable architecture.
@@ -85,6 +94,7 @@
     <!-- @@SLOT:contact @@ -->
   </main>
 
-  <script src="main.js?v=4"></script>
+  <!-- Main ES Module Script -->
+  <script type="module" src="main.js?v=5"></script>
 </body>
 </html>

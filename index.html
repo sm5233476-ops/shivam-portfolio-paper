@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Shivam Mishra — A Web Developer Who Loves to Build</title>
-  <meta name="description" content="Designing and engineering high-impact digital experiences, web apps, and AI solutions with relentless focus on design and speed.">
+  <meta name="description" content="Designing and engineering high-impact digital experiences, web apps, and AI solutions with relentless focus on design, conversion, and speed.">
   
   <!-- Modern Clean Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,15 +25,15 @@
   }
   </script>
   
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 
   <!-- Fullscreen WebGL2 Cosmic Canvas -->
   <canvas id="universe-canvas"></canvas>
 
-  <!-- Minimal Kinetic Header -->
-  <header class="site-header">
+  <!-- Minimal Kinetic Header (Smart Auto-Hide on Scroll) -->
+  <header class="site-header" id="site-header">
     <nav class="nav-container">
       <div class="nav-links">
         <a href="#about" class="nav-item">about</a>
@@ -88,13 +88,13 @@
       </div>
     </section>
 
-    <!-- ABOUT SECTION (Aashish Thakuri Style Confident Narrative) -->
+    <!-- ABOUT SECTION (High-Converting Commercial Bio + 4 Electric Beam Cards) -->
     <section id="about" class="about-section">
       <div class="about-container">
 
-        <!-- Section Index / Label -->
-        <div class="section-tag-wrap">
-          <span class="section-num">01 //</span>
+        <!-- Clean Silver-White Tag (No 01 //) -->
+        <div class="section-tag-wrap about-anim">
+          <span class="tag-pulse-dot"></span>
           <span class="section-tag">ABOUT THE DEVELOPER</span>
         </div>
 
@@ -103,44 +103,66 @@
 
           <!-- Left Column: Bold Architectural Thesis -->
           <div class="about-left">
-            <h2 class="about-headline">
-              I build websites that balance <span class="highlight-cyan">raw aesthetic beauty</span> with engineering precision.
+            <h2 class="about-headline about-anim">
+              I build websites that balance <span class="highlight-metallic">aesthetic beauty</span> with high-converting engineering.
             </h2>
             
-            <div class="about-exp-pill">
+            <div class="about-exp-pill about-anim">
               <span class="exp-dot"></span>
-              <span class="exp-badge">1+ YEAR OF DEDICATED CRAFTSMANSHIP</span>
+              <span class="exp-badge">1+ YEAR OF RELENTLESS CRAFTSMANSHIP</span>
             </div>
           </div>
 
-          <!-- Right Column: The Narrative Story & Highlights -->
+          <!-- Right Column: Engaging Revenue-Focused Bio & 4 Cards -->
           <div class="about-right">
-            <p class="about-p">
-              I’m <strong>Shivam Mishra</strong>. What began as a deep fascination with digital aesthetics has evolved into engineering high-performance websites and AI tools for modern brands and forward-thinking businesses.
+            <p class="about-p about-anim">
+              I’m <strong>Shivam Mishra</strong>. My mission is simple: engineer digital experiences that command attention, build instant credibility, and drive serious business revenue.
             </p>
-            <p class="about-p">
-              I believe a website shouldn’t just be a static landing page—it should be an immersive experience. Every project is built from scratch with silky 60fps motion, clean architecture, and a relentless focus on turning curious visitors into paying customers.
+            <p class="about-p about-anim">
+              Whether it’s a high-converting landing page, an online store, or an AI chat assistant—I build every product from the ground up with 60fps GPU-accelerated motion, clean scalable architecture, and a relentless focus on turning casual visitors into high-paying clients.
             </p>
 
-            <!-- 3 Glass Capability Highlights -->
+            <!-- 4 Electric Beam Capability Cards Grid -->
             <div class="about-cards-grid">
               
-              <div class="about-card">
-                <div class="card-icon">⚡</div>
-                <h3 class="card-title">Speed & 60FPS</h3>
-                <p class="card-desc">Sub-second loading times with GPU-accelerated motion and zero lag.</p>
+              <!-- Card 1: Speed -->
+              <div class="about-card card-flow">
+                <div class="border-beam"></div>
+                <div class="about-card-inner">
+                  <div class="card-icon">⚡</div>
+                  <h3 class="card-title">Ultra Speed & 60FPS</h3>
+                  <p class="card-desc">Sub-second load times and silky GPU-accelerated motion with zero lag.</p>
+                </div>
               </div>
 
-              <div class="about-card">
-                <div class="card-icon">✦</div>
-                <h3 class="card-title">High Conversion</h3>
-                <p class="card-desc">Designed with psychological intent to drive action and inquiries.</p>
+              <!-- Card 2: Conversion -->
+              <div class="about-card card-flow">
+                <div class="border-beam"></div>
+                <div class="about-card-inner">
+                  <div class="card-icon">✦</div>
+                  <h3 class="card-title">High-Converting UX</h3>
+                  <p class="card-desc">Engineered psychologically to captivate visitors and maximize sales & leads.</p>
+                </div>
               </div>
 
-              <div class="about-card">
-                <div class="card-icon">⚙️</div>
-                <h3 class="card-title">Modern AI & Web3</h3>
-                <p class="card-desc">Powered by Three.js 3D, WebGL, custom AI assistants, and scalable code.</p>
+              <!-- Card 3: AI & Automation -->
+              <div class="about-card card-flow">
+                <div class="border-beam"></div>
+                <div class="about-card-inner">
+                  <div class="card-icon">🤖</div>
+                  <h3 class="card-title">AI & Automation</h3>
+                  <p class="card-desc">Custom 24/7 AI chat assistants and workflow tools that close inquiries automatically.</p>
+                </div>
+              </div>
+
+              <!-- Card 4: Full-Stack & Stores -->
+              <div class="about-card card-flow">
+                <div class="border-beam"></div>
+                <div class="about-card-inner">
+                  <div class="card-icon">💎</div>
+                  <h3 class="card-title">Modern Stores & Apps</h3>
+                  <p class="card-desc">From seamless e-commerce checkout flows to custom web apps built to scale.</p>
+                </div>
               </div>
 
             </div>
@@ -158,6 +180,6 @@
   </main>
 
   <!-- Main ES Module Script -->
-  <script type="module" src="main.js?v=6"></script>
+  <script type="module" src="main.js?v=7"></script>
 </body>
 </html>

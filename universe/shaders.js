@@ -187,17 +187,28 @@ export const StarShader = {
     uniform float uReadability;
 
     void main() {
-      vec2 coord = gl_PointCoord - vec2(0.5);
-      float dist = length(coord);
+      precision highp float;
+varying vec3 vColor;
+varying float vTwinkle;
 
-      if (dist > 0.5) discard;
+void main() {
+  // डब्बे के सेंटर (0,0) से दूरी नापो
+  vec2 coord = gl_PointCoord - vec2(0.5);
+  float dist = length(coord);
 
-      // Core circular star glow
-      float core = exp(-dist * dist * 32.0);
-      vec3 finalColor = vColor * (core * 1.5);
+  // 1. अगर दूरी 0.5 से ज्यादा है, तो चौकोर कोनों को तुरंत डस्टबिन में फेंक दो (Discard)
+  if (dist > 0.5) discard;
 
-      // 4-Point Diffraction Spikes on Near Beacon Stars
-      if (vIsNear > 0.5) {
+  // 2. किनारों को एकदम मक्खन जैसा गोल और सॉफ्ट करो (ताकि कोनों पर रोशनी 0.0 हो जाए)
+  float alpha = smoothstep(0.5, 0.05, dist);
+  
+  // 3. बीच में असली सितारे जैसा चमकता हुआ कोर (Glow)
+  float core = exp(-dist * dist * 24.0);
+
+  vec3 finalColor = vColor * (core * 1.4);
+
+  gl_FragColor = vec4(finalColor, alpha);
+}
         float spikeX = max(0.0, 1.0 - abs(coord.y) * 16.0) * max(0.0, 1.0 - abs(coord.x) * 2.2);
         float spikeY = max(0.0, 1.0 - abs(coord.x) * 16.0) * max(0.0, 1.0 - abs(coord.y) * 2.2);
         float spikes = (spikeX + spikeY) * 0.95;

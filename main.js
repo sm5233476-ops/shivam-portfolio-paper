@@ -1,6 +1,6 @@
 /* ==========================================================================
    SHIVAM MISHRA — MAIN APPLICATION ENTRY POINT (ES MODULE)
-   Universe Engine + Hero Reveal + Smart Auto-Hide Nav + About Wave Animations
+   Universe Engine + Camera Space Flight + Smart Auto-Hide Nav + About Wave
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
@@ -25,39 +25,47 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 2. SMART AUTO-HIDE NAVIGATION (Telegram Style Disappear/Reappear on Scroll)
+// 2. SMART AUTO-HIDE NAVIGATION (Bulletproof ScrollTrigger Direction)
 // ==========================================================================
 (function initSmartHeader() {
-  const header = document.getElementById('site-header');
-  if (!header) return;
+  function setupHeaderTrigger() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      setTimeout(setupHeaderTrigger, 40);
+      return;
+    }
 
-  let lastScrollY = window.scrollY;
-  let ticking = false;
+    gsap.registerPlugin(ScrollTrigger);
+    const header = document.getElementById('site-header');
+    if (!header) return;
 
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        const currentScrollY = window.scrollY;
-
-        // If at top, always show
-        if (currentScrollY <= 60) {
-          header.classList.remove('nav-hidden');
-        } 
-        // Scrolling DOWN -> Hide
-        else if (currentScrollY > lastScrollY && currentScrollY > 120) {
+    ScrollTrigger.create({
+      start: 'top -60',
+      end: 'max',
+      onUpdate: (self) => {
+        // Scrolling DOWN and not at the very top -> Hide Header
+        if (self.direction === 1 && self.scroll() > 100) {
           header.classList.add('nav-hidden');
         } 
         // Scrolling UP -> Reveal smoothly
-        else if (currentScrollY < lastScrollY) {
+        else if (self.direction === -1) {
           header.classList.remove('nav-hidden');
         }
+      }
+    });
 
-        lastScrollY = currentScrollY;
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive: true });
+    // Safety: Always reveal when at the absolute top
+    window.addEventListener('scroll', () => {
+      if (window.scrollY <= 50) {
+        header.classList.remove('nav-hidden');
+      }
+    }, { passive: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupHeaderTrigger);
+  } else {
+    setupHeaderTrigger();
+  }
 })();
 
 // ==========================================================================
@@ -145,34 +153,44 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 5. ABOUT SECTION CINEMATIC BLUR + 4-CARD FLOATING WAVE ENTRANCE
+// 5. ABOUT SCROLLTRIGGER + 3D SPACE FLIGHT PARALLAX
 // ==========================================================================
-(function initAboutScrollAnimations() {
-  function startScrollTrigger() {
+(function initAboutAndSpaceFlight() {
+  function setupScrollMotion() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-      setTimeout(startScrollTrigger, 50);
+      setTimeout(setupScrollMotion, 50);
       return;
     }
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // Initial state: Blur-to-focus for About text
+    // --- A. 3D CAMERA SPACE FLIGHT ON SCROLL ---
+    ScrollTrigger.create({
+      trigger: "body",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 1.2,
+      onUpdate: (self) => {
+        // As you scroll down the page, camera smoothly glides forward into the stars
+        if (window.UNIVERSE && window.UNIVERSE.camera) {
+          gsap.to(window.UNIVERSE.camera.position, {
+            z: 850 - (self.progress * 380), // Glides from 850 to 470 deeper in 3D space
+            duration: 0.8,
+            ease: "power1.out",
+            overwrite: "auto"
+          });
+        }
+      }
+    });
+
+    // --- B. ABOUT HEADLINE & BIO BLUR-TO-FOCUS REVEAL ---
     gsap.set(".about-anim", {
       opacity: 0,
-      y: 32,
-      filter: "blur(8px)",
+      y: 35,
+      filter: "blur(10px)",
       willChange: "transform, opacity, filter"
     });
 
-    // Initial state: Wave float for 4 cards
-    gsap.set(".card-flow", {
-      opacity: 0,
-      y: 55,
-      scale: 0.96,
-      willChange: "transform, opacity"
-    });
-
-    // 1. Tag & Left Headline Reveal (Blur-to-Focus)
     gsap.to(".section-tag-wrap.about-anim", {
       scrollTrigger: {
         trigger: "#about",
@@ -182,7 +200,7 @@ window.CONTACT = {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
-      duration: 0.85,
+      duration: 0.9,
       ease: "power2.out",
       clearProps: "filter,willChange"
     });
@@ -196,13 +214,12 @@ window.CONTACT = {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
-      duration: 1.05,
+      duration: 1.1,
       stagger: 0.16,
       ease: "power2.out",
       clearProps: "filter,willChange"
     });
 
-    // 2. Right Bio Paragraphs Reveal
     gsap.to(".about-p.about-anim", {
       scrollTrigger: {
         trigger: ".about-right",
@@ -212,32 +229,39 @@ window.CONTACT = {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
-      duration: 0.95,
-      stagger: 0.14,
+      duration: 1.0,
+      stagger: 0.15,
       ease: "power2.out",
       clearProps: "filter,willChange"
     });
 
-    // 3. Staggered Wave Entrance for the 4 Electric Beam Cards
+    // --- C. 4 CARDS FLOATING WAVE ENTRANCE ---
+    gsap.set(".card-flow", {
+      opacity: 0,
+      y: 60,
+      scale: 0.94,
+      willChange: "transform, opacity"
+    });
+
     gsap.to(".card-flow", {
       scrollTrigger: {
         trigger: ".about-cards-grid",
-        start: "top 80%",
+        start: "top 82%",
         toggleActions: "play none none none"
       },
       opacity: 1,
       y: 0,
       scale: 1,
-      duration: 0.9,
-      stagger: 0.12,
-      ease: "back.out(1.15)",
+      duration: 1.1,
+      stagger: 0.14,
+      ease: "back.out(1.2)",
       clearProps: "willChange"
     });
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startScrollTrigger);
+    document.addEventListener('DOMContentLoaded', setupScrollMotion);
   } else {
-    startScrollTrigger();
+    setupScrollMotion();
   }
 })();

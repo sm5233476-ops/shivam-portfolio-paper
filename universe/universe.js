@@ -19,13 +19,13 @@ export const UNIVERSE_SETTINGS = {
   tier: 'high',
 
   // Enhanced Star Presence (Crisp & Noticeably Larger)
-  starBrightness: 1.29,
-  nearStarsCount: 650,     // Large sparkling diamond beacons
-  midStarsCount: 4500,     // Medium prominent stars
-  farStarsCount: 1100,     // Background starry horizon
+  starBrightness: 1.30,
+  nearStarsCount: 690,     // Large sparkling diamond beacons
+  midStarsCount: 4600,     // Medium prominent stars
+  farStarsCount: 1300,     // Background starry horizon
 
   // Galaxies Radiance
-  galaxyBrightness: 0.80,
+  galaxyBrightness: 0.78,
 
   // Smooth Post-Processing Bloom
   bloomStrength: 0.47,

@@ -1,10 +1,10 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (GLSL SHADER MODULE)
-   Raymarched Volumetric FBM, 3-Tier HDR Stars, Spiral Galaxy & Dither Pass
+   SHIVAM MISHRA — THE COSMIC HORIZON (GLSL SHADER MODULE - ZERO BOX BUG)
+   Perfect Circular Radial Stars, Volumetric Nebula, Galaxy & Post Dither
    ========================================================================== */
 
 // ==========================================================================
-// 1. VOLUMETRIC NEBULA SHADER (Raymarched 3D FBM + Beer-Lambert Dust Lanes)
+// 1. VOLUMETRIC NEBULA SHADER
 // ==========================================================================
 export const NebulaShader = {
   vertexShader: /* glsl */ `
@@ -28,13 +28,11 @@ export const NebulaShader = {
     uniform float uIntensity;
     uniform float uReadability;
 
-    // Hubble Palette Uniforms
     uniform vec3 uColorTeal;
     uniform vec3 uColorBlue;
     uniform vec3 uColorMagenta;
     uniform vec3 uColorGold;
 
-    // 3D Noise Utilities
     float hash(vec3 p) {
       p = fract(p * 0.3183099 + 0.1);
       p *= 17.0;
@@ -53,7 +51,6 @@ export const NebulaShader = {
       );
     }
 
-    // 5-Octave Domain-Warped FBM with 3D Rotation between octaves
     const mat3 m = mat3(0.00, 0.80, 0.60, -0.80, 0.36, -0.48, -0.60, -0.48, 0.64);
 
     float fbm(vec3 p) {
@@ -66,7 +63,6 @@ export const NebulaShader = {
       return f;
     }
 
-    // Domain Warping for Organic Celestial Filaments
     float nebulaDensity(vec3 p, out float dustAbsorption) {
       vec3 q = vec3(
         fbm(p + vec3(0.0, uTime * 0.015, 0.0)),
@@ -80,22 +76,18 @@ export const NebulaShader = {
       );
 
       float d = fbm(p + 4.0 * r);
-      d = smoothstep(0.32, 0.88, d); // Sharp cavities and luminous filaments
-
-      // Low-frequency noise for dark interstellar dust absorption lanes
+      d = smoothstep(0.32, 0.88, d);
       dustAbsorption = smoothstep(0.4, 0.8, fbm(p * 0.4 + vec3(1.2, 2.3, 4.1)));
       return d * uDensity;
     }
 
     void main() {
-      // Reconstruct view ray from inverse matrices
       vec2 ndc = vUv * 2.0 - 1.0;
       vec4 clip = vec4(ndc, 1.0, 1.0);
       vec4 viewRay = uInvProj * clip;
       vec3 rayDir = normalize((uInvView * vec4(viewRay.xyz, 0.0)).xyz);
       vec3 rayOrigin = uCameraPos;
 
-      // Jitter start with dither hash
       float dither = hash(vec3(gl_FragCoord.xy, uTime));
       int steps = uSteps;
       float stepSize = 120.0 / float(steps);
@@ -107,18 +99,15 @@ export const NebulaShader = {
       for (int i = 0; i < 40; i++) {
         if (i >= steps || transmittance < 0.02) break;
 
-        // Sample volumetric density and dust absorption
         vec3 samplePos = p * 0.0035;
         float dust = 0.0;
         float dens = nebulaDensity(samplePos, dust);
 
         if (dens > 0.005) {
-          // Hubble Palette Color Interpolation
           vec3 col = mix(uColorBlue, uColorTeal, smoothstep(0.1, 0.45, dens));
           col = mix(col, uColorMagenta, smoothstep(0.45, 0.75, dens));
           col = mix(col, uColorGold, smoothstep(0.75, 1.0, dens));
 
-          // Beer-Lambert absorption from dark dust lanes
           float absorption = mix(1.0, 0.15, dust);
           float alpha = dens * 0.18;
 
@@ -129,36 +118,33 @@ export const NebulaShader = {
         p += rayDir * stepSize;
       }
 
-      // Screen-space Text Readability Ellipse Mask
       vec2 readCoord = (vUv - vec2(0.5, 0.52)) / vec2(0.45, 0.32);
       float readDist = dot(readCoord, readCoord);
       float readMask = smoothstep(0.3, 1.1, readDist);
       accumColor *= mix(1.0 - (uReadability * 0.55), 1.0, readMask);
 
-      // Clamp peak luminance to prevent washout
       accumColor = min(accumColor * uIntensity, vec3(0.75));
-
       gl_FragColor = vec4(accumColor, 1.0 - transmittance);
     }
   `
 };
 
 // ==========================================================================
-// 2. HDR STARS SHADER (Diffraction Spikes, Temperature & Twinkle)
+// 2. HDR STARS SHADER (PERFECT ROUND CIRCULAR GAUSSIAN STARS — NO BOX BUG!)
 // ==========================================================================
 export const StarShader = {
   vertexShader: /* glsl */ `
     attribute float aSize;
     attribute vec3 aColor;
-    attribute vec2 aTwinkle; // x: phase, y: speed
-    attribute float aIsNear; // 1.0 = near beacon star with spikes
+    attribute vec2 aTwinkle;
+    attribute float aIsNear;
 
     uniform float uTime;
     uniform float uPixelRatio;
 
     varying vec3 vColor;
-    varying float vIsNear;
     varying float vTwinkle;
+    varying float vIsNear;
 
     void main() {
       vColor = aColor;
@@ -171,63 +157,54 @@ export const StarShader = {
       vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
       float dist = length(mvPosition.xyz);
 
-      // Size attenuation
+      // Point size attenuation
       float pSize = aSize * uPixelRatio * (650.0 / dist) * tw;
-      gl_PointSize = clamp(pSize, 1.0, 48.0);
+      gl_PointSize = clamp(pSize, 1.5, 42.0);
       gl_Position = projectionMatrix * mvPosition;
     }
   `,
   fragmentShader: /* glsl */ `
     precision highp float;
     varying vec3 vColor;
-    varying float vIsNear;
     varying float vTwinkle;
+    varying float vIsNear;
 
     uniform vec2 uResolution;
     uniform float uReadability;
 
     void main() {
-      precision highp float;
-varying vec3 vColor;
-varying float vTwinkle;
+      // Offset from quad center (-0.5 to 0.5)
+      vec2 coord = gl_PointCoord - vec2(0.5);
+      float dist = length(coord);
 
-void main() {
-  // डब्बे के सेंटर (0,0) से दूरी नापो
-  vec2 coord = gl_PointCoord - vec2(0.5);
-  float dist = length(coord);
+      // 1. HARD DISCARD: Anything outside circle radius 0.5 is cut instantly
+      if (dist > 0.5) discard;
 
-  // 1. अगर दूरी 0.5 से ज्यादा है, तो चौकोर कोनों को तुरंत डस्टबिन में फेंक दो (Discard)
-  if (dist > 0.5) discard;
+      // 2. SOFT FALLOFF: Forces light to hit absolute 0.0 before touching box edges
+      float edgeFalloff = smoothstep(0.5, 0.08, dist);
 
-  // 2. किनारों को एकदम मक्खन जैसा गोल और सॉफ्ट करो (ताकि कोनों पर रोशनी 0.0 हो जाए)
-  float alpha = smoothstep(0.5, 0.05, dist);
-  
-  // 3. बीच में असली सितारे जैसा चमकता हुआ कोर (Glow)
-  float core = exp(-dist * dist * 24.0);
+      // 3. GLOWING STAR CORE: Exponential Gaussian energy
+      float core = exp(-dist * dist * 26.0);
+      float intensity = core * edgeFalloff * (vIsNear > 0.5 ? 1.8 : 1.3);
 
-  vec3 finalColor = vColor * (core * 1.4);
+      vec3 finalColor = vColor * intensity;
 
-  gl_FragColor = vec4(finalColor, alpha);
-}
-        float spikeX = max(0.0, 1.0 - abs(coord.y) * 16.0) * max(0.0, 1.0 - abs(coord.x) * 2.2);
-        float spikeY = max(0.0, 1.0 - abs(coord.x) * 16.0) * max(0.0, 1.0 - abs(coord.y) * 2.2);
-        float spikes = (spikeX + spikeY) * 0.95;
-        finalColor += vColor * spikes * 1.8; // HDR boost for bloom pick-up
-      }
-
-      // Screen-space readability darkening
-      vec2 screenUV = gl_FragCoord.xy / uResolution;
+      // 4. Screen-space readability darkening
+      vec2 screenUV = gl_FragCoord.xy / max(uResolution, vec2(1.0));
       vec2 readCoord = (screenUV - vec2(0.5, 0.52)) / vec2(0.45, 0.32);
       float readMask = smoothstep(0.2, 1.0, dot(readCoord, readCoord));
       finalColor *= mix(1.0 - (uReadability * 0.25), 1.0, readMask);
 
-      gl_FragColor = vec4(finalColor, core);
+      // Clean alpha ensures zero square bleeding into UnrealBloom
+      float alpha = clamp(intensity, 0.0, 1.0) * edgeFalloff;
+
+      gl_FragColor = vec4(finalColor, alpha);
     }
   `
 };
 
 // ==========================================================================
-// 3. SPIRAL GALAXY SHADER (160k Differential Rotation Particles)
+// 3. SPIRAL GALAXY SHADER
 // ==========================================================================
 export const GalaxyShader = {
   vertexShader: /* glsl */ `
@@ -242,8 +219,6 @@ export const GalaxyShader = {
 
     void main() {
       vColor = aColor;
-
-      // Differential Rotation: Angular speed ~ 1 / radius
       float angVel = 0.45 / (aRadius * 0.005 + 1.2);
       float currentAngle = aAngle + uTime * angVel;
 
@@ -254,7 +229,7 @@ export const GalaxyShader = {
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
       float dist = length(mvPosition.xyz);
 
-      gl_PointSize = clamp(14.0 * uPixelRatio * (600.0 / dist), 1.0, 18.0);
+      gl_PointSize = clamp(12.0 * uPixelRatio * (600.0 / dist), 1.0, 16.0);
       gl_Position = projectionMatrix * mvPosition;
     }
   `,
@@ -267,14 +242,14 @@ export const GalaxyShader = {
       float d = length(coord);
       if (d > 0.5) discard;
 
-      float intensity = exp(-d * d * 18.0);
-      gl_FragColor = vec4(vColor * intensity * 1.4, intensity);
+      float intensity = exp(-d * d * 18.0) * smoothstep(0.5, 0.05, d);
+      gl_FragColor = vec4(vColor * intensity * 1.3, intensity);
     }
   `
 };
 
 // ==========================================================================
-// 4. POST-PROCESSING SHADER (Dither, Grain, Vignette & Chromatic Aberration)
+// 4. POST-PROCESSING SHADER (Dither, Grain & Vignette)
 // ==========================================================================
 export const PostShader = {
   uniforms: {
@@ -302,7 +277,6 @@ export const PostShader = {
     uniform vec2 uResolution;
     varying vec2 vUv;
 
-    // Blue-Noise / Hash Dithering to eliminate 8-bit dark banding
     float dither(vec2 coord) {
       return fract(sin(dot(coord, vec2(12.9898, 78.233))) * 43758.5453);
     }
@@ -311,22 +285,18 @@ export const PostShader = {
       vec2 uv = vUv;
       vec2 distFromCenter = uv - 0.5;
 
-      // Subtle Radial Chromatic Aberration
       vec2 caOffset = distFromCenter * uAberration;
       float r = texture2D(tDiffuse, uv - caOffset).r;
       float g = texture2D(tDiffuse, uv).g;
       float b = texture2D(tDiffuse, uv + caOffset).b;
       vec3 color = vec3(r, g, b);
 
-      // Smooth Luxury Vignette
       float vig = 1.0 - dot(distFromCenter, distFromCenter) * (uVignette * 2.5);
       color *= clamp(vig, 0.0, 1.0);
 
-      // Animated Film Grain
       float grain = (dither(gl_FragCoord.xy + fract(uTime * 17.1)) - 0.5) * uGrain;
       color += grain;
 
-      // High-Frequency Banding Removal Dither
       float bandDither = (dither(gl_FragCoord.xy) - 0.5) / 255.0;
       color += bandDither;
 

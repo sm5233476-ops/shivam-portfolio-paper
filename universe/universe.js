@@ -19,13 +19,13 @@ export const UNIVERSE_SETTINGS = {
   tier: 'high',
 
   // Enhanced Star Presence (Crisp & Noticeably Larger)
-  starBrightness: 1.15,
+  starBrightness: 1.25,
   nearStarsCount: 500,     // Large sparkling diamond beacons
   midStarsCount: 4000,     // Medium prominent stars
   farStarsCount: 9500,     // Background starry horizon
 
   // Galaxies Radiance
-  galaxyBrightness: 1.05,
+  galaxyBrightness: 0.76,
 
   // Smooth Post-Processing Bloom
   bloomStrength: 0.45,
@@ -36,7 +36,7 @@ export const UNIVERSE_SETTINGS = {
   grain: 0.025,
   exposure: 1.05,
 
-  mouseParallax: 5.5
+  mouseParallax: 6.0
 };
 
 function kelvinToRGB(kelvin) {
@@ -235,28 +235,28 @@ export class Universe {
       // 1. GALAXY 1 (FAR LEFT & UP, DISTANT & SMALL)
       {
         name: 'Distant Cyan Galaxy',
-        pos: new THREE.Vector3(-2350, 660, -2850), // Far out to the left & deep in distance
-        rot: new THREE.Euler(1.55, 0.5, -0.99),
+        pos: new THREE.Vector3(-2750, 760, -2950), // Far out to the left & deep in distance
+        rot: new THREE.Euler(1.65, 0.5, -0.99),
         radius: 150,                               // Small & elegant
         particles: 11000,
         coreColor: '#E0F2FE',
         armColor: '#0284C7',
         arms: 3,                                  // 3 Arms = organic spiral, no 'S' curve!
-        spin: 0.0200,
-        speed: -0.110
+        spin: 0.0500,
+        speed: -0.180
       },
       // 2. GALAXY 2 (RIGHT MIDDLE-DOWN, CLOSER & SLIGHTLY LARGER)
       {
         name: 'Radiant Amber Galaxy',
-        pos: new THREE.Vector3(2500, -760, -1900),  // Right side, slightly below middle, closer
-        rot: new THREE.Euler(0.9, -0.85, 0.6),
+        pos: new THREE.Vector3(2400, -720, -1700),  // Right side, slightly below middle, closer
+        rot: new THREE.Euler(0.9, -0.75, 0.6),
         radius: 300,                               // Bigger & majestic
         particles: 16000,
         coreColor: '#FFFBEB',
         armColor: '#F59E0B',
         arms: 4,                                  // 4 Arms = rich galactic bloom, no 'S' curve!
-        spin: 0.0099,
-        speed: 0.13
+        spin: 0.0130,
+        speed: 0.16
       }
     ];
 

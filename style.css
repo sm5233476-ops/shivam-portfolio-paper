@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (LUMINOUS SILVER NAV & AWWWARDS HERO)
+   SHIVAM MISHRA — THE COSMIC HORIZON (HERO + EDITORIAL ABOUT SECTION)
    ========================================================================== */
 
 :root {
@@ -7,7 +7,7 @@
   --accent-cyan: #38bdf8;
   --accent-glow: rgba(56, 189, 248, 0.35);
   --text-primary: #ffffff;
-  --text-silver-bright: #F1F5F9; /* Luminous Pure Silver-White */
+  --text-silver-bright: #F1F5F9;
   --text-muted: #94a3b8;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -16,6 +16,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html, body {
@@ -42,7 +46,7 @@ html, body {
 }
 
 /* ==========================================================================
-   HEADER & LUMINOUS KINETIC NAVIGATION
+   HEADER & KINETIC NAVIGATION
    ========================================================================== */
 
 .site-header {
@@ -73,7 +77,6 @@ html, body {
   pointer-events: auto;
 }
 
-/* Luminous Silver-White Nav Links with Kinetic Float */
 .nav-item {
   position: relative;
   display: inline-block;
@@ -107,7 +110,7 @@ html, body {
 
 .nav-item:hover {
   color: #ffffff;
-  transform: translateY(-2px); /* Kinetic Upward Float */
+  transform: translateY(-2px);
   text-shadow: 0 0 16px rgba(255, 255, 255, 0.7), 0 0 28px rgba(56, 189, 248, 0.4);
 }
 
@@ -155,7 +158,7 @@ html, body {
 }
 
 /* ==========================================================================
-   HERO SECTION — 3D METALLIC CHROME TYPOGRAPHY
+   HERO SECTION
    ========================================================================== */
 
 main {
@@ -185,7 +188,6 @@ main {
   position: relative;
 }
 
-/* Soft Cosmic Scrim: 100% Text Legibility */
 .hero-content::before {
   content: '';
   position: absolute;
@@ -199,7 +201,6 @@ main {
   pointer-events: none;
 }
 
-/* The Grand 3D Metallic Headline */
 .hero-title {
   font-family: var(--font-sans);
   font-size: clamp(2.3rem, 4.6vw, 4.4rem);
@@ -232,7 +233,6 @@ main {
   filter: drop-shadow(0 4px 20px rgba(56, 189, 248, 0.35));
 }
 
-/* Subtitle */
 .hero-subtitle {
   max-width: 620px;
   font-size: clamp(1rem, 1.35vw, 1.12rem);
@@ -244,7 +244,6 @@ main {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
 
-/* Action Buttons */
 .hero-actions {
   display: flex;
   align-items: center;
@@ -305,7 +304,6 @@ main {
   transform: translateY(-2px);
 }
 
-/* Minimal Scroll Cue */
 .hero-scroll {
   position: absolute;
   bottom: 2rem;
@@ -326,7 +324,7 @@ main {
 .scroll-track {
   width: 16px;
   height: 25px;
-  border-radius: 99px;
+  border-radius: 999px;
   border: 1.5px solid rgba(255, 255, 255, 0.25);
   position: relative;
   display: flex;
@@ -348,8 +346,185 @@ main {
   100% { transform: translateY(0); opacity: 0; }
 }
 
+/* ==========================================================================
+   ABOUT SECTION — AASHISH THAKURI INSPIRED NARRATIVE EDITORIAL
+   ========================================================================== */
+
+.about-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: 8rem 2rem 8rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-container {
+  max-width: 1320px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Section Tag / Index */
+.section-tag-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 3.5rem;
+}
+
+.section-num {
+  color: var(--accent-cyan);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.section-tag {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* 2-Column Editorial Grid */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+/* Left Column */
+.about-left {
+  position: sticky;
+  top: 7rem;
+}
+
+.about-headline {
+  font-size: clamp(2.2rem, 3.8vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+  color: var(--text-primary);
+  margin-bottom: 2.8rem;
+}
+
+.highlight-cyan {
+  background: linear-gradient(135deg, #ffffff 10%, #38bdf8 70%, #0284c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Experience Glass Pill */
+.about-exp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.65rem 1.4rem;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 9999px;
+  backdrop-filter: blur(12px);
+}
+
+.exp-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan);
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+.exp-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-silver-bright);
+}
+
+/* Right Column (Narrative + Cards) */
+.about-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.about-p {
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: var(--text-silver-bright);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.about-p strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* 3 Glass Capability Cards Grid */
+.about-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.3rem;
+  margin-top: 1.5rem;
+}
+
+.about-card {
+  padding: 1.8rem 1.5rem;
+  background: rgba(12, 19, 36, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, border-color, box-shadow;
+}
+
+.about-card:hover {
+  transform: translateY(-5px);
+  background: rgba(15, 26, 52, 0.65);
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.18);
+}
+
+.card-icon {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.card-desc {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   RESPONSIVE (MOBILE & TABLETS)
+   ========================================================================== */
+
+@media (max-width: 992px) {
+  .site-header { padding: 1.2rem 1.8rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+  .about-left { position: static; }
+  .about-headline { font-size: 2.4rem; }
+}
+
 @media (max-width: 768px) {
-  .site-header { padding: 1.2rem 1.5rem; }
   .nav-links { display: none; }
   .hero-section { padding: 6.5rem 1.2rem 3rem 1.2rem; }
   .hero-title { font-size: 2.2rem; }
@@ -357,4 +532,6 @@ main {
   .hero-actions { flex-direction: column; width: 100%; gap: 1rem; }
   .btn-hero-primary, .btn-hero-secondary { width: 100%; justify-content: center; }
   .hero-scroll { display: none; }
+  .about-section { padding: 5rem 1.2rem; }
+  .about-cards-grid { grid-template-columns: 1fr; }
 }

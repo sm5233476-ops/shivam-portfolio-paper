@@ -19,10 +19,10 @@ export const UNIVERSE_SETTINGS = {
   tier: 'high',
 
   // Enhanced Star Presence (Crisp & Noticeably Larger)
-  starBrightness: 1.30,
-  nearStarsCount: 690,     // Large sparkling diamond beacons
-  midStarsCount: 4600,     // Medium prominent stars
-  farStarsCount: 1300,     // Background starry horizon
+  starBrightness: 1.26,
+  nearStarsCount: 600,     // Large sparkling diamond beacons
+  midStarsCount: 4300,     // Medium prominent stars
+  farStarsCount: 1900,     // Background starry horizon
 
   // Galaxies Radiance
   galaxyBrightness: 0.78,
@@ -36,7 +36,7 @@ export const UNIVERSE_SETTINGS = {
   grain: 0.025,
   exposure: 1.05,
 
-  mouseParallax: 7.3
+  mouseParallax: 7.5
 };
 
 function kelvinToRGB(kelvin) {

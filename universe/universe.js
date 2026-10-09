@@ -235,27 +235,27 @@ export class Universe {
       // 1. GALAXY 1 (FAR LEFT & UP, DISTANT & SMALL)
       {
         name: 'Distant Cyan Galaxy',
-        pos: new THREE.Vector3(-3050, 560, -1950), // Far out to the left & deep in distance
+        pos: new THREE.Vector3(-2450, 560, -1950), // Far out to the left & deep in distance
         rot: new THREE.Euler(1.25, 0.5, -0.95),
         radius: 220,                               // Small & elegant
         particles: 11000,
         coreColor: '#E0F2FE',
         armColor: '#0284C7',
         arms: 3,                                  // 3 Arms = organic spiral, no 'S' curve!
-        spin: 0.0038,
+        spin: 0.0338,
         speed: -0.255
       },
       // 2. GALAXY 2 (RIGHT MIDDLE-DOWN, CLOSER & SLIGHTLY LARGER)
       {
         name: 'Radiant Amber Galaxy',
-        pos: new THREE.Vector3(2020, -260, -2000),  // Right side, slightly below middle, closer
+        pos: new THREE.Vector3(2220, -260, -2000),  // Right side, slightly below middle, closer
         rot: new THREE.Euler(0.8, -0.48, 0.5),
         radius: 320,                               // Bigger & majestic
         particles: 16000,
         coreColor: '#FFFBEB',
         armColor: '#F59E0B',
         arms: 4,                                  // 4 Arms = rich galactic bloom, no 'S' curve!
-        spin: 0.0032,
+        spin: 0.0232,
         speed: 0.50
       }
     ];

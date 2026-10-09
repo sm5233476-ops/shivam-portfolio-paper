@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (ELECTRIC BEAM CARDS & SMART NAV)
+   SHIVAM MISHRA — THE COSMIC HORIZON (ELECTRIC ROTATING BEAM & SMART NAV)
    ========================================================================== */
 
 :root {
@@ -46,7 +46,7 @@ html, body {
 }
 
 /* ==========================================================================
-   HEADER & SMART AUTO-HIDE NAVIGATION (Telegram Style Dissolve on Scroll)
+   HEADER & SMART AUTO-HIDE NAVIGATION (Telegram Style Disappear)
    ========================================================================== */
 
 .site-header {
@@ -58,14 +58,17 @@ html, body {
   padding: 2rem 4rem;
   background: transparent !important;
   pointer-events: none;
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
   will-change: transform, opacity;
 }
 
 /* Hidden State When Scrolling Down */
 .site-header.nav-hidden {
-  transform: translateY(-120%);
-  opacity: 0;
+  transform: translateY(-130%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .nav-container {
@@ -355,14 +358,14 @@ main {
 }
 
 /* ==========================================================================
-   ABOUT SECTION — 4 ELECTRIC BEAM CARDS & EDITORIAL SPACE
+   ABOUT SECTION — 4 ROTATING ELECTRIC BEAM CARDS & EDITORIAL SPACE
    ========================================================================== */
 
 .about-section {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  padding: 10rem 2rem 9rem 2rem; /* Generous breathing room */
+  padding: 11rem 2rem 10rem 2rem; /* Generous breathing room so header never clashes */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -427,7 +430,7 @@ main {
   margin-bottom: 2.8rem;
 }
 
-/* Exact Hero Matching 3D Metallic Gradient */
+/* Dual-Tone 3D Metallic Gradient on Highlight */
 .highlight-metallic {
   background: linear-gradient(135deg, #ffffff 15%, #7dd3fc 60%, #0284c7 100%);
   -webkit-background-clip: text;
@@ -484,32 +487,45 @@ main {
 }
 
 /* ==========================================================================
-   4 CARDS GRID & ROTATING ELECTRIC BORDER BEAM
-   ========================================================================= */
+   4 CARDS GRID + TRUE ROTATING ELECTRIC BORDER BEAM (2px Precision Gap)
+   ========================================================================== */
 
 .about-cards-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Clean 2x2 Balanced Grid */
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.4rem;
   margin-top: 1.8rem;
 }
 
+/* The Card Wrapper (Has 2px padding which creates the laser border channel) */
 .about-card {
   position: relative;
   border-radius: 20px;
   overflow: hidden;
-  background: rgba(10, 16, 32, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  padding: 2px; /* <--- CRITICAL: Creates the 2px visible channel for rotating beam */
+  background: rgba(255, 255, 255, 0.08); /* Clean static border when not hovering */
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
   will-change: transform, box-shadow;
 }
 
-.about-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(56, 189, 248, 0.16);
+/* Idle Space-Floating Wave Bobbing (Zero-Gravity Float) */
+.about-card:nth-child(1) { animation: spaceBob 6s ease-in-out infinite alternate; }
+.about-card:nth-child(2) { animation: spaceBob 6.5s ease-in-out 1.2s infinite alternate; }
+.about-card:nth-child(3) { animation: spaceBob 6.2s ease-in-out 0.6s infinite alternate; }
+.about-card:nth-child(4) { animation: spaceBob 6.8s ease-in-out 1.8s infinite alternate; }
+
+@keyframes spaceBob {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-7px); }
 }
 
-/* The Rotating Electric Border Beam (Conic Laser Gradient) */
+.about-card:hover {
+  animation-play-state: paused;
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.22);
+}
+
+/* The 360° Rotating Conic Laser Beam */
 .about-card .border-beam {
   position: absolute;
   top: -50%;
@@ -518,22 +534,24 @@ main {
   height: 200%;
   background: conic-gradient(
     transparent 0deg,
-    transparent 65deg,
-    rgba(56, 189, 248, 0.25) 75deg,
-    #38bdf8 85deg,
-    #ffffff 92deg,
-    rgba(56, 189, 248, 0.4) 98deg,
-    transparent 110deg
+    transparent 60deg,
+    rgba(56, 189, 248, 0.3) 72deg,
+    #38bdf8 82deg,
+    #ffffff 90deg,
+    #38bdf8 98deg,
+    rgba(56, 189, 248, 0.3) 108deg,
+    transparent 120deg
   );
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.35s ease;
   pointer-events: none;
   z-index: 0;
 }
 
+/* On Hover: Laser Beam Rotates Fast Around All 4 Edges */
 .about-card:hover .border-beam {
   opacity: 1;
-  animation: spinBeam 3.2s linear infinite;
+  animation: spinBeam 2.8s linear infinite;
 }
 
 @keyframes spinBeam {
@@ -542,16 +560,15 @@ main {
   }
 }
 
-/* Inner Card Container (Floats above the beam) */
+/* Inner Card Container: Sits inside the 2px gap */
 .about-card-inner {
   position: relative;
   z-index: 1;
-  border-radius: 19px;
-  background: rgba(8, 14, 28, 0.88); /* Opaque enough to hide beam inside, exposes border */
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  border-radius: 18px;
+  background: #080e1c; /* Solid deep glass to block beam inside, exposing perimeter */
   padding: 1.8rem 1.6rem;
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }

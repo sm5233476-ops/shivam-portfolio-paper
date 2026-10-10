@@ -1,5 +1,6 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (STUDIO-GRADE COMPLETE STYLESHEET)
+   SHIVAM MISHRA — THE COSMIC HORIZON (ZERO-LAG 60FPS & TRANSPARENT HEADER)
+   100% Transparent Nav (No Dark Bar), Electric Border Beam & Silky Blur-Reveal
    ========================================================================== */
 
 :root {
@@ -9,9 +10,8 @@
   --text-heading: #F4F1EA;
   --text-body: #D9D6CE;
   --text-muted: #8E8A82;
-  --surface-card: rgba(10, 14, 32, 0.72);
+  --surface-card: #080e1c;
   --border-subtle: rgba(255, 255, 255, 0.08);
-  --header-glass: rgba(6, 8, 22, 0.72);
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -23,7 +23,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 96px; /* Prevents nav from overlapping headings */
+  scroll-padding-top: 96px;
 }
 
 html, body {
@@ -46,36 +46,11 @@ html, body {
   height: 100vh;
   z-index: 0;
   pointer-events: none;
-  background: var(--bg-deep);
-}
-
-/* Contrast Shadow: Text stays 100% legible over canvas */
-.text-contrast-heading {
-  color: var(--text-heading);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 40px rgba(0, 0, 0, 0.5);
-}
-
-.text-contrast-body {
-  color: var(--text-body);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 40px rgba(0, 0, 0, 0.5);
-}
-
-/* Word Splitter Masks */
-.word-mask {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: top;
-  padding-bottom: 0.14em;
-  margin-bottom: -0.14em;
-}
-
-.word {
-  display: inline-block;
-  will-change: transform, opacity;
+  background: transparent !important;
 }
 
 /* ==========================================================================
-   SMART NAVBAR (72px Engineering-Grade, No Backdrop-Filter)
+   HEADER & NAVIGATION (100% TRANSPARENT ALWAYS — NO BLACK BAR!)
    ========================================================================== */
 
 .site-header {
@@ -88,16 +63,24 @@ html, body {
   padding: 0 3.5rem;
   display: flex;
   align-items: center;
-  background-color: transparent;
-  border-bottom: 1px solid transparent;
+  background: transparent !important; /* Pure transparent at all times */
+  border-bottom: none !important;     /* No ugly lines cutting the cosmos */
   will-change: transform;
   pointer-events: none;
-  transition: background-color 0.4s ease, border-color 0.4s ease;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
 }
 
+/* Scrolled state: Stays clean & transparent without dark block */
 .site-header.header--scrolled {
-  background-color: var(--header-glass);
-  border-bottom-color: var(--border-subtle);
+  background: transparent !important;
+  border-bottom: none !important;
+}
+
+/* Hidden State When Scrolling Down */
+.site-header.nav-hidden {
+  transform: translateY(-130%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .nav-container {
@@ -122,26 +105,29 @@ html, body {
 .nav-item {
   position: relative;
   display: inline-block;
-  color: #c0c6d4;
+  color: #F1F5F9;
   font-family: var(--font-sans);
-  font-size: 0.94rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: lowercase;
   text-decoration: none;
   padding: 0.5rem 0.2rem;
   cursor: pointer;
-  transition: color 0.3s ease;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.9);
+  transition: color 0.3s ease, transform 0.3s ease;
+  will-change: transform, color;
 }
 
 .nav-item:hover,
 .nav-item.is-active,
 .nav-item:focus-visible {
   color: #ffffff;
+  transform: translateY(-2px);
   outline: none;
 }
 
-/* Sliding Electric-Blue Active Line */
+/* Sliding Electric-Blue Active Indicator */
 .nav-active-line {
   position: absolute;
   bottom: 0;
@@ -157,23 +143,24 @@ html, body {
   will-change: transform, width;
 }
 
-/* 3D Magnetic "Let's Connect" Button */
+/* 3D Magnetic "Let's Connect" Button (Zero Backdrop-Filter Overhead) */
 .btn-connect {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  padding: 0.62rem 1.4rem;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.65rem 1.5rem;
+  background: rgba(14, 22, 44, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 9999px;
   color: #ffffff;
   font-size: 0.88rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-decoration: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   pointer-events: auto;
   transform-style: preserve-3d;
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
@@ -182,7 +169,7 @@ html, body {
   background-color: #ffffff;
   color: #02030a;
   border-color: #ffffff;
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.45);
   outline: none;
 }
 
@@ -192,6 +179,34 @@ html, body {
 
 .btn-connect:hover svg {
   transform: translate(2px, -2px);
+}
+
+/* ==========================================================================
+   WORD REVEAL & BLUR ENGINE STYLING
+   ========================================================================== */
+
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+.word {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+
+/* Text Legibility Shadow */
+.text-contrast-heading {
+  color: var(--text-heading);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7), 0 8px 30px rgba(0, 0, 0, 0.6);
+}
+
+.text-contrast-body {
+  color: var(--text-body);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7), 0 8px 30px rgba(0, 0, 0, 0.6);
 }
 
 /* ==========================================================================
@@ -222,6 +237,21 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+}
+
+/* Soft contrast scrim for clean text reading */
+.hero-content::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(ellipse at center, rgba(2, 3, 10, 0.45) 0%, rgba(2, 3, 10, 0) 75%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .hero-title {
@@ -231,7 +261,7 @@ main {
   line-height: 1.14;
   letter-spacing: -0.035em;
   color: var(--text-heading);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 40px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8), 0 8px 40px rgba(0, 0, 0, 0.7);
   margin-bottom: 1.6rem;
   display: flex;
   flex-direction: column;
@@ -252,7 +282,7 @@ main {
   font-weight: 500;
   line-height: 1.65;
   color: var(--text-body);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 40px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
   margin-bottom: 2.8rem;
   letter-spacing: -0.01em;
 }
@@ -277,13 +307,13 @@ main {
   font-weight: 700;
   letter-spacing: 0.02em;
   text-decoration: none;
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
 
 .btn-hero-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.45);
 }
 
 .btn-hero-primary svg {
@@ -299,7 +329,7 @@ main {
   align-items: center;
   padding: 0.9rem 2.2rem;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(14, 22, 44, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.22);
   color: #ffffff;
   font-family: var(--font-sans);
@@ -311,7 +341,7 @@ main {
 }
 
 .btn-hero-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.45);
   transform: translateY(-2px);
 }
@@ -419,7 +449,7 @@ main {
   line-height: 1.18;
   letter-spacing: -0.035em;
   color: var(--text-heading);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 40px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8), 0 8px 40px rgba(0, 0, 0, 0.7);
   margin-bottom: 2.8rem;
 }
 
@@ -428,7 +458,7 @@ main {
   align-items: center;
   gap: 0.75rem;
   padding: 0.65rem 1.4rem;
-  background: rgba(10, 14, 32, 0.65);
+  background: rgba(10, 14, 32, 0.75);
   border: 1px solid var(--border-subtle);
   border-radius: 9999px;
 }
@@ -466,11 +496,11 @@ main {
   color: var(--text-body);
   font-weight: 500;
   letter-spacing: -0.01em;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 40px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
 /* ==========================================================================
-   4 CARDS: CONIC ELECTRIC BORDER BEAM + SPRING HOVER
+   4 CARDS: ELECTRIC ROTATING BEAM + 60FPS ZERO-LAG SURFACE
    ========================================================================== */
 
 .about-cards-grid {
@@ -485,16 +515,18 @@ main {
   border-radius: 24px;
   background-color: var(--surface-card);
   border: 1px solid var(--border-subtle);
-  overflow: visible;
+  padding: 2px; /* Channel for rotating electric beam */
+  overflow: hidden;
   will-change: transform;
 }
 
+/* Soft Outer Electric Glow (Opacity Transition Only) */
 .about-card::after {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: 0 0 35px rgba(31, 162, 255, 0.3);
+  box-shadow: 0 0 35px rgba(31, 162, 255, 0.35);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
@@ -506,6 +538,7 @@ main {
   opacity: 1;
 }
 
+/* The Electric Border Mask Edge */
 .card__edge {
   position: absolute;
   inset: 0;
@@ -542,10 +575,12 @@ main {
   opacity: 1;
 }
 
+/* Opaque Solid Surface (Zero Backdrop-Filter Overhead on Canvas) */
 .about-card-inner {
   position: relative;
   z-index: 1;
-  border-radius: 23px;
+  border-radius: 22px;
+  background-color: #070c1a; /* Smooth dark surface, no laggy blur */
   padding: 2.2rem 1.8rem;
   height: 100%;
   display: flex;
@@ -577,7 +612,10 @@ main {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
-/* Responsive */
+/* ==========================================================================
+   RESPONSIVE & ACCESSIBILITY
+   ========================================================================== */
+
 @media (max-width: 992px) {
   .site-header { padding: 0 2rem; }
   .about-grid { grid-template-columns: 1fr; gap: 3.5rem; }
@@ -590,6 +628,7 @@ main {
   .nav-links { display: none; }
   .hero-section { padding: 7rem 1.2rem 3rem 1.2rem; }
   .hero-title { font-size: 2.2rem; }
+  .title-line { white-space: normal; }
   .hero-actions { flex-direction: column; width: 100%; gap: 1rem; }
   .btn-hero-primary, .btn-hero-secondary { width: 100%; justify-content: center; }
   .hero-scroll { display: none; }

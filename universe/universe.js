@@ -24,23 +24,23 @@ export const UNIVERSE_SETTINGS = {
   tier: 'low', // 'ultra' | 'high' | 'medium' | 'low'
   
   // Starfield Radiance
-  starBrightness: 1.3,
+  starBrightness: 1.1,
   nearStarsCount: 1600,
-  midStarsCount: 11000,
-  farStarsCount: 26000,
+  midStarsCount: 9000,
+  farStarsCount: 20000,
 
   // Galaxy Factory
-  galaxyBrightness: 0.80,
-  galaxySpeed: 0.45,
+  galaxyBrightness: 0.65,
+  galaxySpeed: 0.55,
 
   // Clusters & Deep Space
-  clusterBrightness: 0.88,
+  clusterBrightness: 0.65,
   
   // Volumetric Emission Patches
-  nebulaIntensity: 0.35,
-  nebulaDensity: 0.85,
+  nebulaIntensity: 0.30,
+  nebulaDensity: 0.65,
   nebulaSteps: 18, // Optimized to prevent GPU timeout while preserving filaments
-  readability: 0.85,
+  readability: 0.65,
   colorTeal: '#2EE6D6',
   colorBlue: '#1B3BFF',
   colorMagenta: '#FF4D7A',
@@ -51,13 +51,13 @@ export const UNIVERSE_SETTINGS = {
   
   // Warp Dynamics & Camera
   warpStrength: 1.0,
-  mouseParallax: 2.2,
+  mouseParallax: 7.3,
   cameraDamping: 3.0,
 
   // Post-Processing
-  bloomStrength: 0.65,
-  bloomRadius: 0.48,
-  bloomThreshold: 0.84,
+  bloomStrength: 0.45,
+  bloomRadius: 0.38,
+  bloomThreshold: 0.64,
   exposure: 1.08
 };
 
@@ -283,7 +283,7 @@ export class Universe {
   // =========================================================================
   // 2. REUSABLE GALAXY FACTORY (3 TYPES: FACE-ON, EDGE-ON, ELLIPTICAL)
   // =========================================================================
-  makeGalaxy({ type = 'face-on', arms = 4, radius = 750, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 75000, seed = 1 }) {
+  makeGalaxy({ type = 'face-on', arms = 4, radius = 550, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 75000, seed = 1 }) {
     let s = seed;
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
@@ -385,12 +385,12 @@ export class Universe {
     this.makeGalaxy({
       type: 'face-on',
       arms: 4,
-      radius: 950,
+      radius: 750,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(52), THREE.MathUtils.degToRad(-15), 0),
       pos: new THREE.Vector3(780, 360, -1350),
       colorCore: '#FFD9A0',
       colorArm: '#6AA6FF',
-      count: 75000,
+      count: 65000,
       seed: 42
     });
 
@@ -398,24 +398,24 @@ export class Universe {
     this.makeGalaxy({
       type: 'edge-on',
       arms: 2,
-      radius: 820,
+      radius: 620,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(82), THREE.MathUtils.degToRad(25), THREE.MathUtils.degToRad(-45)),
       pos: new THREE.Vector3(-960, 420, -1650),
       colorCore: '#FFECC0',
       colorArm: '#0284C7',
-      count: 65000,
+      count: 55000,
       seed: 108
     });
 
     // 3. Smooth Golden Elliptical Galaxy (Distant Bottom-Right)
     this.makeGalaxy({
       type: 'elliptical',
-      radius: 460,
+      radius: 450,
       tilt: new THREE.Euler(0.4, 0.6, 0.2),
       pos: new THREE.Vector3(880, -680, -2100),
       colorCore: '#FFFBEB',
       colorArm: '#F59E0B',
-      count: 45000,
+      count: 40000,
       seed: 777
     });
   }
@@ -467,9 +467,9 @@ export class Universe {
     };
 
     // 3 Globular Clusters (Plummer Sphere)
-    createGlobularCluster(5000, 45, new THREE.Vector3(560, -220, -1100), '#FEF08A', '#38BDF8');
-    createGlobularCluster(4500, 38, new THREE.Vector3(-600, -320, -1350), '#FFFBEB', '#93C5FD');
-    createGlobularCluster(6000, 52, new THREE.Vector3(250, 480, -1600), '#FDE047', '#E0F2FE');
+    createGlobularCluster(5000, 45, new THREE.Vector3(960, -620, -1700), '#FEF08A', '#38BDF8');
+    createGlobularCluster(4500, 38, new THREE.Vector3(-800, -620, -1350), '#FFFBEB', '#93C5FD');
+    createGlobularCluster(6000, 52, new THREE.Vector3(550, 480, -1600), '#FDE047', '#E0F2FE');
 
     // 2 Open Clusters (Loose Young Blue Stars)
     const createOpenCluster = (count, radius, centerPos) => {
@@ -591,7 +591,7 @@ export class Universe {
   // --- 5. PROCEDURAL RINGED GAS GIANT & ORBITING MOON ---
   buildRingedPlanetAndMoon() {
     this.planetGroup = new THREE.Group();
-    this.planetGroup.position.set(780, -820, -1850); // Encountered near skills section on fly-through
+    this.planetGroup.position.set(980, -820, -1950); // Encountered near skills section on fly-through
 
     const planetGeo = new THREE.IcosahedronGeometry(110, 5);
     const planetMat = new THREE.ShaderMaterial({

@@ -16,7 +16,7 @@ import { StarShader, PostShader } from './shaders.js';
 // 1. MASTER SETTINGS (LARGER STARS & TUNED BRILLIANCE)
 // ==========================================================================
 export const UNIVERSE_SETTINGS = {
-  tier: 'high',
+  tier: 'medium',
 
   // Enhanced Star Presence (Crisp & Noticeably Larger)
   starBrightness: 1.36,

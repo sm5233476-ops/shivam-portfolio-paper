@@ -1,14 +1,13 @@
-/* ==== BLOCK 3: MAIN.JS UPDATE START ==== */
 /* ==========================================================================
-   SHIVAM MISHRA — STUDIO-GRADE APPLICATION ENGINE (ES MODULE)
-   Lenis + Hysteresis Smart Nav + Recursive Word Blur + Elastic Card Physics
+   SHIVAM MISHRA — MAIN APPLICATION ENTRY POINT (ES MODULE)
+   3D Universe Engine (Bulletproof Init) + Smart Nav + Word Blur + Cards Motion
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
 
-// Configuration Flags
+// Configuration
 const NAV_BLUR = false;
-const MOTION_LEVEL = "rich"; // "rich" | "calm"
+const MOTION_LEVEL = "rich";
 
 // Global Contact Details
 window.CONTACT = {
@@ -19,20 +18,25 @@ window.CONTACT = {
 };
 
 // ==========================================================================
-// 1. FAIL-SAFE & ACCESSIBILITY INITIALIZATION
+// 1. TOP PRIORITY: START 3D UNIVERSE ENGINE (NEVER BLOCKED)
 // ==========================================================================
-document.documentElement.classList.add('has-js');
-const motionTimeout = setTimeout(() => {
-  if (!window.__motionReady) {
-    document.documentElement.classList.remove('has-js');
+(function initCosmicWorld() {
+  try {
+    const canvas = document.getElementById('universe-canvas');
+    if (canvas) {
+      const universe = new Universe();
+      universe.init(canvas);
+      window.__motionReady = true;
+    }
+  } catch (err) {
+    console.error('Universe Engine Error:', err);
   }
-}, 8000);
-
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches || MOTION_LEVEL === 'calm';
+})();
 
 // ==========================================================================
 // 2. UNIFIED LENIS + GSAP TICKER ENGINE (ONE LOOP)
 // ==========================================================================
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches || MOTION_LEVEL === 'calm';
 let lenis = null;
 
 if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
@@ -43,35 +47,22 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
     autoRaf: false
   });
 
-  // Single rAF loop driven by gsap.ticker
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
-  gsap.ticker.lagSmoothing(0);
+  if (typeof gsap !== 'undefined') {
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
 
-  // Sync GSAP ScrollTrigger with Lenis scroll
-  if (typeof ScrollTrigger !== 'undefined') {
-    lenis.on('scroll', ScrollTrigger.update);
+    if (typeof ScrollTrigger !== 'undefined') {
+      lenis.on('scroll', ScrollTrigger.update);
+    }
   }
 }
 
 // ==========================================================================
-// 3. INITIALIZE 3D UNIVERSE ENGINE (UNTOUCHED & PRESERVED)
+// 3. SMART AUTO-HIDE NAVIGATION (Hysteresis Direction)
 // ==========================================================================
-(function initCosmicWorld() {
-  const canvas = document.getElementById('universe-canvas');
-  if (!canvas) return;
-
-  const universe = new Universe();
-  universe.init(canvas);
-  window.__motionReady = true;
-  clearTimeout(motionTimeout);
-})();
-
-// ==========================================================================
-// 4. SMART NAVBAR (HYSTERESIS STATE MACHINE & SLIDING ACTIVE INDICATOR)
-// ==========================================================================
-(function initSmartNavbar() {
+(function initSmartHeader() {
   const header = document.getElementById('site-header');
   const navLinks = document.getElementById('nav-links');
   const activeLine = document.getElementById('nav-active-line');
@@ -84,7 +75,6 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
   let lastScrollY = window.scrollY;
   let pointerNearTop = false;
 
-  // Track fine pointers near the top 80px
   if (window.matchMedia('(pointer: fine)').matches) {
     window.addEventListener('pointermove', (e) => {
       pointerNearTop = e.clientY <= 80;
@@ -97,41 +87,34 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
   function hideNav() {
     if (isNavHidden || isNavScrolling) return;
     isNavHidden = true;
-    gsap.to(header, {
-      yPercent: -120,
-      duration: 0.5,
-      ease: "power3.out",
-      overwrite: "auto"
-    });
+    if (typeof gsap !== 'undefined') {
+      gsap.to(header, { yPercent: -120, duration: 0.5, ease: "power3.out", overwrite: "auto" });
+    } else {
+      header.classList.add('nav-hidden');
+    }
   }
 
   function showNav() {
     if (!isNavHidden) return;
     isNavHidden = false;
-    gsap.to(header, {
-      yPercent: 0,
-      duration: 0.5,
-      ease: "power3.out",
-      overwrite: "auto"
-    });
+    if (typeof gsap !== 'undefined') {
+      gsap.to(header, { yPercent: 0, duration: 0.5, ease: "power3.out", overwrite: "auto" });
+    } else {
+      header.classList.remove('nav-hidden');
+    }
   }
 
-  // Scroll evaluation with Lenis or native fallback
-  function handleScrollState(scrollY, direction) {
-    // Transparent at scroll < 24px; solid high-grade glass after
+  function handleScroll(scrollY, dir) {
     if (scrollY >= 24) {
       header.classList.add('header--scrolled');
     } else {
       header.classList.remove('header--scrolled');
     }
 
-    const hasKeyboardFocus = header.contains(document.activeElement);
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    const isAtBottom = scrollY >= maxScroll - 20;
-    const isNearTop = scrollY < 80;
+    const hasFocus = header.contains(document.activeElement);
+    const isAtBottom = (window.innerHeight + scrollY) >= (document.documentElement.scrollHeight - 20);
 
-    // Safety Locks
-    if (isNearTop || pointerNearTop || hasKeyboardFocus || isAtBottom || isNavScrolling) {
+    if (scrollY < 80 || pointerNearTop || hasFocus || isAtBottom || isNavScrolling) {
       showNav();
       accumulatedDown = 0;
       accumulatedUp = 0;
@@ -139,14 +122,13 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
       return;
     }
 
-    // Direction calculation (direction: 1 = down, -1 = up)
-    if (direction > 0) {
+    if (dir > 0) {
       accumulatedUp = 0;
       accumulatedDown += Math.max(0, scrollY - lastScrollY);
       if (scrollY > 120 && accumulatedDown > 24) {
         hideNav();
       }
-    } else if (direction < 0) {
+    } else if (dir < 0) {
       accumulatedDown = 0;
       accumulatedUp += Math.max(0, lastScrollY - scrollY);
       if (accumulatedUp > 12) {
@@ -158,24 +140,21 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
   }
 
   if (lenis) {
-    lenis.on('scroll', ({ scroll, direction }) => {
-      handleScrollState(scroll, direction);
-    });
+    lenis.on('scroll', ({ scroll, direction }) => handleScroll(scroll, direction));
   } else {
     window.addEventListener('scroll', () => {
       const currentY = window.scrollY;
       const dir = currentY >= lastScrollY ? 1 : -1;
-      handleScrollState(currentY, dir);
+      handleScroll(currentY, dir);
     }, { passive: true });
   }
 
-  // Nav click smooth scrollTo with -88px offset
+  // Smooth click scroll with -88px offset
   const navItems = navLinks.querySelectorAll('.nav-item');
   navItems.forEach(item => {
     item.addEventListener('click', (e) => {
       const targetId = item.getAttribute('href');
       if (!targetId || !targetId.startsWith('#')) return;
-
       const targetEl = document.querySelector(targetId);
       if (!targetEl) return;
 
@@ -187,9 +166,7 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
         lenis.scrollTo(targetEl, {
           offset: -88,
           duration: 1.2,
-          onComplete: () => {
-            isNavScrolling = false;
-          }
+          onComplete: () => { isNavScrolling = false; }
         });
       } else {
         targetEl.scrollIntoView({ behavior: 'smooth' });
@@ -198,9 +175,9 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
     });
   });
 
-  // Active Link Underline Tracker
-  if (activeLine && typeof ScrollTrigger !== 'undefined') {
-    function updateActiveUnderline(activeItem) {
+  // Active Line Indicator
+  if (activeLine && typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
+    function updateActive(activeItem) {
       if (!activeItem) {
         gsap.to(activeLine, { scaleX: 0, duration: 0.3, ease: "power3.out" });
         return;
@@ -210,12 +187,9 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
 
       const itemRect = activeItem.getBoundingClientRect();
       const parentRect = navLinks.getBoundingClientRect();
-      const x = itemRect.left - parentRect.left;
-      const width = itemRect.width;
-
       gsap.to(activeLine, {
-        x: x,
-        width: width,
+        x: itemRect.left - parentRect.left,
+        width: itemRect.width,
         scaleX: 1,
         duration: 0.35,
         ease: "power3.out",
@@ -234,35 +208,29 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
     sections.forEach(({ id, nav }) => {
       const sec = document.getElementById(id);
       if (!sec) return;
-
       ScrollTrigger.create({
         trigger: sec,
         start: "top 45%",
         end: "bottom 45%",
-        onEnter: () => updateActiveUnderline(nav),
-        onEnterBack: () => updateActiveUnderline(nav)
+        onEnter: () => updateActive(nav),
+        onEnterBack: () => updateActive(nav)
       });
     });
   }
 })();
 
 // ==========================================================================
-// 5. RECURSIVE WORD SPLITTER & PREMIUM BLUR-REVEAL SYSTEM
+// 4. RECURSIVE WORD SPLITTER & PREMIUM BLUR-REVEAL SYSTEM
 // ==========================================================================
 (function initWordRevealSystem() {
   if (typeof gsap === 'undefined') return;
-  if (typeof ScrollTrigger !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-  }
 
-  // Recursive splitter that preserves nested elements and real space characters
   function splitWordsRecursively(node) {
     if (node.nodeType === Node.TEXT_NODE) {
       const text = node.textContent;
       if (!text || text.trim() === '') return;
-
       const fragment = document.createDocumentFragment();
-      const tokens = text.split(/(\s+)/); // Preserves real whitespace tokens
+      const tokens = text.split(/(\s+)/);
 
       tokens.forEach(token => {
         if (/^\s+$/.test(token)) {
@@ -277,40 +245,21 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
           fragment.appendChild(mask);
         }
       });
-
       node.parentNode.replaceChild(fragment, node);
     } else if (node.nodeType === Node.ELEMENT_NODE) {
-      // Don't split inside scripts or SVGs
       if (node.tagName === 'SCRIPT' || node.tagName === 'SVG') return;
-      const children = Array.from(node.childNodes);
-      children.forEach(child => splitWordsRecursively(child));
+      Array.from(node.childNodes).forEach(child => splitWordsRecursively(child));
     }
   }
 
-  const revealTargets = document.querySelectorAll('[data-reveal="words"]');
-  revealTargets.forEach(target => {
+  const targets = document.querySelectorAll('[data-reveal="words"]');
+  targets.forEach(target => {
     splitWordsRecursively(target);
     const words = target.querySelectorAll('.word');
-    const wordCount = words.length;
-    if (wordCount === 0) return;
+    if (words.length === 0) return;
 
-    // Safety rule: limit blur to 90 words at a time
-    const useBlur = !prefersReducedMotion && wordCount <= 90;
-    const staggerTime = Math.min(0.035, 1.2 / Math.max(1, wordCount));
-
-    if (prefersReducedMotion) {
-      gsap.from(words, {
-        opacity: 0,
-        duration: 0.8,
-        stagger: staggerTime,
-        scrollTrigger: {
-          trigger: target,
-          start: "top 85%",
-          once: true
-        }
-      });
-      return;
-    }
+    const useBlur = !prefersReducedMotion && words.length <= 90;
+    const staggerTime = Math.min(0.035, 1.2 / Math.max(1, words.length));
 
     gsap.from(words, {
       opacity: 0,
@@ -319,11 +268,11 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
       duration: 1.0,
       ease: "power3.out",
       stagger: staggerTime,
-      scrollTrigger: {
+      scrollTrigger: typeof ScrollTrigger !== 'undefined' ? {
         trigger: target,
         start: "top 85%",
         once: true
-      },
+      } : null,
       onComplete: () => {
         gsap.set(words, { clearProps: "filter,willChange,transform" });
       }
@@ -332,9 +281,9 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
 })();
 
 // ==========================================================================
-// 6. FOUR CARDS (3D ENTRANCE, IDLE SPACE FLOAT & ELASTIC HOVER)
+// 5. FOUR CARDS (3D ENTRANCE, IDLE FLOAT & ELASTIC SPRING HOVER)
 // ==========================================================================
-(function initFourCardsMotion() {
+(function initCardsPhysics() {
   if (typeof gsap === 'undefined') return;
 
   const cardsContainer = document.getElementById('about-cards-grid');
@@ -345,9 +294,8 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
 
   function setupIdleAndHover() {
     cards.forEach((card, idx) => {
-      // Subtle idle zero-gravity float (different phase per card)
       if (!prefersReducedMotion) {
-        const idleTween = gsap.to(card, {
+        const tween = gsap.to(card, {
           y: idx % 2 === 0 ? "-=4" : "+=4",
           duration: 4.5 + idx * 0.5,
           ease: "sine.inOut",
@@ -355,10 +303,9 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
           yoyo: true,
           delay: idx * 0.4
         });
-        idleTweens.push(idleTween);
+        idleTweens.push(tween);
       }
 
-      // Elastic Spring Hover (pointer: fine only)
       card.addEventListener('pointerenter', () => {
         if (window.matchMedia('(pointer: fine)').matches) {
           if (idleTweens[idx]) idleTweens[idx].pause();
@@ -389,42 +336,26 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
     });
   }
 
-  // 3D Floating Entrance
-  if (prefersReducedMotion) {
-    gsap.from(cards, {
-      opacity: 0,
-      duration: 1.0,
-      stagger: 0.14,
-      scrollTrigger: {
-        trigger: cardsContainer,
-        start: "top 82%",
-        once: true
-      }
-    });
-  } else {
-    gsap.from(cards, {
-      scrollTrigger: {
-        trigger: cardsContainer,
-        start: "top 82%",
-        once: true
-      },
-      y: 90,
-      opacity: 0,
-      scale: 0.94,
-      rotateX: 8,
-      transformPerspective: 900,
-      duration: 1.3,
-      ease: "expo.out",
-      stagger: 0.14,
-      onComplete: () => {
-        setupIdleAndHover();
-      }
-    });
-  }
+  gsap.from(cards, {
+    scrollTrigger: typeof ScrollTrigger !== 'undefined' ? {
+      trigger: cardsContainer,
+      start: "top 82%",
+      once: true
+    } : null,
+    y: 90,
+    opacity: 0,
+    scale: 0.94,
+    rotateX: 8,
+    transformPerspective: 900,
+    duration: 1.3,
+    ease: "expo.out",
+    stagger: 0.14,
+    onComplete: setupIdleAndHover
+  });
 })();
 
 // ==========================================================================
-// 7. 3D MAGNETIC BUTTON TILT (HEADER & HERO BUTTONS)
+// 6. 3D MAGNETIC BUTTON TILT
 // ==========================================================================
 (function initMagneticTilt() {
   const tiltElements = document.querySelectorAll('.btn-connect, .btn-hero-primary, .btn-hero-secondary');
@@ -448,4 +379,3 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
     });
   });
 })();
-/* ==== BLOCK 3: MAIN.JS UPDATE END ==== */

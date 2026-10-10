@@ -51,18 +51,24 @@ html, body {
 }
 
 /* ==========================================================================
-   METALLIC 3D HIGHLIGHT (ZERO-BLACK-BUG FIX)
+   METALLIC 3D HIGHLIGHT (FIXED: APPLIED TO WORDS & NEVER INVISIBLE)
    ========================================================================== */
 
-.highlight-text {
-  background: linear-gradient(135deg, #ffffff 15%, #7dd3fc 60%, #0284c7 100%) !important;
+.highlight-text,
+.highlight-text .word,
+.highlight-text span {
+  color: #7dd3fc !important; /* Safety fallback: kabhi gayab nahi hoga */
+  background: linear-gradient(135deg, #ffffff 20%, #7dd3fc 60%, #0284c7 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
-  text-shadow: none !important; /* CRITICAL: Kills the WebKit black shadow bleed bug! */
-  filter: drop-shadow(0 2px 14px rgba(56, 189, 248, 0.45));
+  text-shadow: none !important;
   display: inline-block;
+  will-change: transform, opacity;
 }
 
+.highlight-text {
+  filter: drop-shadow(0 4px 18px rgba(56, 189, 248, 0.45));
+}
 /* Contrast Shadow: Only for normal non-gradient text */
 .text-contrast-heading,
 .title-line:not(.highlight-text),

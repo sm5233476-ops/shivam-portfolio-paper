@@ -1,5 +1,20 @@
-<!-- ==== BLOCK 1: INDEX.HTML START ==== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Shivam Mishra — A Web Developer Who Loves to Build</title>
+  <meta name="description" content="Designing and engineering high-impact digital experiences, web apps, and AI solutions with relentless focus on design, conversion, and speed.">
+  
+  <!-- Modern Clean Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- GSAP Core & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <!-- Lenis Smooth Scroll CDN -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
@@ -13,11 +28,11 @@
   }
   </script>
   
-  <link rel="stylesheet" href="style.css?v=11">
+  <link rel="stylesheet" href="style.css?v=12">
 </head>
 <body>
 
-  <!-- Fullscreen WebGL2 Cosmic Canvas (Untouched) -->
+  <!-- Fullscreen WebGL2 Cosmic Canvas -->
   <canvas id="universe-canvas"></canvas>
 
   <!-- Minimal Smart Header (72px Engineering-Grade) -->
@@ -59,7 +74,7 @@
         <div class="hero-actions">
           <a href="#works" class="btn-hero-primary">
             <span>Explore Projects</span>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1V13M7 13L1 7M7 13L1 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1V13M7 13L1 7M7 13L13 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <a href="#contact" class="btn-hero-secondary">
             <span>Get in Touch</span>
@@ -81,7 +96,7 @@
     <section id="about" class="about-section">
       <div class="about-container">
 
-        <!-- Section Label: About (with clean dot) -->
+        <!-- Section Label: About (Clean dot) -->
         <div class="section-tag-wrap">
           <span class="tag-pulse-dot" aria-hidden="true"></span>
           <span class="section-tag">About</span>
@@ -184,4 +199,14 @@
 
       </div>
     </section>
-<!-- ==== BLOCK 1: INDEX.HTML END ==== -->
+
+    <!-- Slots for Upcoming Phases -->
+    <!-- @@SLOT:works @@ -->
+    <!-- @@SLOT:skills @@ -->
+    <!-- @@SLOT:contact @@ -->
+  </main>
+
+  <!-- Main ES Module Script -->
+  <script type="module" src="main.js?v=12"></script>
+</body>
+</html>

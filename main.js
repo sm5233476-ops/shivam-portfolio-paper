@@ -1,6 +1,7 @@
+/* ==== BLOCK 3: MAIN.JS UPDATE START ==== */
 /* ==========================================================================
    SHIVAM MISHRA — MAIN APPLICATION ENGINE (ES MODULE)
-   3D Space Flight on Scroll + Smart Hysteresis Nav + Kinetic Mask Slide (120FPS)
+   Catmull-Rom Space Flight + Warp Speed + Smart Hysteresis Nav + 120FPS Text
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
@@ -30,7 +31,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 2. 3D CAMERA SPACE FLIGHT ON SCROLL (FLYING INTO THE COSMOS!)
+// 2. 3D CAMERA SPACE FLIGHT & WARP VELOCITY ON SCROLL
 // ==========================================================================
 (function initSpaceFlight() {
   function setupFlight() {
@@ -40,20 +41,16 @@ window.CONTACT = {
     }
     gsap.registerPlugin(ScrollTrigger);
 
-    // As user scrolls down the page, camera smoothly glides forward into the stars
+    // Binds entire page scroll to the 3D Universe Camera Path & Warp Speed
     ScrollTrigger.create({
       trigger: "body",
       start: "top top",
       end: "bottom bottom",
-      scrub: 1.2,
+      scrub: true,
       onUpdate: (self) => {
-        if (window.UNIVERSE && window.UNIVERSE.camera) {
-          gsap.to(window.UNIVERSE.camera.position, {
-            z: 850 - (self.progress * 420), // Smooth glide from 850 down to 430
-            duration: 0.6,
-            ease: "power1.out",
-            overwrite: "auto"
-          });
+        if (window.UNIVERSE && window.UNIVERSE.setScrollProgress) {
+          // Passes progress (0.0 to 1.0) and scroll velocity for warp elongation
+          window.UNIVERSE.setScrollProgress(self.progress, self.getVelocity());
         }
       }
     });
@@ -152,7 +149,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 4. KINETIC MASK SLIDE WORD REVEAL (100% ZERO-LAG COMPOSITOR)
+// 4. KINETIC MASK SLIDE WORD REVEAL (120FPS ZERO-LAG COMPOSITOR)
 // ==========================================================================
 (function initWordReveal() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
@@ -267,3 +264,4 @@ window.CONTACT = {
     });
   });
 })();
+/* ==== BLOCK 3: MAIN.JS UPDATE END ==== */

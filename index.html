@@ -1,19 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Shivam Mishra — A Web Developer Who Loves to Build</title>
-  <meta name="description" content="Designing and engineering high-impact digital experiences, web apps, and AI solutions with relentless focus on design, conversion, and speed.">
-  
-  <!-- Modern Clean Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- GSAP Animation Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<!-- ==== BLOCK 1: INDEX.HTML UPDATE START ==== -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lenis Smooth Scroll CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
   <!-- Modern ES Module Import Map for Three.js 0.169.0 & Addons -->
   <script type="importmap">
@@ -25,21 +13,23 @@
   }
   </script>
   
-  <link rel="stylesheet" href="style.css?v=7">
+  <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 
   <!-- Fullscreen WebGL2 Cosmic Canvas -->
   <canvas id="universe-canvas"></canvas>
 
-  <!-- Minimal Kinetic Header (Smart Auto-Hide on Scroll) -->
+  <!-- Minimal Smart Header (72px Engineering-Grade) -->
   <header class="site-header" id="site-header">
     <nav class="nav-container">
-      <div class="nav-links">
-        <a href="#about" class="nav-item">about</a>
-        <a href="#works" class="nav-item">works</a>
-        <a href="#skills" class="nav-item">skills</a>
-        <a href="#contact" class="nav-item">contact</a>
+      <div class="nav-links" id="nav-links">
+        <a href="#about" class="nav-item" data-nav="about">about</a>
+        <a href="#works" class="nav-item" data-nav="works">works</a>
+        <a href="#skills" class="nav-item" data-nav="skills">skills</a>
+        <a href="#contact" class="nav-item" data-nav="contact">contact</a>
+        <!-- Active link sliding electric-blue indicator -->
+        <span class="nav-active-line" id="nav-active-line" aria-hidden="true"></span>
       </div>
       <a href="https://wa.me/919899452192?text=Hi%20Shivam,%20let's%20build%20something%20extraordinary." class="btn-connect" target="_blank" rel="noopener noreferrer">
         <span>Let's Connect</span>
@@ -55,19 +45,18 @@
       <div class="hero-content">
 
         <!-- Architectural 2-Line Headline -->
-        <h1 class="hero-title">
-          <span class="title-line reveal-blur">A web developer</span>
-          <span class="title-line reveal-blur highlight-text">who loves to build.</span>
+        <h1 class="hero-title" data-reveal="words">
+          <span class="title-line">A web developer</span>
+          <span class="title-line highlight-text">who loves to build.</span>
         </h1>
 
-        <!-- High-Impact Subtitle -->
-        <p class="hero-subtitle reveal-blur">
-          Designing and engineering high-impact digital experiences, web apps, and AI solutions.
-          Focused on clean aesthetics, ultra-fast performance, and scalable architecture.
+        <!-- High-Impact Studio Subtitle -->
+        <p class="hero-subtitle" data-reveal="words">
+          Websites, SaaS products and AI-powered apps, designed with care and engineered for speed.
         </p>
 
         <!-- Luxury Glass Action Buttons -->
-        <div class="hero-actions reveal-blur">
+        <div class="hero-actions">
           <a href="#works" class="btn-hero-primary">
             <span>Explore Projects</span>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1V13M7 13L1 7M7 13L13 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -80,7 +69,7 @@
       </div>
 
       <!-- Minimal Bottom Scroll Cue -->
-      <div class="hero-scroll reveal-blur">
+      <div class="hero-scroll">
         <div class="scroll-track">
           <div class="scroll-pill"></div>
         </div>
@@ -88,80 +77,103 @@
       </div>
     </section>
 
-    <!-- ABOUT SECTION (High-Converting Commercial Bio + 4 Electric Beam Cards) -->
+    <!-- ABOUT SECTION -->
     <section id="about" class="about-section">
       <div class="about-container">
 
-        <!-- Clean Silver-White Tag (No 01 //) -->
-        <div class="section-tag-wrap about-anim">
-          <span class="tag-pulse-dot"></span>
-          <span class="section-tag">ABOUT THE DEVELOPER</span>
+        <!-- Section Label: About (with clean dot) -->
+        <div class="section-tag-wrap">
+          <span class="tag-pulse-dot" aria-hidden="true"></span>
+          <span class="section-tag">About</span>
         </div>
 
         <!-- 2-Column Editorial Grid -->
         <div class="about-grid">
 
-          <!-- Left Column: Bold Architectural Thesis -->
+          <!-- Left Column: Headline & Status Badge -->
           <div class="about-left">
-            <h2 class="about-headline about-anim">
-              I build websites that balance <span class="highlight-metallic">aesthetic beauty</span> with high-converting engineering.
+            <h2 class="about-headline" data-reveal="words">
+              I design and build the websites, apps and tools that businesses grow on.
             </h2>
             
-            <div class="about-exp-pill about-anim">
-              <span class="exp-dot"></span>
-              <span class="exp-badge">1+ YEAR OF RELENTLESS CRAFTSMANSHIP</span>
+            <div class="about-exp-pill">
+              <span class="exp-dot" aria-hidden="true"></span>
+              <span class="exp-badge">Available for new projects</span>
             </div>
           </div>
 
-          <!-- Right Column: Engaging Revenue-Focused Bio & 4 Cards -->
+          <!-- Right Column: Narrative Paragraphs & 4 SVG Cards -->
           <div class="about-right">
-            <p class="about-p about-anim">
-              I’m <strong>Shivam Mishra</strong>. My mission is simple: engineer digital experiences that command attention, build instant credibility, and drive serious business revenue.
+            <p class="about-p" data-reveal="words">
+              I'm Shivam Mishra, a web developer working with businesses of every size: company websites, e-commerce stores, SaaS products, internal tools and AI-powered apps.
             </p>
-            <p class="about-p about-anim">
-              Whether it’s a high-converting landing page, an online store, or an AI chat assistant—I build every product from the ground up with 60fps GPU-accelerated motion, clean scalable architecture, and a relentless focus on turning casual visitors into high-paying clients.
+            <p class="about-p" data-reveal="words">
+              I care about the details clients feel but rarely see: clean architecture, fast load times, smooth motion and interfaces that make the next step obvious. Whatever the idea, I take it from first sketch to a live, production-ready product.
             </p>
 
-            <!-- 4 Electric Beam Capability Cards Grid -->
-            <div class="about-cards-grid">
+            <!-- 4 Cards Grid (Electric Edge + SVG Line Icons) -->
+            <div class="about-cards-grid" id="about-cards-grid">
               
-              <!-- Card 1: Speed -->
-              <div class="about-card card-flow">
-                <div class="border-beam"></div>
+              <!-- Card 1: Bolt (Speed & 60 FPS) -->
+              <div class="about-card card-flow" data-card="1">
+                <div class="card__edge" aria-hidden="true"></div>
                 <div class="about-card-inner">
-                  <div class="card-icon">⚡</div>
-                  <h3 class="card-title">Ultra Speed & 60FPS</h3>
-                  <p class="card-desc">Sub-second load times and silky GPU-accelerated motion with zero lag.</p>
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FA2FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                  </div>
+                  <h3 class="card-title">Speed & 60 FPS</h3>
+                  <p class="card-desc">Lean, optimized code and silky, GPU-accelerated motion that stays smooth on modern devices.</p>
                 </div>
               </div>
 
-              <!-- Card 2: Conversion -->
-              <div class="about-card card-flow">
-                <div class="border-beam"></div>
+              <!-- Card 2: Cursor-Click (Conversion-minded UX) -->
+              <div class="about-card card-flow" data-card="2">
+                <div class="card__edge" aria-hidden="true"></div>
                 <div class="about-card-inner">
-                  <div class="card-icon">✦</div>
-                  <h3 class="card-title">High-Converting UX</h3>
-                  <p class="card-desc">Engineered psychologically to captivate visitors and maximize sales & leads.</p>
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FA2FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+                      <path d="M13 13l6 6"></path>
+                    </svg>
+                  </div>
+                  <h3 class="card-title">Conversion-minded UX</h3>
+                  <p class="card-desc">Layouts built around your visitors' next step, so it is clear what to do and easy to do it.</p>
                 </div>
               </div>
 
-              <!-- Card 3: AI & Automation -->
-              <div class="about-card card-flow">
-                <div class="border-beam"></div>
+              <!-- Card 3: Bot (AI & automation) -->
+              <div class="about-card card-flow" data-card="3">
+                <div class="card__edge" aria-hidden="true"></div>
                 <div class="about-card-inner">
-                  <div class="card-icon">🤖</div>
-                  <h3 class="card-title">AI & Automation</h3>
-                  <p class="card-desc">Custom 24/7 AI chat assistants and workflow tools that close inquiries automatically.</p>
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FA2FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                      <circle cx="12" cy="5" r="2"></circle>
+                      <path d="M12 7v4"></path>
+                      <line x1="8" y1="16" x2="8" y2="16"></line>
+                      <line x1="16" y1="16" x2="16" y2="16"></line>
+                    </svg>
+                  </div>
+                  <h3 class="card-title">AI & automation</h3>
+                  <p class="card-desc">Chat assistants, lead capture and smart workflows that take care of the routine work.</p>
                 </div>
               </div>
 
-              <!-- Card 4: Full-Stack & Stores -->
-              <div class="about-card card-flow">
-                <div class="border-beam"></div>
+              <!-- Card 4: Layers (Sites, stores & apps) -->
+              <div class="about-card card-flow" data-card="4">
+                <div class="card__edge" aria-hidden="true"></div>
                 <div class="about-card-inner">
-                  <div class="card-icon">💎</div>
-                  <h3 class="card-title">Modern Stores & Apps</h3>
-                  <p class="card-desc">From seamless e-commerce checkout flows to custom web apps built to scale.</p>
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FA2FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                      <polyline points="2 17 12 22 22 17"></polyline>
+                      <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                  </div>
+                  <h3 class="card-title">Sites, stores & apps</h3>
+                  <p class="card-desc">Company sites, online stores, SaaS products and custom tools, built end to end.</p>
                 </div>
               </div>
 
@@ -175,11 +187,4 @@
 
     <!-- Slots for Upcoming Phases -->
     <!-- @@SLOT:works @@ -->
-    <!-- @@SLOT:skills @@ -->
-    <!-- @@SLOT:contact @@ -->
-  </main>
-
-  <!-- Main ES Module Script -->
-  <script type="module" src="main.js?v=7"></script>
-</body>
-</html>
+<!-- ==== BLOCK 1: INDEX.HTML UPDATE END ==== -->

@@ -25,22 +25,22 @@ export const UNIVERSE_SETTINGS = {
   
   // Starfield Radiance
   starBrightness: 1.1,
-  nearStarsCount: 1600,
-  midStarsCount: 9000,
-  farStarsCount: 20000,
+  nearStarsCount: 1300,
+  midStarsCount: 7000,
+  farStarsCount: 15000,
 
   // Galaxy Factory
-  galaxyBrightness: 0.65,
-  galaxySpeed: 0.55,
+  galaxyBrightness: 0.55,
+  galaxySpeed: 0.59,
 
   // Clusters & Deep Space
-  clusterBrightness: 0.65,
+  clusterBrightness: 0.45,
   
   // Volumetric Emission Patches
-  nebulaIntensity: 0.30,
-  nebulaDensity: 0.65,
+  nebulaIntensity: 0.20,
+  nebulaDensity: 0.45,
   nebulaSteps: 18, // Optimized to prevent GPU timeout while preserving filaments
-  readability: 0.65,
+  readability: 0.45,
   colorTeal: '#2EE6D6',
   colorBlue: '#1B3BFF',
   colorMagenta: '#FF4D7A',
@@ -50,7 +50,7 @@ export const UNIVERSE_SETTINGS = {
   planetVisible: true,
   
   // Warp Dynamics & Camera
-  warpStrength: 1.0,
+  warpStrength: 0.70,
   mouseParallax: 7.3,
   cameraDamping: 3.0,
 
@@ -58,7 +58,7 @@ export const UNIVERSE_SETTINGS = {
   bloomStrength: 0.45,
   bloomRadius: 0.38,
   bloomThreshold: 0.64,
-  exposure: 1.08
+  exposure: 0.80
 };
 
 // Astronomical Blackbody Radiation (3000K to 12000K)
@@ -154,9 +154,9 @@ export class Universe {
     this.renderer.setClearColor(0x02030a, 1.0);
 
     // Safe DPR to guarantee 60fps without GPU crash
-    const dprCap = UNIVERSE_SETTINGS.tier === 'ultra' ? 2.0 :
-                   UNIVERSE_SETTINGS.tier === 'high' ? 1.5 :
-                   UNIVERSE_SETTINGS.tier === 'medium' ? 1.25 : 1.0;
+    const dprCap = UNIVERSE_SETTINGS.tier === 'ultra' ? 1.5 :
+                   UNIVERSE_SETTINGS.tier === 'high' ? 1.0 :
+                   UNIVERSE_SETTINGS.tier === 'medium' ? 1.05 : 0.80;
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, dprCap));
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -387,10 +387,10 @@ export class Universe {
       arms: 4,
       radius: 750,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(52), THREE.MathUtils.degToRad(-15), 0),
-      pos: new THREE.Vector3(780, 360, -1350),
+      pos: new THREE.Vector3(1200, 360, -1350),
       colorCore: '#FFD9A0',
       colorArm: '#6AA6FF',
-      count: 65000,
+      count: 60000,
       seed: 42
     });
 
@@ -398,12 +398,12 @@ export class Universe {
     this.makeGalaxy({
       type: 'edge-on',
       arms: 2,
-      radius: 620,
+      radius: 600,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(82), THREE.MathUtils.degToRad(25), THREE.MathUtils.degToRad(-45)),
-      pos: new THREE.Vector3(-960, 420, -1650),
+      pos: new THREE.Vector3(-990, 820, -1950),
       colorCore: '#FFECC0',
       colorArm: '#0284C7',
-      count: 55000,
+      count: 50000,
       seed: 108
     });
 
@@ -412,7 +412,7 @@ export class Universe {
       type: 'elliptical',
       radius: 450,
       tilt: new THREE.Euler(0.4, 0.6, 0.2),
-      pos: new THREE.Vector3(880, -680, -2100),
+      pos: new THREE.Vector3(980, -680, -2800),
       colorCore: '#FFFBEB',
       colorArm: '#F59E0B',
       count: 40000,
@@ -467,9 +467,9 @@ export class Universe {
     };
 
     // 3 Globular Clusters (Plummer Sphere)
-    createGlobularCluster(5000, 45, new THREE.Vector3(960, -620, -1700), '#FEF08A', '#38BDF8');
-    createGlobularCluster(4500, 38, new THREE.Vector3(-800, -620, -1350), '#FFFBEB', '#93C5FD');
-    createGlobularCluster(6000, 52, new THREE.Vector3(550, 480, -1600), '#FDE047', '#E0F2FE');
+    createGlobularCluster(5000, 45, new THREE.Vector3(1200, -920, -1900), '#FEF08A', '#38BDF8');
+    createGlobularCluster(4500, 38, new THREE.Vector3(-900, -820, -1850), '#FFFBEB', '#93C5FD');
+    createGlobularCluster(6000, 52, new THREE.Vector3(590, 280, -1900), '#FDE047', '#E0F2FE');
 
     // 2 Open Clusters (Loose Young Blue Stars)
     const createOpenCluster = (count, radius, centerPos) => {
@@ -514,9 +514,9 @@ export class Universe {
   // --- 12 SCATTERED TINY STAR CLUSTERS (Around Text Boundaries) ---
   buildTwelveScatteredClusters() {
     const coords = [
-      [-720, 280, -950], [-680, -180, -900], [-550, 420, -1100], [-480, -420, -1000],
-      [720, 260, -920], [680, -160, -940], [540, 450, -1150], [490, -450, -1050],
-      [-320, 520, -1200], [320, 520, -1200], [-350, -560, -1100], [350, -560, -1100]
+      [-1220, 600, -1850], [-1220, -180, -1600], [-750, 200, -1900], [-480, -820, -1000],
+      [720, 260, -920], [680, -580, -940], [540, 450, -1150], [490, -450, -2450],
+      [-320, 520, -1200], [640, 599, -1600], [-580, -200, -1100], [950, -470, -1100]
     ];
 
     coords.forEach(([cx, cy, cz], idx) => {
@@ -625,7 +625,7 @@ export class Universe {
     const moonGeo = new THREE.IcosahedronGeometry(18, 3);
     const moonMat = new THREE.MeshBasicMaterial({ color: 0xcccccc });
     this.moonMesh = new THREE.Mesh(moonGeo, moonMat);
-    this.moonMesh.position.set(240, 45, 80);
+    this.moonMesh.position.set(740, -1045, 80);
     this.planetGroup.add(this.moonMesh);
 
     this.scene.add(this.planetGroup);
@@ -647,7 +647,7 @@ export class Universe {
       size: 2.2,
       color: 0x93c5fd,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.25,
       blending: THREE.AdditiveBlending,
       depthWrite: false
     });
@@ -848,22 +848,22 @@ export class Universe {
 
       const stars = gui.addFolder('HDR Stars');
       stars.add(UNIVERSE_SETTINGS, 'starBrightness', 0.5, 3.0, 0.1);
-      stars.add(UNIVERSE_SETTINGS, 'warpStrength', 0.0, 3.0, 0.1);
-      stars.add(UNIVERSE_SETTINGS, 'mouseParallax', 0.5, 6.0, 0.1);
+      stars.add(UNIVERSE_SETTINGS, 'warpStrength', 0.0, 2.0, 0.1);
+      stars.add(UNIVERSE_SETTINGS, 'mouseParallax', 0.5, 7.0, 0.1);
 
       const gal = gui.addFolder('Galaxies & Clusters');
-      gal.add(UNIVERSE_SETTINGS, 'galaxyBrightness', 0.5, 3.0, 0.1);
-      gal.add(UNIVERSE_SETTINGS, 'clusterBrightness', 0.5, 3.0, 0.1);
+      gal.add(UNIVERSE_SETTINGS, 'galaxyBrightness', 0.5, 2.6, 0.1);
+      gal.add(UNIVERSE_SETTINGS, 'clusterBrightness', 0.5, 1.9, 0.1);
 
       const neb = gui.addFolder('Volumetric Nebula');
-      neb.add(UNIVERSE_SETTINGS, 'nebulaIntensity', 0.0, 1.5, 0.05).onChange(v => {
+      neb.add(UNIVERSE_SETTINGS, 'nebulaIntensity', 0.0, 1.2, 0.05).onChange(v => {
         if (this.nebulaMesh) this.nebulaMesh.material.uniforms.uIntensity.value = v;
       });
-      neb.add(UNIVERSE_SETTINGS, 'readability', 0.0, 1.0, 0.05).onChange(v => this.setReadability(v));
+      neb.add(UNIVERSE_SETTINGS, 'readability', 0.0, 1.0, 0.03).onChange(v => this.setReadability(v));
 
       const post = gui.addFolder('Bloom');
       post.add(UNIVERSE_SETTINGS, 'bloomStrength', 0.0, 2.0, 0.05).onChange(v => this.bloomPass.strength = v);
-      post.add(UNIVERSE_SETTINGS, 'bloomThreshold', 0.5, 1.0, 0.02).onChange(v => this.bloomPass.threshold = v);
+      post.add(UNIVERSE_SETTINGS, 'bloomThreshold', 0.5, 0.8, 0.02).onChange(v => this.bloomPass.threshold = v);
 
       gui.add({
         copySettings: () => {

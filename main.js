@@ -448,4 +448,4 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
     });
   });
 })();
-/* ==== BLOCK 3: MAIN.JS UPDATE END ==== */s
+/* ==== BLOCK 3: MAIN.JS UPDATE END ==== */

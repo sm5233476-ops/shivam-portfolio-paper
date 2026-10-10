@@ -245,8 +245,23 @@ main {
   display: block;
 }
 
-.title-line.highlight-text {
-  color: #e2f1ff;
+/* 3D Liquid Metallic Ice-Cyan Gradient (Hero & About Highlights) */
+.highlight-text {
+  background: linear-gradient(135deg, #ffffff 15%, #7dd3fc 60%, #0284c7 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 4px 18px rgba(56, 189, 248, 0.35)) !important;
+  display: inline-block;
+}
+
+/* Section Tag: Luminous Silver-White */
+.section-tag {
+  color: #CBD5E1 !important;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
 }
 
 .hero-subtitle {

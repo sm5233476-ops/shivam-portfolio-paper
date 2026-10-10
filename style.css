@@ -51,23 +51,24 @@ html, body {
 }
 
 /* ==========================================================================
-   METALLIC 3D HIGHLIGHT (FIXED: APPLIED TO WORDS & NEVER INVISIBLE)
+   METALLIC 3D HIGHLIGHT (CLEAN SINGLE LAYER — ZERO OVERLAP GHOST)
    ========================================================================== */
 
-.highlight-text,
-.highlight-text .word,
-.highlight-text span {
-  color: #7dd3fc !important; /* Safety fallback: kabhi gayab nahi hoga */
+.highlight-text {
+  display: inline-block;
+  background: transparent !important;
+  -webkit-text-fill-color: initial !important;
+  text-shadow: none !important;
+}
+
+.highlight-text .word {
+  color: #7dd3fc;
   background: linear-gradient(135deg, #ffffff 20%, #7dd3fc 60%, #0284c7 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   text-shadow: none !important;
   display: inline-block;
-  will-change: transform, opacity;
-}
-
-.highlight-text {
-  filter: drop-shadow(0 4px 18px rgba(56, 189, 248, 0.45));
+  filter: drop-shadow(0 4px 18px rgba(56, 189, 248, 0.35));
 }
 /* Contrast Shadow: Only for normal non-gradient text */
 .text-contrast-heading,

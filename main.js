@@ -1,7 +1,6 @@
-/* ==== BLOCK 3: MAIN.JS UPDATE START ==== */
 /* ==========================================================================
    SHIVAM MISHRA — STUDIO-GRADE APPLICATION ENGINE (ES MODULE)
-   Lenis + Hysteresis Smart Nav + Recursive Word Blur + Elastic Card Physics
+   Lenis + Hysteresis Smart Nav + Kinetic Mask Slide (Zero-Lag) + Card Physics
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
@@ -122,7 +121,6 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
 
   // Scroll evaluation with Lenis or native fallback
   function handleScrollState(scrollY, direction) {
-    // Transparent at scroll < 24px; solid high-grade glass after
     if (scrollY >= 24) {
       header.classList.add('header--scrolled');
     } else {
@@ -251,7 +249,7 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
 })();
 
 // ==========================================================================
-// 5. RECURSIVE WORD SPLITTER & PREMIUM BLUR-REVEAL SYSTEM
+// 5. RECURSIVE WORD SPLITTER & KINETIC MASK SLIDE REVEAL (120FPS ZERO-LAG)
 // ==========================================================================
 (function initWordRevealSystem() {
   if (typeof gsap === 'undefined') return;
@@ -297,8 +295,6 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
     const wordCount = words.length;
     if (wordCount === 0) return;
 
-    // Limit blur to 90 words at a time
-    const useBlur = !prefersReducedMotion && wordCount <= 90;
     const staggerTime = Math.min(0.035, 1.2 / Math.max(1, wordCount));
 
     if (prefersReducedMotion) {
@@ -315,7 +311,8 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
       return;
     }
 
-gsap.fromTo(words, 
+    // PURE COMPOSITOR 120FPS KINETIC MASK SLIDE (NO BLUR, NO GPU RASTER LAG!)
+    gsap.fromTo(words, 
       {
         opacity: 0,
         y: "115%"
@@ -323,19 +320,21 @@ gsap.fromTo(words,
       {
         opacity: 1,
         y: "0%",
-        duration: 0.8,
+        duration: 0.82,
         ease: "power3.out",
         stagger: staggerTime,
-        scrollTrigger: typeof ScrollTrigger !== 'undefined' ? {
+        scrollTrigger: {
           trigger: target,
           start: "top 85%",
           once: true
-        } : null,
+        },
         onComplete: () => {
           gsap.set(words, { clearProps: "transform,opacity" });
         }
       }
     );
+  });
+})();
 
 // ==========================================================================
 // 6. FOUR CARDS (3D ENTRANCE, IDLE SPACE FLOAT & ELASTIC HOVER)
@@ -454,4 +453,3 @@ gsap.fromTo(words,
     });
   });
 })();
-/* ==== BLOCK 3: MAIN.JS UPDATE END ==== */

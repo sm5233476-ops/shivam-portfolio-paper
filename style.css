@@ -1,7 +1,5 @@
-/* ==== BLOCK 2: STYLE.CSS UPDATE START ==== */
-
 /* ==========================================================================
-   GLOBAL DESIGN TOKENS & STUDIO TYPOGRAPHY
+   SHIVAM MISHRA — THE COSMIC HORIZON (STUDIO-GRADE COMPLETE STYLESHEET)
    ========================================================================== */
 
 :root {
@@ -17,12 +15,41 @@
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 96px; /* Prevents nav from overlapping headings at rest */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Contrast Shadow: Text stays 100% legible over the 3D canvas at all times */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px; /* Prevents nav from overlapping headings */
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-deep) !important;
+  color: var(--text-heading);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 3D WebGL Canvas Layer (Fixed in background) */
+#universe-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--bg-deep);
+}
+
+/* Contrast Shadow: Text stays 100% legible over canvas */
 .text-contrast-heading {
   color: var(--text-heading);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 40px rgba(0, 0, 0, 0.5);
@@ -33,7 +60,7 @@ html {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 40px rgba(0, 0, 0, 0.5);
 }
 
-/* Recursive Word Splitter Masks */
+/* Word Splitter Masks */
 .word-mask {
   display: inline-block;
   overflow: hidden;
@@ -68,7 +95,6 @@ html {
   transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
-/* Scrolled state: Solid high-grade dark glass surface (NAV_BLUR = false compliant) */
 .site-header.header--scrolled {
   background-color: var(--header-glass);
   border-bottom-color: var(--border-subtle);
@@ -333,7 +359,7 @@ main {
 }
 
 /* ==========================================================================
-   ABOUT SECTION (Exact Copy & Studio Architecture)
+   ABOUT SECTION
    ========================================================================== */
 
 .about-section {
@@ -352,7 +378,6 @@ main {
   margin: 0 auto;
 }
 
-/* Section Label: About (Clean dot) */
 .section-tag-wrap {
   display: inline-flex;
   align-items: center;
@@ -376,7 +401,6 @@ main {
   text-transform: uppercase;
 }
 
-/* 2-Column Grid */
 .about-grid {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
@@ -399,7 +423,6 @@ main {
   margin-bottom: 2.8rem;
 }
 
-/* Status Badge: Available for new projects (opacity pulse only) */
 .about-exp-pill {
   display: inline-flex;
   align-items: center;
@@ -431,7 +454,6 @@ main {
   color: var(--text-heading);
 }
 
-/* Right Column */
 .about-right {
   display: flex;
   flex-direction: column;
@@ -448,7 +470,7 @@ main {
 }
 
 /* ==========================================================================
-   4 CARDS: CONIC ELECTRIC BORDER BEAM + SPRING HOVER (GSAP Transform Only)
+   4 CARDS: CONIC ELECTRIC BORDER BEAM + SPRING HOVER
    ========================================================================== */
 
 .about-cards-grid {
@@ -458,18 +480,15 @@ main {
   margin-top: 1.8rem;
 }
 
-/* Base Card (Radius 24px, surface rgba(10,14,32,0.72), 1px border rgba(255,255,255,0.08)) */
 .about-card {
   position: relative;
   border-radius: 24px;
   background-color: var(--surface-card);
   border: 1px solid var(--border-subtle);
-  overflow: visible; /* Allows outer glow */
+  overflow: visible;
   will-change: transform;
-  /* STRICT RULE: GSAP animates transform; NO CSS transition on transform! */
 }
 
-/* Soft outer electric glow as ::after layer (opacity transition only) */
 .about-card::after {
   content: '';
   position: absolute;
@@ -487,7 +506,6 @@ main {
   opacity: 1;
 }
 
-/* The Electric Border Mask Edge */
 .card__edge {
   position: absolute;
   inset: 0;
@@ -504,7 +522,6 @@ main {
   z-index: 2;
 }
 
-/* Electric Rotating Conic Beam */
 .card__edge::before {
   content: '';
   position: absolute;
@@ -525,7 +542,6 @@ main {
   opacity: 1;
 }
 
-/* Inner Surface Content */
 .about-card-inner {
   position: relative;
   z-index: 1;
@@ -561,10 +577,7 @@ main {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
-/* ==========================================================================
-   RESPONSIVE & ACCESSIBILITY
-   ========================================================================== */
-
+/* Responsive */
 @media (max-width: 992px) {
   .site-header { padding: 0 2rem; }
   .about-grid { grid-template-columns: 1fr; gap: 3.5rem; }
@@ -584,10 +597,8 @@ main {
   .about-cards-grid { grid-template-columns: 1fr; }
 }
 
-/* Calm Mode & Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   .card__edge::before { animation: none; }
   .exp-dot { animation: none; }
   .scroll-pill { animation: none; }
 }
-/* ==== BLOCK 2: STYLE.CSS UPDATE END ==== */

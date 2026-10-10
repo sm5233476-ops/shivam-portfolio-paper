@@ -20,27 +20,27 @@ import {
 // 1. MASTER TUNABLE SETTINGS (BALANCED 60FPS BUDGET)
 // ==========================================================================
 export const UNIVERSE_SETTINGS = {
-  tier: 'high',
+  tier: 'low',
   
   // Starfield Presence (Crisp & Balanced for 60fps)
-  starBrightness: 1.25,
+  starBrightness: 1.05,
   nearStarsCount: 500,     // Prominent foreground sparkling beacons
   midStarsCount: 4500,     // Mid-range crisp stars
-  farStarsCount: 12000,    // Distant background starfield
+  farStarsCount: 11000,    // Distant background starfield
 
   // 2 Dispersed Corner Galaxies
-  galaxyBrightness: 1.25,
+  galaxyBrightness: 0.68,
   galaxySpeed: 0.05,
 
   // Soft Clusters
-  clusterBrightness: 0.9,
+  clusterBrightness: 0.7,
   
   // Planet & Moon
   planetVisible: true,
   
   // Warp & Camera Dynamics
   warpStrength: 0.8,
-  mouseParallax: 2.2,
+  mouseParallax: 7.2,
   cameraDamping: 3.0,
 
   // Subtle Luxury Bloom (No Blinding Glare)
@@ -283,7 +283,7 @@ export class Universe {
   // =========================================================================
   // LAYER 2: 2 CORNER GALAXIES (PUSHED FAR TO PERIPHERY — 60FPS BUDGET)
   // =========================================================================
-  makeGalaxy({ type = 'face-on', arms = 4, radius = 700, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 18000, seed = 1 }) {
+  makeGalaxy({ type = 'face-on', arms = 4, radius = 300, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 18000, seed = 1 }) {
     let s = seed;
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
@@ -362,12 +362,12 @@ export class Universe {
     this.makeGalaxy({
       type: 'face-on',
       arms: 4,
-      radius: 720,
+      radius: 320,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(52), THREE.MathUtils.degToRad(-15), 0),
       pos: new THREE.Vector3(1450, 680, -1800), // Cleanly out of the text zone
       colorCore: '#FFD9A0',
       colorArm: '#6AA6FF',
-      count: 22000,
+      count: 17000,
       seed: 42
     });
 
@@ -375,12 +375,12 @@ export class Universe {
     this.makeGalaxy({
       type: 'face-on',
       arms: 3,
-      radius: 680,
+      radius: 400,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(78), THREE.MathUtils.degToRad(25), THREE.MathUtils.degToRad(-35)),
       pos: new THREE.Vector3(-1480, 650, -1900), // Cleanly out of the text zone
       colorCore: '#FFECC0',
       colorArm: '#0284C7',
-      count: 20000,
+      count: 16000,
       seed: 108
     });
   }

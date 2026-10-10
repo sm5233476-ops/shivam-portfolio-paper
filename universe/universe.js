@@ -21,7 +21,7 @@ import {
 // 1. MASTER TUNABLE SETTINGS OBJECT (Defaults tuned via ?tune=1)
 // ==========================================================================
 export const UNIVERSE_SETTINGS = {
-  tier: 'high', // 'ultra' | 'high' | 'medium' | 'low'
+  tier: 'low', // 'ultra' | 'high' | 'medium' | 'low'
   
   // Starfield Radiance
   starBrightness: 1.3,
@@ -30,11 +30,11 @@ export const UNIVERSE_SETTINGS = {
   farStarsCount: 26000,
 
   // Galaxy Factory
-  galaxyBrightness: 1.35,
-  galaxySpeed: 0.08,
+  galaxyBrightness: 0.80,
+  galaxySpeed: 0.45,
 
   // Clusters & Deep Space
-  clusterBrightness: 1.3,
+  clusterBrightness: 0.88,
   
   // Volumetric Emission Patches
   nebulaIntensity: 0.35,

@@ -78,25 +78,24 @@ window.CONTACT = {
   let lastScrollY = window.scrollY;
   let isNavHidden = false;
 
-  window.addEventListener('scroll', () => {
+window.addEventListener('scroll', () => {
     const currentY = window.scrollY;
+    const diff = currentY - lastScrollY;
 
-    // At top (< 60px): always visible
+    // 1. स्क्रीन के टॉप पर (Hero में) हमेशा दिखेगा
     if (currentY <= 60) {
-      if (isNavHidden) {
-        header.classList.remove('nav-hidden');
-        isNavHidden = false;
-      }
+      header.classList.remove('nav-hidden');
+      isNavHidden = false;
     }
-    // Scrolling DOWN (> 120px): hide cleanly
-    else if (currentY > lastScrollY && currentY > 120) {
+    // 2. नीचे स्क्रॉल करते ही (>100px) तुरंत 100% गायब हो जाएगा
+    else if (diff > 4 && currentY > 100) {
       if (!isNavHidden) {
         header.classList.add('nav-hidden');
         isNavHidden = true;
       }
     }
-    // Scrolling UP: reveal smoothly
-    else if (currentY < lastScrollY) {
+    // 3. जब तुम जानबूझकर कम से कम 25px ऊपर स्क्रॉल करोगे, तभी वापस आएगा (ताकि रुकने पर सिर पर न चढ़े)
+    else if (diff < -25) {
       if (isNavHidden) {
         header.classList.remove('nav-hidden');
         isNavHidden = false;

@@ -1,5 +1,20 @@
-<!-- ==== BLOCK 1: INDEX.HTML UPDATE START ==== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Shivam Mishra — A Web Developer Who Loves to Build</title>
+  <meta name="description" content="Designing and engineering high-impact digital experiences, web apps, and AI solutions with relentless focus on design, conversion, and speed.">
+  
+  <!-- Modern Clean Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- GSAP Core & ScrollTrigger (Loaded in proper order) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <!-- Lenis Smooth Scroll CDN -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
@@ -13,7 +28,7 @@
   }
   </script>
   
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
 
@@ -81,7 +96,7 @@
     <section id="about" class="about-section">
       <div class="about-container">
 
-        <!-- Section Label: About (with clean dot) -->
+        <!-- Section Label: About (Clean dot) -->
         <div class="section-tag-wrap">
           <span class="tag-pulse-dot" aria-hidden="true"></span>
           <span class="section-tag">About</span>
@@ -187,4 +202,11 @@
 
     <!-- Slots for Upcoming Phases -->
     <!-- @@SLOT:works @@ -->
-<!-- ==== BLOCK 1: INDEX.HTML UPDATE END ==== -->
+    <!-- @@SLOT:skills @@ -->
+    <!-- @@SLOT:contact @@ -->
+  </main>
+
+  <!-- Main ES Module Script -->
+  <script type="module" src="main.js?v=10"></script>
+</body>
+</html>

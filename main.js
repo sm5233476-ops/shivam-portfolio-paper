@@ -318,8 +318,8 @@ if (typeof Lenis !== 'undefined' && !prefersReducedMotion) {
     gsap.from(words, {
       opacity: 0,
       y: 18,
-      filter: useBlur ? "blur(14px)" : "none",
-      duration: 1.0,
+      filter: useBlur ? "blur(4px)" : "none",
+duration: 0.65,
       ease: "power3.out",
       stagger: staggerTime,
       scrollTrigger: {

@@ -26,7 +26,7 @@ export const UNIVERSE_SETTINGS = {
   // Starfield Radiance
   starBrightness: 1.1,
   nearStarsCount: 1300,
-  midStarsCount: 7000,
+  midStarsCount: 6000,
   farStarsCount: 15000,
 
   // Galaxy Factory
@@ -283,7 +283,7 @@ export class Universe {
   // =========================================================================
   // 2. REUSABLE GALAXY FACTORY (3 TYPES: FACE-ON, EDGE-ON, ELLIPTICAL)
   // =========================================================================
-  makeGalaxy({ type = 'face-on', arms = 4, radius = 550, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 75000, seed = 1 }) {
+  makeGalaxy({ type = 'face-on', arms = 4, radius = 450, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 45000, seed = 1 }) {
     let s = seed;
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
@@ -387,10 +387,10 @@ export class Universe {
       arms: 4,
       radius: 750,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(52), THREE.MathUtils.degToRad(-15), 0),
-      pos: new THREE.Vector3(1200, 360, -1350),
+      pos: new THREE.Vector3(3000, 1560, -3350),
       colorCore: '#FFD9A0',
       colorArm: '#6AA6FF',
-      count: 60000,
+      count: 30000,
       seed: 42
     });
 
@@ -398,24 +398,24 @@ export class Universe {
     this.makeGalaxy({
       type: 'edge-on',
       arms: 2,
-      radius: 600,
+      radius: 350,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(82), THREE.MathUtils.degToRad(25), THREE.MathUtils.degToRad(-45)),
-      pos: new THREE.Vector3(-990, 820, -1950),
+      pos: new THREE.Vector3(-2090, 3020, -2950),
       colorCore: '#FFECC0',
       colorArm: '#0284C7',
-      count: 50000,
+      count: 30000,
       seed: 108
     });
 
     // 3. Smooth Golden Elliptical Galaxy (Distant Bottom-Right)
     this.makeGalaxy({
       type: 'elliptical',
-      radius: 450,
+      radius: 200,
       tilt: new THREE.Euler(0.4, 0.6, 0.2),
-      pos: new THREE.Vector3(980, -680, -2800),
+      pos: new THREE.Vector3(4080, -2980, -2800),
       colorCore: '#FFFBEB',
       colorArm: '#F59E0B',
-      count: 40000,
+      count: 25000,
       seed: 777
     });
   }

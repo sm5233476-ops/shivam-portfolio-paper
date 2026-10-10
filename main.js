@@ -1,6 +1,6 @@
 /* ==========================================================================
    SHIVAM MISHRA — MAIN APPLICATION ENGINE (ES MODULE)
-   3D Space Flight on Scroll + Native 120Hz Scroll + Smart Nav + Card Physics
+   3D Space Flight on Scroll + Smart Hysteresis Nav + Kinetic Mask Slide (120FPS)
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
@@ -30,7 +30,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 2. 3D CAMERA SPACE FLIGHT ON SCROLL (FLYING DEEP INTO THE COSMOS!)
+// 2. 3D CAMERA SPACE FLIGHT ON SCROLL (FLYING INTO THE COSMOS!)
 // ==========================================================================
 (function initSpaceFlight() {
   function setupFlight() {
@@ -40,7 +40,7 @@ window.CONTACT = {
     }
     gsap.registerPlugin(ScrollTrigger);
 
-    // As user scrolls down the page, camera glides forward through space
+    // As user scrolls down the page, camera smoothly glides forward into the stars
     ScrollTrigger.create({
       trigger: "body",
       start: "top top",
@@ -49,7 +49,7 @@ window.CONTACT = {
       onUpdate: (self) => {
         if (window.UNIVERSE && window.UNIVERSE.camera) {
           gsap.to(window.UNIVERSE.camera.position, {
-            z: 850 - (self.progress * 420), // Glides from 850 down to 430 deep into stars
+            z: 850 - (self.progress * 420), // Smooth glide from 850 down to 430
             duration: 0.6,
             ease: "power1.out",
             overwrite: "auto"
@@ -67,7 +67,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 3. SMART AUTO-HIDE NAVBAR (FAST NATIVE HARDWARE SCROLL)
+// 3. SMART HYSTERESIS NAVBAR (ACCIDENTAL POP-UP FIX)
 // ==========================================================================
 (function initSmartNav() {
   const header = document.getElementById('site-header');
@@ -78,24 +78,26 @@ window.CONTACT = {
   let lastScrollY = window.scrollY;
   let isNavHidden = false;
 
-window.addEventListener('scroll', () => {
+  window.addEventListener('scroll', () => {
     const currentY = window.scrollY;
     const diff = currentY - lastScrollY;
 
-    // 1. स्क्रीन के टॉप पर (Hero में) हमेशा दिखेगा
+    // 1. Screen top (< 60px): always show
     if (currentY <= 60) {
-      header.classList.remove('nav-hidden');
-      isNavHidden = false;
+      if (isNavHidden) {
+        header.classList.remove('nav-hidden');
+        isNavHidden = false;
+      }
     }
-    // 2. नीचे स्क्रॉल करते ही (>100px) तुरंत 100% गायब हो जाएगा
+    // 2. Scrolling DOWN (> 100px and deliberate movement > 4px): hide cleanly
     else if (diff > 4 && currentY > 100) {
       if (!isNavHidden) {
         header.classList.add('nav-hidden');
         isNavHidden = true;
       }
     }
-    // 3. जब तुम जानबूझकर कम से कम 25px ऊपर स्क्रॉल करोगे, तभी वापस आएगा (ताकि रुकने पर सिर पर न चढ़े)
-    else if (diff < -25) {
+    // 3. Scrolling UP: ONLY show if user intentionally scrolls UP by at least 20px
+    else if (diff < -20) {
       if (isNavHidden) {
         header.classList.remove('nav-hidden');
         isNavHidden = false;
@@ -105,7 +107,7 @@ window.addEventListener('scroll', () => {
     lastScrollY = currentY;
   }, { passive: true });
 
-  // Mouse near top brings it back
+  // Mouse near top 70px brings it back
   window.addEventListener('mousemove', (e) => {
     if (e.clientY <= 70 && isNavHidden) {
       header.classList.remove('nav-hidden');
@@ -114,7 +116,7 @@ window.addEventListener('scroll', () => {
   }, { passive: true });
 
   // Active indicator tracking
-  if (activeLine && typeof ScrollTrigger !== 'undefined') {
+  if (activeLine && typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
     const navItems = navLinks ? navLinks.querySelectorAll('.nav-item') : [];
     const sections = ['hero', 'about', 'works', 'skills', 'contact'];
 
@@ -150,7 +152,7 @@ window.addEventListener('scroll', () => {
 })();
 
 // ==========================================================================
-// 4. KINETIC MASK SLIDE WORD REVEAL (120FPS ZERO-LAG COMPOSITOR)
+// 4. KINETIC MASK SLIDE WORD REVEAL (100% ZERO-LAG COMPOSITOR)
 // ==========================================================================
 (function initWordReveal() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
@@ -160,7 +162,7 @@ window.addEventListener('scroll', () => {
       const text = node.textContent;
       if (!text || text.trim() === '') return;
       const fragment = document.createDocumentFragment();
-      const tokens = text.split(/(\s+)/);
+      const tokens = text.split(/(\s+)/); // Preserves real whitespace
 
       tokens.forEach(token => {
         if (/^\s+$/.test(token)) {

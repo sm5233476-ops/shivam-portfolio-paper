@@ -144,7 +144,7 @@ export class Universe {
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = UNIVERSE_SETTINGS.exposure;
-    this.renderer.setClearColor(0x000000, 0.0);
+    this.renderer.setClearColor(0x02030a, 1.0);
 
     // 60FPS Safe DPR
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));

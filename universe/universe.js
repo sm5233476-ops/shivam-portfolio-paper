@@ -51,7 +51,7 @@ export const UNIVERSE_SETTINGS = {
   // Warp & Camera Dynamics
   warpStrength: 0.8,
   mouseParallax: 7.8,
-  cameraDamping: 2.8,
+  cameraDamping: 2.0,
 
   // Soft Post-Processing Bloom
   bloomStrength: 0.42,

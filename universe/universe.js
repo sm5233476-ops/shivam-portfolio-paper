@@ -14,18 +14,23 @@ import {
 } from './shaders.js';
 
 export const UNIVERSE_SETTINGS = {
-  starBrightness: 1.45,
-  nearStarsCount: 450,
-  midStarsCount: 3800,
-  farStarsCount: 9500,
+  starBrightness: 1.35,      // तारों की चमक वापस तेज
+  nearStarsCount: 500,
+  midStarsCount: 4000,
+  farStarsCount: 10000,
 
-  // GALAXY SETTINGS (Chakra Spin Speed)
-  galaxyBrightness: 1.55,
-  galaxySpeed: 0.045,
+  galaxyBrightness: 1.45,    // गैलेक्सी का चमकदार कोर वापस (Screenshot 2 जैसा)
+  galaxySpeed: 0.045,        // चक्र घूमने की स्पीड
 
-  clusterBrightness: 0.85,
+  clusterBrightness: 0.95,
   planetVisible: true,
-  mouseParallax: 9.5
+  mouseParallax: 9.9,
+
+  // Screenshot 2 वाला ग्लो (Bloom & Exposure)
+  bloomStrength: 0.62,
+  bloomRadius: 0.48,
+  bloomThreshold: 0.82,
+  exposure: 1.15
 };
 
 function kelvinToRGB(kelvin) {

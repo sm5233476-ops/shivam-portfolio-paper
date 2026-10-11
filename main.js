@@ -1,7 +1,6 @@
-/* ==== BLOCK 3: MAIN.JS UPDATE START ==== */
 /* ==========================================================================
-   SHIVAM MISHRA — MAIN APPLICATION ENGINE (ES MODULE)
-   Catmull-Rom Space Flight + Warp Speed + Smart Hysteresis Nav + 120FPS Text
+   SHIVAM MISHRA — MAIN APPLICATION ENGINE (ES MODULE - 10/10 LOCKED)
+   Synchronized Word Reveal + Calm Luxury Card Lift + Straight Space Flight
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
@@ -31,7 +30,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 2. 3D CAMERA SPACE FLIGHT & WARP VELOCITY ON SCROLL
+// 2. 3D CAMERA SPACE FLIGHT ON SCROLL (STRAIGHT FORWARD GLIDE)
 // ==========================================================================
 (function initSpaceFlight() {
   function setupFlight() {
@@ -41,15 +40,13 @@ window.CONTACT = {
     }
     gsap.registerPlugin(ScrollTrigger);
 
-    // Binds entire page scroll to the 3D Universe Camera Path & Warp Speed
     ScrollTrigger.create({
       trigger: "body",
       start: "top top",
       end: "bottom bottom",
-      scrub: true,
+      scrub: 1.2,
       onUpdate: (self) => {
         if (window.UNIVERSE && window.UNIVERSE.setScrollProgress) {
-          // Passes progress (0.0 to 1.0) and scroll velocity for warp elongation
           window.UNIVERSE.setScrollProgress(self.progress, self.getVelocity());
         }
       }
@@ -79,21 +76,21 @@ window.CONTACT = {
     const currentY = window.scrollY;
     const diff = currentY - lastScrollY;
 
-    // 1. Screen top (< 60px): always show
+    // Top (< 60px): always visible
     if (currentY <= 60) {
       if (isNavHidden) {
         header.classList.remove('nav-hidden');
         isNavHidden = false;
       }
     }
-    // 2. Scrolling DOWN (> 100px and deliberate movement > 4px): hide cleanly
+    // Scrolling DOWN (> 100px): hide cleanly
     else if (diff > 4 && currentY > 100) {
       if (!isNavHidden) {
         header.classList.add('nav-hidden');
         isNavHidden = true;
       }
     }
-    // 3. Scrolling UP: ONLY show if user intentionally scrolls UP by at least 20px
+    // Scrolling UP (intentional > 20px): show
     else if (diff < -20) {
       if (isNavHidden) {
         header.classList.remove('nav-hidden');
@@ -104,7 +101,6 @@ window.CONTACT = {
     lastScrollY = currentY;
   }, { passive: true });
 
-  // Mouse near top 70px brings it back
   window.addEventListener('mousemove', (e) => {
     if (e.clientY <= 70 && isNavHidden) {
       header.classList.remove('nav-hidden');
@@ -149,7 +145,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 4. KINETIC MASK SLIDE WORD REVEAL (120FPS ZERO-LAG COMPOSITOR)
+// 4. SYNCHRONIZED KINETIC WORD REVEAL (ALL WORDS + HIGHLIGHTED WORDS SLIDE UP)
 // ==========================================================================
 (function initWordReveal() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
@@ -159,7 +155,7 @@ window.CONTACT = {
       const text = node.textContent;
       if (!text || text.trim() === '') return;
       const fragment = document.createDocumentFragment();
-      const tokens = text.split(/(\s+)/); // Preserves real whitespace
+      const tokens = text.split(/(\s+)/);
 
       tokens.forEach(token => {
         if (/^\s+$/.test(token)) {
@@ -189,12 +185,13 @@ window.CONTACT = {
 
     const staggerTime = Math.min(0.035, 1.2 / Math.max(1, words.length));
 
+    // Animates ALL words including highlighted lines smoothly from bottom mask
     gsap.fromTo(words, 
-      { opacity: 0, y: "110%" },
+      { opacity: 0, y: "115%" },
       {
         opacity: 1,
         y: "0%",
-        duration: 0.8,
+        duration: 0.85,
         ease: "power3.out",
         stagger: staggerTime,
         scrollTrigger: {
@@ -211,7 +208,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 5. FOUR CARDS ENTRANCE & ELASTIC HOVER PHYSICS
+// 5. FOUR CARDS ENTRANCE & CALM LUXURY LIFT (NO VIOLENT RUBBER BOUNCE)
 // ==========================================================================
 (function initCards() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
@@ -220,27 +217,28 @@ window.CONTACT = {
   const grid = document.getElementById('about-cards-grid');
   if (!grid || cards.length === 0) return;
 
+  // Staggered Entrance
   gsap.from(cards, {
     scrollTrigger: {
       trigger: grid,
       start: "top 82%",
       once: true
     },
-    y: 70,
+    y: 60,
     opacity: 0,
-    scale: 0.95,
-    duration: 1.1,
+    scale: 0.96,
+    duration: 1.0,
     stagger: 0.12,
     ease: "power3.out"
   });
 
-  // Elastic spring hover on cards
+  // Calm Tactile Lift on Hover (Apple/Linear Style)
   cards.forEach(card => {
     card.addEventListener('mouseenter', () => {
-      gsap.to(card, { y: -8, scale: 1.025, duration: 0.5, ease: "elastic.out(1, 0.6)", overwrite: "auto" });
+      gsap.to(card, { y: -6, scale: 1.02, duration: 0.35, ease: "power2.out", overwrite: "auto" });
     });
     card.addEventListener('mouseleave', () => {
-      gsap.to(card, { y: 0, scale: 1.0, duration: 0.6, ease: "power3.out", overwrite: "auto" });
+      gsap.to(card, { y: 0, scale: 1.0, duration: 0.45, ease: "power2.out", overwrite: "auto" });
     });
   });
 })();
@@ -264,4 +262,3 @@ window.CONTACT = {
     });
   });
 })();
-/* ==== BLOCK 3: MAIN.JS UPDATE END ==== */

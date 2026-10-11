@@ -574,10 +574,9 @@ export class Universe {
   }
 
   animate() {
-    if (this.isPaused) {
-      requestAnimationFrame(() => this.animate());
-      return;
-    }
+    this.galaxies.forEach(g => {
+      g.mesh.rotateZ(g.speed * 0.12); // <--- सीधे चक्र की तरह सामने पहिया घूमेगा!
+    });
 
     requestAnimationFrame(() => this.animate());
 

@@ -1,6 +1,5 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (10/10 MASTER STYLESHEET)
-   Zero Black Box, Pure Fluid River Gradient, 100% Transparent Nav & 60FPS
+   SHIVAM MISHRA — THE COSMIC HORIZON (LIVING NEBULA SKY & 60FPS UI)
    ========================================================================== */
 
 :root {
@@ -30,7 +29,7 @@ html {
 html, body {
   width: 100%;
   min-height: 100vh;
-  background-color: var(--bg-deep) !important;
+  background-color: #02030a !important;
   color: var(--text-heading);
   font-family: var(--font-sans);
   overflow-x: hidden;
@@ -38,7 +37,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 3D WebGL Canvas Layer (Fixed in background) */
+/* 3D WebGL Canvas Layer (RICH COLORFUL NEBULA SKY — NO PLAIN BLACK VOID!) */
 #universe-canvas {
   position: fixed;
   top: 0;
@@ -47,14 +46,14 @@ html, body {
   height: 100vh;
   z-index: 0;
   pointer-events: none;
-  background: transparent !important;
+  /* Deep Space Nebula Gradient: Rich Cosmic Indigo, Ocean Navy & Cyan Core */
+  background: radial-gradient(ellipse at 50% 38%, #0a1838 0%, #050d22 45%, #02040b 100%) !important;
 }
 
 /* ==========================================================================
    FLUID RIVER GRADIENT SYSTEM (SEAMLESS WHITE-TO-BLUE FLOW)
    ========================================================================== */
 
-/* The entire line flows from pure white to rich electric cyan */
 .highlight-text {
   display: inline-block;
   background: linear-gradient(90deg, #ffffff 0%, #ffffff 32%, #7dd3fc 68%, #0ea5e9 100%) !important;
@@ -77,7 +76,6 @@ html, body {
   text-shadow: none !important;
 }
 
-/* Contrast Shadow: Normal non-highlighted text stays 100% crisp */
 .text-contrast-heading,
 .title-line:not(.highlight-text),
 .about-headline {
@@ -89,7 +87,6 @@ html, body {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7), 0 8px 30px rgba(0, 0, 0, 0.6);
 }
 
-/* Word Splitter Masks */
 .word-mask {
   display: inline-block;
   overflow: hidden;
@@ -104,7 +101,7 @@ html, body {
 }
 
 /* ==========================================================================
-   HEADER & NAVIGATION (100% TRANSPARENT ALWAYS — NO BLACK BAR!)
+   HEADER & NAVIGATION (100% TRANSPARENT ALWAYS)
    ========================================================================== */
 
 .site-header {
@@ -179,7 +176,6 @@ html, body {
   outline: none;
 }
 
-/* Sliding Electric-Blue Active Indicator */
 .nav-active-line {
   position: absolute;
   bottom: 0;
@@ -195,7 +191,6 @@ html, body {
   will-change: transform, width;
 }
 
-/* 3D Magnetic "Let's Connect" Button */
 .btn-connect {
   display: inline-flex;
   align-items: center;
@@ -234,7 +229,7 @@ html, body {
 }
 
 /* ==========================================================================
-   HERO SECTION (ZERO BLACK BOX BEHIND TEXT)
+   HERO SECTION (ZERO BLACK BOX)
    ========================================================================== */
 
 main {
@@ -264,9 +259,8 @@ main {
   position: relative;
 }
 
-/* BLACK BOX COMPLETELY REMOVED HERE: Direct view of deep space stars! */
 .hero-content::before {
-  display: none !important;
+  display: none !important; /* Zero black dabba */
 }
 
 .hero-title {
@@ -420,7 +414,6 @@ main {
   margin: 0 auto;
 }
 
-/* Section Tag: ABOUT THE DEVELOPER */
 .section-tag-wrap {
   display: inline-flex;
   align-items: center;
@@ -445,7 +438,6 @@ main {
   text-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
 }
 
-/* 2-Column Grid */
 .about-grid {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
@@ -467,7 +459,6 @@ main {
   margin-bottom: 2.8rem;
 }
 
-/* Status Badge */
 .about-exp-pill {
   display: inline-flex;
   align-items: center;
@@ -499,7 +490,6 @@ main {
   color: var(--text-heading);
 }
 
-/* Right Column */
 .about-right {
   display: flex;
   flex-direction: column;
@@ -514,10 +504,7 @@ main {
   letter-spacing: -0.01em;
 }
 
-/* ==========================================================================
-   4 CARDS: ELECTRIC ROTATING BEAM + 60FPS ZERO-LAG SURFACE
-   ========================================================================== */
-
+/* 4 CARDS */
 .about-cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

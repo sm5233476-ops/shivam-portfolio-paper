@@ -1,6 +1,6 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE ASTRONOMICAL UNIVERSE (PURE FRONT-FACING FAN SPIN ENGINE)
-   True Front-Facing Disc, 2D Wall-Clock / Fan Rotation, Zero Tumbling & 60FPS
+   SHIVAM MISHRA — THE ASTRONOMICAL UNIVERSE (10/10 LUMINOUS COSMIC ODYSSEY)
+   2 Vibrant Cloud Galaxies with Radiant Core Glow, Deep Scroll Encounters, 60FPS
    ========================================================================== */
 
 import * as THREE from 'three';
@@ -13,21 +13,25 @@ import {
 } from './shaders.js';
 
 // ==========================================================================
-// 1. MASTER SETTINGS
+// 1. MASTER TUNABLE SETTINGS (RADIANT GLOW & 60FPS STABILITY)
 // ==========================================================================
 export const UNIVERSE_SETTINGS = {
-  starBrightness: 1.25,
-  nearStarsCount: 450,
-  midStarsCount: 3800,
-  farStarsCount: 9500,
+  // Starfield
+  starBrightness: 1.35,
+  nearStarsCount: 500,
+  midStarsCount: 4200,
+  farStarsCount: 11000,
 
-  // GALAXY SETTINGS (Yahan se tum samne ghumne ki speed adjust kar sakte ho!)
-  galaxyBrightness: 2.5,
-  galaxySpeed: 0.0035, // <--- Pure Fan / Wheel Spin Speed!
+  // Vibrant Fluffy Cloud Galaxies
+  galaxyBrightness: 1.6, // Rich Radiant Core Bloom
+  galaxySpeed: 0.0032,   // Pure Face-on Wheel Spin Speed
 
-  clusterBrightness: 0.99,
+  // Deep Space Objects
+  clusterBrightness: 1.1,
   planetVisible: true,
-  mouseParallax: 9.9
+  
+  // Camera Dynamics
+  mouseParallax: 2.0
 };
 
 function kelvinToRGB(kelvin) {
@@ -66,8 +70,12 @@ export class Universe {
     this.scene = null;
     this.camera = null;
 
-    // Collections
+    // Core Textures
     this.starTexture = null;
+    this.galaxyParticleTexture = null;
+    this.coreGlowTexture = null;
+
+    // Collections
     this.starLayers = [];
     this.galaxies = [];
     this.clusters = [];
@@ -76,7 +84,7 @@ export class Universe {
     this.cometMesh = null;
     this.meteors = [];
 
-    // Scroll Path
+    // Scroll Flight State
     this.cameraPath = null;
     this.scrollProgress = 0;
     this.targetScrollProgress = 0;
@@ -92,11 +100,13 @@ export class Universe {
   init(canvas) {
     this.canvas = canvas;
 
+    // 1. Scene & Camera Setup
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 5500);
     this.camera.position.set(0, 0, 850);
     this.camera.lookAt(0, 0, 0);
 
+    // 2. Direct WebGL2 60FPS Renderer
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: false,
@@ -105,23 +115,27 @@ export class Universe {
     });
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.15;
+    this.renderer.toneMappingExposure = 1.25;
     this.renderer.setClearColor(0x000000, 0.0);
 
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
-    this.starTexture = this.createRoundStarSprite();
+    // 3. High-Definition Optical Bloom Textures
+    this.starTexture = this.createStarSprite();
+    this.galaxyParticleTexture = this.createGalaxyDustSprite();
+    this.coreGlowTexture = this.createRadiantCoreSprite();
 
-    // Build Scene Layers
+    // 4. Construct Scene Layers
     this.buildRoundStars();
-    this.buildFrontFacingFanGalaxies(); // <--- True Front-Facing Fan Galaxies!
-    this.buildCornerClusters();
+    this.buildTwoLuminousCloudGalaxies(); // Fluffy, Glowing Galaxies (No Chakras!)
+    this.buildDeepSpaceWaypoints();       // Encounters along About section flight path!
     this.buildSaturnAndRings();
     this.buildDeepSpaceEarth();
     this.buildDeepSpaceComet();
     this.buildFastMeteors();
 
+    // 5. Straight Camera Path
     this.initStraightCameraPath();
     this.bindEvents();
 
@@ -129,17 +143,39 @@ export class Universe {
     this.animate();
   }
 
-  createRoundStarSprite() {
+  // --- 128x128 DIAMOND STAR SPRITE ---
+  createStarSprite() {
     const size = 128;
     const c = document.createElement('canvas');
     c.width = size; c.height = size;
     const ctx = c.getContext('2d');
 
     const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
-    grad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');
-    grad.addColorStop(0.18, 'rgba(240, 248, 255, 0.95)');
-    grad.addColorStop(0.42, 'rgba(186, 230, 253, 0.6)');
-    grad.addColorStop(0.72, 'rgba(56, 189, 248, 0.15)');
+    grad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');          // Brilliant Diamond Center
+    grad.addColorStop(0.18, 'rgba(240, 248, 255, 0.95)');       // Soft Halo
+    grad.addColorStop(0.42, 'rgba(186, 230, 253, 0.6)');        // Ice Blue Ring
+    grad.addColorStop(0.72, 'rgba(56, 189, 248, 0.16)');       // Soft Outer Glow
+    grad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');                // Zero Hard Edges
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, size, size);
+
+    const tex = new THREE.CanvasTexture(c);
+    tex.needsUpdate = true;
+    return tex;
+  }
+
+  // --- 256x256 FLUFFY NEBULA CLOUD SPRITE ---
+  createGalaxyDustSprite() {
+    const size = 256;
+    const c = document.createElement('canvas');
+    c.width = size; c.height = size;
+    const ctx = c.getContext('2d');
+
+    const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+    grad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');          // Bright Core
+    grad.addColorStop(0.2, 'rgba(255, 255, 255, 0.85)');
+    grad.addColorStop(0.45, 'rgba(255, 255, 255, 0.45)');
+    grad.addColorStop(0.75, 'rgba(255, 255, 255, 0.12)');
     grad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, size, size);
@@ -149,11 +185,34 @@ export class Universe {
     return tex;
   }
 
+  // --- 512x512 SUPER-LUMINOUS OPTICAL CORE BLOOM SPRITE ---
+  createRadiantCoreSprite() {
+    const size = 512;
+    const c = document.createElement('canvas');
+    c.width = size; c.height = size;
+    const ctx = c.getContext('2d');
+
+    const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+    grad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');          // Pure White Hot Center
+    grad.addColorStop(0.12, 'rgba(255, 255, 255, 0.95)');
+    grad.addColorStop(0.28, 'rgba(240, 248, 255, 0.65)');
+    grad.addColorStop(0.55, 'rgba(186, 230, 253, 0.25)');      // Radiant Atmospheric Glow
+    grad.addColorStop(0.85, 'rgba(56, 189, 248, 0.06)');
+    grad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, size, size);
+
+    const tex = new THREE.CanvasTexture(c);
+    tex.needsUpdate = true;
+    return tex;
+  }
+
+  // --- LAYER 1: RADIANT TWINKLING STARS ---
   buildRoundStars() {
     const layers = [
-      { count: UNIVERSE_SETTINGS.farStarsCount, sizeMin: 1.5, sizeMax: 2.5, isNear: 0.0, radiusMin: 1900, radiusMax: 3500 },
-      { count: UNIVERSE_SETTINGS.midStarsCount, sizeMin: 2.5, sizeMax: 3.5, isNear: 0.0, radiusMin: 1200, radiusMax: 2700 },
-      { count: UNIVERSE_SETTINGS.nearStarsCount, sizeMin: 4.5, sizeMax: 7.5, isNear: 1.0, radiusMin: 650, radiusMax: 1800 }
+      { count: UNIVERSE_SETTINGS.farStarsCount, sizeMin: 1.2, sizeMax: 2.0, isNear: 0.0, radiusMin: 1900, radiusMax: 3500 },
+      { count: UNIVERSE_SETTINGS.midStarsCount, sizeMin: 2.0, sizeMax: 3.4, isNear: 0.0, radiusMin: 1200, radiusMax: 2700 },
+      { count: UNIVERSE_SETTINGS.nearStarsCount, sizeMin: 4.8, sizeMax: 8.0, isNear: 1.0, radiusMin: 650, radiusMax: 1800 }
     ];
 
     layers.forEach(cfg => {
@@ -183,13 +242,13 @@ export class Universe {
         const temp = 3500 + Math.random() * 8500;
         const c = kelvinToRGB(temp);
 
-        const hdrBoost = cfg.isNear > 0.5 ? 1.5 : 1.0;
+        const hdrBoost = cfg.isNear > 0.5 ? 1.6 : 1.0;
         colors[i3] = c.r * hdrBoost * UNIVERSE_SETTINGS.starBrightness;
         colors[i3 + 1] = c.g * hdrBoost * UNIVERSE_SETTINGS.starBrightness;
         colors[i3 + 2] = c.b * hdrBoost * UNIVERSE_SETTINGS.starBrightness;
 
         twinkles[i2] = Math.random() * Math.PI * 2;
-        twinkles[i2 + 1] = 0.5 + Math.random() * 2.0;
+        twinkles[i2 + 1] = 0.5 + Math.random() * 2.2;
         isNear[i] = cfg.isNear;
       }
 
@@ -206,7 +265,7 @@ export class Universe {
           uTime: { value: 0 },
           uPixelRatio: { value: this.renderer.getPixelRatio() },
           uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-          uReadability: { value: 0.0 },
+          uReadability: { value: 0.0 }, // Zero dark patch behind text!
           uVelocity: { value: 0 }
         },
         blending: THREE.AdditiveBlending,
@@ -221,16 +280,34 @@ export class Universe {
   }
 
   // =========================================================================
-  // TRUE FRONT-FACING FAN GALAXIES (BUILT ON X-Y PLANE = ZERO FLIPPING!)
+  // LAYER 2: 2 LUMINOUS CLOUD GALAXIES (FLUFFY, VIBRANT & RADIANT BLOOM)
   // =========================================================================
-  makeFanGalaxy({ arms = 4, radius = 550, pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 13000, seed = 1, speed = 0.0035 }) {
+  makeCloudGalaxy({ radius = 600, pos = new THREE.Vector3(), coreColor = '#ffffff', midColor = '#38bdf8', outerColor = '#1d4ed8', count = 16000, seed = 1, speed = 0.003 }) {
     let s = seed;
+    const group = new THREE.Group();
+    group.position.copy(pos);
+
+    // 1. Radiant Optical Core Billboard (Creates that breathtaking bloom!)
+    const coreGeo = new THREE.PlaneGeometry(radius * 0.95, radius * 0.95);
+    const coreMat = new THREE.MeshBasicMaterial({
+      map: this.coreGlowTexture,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      opacity: 0.95,
+      color: new THREE.Color(midColor)
+    });
+    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+    group.add(coreMesh);
+
+    // 2. Fluffy Volumetric Stellar Cloud Particles
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
 
-    const cCore = new THREE.Color(colorCore);
-    const cArm = new THREE.Color(colorArm);
+    const cCore = new THREE.Color(coreColor);
+    const cMid = new THREE.Color(midColor);
+    const cOuter = new THREE.Color(outerColor);
 
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
@@ -238,20 +315,29 @@ export class Universe {
       const rnd2 = pseudoRandom(s++);
       const rnd3 = pseudoRandom(s++);
 
-      const r = Math.pow(rnd1, 2.0) * radius;
-      const armIndex = i % arms;
-      const branchAngle = (armIndex / arms) * Math.PI * 2;
-      const spin = r * 0.0032;
-      const spread = Math.pow(rnd2, 2.6) * (r * 0.26 + 18);
-      const angle = branchAngle + spin + (rnd3 - 0.5) * 0.45;
+      // Broad organic dispersion (Fluffy cloud, NO thin blade lines!)
+      const r = Math.pow(rnd1, 1.6) * radius;
+      const angle = rnd2 * Math.PI * 2;
+      const swirl = r * 0.0024;
 
-      // BUILT ON X-Y PLANE (FACES SCREEN DIRECTLY LIKE A CLOCK ON A WALL)
-      positions[i3] = Math.cos(angle) * r + (pseudoRandom(s++) - 0.5) * spread; // X (Left-Right)
-      positions[i3 + 1] = Math.sin(angle) * r + (pseudoRandom(s++) - 0.5) * spread; // Y (Up-Down)
-      positions[i3 + 2] = (pseudoRandom(s++) - 0.5) * 40.0;                       // Z (Thin Depth)
+      // Soft volumetric scatter
+      const spreadX = (rnd3 - 0.5) * (r * 0.55 + 32);
+      const spreadY = (pseudoRandom(s++) - 0.5) * (r * 0.55 + 32);
+      const spreadZ = (pseudoRandom(s++) - 0.5) * 45.0;
 
-      const mixRatio = Math.min(1.0, r / (radius * 0.65));
-      const c = cCore.clone().lerp(cArm, mixRatio);
+      positions[i3] = Math.cos(angle + swirl) * r + spreadX;
+      positions[i3 + 1] = Math.sin(angle + swirl) * r + spreadY;
+      positions[i3 + 2] = spreadZ;
+
+      // Color Ramp: Diamond White Core -> Vivid Electric Mid -> Deep Celestial Outer
+      const mixRatio = r / radius;
+      const c = cCore.clone();
+      if (mixRatio < 0.45) {
+        c.lerp(cMid, mixRatio / 0.45);
+      } else {
+        c.copy(cMid).lerp(cOuter, (mixRatio - 0.45) / 0.55);
+      }
+
       colors[i3] = c.r * UNIVERSE_SETTINGS.galaxyBrightness;
       colors[i3 + 1] = c.g * UNIVERSE_SETTINGS.galaxyBrightness;
       colors[i3 + 2] = c.b * UNIVERSE_SETTINGS.galaxyBrightness;
@@ -261,53 +347,54 @@ export class Universe {
     geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const mat = new THREE.PointsMaterial({
-      size: 5.5,
+      size: 9.5, // Large, soft, radiant cloud particles
       vertexColors: true,
       blending: THREE.AdditiveBlending,
       transparent: true,
       depthWrite: false,
-      map: this.starTexture,
+      map: this.galaxyParticleTexture,
       opacity: 0.92
     });
 
-    const mesh = new THREE.Points(geo, mat);
-    mesh.position.copy(pos);
-    // 100% FLAT ON SCREEN (No 3D tilt that causes flipping)
-    mesh.rotation.set(0, 0, 0);
+    const cloudMesh = new THREE.Points(geo, mat);
+    group.add(cloudMesh);
 
-    this.scene.add(mesh);
-    this.galaxies.push({ mesh, speed });
-    return mesh;
+    this.scene.add(group);
+    this.galaxies.push({ group, speed });
+    return group;
   }
 
-  buildFrontFacingFanGalaxies() {
-    // 1. Cyan Chakra: Top-Left Corner, Faces Screen directly, Spins Clockwise!
-    this.makeFanGalaxy({
-      arms: 3,
-      radius: 390,
-      pos: new THREE.Vector3(-1650, 480, -1500),
-      colorCore: '#E0F2FE',
-      colorArm: '#0284C7',
-      count: 13000,
+  buildTwoLuminousCloudGalaxies() {
+    // 1. TOP-LEFT: Ethereal Cyan & Electric Cobalt Cloud Galaxy
+    this.makeCloudGalaxy({
+      radius: 640,
+      pos: new THREE.Vector3(-1320, 520, -1450), // Framed cleanly in top-left
+      coreColor: '#ffffff',
+      midColor: '#38bdf8',                      // Vivid Electric Cyan
+      outerColor: '#1d4ed8',                    // Royal Celestial Cobalt
+      count: 17000,
       seed: 108,
       speed: UNIVERSE_SETTINGS.galaxySpeed
     });
 
-    // 2. Golden Amber Chakra: Top-Right Corner, Faces Screen directly, Spins Counter-Clockwise!
-    this.makeFanGalaxy({
-      arms: 4,
-      radius: 460,
-      pos: new THREE.Vector3(1820, 550, -1550),
-      colorCore: '#FFD9A0',
-      colorArm: '#F59E0B',
-      count: 14000,
+    // 2. TOP-RIGHT: Solar Gold & Deep Cosmic Rose Galaxy
+    this.makeCloudGalaxy({
+      radius: 680,
+      pos: new THREE.Vector3(1300, 480, -1400),  // Framed cleanly in top-right
+      coreColor: '#ffffff',
+      midColor: '#fbbf24',                      // Radiant Warm Gold
+      outerColor: '#f43f5e',                    // Vivid Cosmic Rose
+      count: 18000,
       seed: 42,
       speed: -UNIVERSE_SETTINGS.galaxySpeed
     });
   }
 
-  buildCornerClusters() {
-    const createSoftCluster = (count, scaleRadius, centerPos, coreHex, haloHex) => {
+  // =========================================================================
+  // LAYER 3: DEEP SPACE WAYPOINTS (ENCOUNTERED ON SCROLL INTO ABOUT SECTION)
+  // =========================================================================
+  buildDeepSpaceWaypoints() {
+    const createGlowingCluster = (count, scaleRadius, centerPos, coreHex, haloHex) => {
       const geo = new THREE.BufferGeometry();
       const pos = new Float32Array(count * 3);
       const col = new Float32Array(count * 3);
@@ -336,7 +423,7 @@ export class Universe {
       geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
 
       const mat = new THREE.PointsMaterial({
-        size: 3.4,
+        size: 3.8,
         vertexColors: true,
         blending: THREE.AdditiveBlending,
         transparent: true,
@@ -349,13 +436,22 @@ export class Universe {
       this.clusters.push(pts);
     };
 
-    createSoftCluster(1800, 36, new THREE.Vector3(-1300, -520, -1600), '#FEF08A', '#38BDF8');
-    createSoftCluster(1600, 32, new THREE.Vector3(1350, -550, -1750), '#FFFBEB', '#93C5FD');
+    // 1. Warm Amber Cluster: Placed in About section flight zone!
+    createGlowingCluster(2400, 42, new THREE.Vector3(-650, -420, 250), '#FEF08A', '#F59E0B');
+
+    // 2. Cyan Ice Cluster: Placed in lower About section!
+    createGlowingCluster(2200, 38, new THREE.Vector3(720, -580, 80), '#E0F2FE', '#38BDF8');
+
+    // 3. Deep Distant Cluster
+    createGlowingCluster(2000, 34, new THREE.Vector3(0, -950, -600), '#FDE047', '#38BDF8');
   }
 
+  // =========================================================================
+  // LAYER 4: RINGED SATURN (LOWER-RIGHT CORNER)
+  // =========================================================================
   buildSaturnAndRings() {
     this.saturnGroup = new THREE.Group();
-    this.saturnGroup.position.set(1700, -580, -1650);
+    this.saturnGroup.position.set(1180, -480, -1450);
 
     const planetGeo = new THREE.IcosahedronGeometry(88, 4);
     const planetMat = new THREE.ShaderMaterial({
@@ -389,11 +485,15 @@ export class Universe {
     this.scene.add(this.saturnGroup);
   }
 
+  // =========================================================================
+  // LAYER 5: BLUE EARTH & MOON (ENCOUNTERED ON SCROLL INTO ABOUT)
+  // =========================================================================
   buildDeepSpaceEarth() {
     this.earthGroup = new THREE.Group();
-    this.earthGroup.position.set(-780, -680, -1050);
+    // Positioned along the scroll flight trajectory so it floats by during scroll!
+    this.earthGroup.position.set(-680, -450, 380);
 
-    const earthGeo = new THREE.IcosahedronGeometry(74, 4);
+    const earthGeo = new THREE.IcosahedronGeometry(72, 4);
     const earthMat = new THREE.ShaderMaterial({
       vertexShader: PlanetShader.vertexShader,
       fragmentShader: PlanetShader.fragmentShader,
@@ -406,6 +506,7 @@ export class Universe {
     const earthMesh = new THREE.Mesh(earthGeo, earthMat);
     this.earthGroup.add(earthMesh);
 
+    // Orbiting Moon
     const moonGeo = new THREE.IcosahedronGeometry(14, 2);
     const moonMat = new THREE.MeshBasicMaterial({ color: 0xcccccc });
     this.moonMesh = new THREE.Mesh(moonGeo, moonMat);
@@ -415,20 +516,23 @@ export class Universe {
     this.scene.add(this.earthGroup);
   }
 
+  // =========================================================================
+  // LAYER 6: ICY COMET WITH STREAMING TAIL
+  // =========================================================================
   buildDeepSpaceComet() {
-    const cometCount = 500;
+    const cometCount = 550;
     const geo = new THREE.BufferGeometry();
     const pos = new Float32Array(cometCount * 3);
     const alphas = new Float32Array(cometCount);
 
-    const headPos = new THREE.Vector3(-620, -180, -1100);
+    const headPos = new THREE.Vector3(-520, -140, 120); // Passes right during scroll!
     const tailDir = new THREE.Vector3(-1.4, 0.8, -0.6).normalize();
 
     for (let i = 0; i < cometCount; i++) {
       const i3 = i * 3;
       const t = i / cometCount;
-      const dist = t * 300.0;
-      const spread = t * 22.0;
+      const dist = t * 320.0;
+      const spread = t * 24.0;
 
       pos[i3] = headPos.x + tailDir.x * dist + (Math.random() - 0.5) * spread;
       pos[i3 + 1] = headPos.y + tailDir.y * dist + (Math.random() - 0.5) * spread;
@@ -514,12 +618,15 @@ export class Universe {
     });
   }
 
+  // =========================================================================
+  // 7. STRAIGHT FORWARD CAMERA FLIGHT (NO S-CURVE / NO VERTIGO!)
+  // =========================================================================
   initStraightCameraPath() {
     const points = [
-      new THREE.Vector3(0, 0, 850),
-      new THREE.Vector3(0, -110, 520),
-      new THREE.Vector3(0, -250, 180),
-      new THREE.Vector3(0, -420, -150)
+      new THREE.Vector3(0, 0, 850),          // 0.0: Hero (Calm panoramic view)
+      new THREE.Vector3(0, -110, 500),        // 0.3: About (Approaches Earth, Comet & Cluster)
+      new THREE.Vector3(0, -250, 160),        // 0.6: Works (Smooth forward glide)
+      new THREE.Vector3(0, -420, -180)        // 1.0: Deep Space Horizon
     ];
 
     this.cameraPath = new THREE.CatmullRomCurve3(points);
@@ -556,7 +663,7 @@ export class Universe {
   }
 
   // =========================================================================
-  // ANIMATION LOOP (PURE 2D FAN SPIN IN FRONT OF SCREEN — ZERO FLIPPING!)
+  // ANIMATION LOOP (PURE 2D FAN SPIN IN FRONT OF SCREEN + 60FPS DIRECT RENDER)
   // =========================================================================
   animate() {
     if (this.isPaused) {
@@ -592,10 +699,9 @@ export class Universe {
       layer.material.uniforms.uTime.value = elapsedTime;
     });
 
-    // 4. PURE 2D FAN SPIN FACING THE CAMERA (NO FLIPPING, NO GYROSCOPE WOBBLE!)
+    // 4. PURE 2D FAN SPIN FACING THE CAMERA (FLUFFY CLOUD ROTATION)
     this.galaxies.forEach(g => {
-      // Rotates flat around the Z-axis that points straight out of the screen!
-      g.mesh.rotation.z += g.speed;
+      g.group.rotation.z += g.speed; // True 2D circular spin facing user!
     });
 
     // 5. Planetary Rotations & Moon Orbit
@@ -619,7 +725,7 @@ export class Universe {
 
     this.updateMeteors();
 
-    // DIRECT HARDWARE RENDER
+    // DIRECT HARDWARE RENDER (PURE 60FPS)
     this.renderer.render(this.scene, this.camera);
   }
 }

@@ -26,14 +26,14 @@ export const UNIVERSE_SETTINGS = {
   tier: 'high',
   
   // Starfield
-  starBrightness: 1.25,
+  starBrightness: 1.35,
   nearStarsCount: 350,
   midStarsCount: 2800,
   farStarsCount: 8000,
 
   // Dispersed Galaxies
-  galaxyBrightness: 1.25,
-  galaxySpeed: 0.04, // Smooth in-place wheel spin speed
+  galaxyBrightness: 1.35,
+  galaxySpeed: 0.17, // Smooth in-place wheel spin speed
 
   // Soft Clusters & Nebulae
   clusterBrightness: 0.85,
@@ -296,7 +296,7 @@ export class Universe {
   // =========================================================================
   // 2. DISPERSED CHAKRA GALAXIES (IN-PLACE WHEEL SPIN — NO FLIPPING!)
   // =========================================================================
-  makeGalaxy({ arms = 4, radius = 700, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 13000, seed = 1, speed = 0.04 }) {
+  makeGalaxy({ arms = 4, radius = 450, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 13000, seed = 1, speed = 0.17 }) {
     let s = seed;
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
@@ -374,9 +374,9 @@ export class Universe {
     // 1. Cyan Spiral: In Top-Left Periphery, rotates clockwise
     this.makeGalaxy({
       arms: 3,
-      radius: 650,
+      radius: 400,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(75), THREE.MathUtils.degToRad(20), THREE.MathUtils.degToRad(-35)),
-      pos: new THREE.Vector3(-1450, 680, -1850),
+      pos: new THREE.Vector3(-1650, 680, -1950),
       colorCore: '#E0F2FE',
       colorArm: '#0284C7',
       count: 12000,
@@ -387,7 +387,7 @@ export class Universe {
     // 2. Golden Amber Spiral: In Top-Right Periphery, rotates counter-clockwise
     this.makeGalaxy({
       arms: 4,
-      radius: 680,
+      radius: 450,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(50), THREE.MathUtils.degToRad(-15), 0),
       pos: new THREE.Vector3(1400, 650, -1750),
       colorCore: '#FFD9A0',
@@ -453,7 +453,7 @@ export class Universe {
   // =========================================================================
   buildSaturnAndRings() {
     this.saturnGroup = new THREE.Group();
-    this.saturnGroup.position.set(1180, -480, -1450);
+    this.saturnGroup.position.set(1480, -480, -1450);
 
     const planetGeo = new THREE.IcosahedronGeometry(88, 4);
     const planetMat = new THREE.ShaderMaterial({
@@ -522,7 +522,7 @@ export class Universe {
     const pos = new Float32Array(cometCount * 3);
     const alphas = new Float32Array(cometCount);
 
-    const headPos = new THREE.Vector3(-650, -180, -1150);
+    const headPos = new THREE.Vector3(-750, -180, -1150);
     const tailDir = new THREE.Vector3(-1.4, 0.8, -0.6).normalize();
 
     for (let i = 0; i < cometCount; i++) {

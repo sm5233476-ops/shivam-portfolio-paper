@@ -22,12 +22,12 @@ export const UNIVERSE_SETTINGS = {
   farStarsCount: 9500,
 
   // GALAXY SETTINGS (Yahan se tum samne ghumne ki speed adjust kar sakte ho!)
-  galaxyBrightness: 1.3,
+  galaxyBrightness: 2.5,
   galaxySpeed: 0.0035, // <--- Pure Fan / Wheel Spin Speed!
 
-  clusterBrightness: 0.85,
+  clusterBrightness: 0.99,
   planetVisible: true,
-  mouseParallax: 2.0
+  mouseParallax: 9.9
 };
 
 function kelvinToRGB(kelvin) {
@@ -151,8 +151,8 @@ export class Universe {
 
   buildRoundStars() {
     const layers = [
-      { count: UNIVERSE_SETTINGS.farStarsCount, sizeMin: 1.2, sizeMax: 2.0, isNear: 0.0, radiusMin: 1900, radiusMax: 3500 },
-      { count: UNIVERSE_SETTINGS.midStarsCount, sizeMin: 2.0, sizeMax: 3.2, isNear: 0.0, radiusMin: 1200, radiusMax: 2700 },
+      { count: UNIVERSE_SETTINGS.farStarsCount, sizeMin: 1.5, sizeMax: 2.5, isNear: 0.0, radiusMin: 1900, radiusMax: 3500 },
+      { count: UNIVERSE_SETTINGS.midStarsCount, sizeMin: 2.5, sizeMax: 3.5, isNear: 0.0, radiusMin: 1200, radiusMax: 2700 },
       { count: UNIVERSE_SETTINGS.nearStarsCount, sizeMin: 4.5, sizeMax: 7.5, isNear: 1.0, radiusMin: 650, radiusMax: 1800 }
     ];
 
@@ -284,11 +284,11 @@ export class Universe {
     // 1. Cyan Chakra: Top-Left Corner, Faces Screen directly, Spins Clockwise!
     this.makeFanGalaxy({
       arms: 3,
-      radius: 540,
-      pos: new THREE.Vector3(-1250, 480, -1500),
+      radius: 390,
+      pos: new THREE.Vector3(-1650, 480, -1500),
       colorCore: '#E0F2FE',
       colorArm: '#0284C7',
-      count: 12000,
+      count: 13000,
       seed: 108,
       speed: UNIVERSE_SETTINGS.galaxySpeed
     });
@@ -296,8 +296,8 @@ export class Universe {
     // 2. Golden Amber Chakra: Top-Right Corner, Faces Screen directly, Spins Counter-Clockwise!
     this.makeFanGalaxy({
       arms: 4,
-      radius: 560,
-      pos: new THREE.Vector3(1220, 450, -1450),
+      radius: 460,
+      pos: new THREE.Vector3(1820, 550, -1550),
       colorCore: '#FFD9A0',
       colorArm: '#F59E0B',
       count: 14000,
@@ -349,13 +349,13 @@ export class Universe {
       this.clusters.push(pts);
     };
 
-    createSoftCluster(1800, 36, new THREE.Vector3(-1100, -520, -1500), '#FEF08A', '#38BDF8');
-    createSoftCluster(1600, 32, new THREE.Vector3(1150, -550, -1650), '#FFFBEB', '#93C5FD');
+    createSoftCluster(1800, 36, new THREE.Vector3(-1300, -520, -1600), '#FEF08A', '#38BDF8');
+    createSoftCluster(1600, 32, new THREE.Vector3(1350, -550, -1750), '#FFFBEB', '#93C5FD');
   }
 
   buildSaturnAndRings() {
     this.saturnGroup = new THREE.Group();
-    this.saturnGroup.position.set(1200, -480, -1450);
+    this.saturnGroup.position.set(1700, -580, -1650);
 
     const planetGeo = new THREE.IcosahedronGeometry(88, 4);
     const planetMat = new THREE.ShaderMaterial({

@@ -1,17 +1,17 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (10/10 BEHFAR.DEV MILKY WAY & LASER CARDS)
-   Milky Way Stardust River, Fast Electric Laser Beams & Dual-Layer Neon Bloom
+   SHIVAM MISHRA — THE COSMIC HORIZON (STUDIO-GRADE OBSIDIAN & CLEAN GLOW)
+   Zero Box Artifact, Pure Linear.app Glass Cards & High-Contrast Typography
    ========================================================================== */
 
 :root {
   --bg-deep: #02030a;
   --accent-blue: #1FA2FF;
-  --accent-cyan: #00f0ff;
+  --accent-cyan: #38bdf8;
   --text-heading: #F4F1EA;
   --text-body: #D9D6CE;
   --text-silver-bright: #F1F5F9;
   --text-muted: #8E8A82;
-  --surface-card: #070c1a;
+  --surface-card: rgba(8, 14, 28, 0.65);
   --border-subtle: rgba(255, 255, 255, 0.08);
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -38,9 +38,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ==========================================================================
-   3D WEBGL CANVAS LAYER (EXACT BEHFAR.DEV DIAGONAL MILKY WAY RIVER)
-   ========================================================================== */
+/* 3D WebGL Canvas Layer */
 #universe-canvas {
   position: fixed;
   top: 0;
@@ -49,7 +47,6 @@ html, body {
   height: 100vh;
   z-index: 0;
   pointer-events: none;
-  /* The behfar.dev Diagonal Stardust River: Teal (Bottom-Left) -> Purple (Center) -> Cyan (Top-Right) */
   background: 
     radial-gradient(ellipse 95% 42% at 52% 48%, rgba(42, 18, 78, 0.45) 0%, transparent 68%),
     radial-gradient(circle 65% at 85% 20%, rgba(12, 48, 88, 0.4) 0%, transparent 65%),
@@ -58,12 +55,13 @@ html, body {
 }
 
 /* ==========================================================================
-   FLUID RIVER GRADIENT SYSTEM (ANIMATED & SEAMLESS WHITE-TO-BLUE FLOW)
+   ZERO-BOX TEXT HIGHLIGHT SYSTEM (NO BACKGROUND CLIPPING, ZERO DABBA ARTIFACT)
    ========================================================================== */
 
 .highlight-text {
   display: inline-block;
-  background: transparent !important;
+  background: none !important;
+  filter: none !important;
   text-shadow: none !important;
 }
 
@@ -71,36 +69,42 @@ html, body {
   display: inline-block !important;
   overflow: hidden !important;
   vertical-align: top;
+  background: none !important;
+  filter: none !important;
+  box-shadow: none !important;
 }
 
 .highlight-text .word {
   display: inline-block !important;
+  background: none !important;
+  filter: none !important;
+  box-shadow: none !important;
   will-change: transform, opacity;
-  text-shadow: none !important;
+  transition: color 0.3s ease;
 }
 
-/* Sequential River Gradient Flow: Word-by-Word */
+/* Sequential River Flow: Word-by-Word Colors without any Background Box! */
 .highlight-text .word-mask:nth-of-type(1) .word {
-  color: #ffffff !important; /* Word 1 (who / websites) -> Pure Diamond White */
-  text-shadow: 0 0 16px rgba(255, 255, 255, 0.5) !important;
+  color: #ffffff !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8) !important;
 }
 
 .highlight-text .word-mask:nth-of-type(2) .word {
-  color: #e0f2fe !important; /* Word 2 (loves / apps) -> Ice White Sheen */
-  text-shadow: 0 0 18px rgba(224, 242, 254, 0.55) !important;
+  color: #e0f2fe !important;
+  text-shadow: 0 0 14px rgba(224, 242, 254, 0.35), 0 2px 12px rgba(0, 0, 0, 0.8) !important;
 }
 
 .highlight-text .word-mask:nth-of-type(3) .word {
-  color: #7dd3fc !important; /* Word 3 (to / and) -> Electric Sky Blue */
-  text-shadow: 0 0 20px rgba(125, 211, 252, 0.65) !important;
+  color: #7dd3fc !important;
+  text-shadow: 0 0 16px rgba(125, 211, 252, 0.4), 0 2px 12px rgba(0, 0, 0, 0.8) !important;
 }
 
 .highlight-text .word-mask:nth-of-type(4) .word {
-  color: #38bdf8 !important; /* Word 4 (build. / tools) -> Vivid Electric Cyan */
-  text-shadow: 0 0 24px rgba(56, 189, 248, 0.8) !important;
+  color: #38bdf8 !important;
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.5), 0 2px 12px rgba(0, 0, 0, 0.8) !important;
 }
 
-/* Contrast Shadow: Normal text stays 100% crisp */
+/* Normal Text Crisp Contrast Shadows */
 .text-contrast-heading,
 .title-line:not(.highlight-text),
 .about-headline {
@@ -201,7 +205,6 @@ html, body {
   outline: none;
 }
 
-/* Sliding Electric-Blue Active Indicator */
 .nav-active-line {
   position: absolute;
   bottom: 0;
@@ -217,7 +220,6 @@ html, body {
   will-change: transform, width;
 }
 
-/* 3D Magnetic "Let's Connect" Button */
 .btn-connect {
   display: inline-flex;
   align-items: center;
@@ -256,7 +258,7 @@ html, body {
 }
 
 /* ==========================================================================
-   HERO SECTION (ZERO BLACK BOX)
+   HERO SECTION
    ========================================================================== */
 
 main {
@@ -287,7 +289,7 @@ main {
 }
 
 .hero-content::before {
-  display: none !important;
+  display: none !important; /* Zero black dabba */
 }
 
 .hero-title {
@@ -544,7 +546,7 @@ main {
 }
 
 /* ==========================================================================
-   4 CARDS: 1.8s HIGH-VOLTAGE LASER BEAM + DUAL NEON BLOOM
+   4 CARDS: LINEAR.APP / APPLE STUDIO OBSIDIAN GLASS (REFINED & EXPENSIVE)
    ========================================================================== */
 
 .about-cards-grid {
@@ -554,108 +556,76 @@ main {
   margin-top: 1.8rem;
 }
 
+/* Studio Obsidian Card: Refined Dark Surface with Crisp 1px Border */
 .about-card {
   position: relative;
-  border-radius: 24px;
-  background-color: var(--surface-card);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 2px; /* 2px precision channel for the laser beam */
-  overflow: visible; /* Allows outer neon glow to bloom outside */
-  will-change: transform;
-  cursor: pointer;
-}
-
-/* Dual-Layer Outer Neon Bloom (Fades in on hover) */
-.about-card::after {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border-radius: 27px;
-  box-shadow: 0 0 35px rgba(0, 240, 255, 0.42), 0 0 70px rgba(31, 162, 255, 0.22);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-  z-index: -1;
-}
-
-.about-card:hover::after,
-.about-card:focus-within::after {
-  opacity: 1;
-}
-
-/* The High-Voltage Electric Border Edge */
-.card__edge {
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
+  border-radius: 20px;
+  background: var(--surface-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  padding: 2px;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  z-index: 2;
+  will-change: transform, border-color, box-shadow;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
 }
 
-/* Fast 1.8s Snappy Conic Laser Beam */
-.card__edge::before {
+/* Top-Center Ambient Spotlight Glow (Linear.app Style) */
+.about-card::before {
   content: '';
   position: absolute;
-  inset: -50%;
-  background: conic-gradient(
-    from 0deg, 
-    transparent 0deg, 
-    transparent 65deg, 
-    rgba(31, 162, 255, 0.35) 75deg, 
-    #00f0ff 85deg, 
-    #ffffff 90deg, 
-    #00f0ff 95deg, 
-    rgba(31, 162, 255, 0.35) 105deg, 
-    transparent 118deg
-  );
-  animation: spinLaser 1.8s linear infinite; /* Snappy, high-voltage racing speed! */
-  will-change: transform;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.16) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
 }
 
-@keyframes spinLaser {
-  100% {
-    transform: rotate(360deg);
-  }
+.about-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(56, 189, 248, 0.38);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.1);
 }
 
-.about-card:hover .card__edge,
-.about-card:focus-within .card__edge {
+.about-card:hover::before {
   opacity: 1;
 }
 
-/* Inner Surface Container */
+/* Inner Content Container */
 .about-card-inner {
   position: relative;
   z-index: 1;
-  border-radius: 22px;
-  background-color: #070c1a;
   padding: 2.2rem 1.8rem;
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
+/* Sleek Frosted Glass Icon Badge */
 .card-icon {
-  margin-bottom: 1.2rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(31, 162, 255, 0.08);
+  border: 1px solid rgba(31, 162, 255, 0.2);
   display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  margin-bottom: 1.4rem;
   color: var(--accent-blue);
-  filter: drop-shadow(0 0 10px rgba(31, 162, 255, 0.4));
-  transition: transform 0.3s ease, filter 0.3s ease;
+  transition: transform 0.35s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .about-card:hover .card-icon {
-  transform: scale(1.08);
-  filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.8));
+  transform: scale(1.06);
+  background: rgba(31, 162, 255, 0.16);
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.3);
 }
 
 .card-title {
@@ -675,7 +645,10 @@ main {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
-/* Responsive */
+/* ==========================================================================
+   RESPONSIVE & ACCESSIBILITY
+   ========================================================================== */
+
 @media (max-width: 992px) {
   .site-header { padding: 0 2rem; }
   .about-grid { grid-template-columns: 1fr; gap: 3.5rem; }
@@ -697,7 +670,6 @@ main {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card__edge::before { animation: none; }
   .exp-dot { animation: none; }
   .scroll-pill { animation: none; }
 }

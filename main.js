@@ -1,7 +1,6 @@
-/* ==== BLOCK 3: MAIN.JS UPDATE START ==== */
 /* ==========================================================================
-   SHIVAM MISHRA — MAIN APPLICATION ENGINE (ES MODULE)
-   Catmull-Rom Space Flight + Warp Speed + Smart Hysteresis Nav + 120FPS Text
+   SHIVAM MISHRA — MAIN APPLICATION ENGINE (LIGHTWEIGHT 120FPS PURE ENGINE)
+   Page Load Kinetic Slide + Smooth 3D Flight + Zero-Lag Throttled Scroll
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
@@ -31,135 +30,91 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 2. 3D CAMERA SPACE FLIGHT & WARP VELOCITY ON SCROLL
+// 2. UNIFIED LIGHTWEIGHT SCROLL CONTROLLER (ZERO REFLOWS = 120FPS SILKY SCROLL)
 // ==========================================================================
-(function initSpaceFlight() {
-  function setupFlight() {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-      setTimeout(setupFlight, 50);
-      return;
-    }
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Binds entire page scroll to the 3D Universe Camera Path & Warp Speed
-    ScrollTrigger.create({
-      trigger: "body",
-      start: "top top",
-      end: "bottom bottom",
-      scrub: true,
-      onUpdate: (self) => {
-        if (window.UNIVERSE && window.UNIVERSE.setScrollProgress) {
-          // Passes progress (0.0 to 1.0) and scroll velocity for warp elongation
-          window.UNIVERSE.setScrollProgress(self.progress, self.getVelocity());
-        }
-      }
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupFlight);
-  } else {
-    setupFlight();
-  }
-})();
-
-// ==========================================================================
-// 3. SMART HYSTERESIS NAVBAR (ACCIDENTAL POP-UP FIX)
-// ==========================================================================
-(function initSmartNav() {
+(function initScrollAndCameraFlight() {
   const header = document.getElementById('site-header');
   const navLinks = document.getElementById('nav-links');
   const activeLine = document.getElementById('nav-active-line');
-  if (!header) return;
-
+  
   let lastScrollY = window.scrollY;
   let isNavHidden = false;
+  let isTicking = false;
 
   window.addEventListener('scroll', () => {
-    const currentY = window.scrollY;
-    const diff = currentY - lastScrollY;
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        const currentY = window.scrollY;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = maxScroll > 0 ? Math.min(1.0, currentY / maxScroll) : 0;
 
-    // 1. Screen top (< 60px): always show
-    if (currentY <= 60) {
-      if (isNavHidden) {
-        header.classList.remove('nav-hidden');
-        isNavHidden = false;
-      }
-    }
-    // 2. Scrolling DOWN (> 100px and deliberate movement > 4px): hide cleanly
-    else if (diff > 4 && currentY > 100) {
-      if (!isNavHidden) {
-        header.classList.add('nav-hidden');
-        isNavHidden = true;
-      }
-    }
-    // 3. Scrolling UP: ONLY show if user intentionally scrolls UP by at least 20px
-    else if (diff < -20) {
-      if (isNavHidden) {
-        header.classList.remove('nav-hidden');
-        isNavHidden = false;
-      }
-    }
+        // 1. Camera Flight: Glides camera into 3D space with zero heavy overhead
+        if (window.UNIVERSE && window.UNIVERSE.setScrollProgress) {
+          window.UNIVERSE.setScrollProgress(progress);
+        }
 
-    lastScrollY = currentY;
+        // 2. Smart Nav Hide/Show
+        const diff = currentY - lastScrollY;
+        if (currentY <= 60) {
+          if (isNavHidden && header) {
+            header.classList.remove('nav-hidden');
+            isNavHidden = false;
+          }
+        } else if (diff > 5 && currentY > 100) {
+          if (!isNavHidden && header) {
+            header.classList.add('nav-hidden');
+            isNavHidden = true;
+          }
+        } else if (diff < -18) {
+          if (isNavHidden && header) {
+            header.classList.remove('nav-hidden');
+            isNavHidden = false;
+          }
+        }
+
+        lastScrollY = currentY;
+        isTicking = false;
+      });
+      isTicking = true;
+    }
   }, { passive: true });
 
-  // Mouse near top 70px brings it back
+  // Mouse near top brings header back
   window.addEventListener('mousemove', (e) => {
-    if (e.clientY <= 70 && isNavHidden) {
+    if (e.clientY <= 70 && isNavHidden && header) {
       header.classList.remove('nav-hidden');
       isNavHidden = false;
     }
   }, { passive: true });
 
-  // Active indicator tracking
-  if (activeLine && typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
-    const navItems = navLinks ? navLinks.querySelectorAll('.nav-item') : [];
-    const sections = ['hero', 'about', 'works', 'skills', 'contact'];
-
-    sections.forEach(id => {
-      const sec = document.getElementById(id);
-      const link = navLinks ? navLinks.querySelector(`[data-nav="${id}"]`) : null;
-      if (!sec || !link) return;
-
-      ScrollTrigger.create({
-        trigger: sec,
-        start: "top 45%",
-        end: "bottom 45%",
-        onEnter: () => updateLine(link),
-        onEnterBack: () => updateLine(link)
+  // Smooth click scroll
+  if (navLinks) {
+    const navItems = navLinks.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        const targetId = item.getAttribute('href');
+        if (!targetId || !targetId.startsWith('#')) return;
+        const targetEl = document.querySelector(targetId);
+        if (!targetEl) return;
+        e.preventDefault();
+        targetEl.scrollIntoView({ behavior: 'smooth' });
       });
     });
-
-    function updateLine(link) {
-      navItems.forEach(i => i.classList.remove('is-active'));
-      link.classList.add('is-active');
-      const rect = link.getBoundingClientRect();
-      const parentRect = navLinks.getBoundingClientRect();
-      gsap.to(activeLine, {
-        x: rect.left - parentRect.left,
-        width: rect.width,
-        scaleX: 1,
-        duration: 0.35,
-        ease: "power2.out",
-        overwrite: "auto"
-      });
-    }
   }
 })();
 
 // ==========================================================================
-// 4. KINETIC MASK SLIDE WORD REVEAL (120FPS ZERO-LAG COMPOSITOR)
+// 3. SYNCHRONIZED KINETIC WORD REVEAL (HERO LOADS VISIBLY ON PAGE OPEN!)
 // ==========================================================================
 (function initWordReveal() {
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  if (typeof gsap === 'undefined') return;
 
   function splitWords(node) {
     if (node.nodeType === Node.TEXT_NODE) {
       const text = node.textContent;
       if (!text || text.trim() === '') return;
       const fragment = document.createDocumentFragment();
-      const tokens = text.split(/(\s+)/); // Preserves real whitespace
+      const tokens = text.split(/(\s+)/);
 
       tokens.forEach(token => {
         if (/^\s+$/.test(token)) {
@@ -181,37 +136,66 @@ window.CONTACT = {
     }
   }
 
-  const targets = document.querySelectorAll('[data-reveal="words"]');
-  targets.forEach(target => {
-    splitWords(target);
-    const words = target.querySelectorAll('.word');
-    if (words.length === 0) return;
+  // Split targets
+  const heroTitle = document.querySelector('.hero-title');
+  const heroSub = document.querySelector('.hero-subtitle');
+  const aboutHeadline = document.querySelector('.about-headline');
+  const aboutPs = document.querySelectorAll('.about-p');
 
-    const staggerTime = Math.min(0.035, 1.2 / Math.max(1, words.length));
+  if (heroTitle) splitWords(heroTitle);
+  if (heroSub) splitWords(heroSub);
+  if (aboutHeadline) splitWords(aboutHeadline);
+  aboutPs.forEach(p => splitWords(p));
 
-    gsap.fromTo(words, 
-      { opacity: 0, y: "110%" },
+  // --- A. HERO SECTION: VISIBLE PAGE LOAD TIMELINE (PLAYS RIGHT IN FRONT OF YOU!) ---
+  const heroWords = document.querySelectorAll('.hero-title .word, .hero-subtitle .word');
+  if (heroWords.length > 0) {
+    gsap.fromTo(heroWords, 
+      { opacity: 0, y: "115%" },
       {
         opacity: 1,
         y: "0%",
-        duration: 0.8,
+        duration: 0.85,
         ease: "power3.out",
-        stagger: staggerTime,
-        scrollTrigger: {
-          trigger: target,
-          start: "top 85%",
-          once: true
-        },
+        stagger: 0.04,
+        delay: 0.25, // Gives page time to render so you clearly see it slide up!
         onComplete: () => {
-          gsap.set(words, { clearProps: "transform,opacity" });
+          gsap.set(heroWords, { clearProps: "transform,opacity" });
         }
       }
     );
-  });
+  }
+
+  // --- B. ABOUT SECTION: SCROLLTRIGGER REVEAL ---
+  if (typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const aboutWords = document.querySelectorAll('.about-headline .word, .about-p .word');
+    if (aboutWords.length > 0) {
+      gsap.fromTo(aboutWords,
+        { opacity: 0, y: "115%" },
+        {
+          opacity: 1,
+          y: "0%",
+          duration: 0.85,
+          ease: "power3.out",
+          stagger: 0.025,
+          scrollTrigger: {
+            trigger: "#about",
+            start: "top 75%",
+            once: true
+          },
+          onComplete: () => {
+            gsap.set(aboutWords, { clearProps: "transform,opacity" });
+          }
+        }
+      );
+    }
+  }
 })();
 
 // ==========================================================================
-// 5. FOUR CARDS ENTRANCE & ELASTIC HOVER PHYSICS
+// 4. FOUR CARDS ENTRANCE & CALM LUXURY LIFT (ZERO RUBBER BOUNCE)
 // ==========================================================================
 (function initCards() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
@@ -220,33 +204,33 @@ window.CONTACT = {
   const grid = document.getElementById('about-cards-grid');
   if (!grid || cards.length === 0) return;
 
+  // Staggered Entrance on Scroll
   gsap.from(cards, {
     scrollTrigger: {
       trigger: grid,
       start: "top 82%",
       once: true
     },
-    y: 70,
+    y: 50,
     opacity: 0,
-    scale: 0.95,
-    duration: 1.1,
+    duration: 0.95,
     stagger: 0.12,
-    ease: "power3.out"
+    ease: "power2.out"
   });
 
-  // Elastic spring hover on cards
+  // Calm Tactile Lift on Hover
   cards.forEach(card => {
     card.addEventListener('mouseenter', () => {
-      gsap.to(card, { y: -8, scale: 1.025, duration: 0.5, ease: "elastic.out(1, 0.6)", overwrite: "auto" });
+      gsap.to(card, { y: -5, duration: 0.3, ease: "power2.out", overwrite: "auto" });
     });
     card.addEventListener('mouseleave', () => {
-      gsap.to(card, { y: 0, scale: 1.0, duration: 0.6, ease: "power3.out", overwrite: "auto" });
+      gsap.to(card, { y: 0, duration: 0.4, ease: "power2.out", overwrite: "auto" });
     });
   });
 })();
 
 // ==========================================================================
-// 6. 3D MAGNETIC BUTTON TILT
+// 5. 3D MAGNETIC BUTTON TILT
 // ==========================================================================
 (function initTilt() {
   const btns = document.querySelectorAll('.btn-connect, .btn-hero-primary, .btn-hero-secondary');
@@ -255,13 +239,12 @@ window.CONTACT = {
       const rect = btn.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
-      btn.style.transform = `perspective(500px) rotateX(${-(y / (rect.height / 2)) * 12}deg) rotateY(${(x / (rect.width / 2)) * 12}deg) translate3d(${x * 0.1}px, ${y * 0.1}px, 0)`;
+      btn.style.transform = `perspective(500px) rotateX(${-(y / (rect.height / 2)) * 10}deg) rotateY(${(x / (rect.width / 2)) * 10}deg) translate3d(${x * 0.08}px, ${y * 0.08}px, 0)`;
     });
     btn.addEventListener('mouseleave', () => {
       btn.style.transform = 'perspective(500px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)';
-      btn.style.transition = 'transform 0.4s ease';
-      setTimeout(() => { btn.style.transition = ''; }, 400);
+      btn.style.transition = 'transform 0.35s ease';
+      setTimeout(() => { btn.style.transition = ''; }, 350);
     });
   });
 })();
-/* ==== BLOCK 3: MAIN.JS UPDATE END ==== */

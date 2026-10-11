@@ -1,6 +1,6 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (STUDIO-GRADE OBSIDIAN & CLEAN GLOW)
-   Zero Box Artifact, Pure Linear.app Glass Cards & High-Contrast Typography
+   SHIVAM MISHRA — THE COSMIC HORIZON (EXACT SCREENSHOT 192420 MASTER STYLESHEET)
+   Continuous 3D Metallic Flow, 100% Transparent Nav, Obsidian Glass Cards & 60FPS
    ========================================================================== */
 
 :root {
@@ -11,7 +11,7 @@
   --text-body: #D9D6CE;
   --text-silver-bright: #F1F5F9;
   --text-muted: #8E8A82;
-  --surface-card: rgba(8, 14, 28, 0.65);
+  --surface-card: #080e1c;
   --border-subtle: rgba(255, 255, 255, 0.08);
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -38,7 +38,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 3D WebGL Canvas Layer */
+/* 3D WebGL Canvas Layer (Fixed in background) */
 #universe-canvas {
   position: fixed;
   top: 0;
@@ -47,67 +47,41 @@ html, body {
   height: 100vh;
   z-index: 0;
   pointer-events: none;
-  background: 
-    radial-gradient(ellipse 95% 42% at 52% 48%, rgba(42, 18, 78, 0.45) 0%, transparent 68%),
-    radial-gradient(circle 65% at 85% 20%, rgba(12, 48, 88, 0.4) 0%, transparent 65%),
-    radial-gradient(circle 55% at 12% 78%, rgba(8, 52, 60, 0.38) 0%, transparent 60%),
-    radial-gradient(ellipse at 50% 35%, #0a193c 0%, #040d22 45%, #010309 100%) !important;
+  background: transparent !important;
 }
 
 /* ==========================================================================
-   ZERO-BOX TEXT HIGHLIGHT SYSTEM (NO BACKGROUND CLIPPING, ZERO DABBA ARTIFACT)
+   EXACT SCREENSHOT 192420: CONTINUOUS 3D METALLIC GRADIENT FLOW
    ========================================================================== */
 
 .highlight-text {
   display: inline-block;
-  background: none !important;
-  filter: none !important;
+  background: linear-gradient(135deg, #ffffff 15%, #7dd3fc 60%, #0284c7 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 4px 20px rgba(56, 189, 248, 0.35));
   text-shadow: none !important;
 }
 
+/* Seamless text flow across words: No broken gradient per word & No boxes! */
 .highlight-text .word-mask {
-  display: inline-block !important;
-  overflow: hidden !important;
-  vertical-align: top;
+  display: inline !important;
+  overflow: visible !important;
   background: none !important;
-  filter: none !important;
-  box-shadow: none !important;
 }
 
 .highlight-text .word {
-  display: inline-block !important;
+  display: inline !important;
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
   background: none !important;
-  filter: none !important;
-  box-shadow: none !important;
-  will-change: transform, opacity;
-  transition: color 0.3s ease;
-}
-
-/* Real Fluid Flow: 'who loves' is pure white, then fades into blue on 'to build.' */
-.highlight-text .word-mask:nth-of-type(1) .word {
-  color: #ffffff !important; /* who -> Pure White */
   text-shadow: none !important;
 }
 
-.highlight-text .word-mask:nth-of-type(2) .word {
-  color: #ffffff !important; /* loves -> Pure White */
-  text-shadow: none !important;
-}
-
-.highlight-text .word-mask:nth-of-type(3) .word {
-  color: #9fe3fc !important; /* to -> Soft Transition Ice-Cyan */
-  text-shadow: none !important;
-}
-
-.highlight-text .word-mask:nth-of-type(4) .word {
-  color: #38bdf8 !important; /* build. -> Vivid Electric Blue */
-  text-shadow: none !important;
-}
-/* Normal Text Crisp Contrast Shadows */
-.text-contrast-heading,
-.title-line:not(.highlight-text),
-.about-headline {
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7), 0 8px 30px rgba(0, 0, 0, 0.6);
+/* Contrast Shadow: Normal non-highlighted text stays 100% crisp */
+.title-line:not(.highlight-text) {
+  color: #ffffff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 8px 30px rgba(0, 0, 0, 0.6);
 }
 
 .hero-subtitle,
@@ -115,6 +89,7 @@ html, body {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7), 0 8px 30px rgba(0, 0, 0, 0.6);
 }
 
+/* Word Splitter Masks */
 .word-mask {
   display: inline-block;
   overflow: hidden;
@@ -204,6 +179,7 @@ html, body {
   outline: none;
 }
 
+/* Sliding Electric-Blue Active Indicator */
 .nav-active-line {
   position: absolute;
   bottom: 0;
@@ -219,6 +195,7 @@ html, body {
   will-change: transform, width;
 }
 
+/* 3D Magnetic "Let's Connect" Button */
 .btn-connect {
   display: inline-flex;
   align-items: center;
@@ -288,7 +265,7 @@ main {
 }
 
 .hero-content::before {
-  display: none !important; /* Zero black dabba */
+  display: none !important;
 }
 
 .hero-title {
@@ -371,13 +348,12 @@ main {
   font-weight: 600;
   letter-spacing: 0.02em;
   text-decoration: none;
-  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .btn-hero-secondary:hover {
   background-color: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.45);
-  transform: translateY(-2px);
 }
 
 .hero-scroll {
@@ -536,7 +512,7 @@ main {
   letter-spacing: -0.01em;
 }
 
-/* SHIVAM MISHRA CELESTIAL WHITE HIGHLIGHT */
+/* SHIVAM MISHRA DIAMOND WHITE HIGHLIGHT */
 .about-p strong {
   color: #ffffff !important;
   font-weight: 700;
@@ -545,7 +521,7 @@ main {
 }
 
 /* ==========================================================================
-   4 CARDS: LINEAR.APP / APPLE STUDIO OBSIDIAN GLASS (REFINED & EXPENSIVE)
+   4 CARDS: REFINED OBSIDIAN GLASS (NO CSS TRANSFORM CONFLICTS!)
    ========================================================================== */
 
 .about-cards-grid {
@@ -555,21 +531,19 @@ main {
   margin-top: 1.8rem;
 }
 
-/* Studio Obsidian Card: Refined Dark Surface with Crisp 1px Border */
+/* Base Card: No transition on transform! (GSAP handles transform smoothly) */
 .about-card {
   position: relative;
   border-radius: 20px;
-  background: var(--surface-card);
+  background-color: var(--surface-card);
   border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
-  will-change: transform, border-color, box-shadow;
   cursor: pointer;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.35s ease,
-              box-shadow 0.35s ease;
+  will-change: transform;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* Top-Center Ambient Spotlight Glow (Linear.app Style) */
+/* Top Spotlight on Hover */
 .about-card::before {
   content: '';
   position: absolute;
@@ -586,16 +560,15 @@ main {
 }
 
 .about-card:hover {
-  transform: translateY(-5px);
   border-color: rgba(56, 189, 248, 0.38);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.1);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.1);
 }
 
 .about-card:hover::before {
   opacity: 1;
 }
 
-/* Inner Content Container */
+/* Inner Content */
 .about-card-inner {
   position: relative;
   z-index: 1;
@@ -605,7 +578,7 @@ main {
   flex-direction: column;
 }
 
-/* Sleek Frosted Glass Icon Badge */
+/* Clean Icon Container */
 .card-icon {
   width: 48px;
   height: 48px;
@@ -645,7 +618,7 @@ main {
 }
 
 /* ==========================================================================
-   RESPONSIVE & ACCESSIBILITY
+   RESPONSIVE
    ========================================================================== */
 
 @media (max-width: 992px) {

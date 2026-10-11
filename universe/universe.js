@@ -1,6 +1,6 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE ASTRONOMICAL UNIVERSE (10/10 STABLE IMAX COSMIC ENGINE)
-   Stable Horizon Flight (No Vertigo), Spinning Galaxies, Active Meteors, 60FPS
+   SHIVAM MISHRA — THE ASTRONOMICAL UNIVERSE (10/10 STRAIGHT FLIGHT & DISC SPIN)
+   Straight Forward Glide (No S-Curve), Disc-Normal Galaxy Spin, Stable Horizon
    ========================================================================== */
 
 import * as THREE from 'three';
@@ -25,7 +25,7 @@ export const UNIVERSE_SETTINGS = {
 
   // GALAXY SETTINGS (Yahan se tum speed kam/zyada kar sakte ho!)
   galaxyBrightness: 1.25,
-  galaxySpeed: 0.065, // <--- Galaxy Rotation Speed Setting!
+  galaxySpeed: 0.045, // <--- Slow & Majestic Face-Spin Speed!
 
   // Soft Clusters & Planets
   clusterBrightness: 0.85,
@@ -130,8 +130,8 @@ export class Universe {
     this.buildDeepSpaceComet();
     this.buildFastMeteors();
 
-    // 5. Stable Camera Path (No Head-Spinning Rotations)
-    this.initStableCameraPath();
+    // 5. Straight Forward Flight Path (NO Snake / S-Curve!)
+    this.initStraightCameraPath();
 
     // 6. Events
     this.bindEvents();
@@ -233,9 +233,9 @@ export class Universe {
   }
 
   // =========================================================================
-  // LAYER 2: 2 WIDE SPINNING GALAXIES (TRUE LOCAL DISC ROTATION)
+  // LAYER 2: 2 WIDE SPINNING GALAXIES (TRUE PLANAR WHEEL ROTATION)
   // =========================================================================
-  makeGalaxy({ arms = 4, radius = 700, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 14000, seed = 1, speed = 0.05 }) {
+  makeGalaxy({ arms = 4, radius = 700, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 14000, seed = 1, speed = 0.045 }) {
     let s = seed;
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
@@ -310,30 +310,30 @@ export class Universe {
   }
 
   buildWideSpinningGalaxies() {
-    // 1. Ethereal Cyan Galaxy: Pushed Far to Top-Left Periphery
+    // 1. Cyan Spiral: Pushed to Top-Left Periphery
     this.makeGalaxy({
       arms: 3,
       radius: 680,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(72), THREE.MathUtils.degToRad(22), THREE.MathUtils.degToRad(-35)),
-      pos: new THREE.Vector3(-1500, 680, -1800), // Cleanly out of the text zone
+      pos: new THREE.Vector3(-1480, 650, -1800),
       colorCore: '#E0F2FE',
       colorArm: '#0284C7',
       count: 13000,
       seed: 108,
-      speed: -0.04
+      speed: -0.045
     });
 
-    // 2. Radiant Amber Galaxy: Pushed Far to Top-Right Periphery
+    // 2. Golden Amber Spiral: Pushed to Top-Right Periphery
     this.makeGalaxy({
       arms: 4,
       radius: 720,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(50), THREE.MathUtils.degToRad(-15), 0),
-      pos: new THREE.Vector3(1480, 640, -1750), // Cleanly out of the text zone
+      pos: new THREE.Vector3(1450, 620, -1750),
       colorCore: '#FFD9A0',
       colorArm: '#6AA6FF',
       count: 15000,
       seed: 42,
-      speed: 0.05
+      speed: 0.045
     });
   }
 
@@ -392,7 +392,7 @@ export class Universe {
   // =========================================================================
   buildSaturnAndRings() {
     this.saturnGroup = new THREE.Group();
-    this.saturnGroup.position.set(1200, -480, -1450); // Framed cleanly in bottom-right
+    this.saturnGroup.position.set(1200, -480, -1450);
 
     const planetGeo = new THREE.IcosahedronGeometry(88, 4);
     const planetMat = new THREE.ShaderMaterial({
@@ -427,11 +427,10 @@ export class Universe {
   }
 
   // =========================================================================
-  // LAYER 5: BLUE EARTH & MOON (ENCOUNTERED ON SCROLL INTO ABOUT SECTION)
+  // LAYER 5: BLUE EARTH & MOON (ENCOUNTERED ON SCROLL INTO ABOUT)
   // =========================================================================
   buildDeepSpaceEarth() {
     this.earthGroup = new THREE.Group();
-    // Positioned along the scroll flight trajectory!
     this.earthGroup.position.set(-780, -680, -1050);
 
     const earthGeo = new THREE.IcosahedronGeometry(74, 4);
@@ -441,7 +440,7 @@ export class Universe {
       uniforms: {
         uSunPosition: { value: new THREE.Vector3(2000, 1500, 1000) },
         uTime: { value: 0 },
-        uIsEarth: { value: 1.0 } // Blue oceanic Earth with atmosphere glow
+        uIsEarth: { value: 1.0 }
       }
     });
     const earthMesh = new THREE.Mesh(earthGeo, earthMat);
@@ -498,7 +497,7 @@ export class Universe {
   }
 
   // =========================================================================
-  // LAYER 7: FASTER & MORE ACTIVE METEORS (SPAWNS EVERY 3-4 SECONDS)
+  // LAYER 7: FASTER & MORE ACTIVE METEORS
   // =========================================================================
   buildFastMeteors() {
     for (let i = 0; i < 3; i++) {
@@ -522,7 +521,7 @@ export class Universe {
         length: 260,
         life: 0,
         maxLife: 40,
-        timer: Math.random() * 200 + 80 // Faster spawn interval!
+        timer: Math.random() * 180 + 70
       });
     }
   }
@@ -537,7 +536,6 @@ export class Universe {
           m.maxLife = Math.floor(Math.random() * 18 + 32);
           m.pos.set((Math.random() - 0.5) * 1800 + 300, Math.random() * 900 + 300, (Math.random() - 0.5) * 500);
           
-          // 35% Faster speed for crisp laser streak look
           const spd = Math.random() * 30 + 36;
           m.vel.set(-spd, -spd * 0.72, (Math.random() - 0.5) * 6);
           m.mat.opacity = 1;
@@ -557,22 +555,22 @@ export class Universe {
         if (m.life >= m.maxLife) {
           m.active = false;
           m.mat.opacity = 0;
-          m.timer = Math.random() * 250 + 120; // Re-triggers every 2.5 to 4 seconds!
+          m.timer = Math.random() * 220 + 100;
         }
       }
     });
   }
 
   // =========================================================================
-  // 8. STABLE CAMERA PATH (FORWARD GLIDE — NO VERTIGO / NO HEAD-SPIN)
+  // 8. STRAIGHT FORWARD CAMERA FLIGHT (ZERO S-CURVE / ZERO VERTIGO!)
   // =========================================================================
-  initStableCameraPath() {
-    // Smooth, stable forward spline trajectory
+  initStraightCameraPath() {
+    // Pure Forward Flight Trajectory (X is strictly 0.0 — No zig-zagging!)
     const points = [
       new THREE.Vector3(0, 0, 850),          // 0.0: Hero (calm panoramic view)
-      new THREE.Vector3(-80, -180, 520),     // 0.3: About (glides near Earth & cluster)
-      new THREE.Vector3(90, -420, 200),      // 0.6: Works (skims space horizon)
-      new THREE.Vector3(0, -750, -180)       // 1.0: Deep Space
+      new THREE.Vector3(0, -110, 520),        // 0.3: About (glides straight forward)
+      new THREE.Vector3(0, -250, 180),        // 0.6: Works (smooth forward descent)
+      new THREE.Vector3(0, -420, -150)        // 1.0: Deep Space Horizon
     ];
 
     this.cameraPath = new THREE.CatmullRomCurve3(points);
@@ -622,7 +620,7 @@ export class Universe {
     const dt = this.clock.getDelta();
     const elapsedTime = this.clock.getElapsedTime();
 
-    // 1. Smooth Camera Fly-Through (NO DIZZY HEAD-SPINNING)
+    // 1. Straight Forward Flight into Depth (No Snake Zig-Zag!)
     const damp = 1.0 - Math.exp(-dt * 3.0);
     this.scrollProgress += (this.targetScrollProgress - this.scrollProgress) * damp;
 
@@ -630,8 +628,8 @@ export class Universe {
       const p = this.cameraPath.getPointAt(this.scrollProgress);
       this.camera.position.set(p.x, p.y, p.z);
       
-      // STABLE FORWARD HORIZON: Camera stays majestic, calm, facing into deep space!
-      this.camera.lookAt(p.x * 0.2, p.y * 0.2, p.z - 600);
+      // STABLE FORWARD HORIZON: Camera looks directly ahead through its flight line
+      this.camera.lookAt(0, p.y * 0.25, p.z - 600);
     }
 
     // 2. Mouse Parallax Orbit
@@ -639,20 +637,17 @@ export class Universe {
     this.mouseY += (this.targetMouseY - this.mouseY) * 0.04;
 
     const maxRot = THREE.MathUtils.degToRad(UNIVERSE_SETTINGS.mouseParallax);
-    this.camera.rotation.y += -this.mouseX * maxRot;
-    this.camera.rotation.x += -this.mouseY * (maxRot * 0.7);
+    this.camera.rotation.y = -this.mouseX * maxRot;
+    this.camera.rotation.x = -this.mouseY * (maxRot * 0.7);
 
     // 3. Shaders Update
     this.starLayers.forEach(layer => {
       layer.material.uniforms.uTime.value = elapsedTime;
     });
 
-    // 4. VISIBLE GALAXY ROTATION (Majestic 3D Spin!)
+    // 4. TRUE DISC-PLANAR GALAXY SPIN (Rotating like a wheel around disc normal!)
     this.galaxies.forEach(g => {
-      g.mesh.rotation.z += g.speed * 0.15; // Smooth local planar spin!
-      if (g.mesh.material.uniforms) {
-        g.mesh.material.uniforms.uTime.value = elapsedTime;
-      }
+      g.mesh.rotateZ(g.speed * 0.08); // Smooth local disc rotation
     });
 
     // 5. Planetary Rotations & Moon Orbit
@@ -674,10 +669,10 @@ export class Universe {
       this.cometMesh.position.y = Math.sin(elapsedTime * 0.15) * 12;
     }
 
-    // 6. Fast Active Meteors Update
+    // 6. Fast Active Meteors
     this.updateMeteors();
 
-    // DIRECT HARDWARE RENDER (LOCKED 60FPS)
+    // DIRECT HARDWARE RENDER (PURE 60FPS)
     this.renderer.render(this.scene, this.camera);
   }
 }

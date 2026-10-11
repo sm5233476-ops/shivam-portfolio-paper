@@ -1,6 +1,6 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE ASTRONOMICAL UNIVERSE (10/10 FACE-ON WHEEL SPIN & FLIGHT)
-   Disc-Normal Wheel Spin (No Coin Flip), Straight Flight Path & 60FPS
+   SHIVAM MISHRA — THE ASTRONOMICAL UNIVERSE (10/10 FACE-ON CHAKRA ENGINE)
+   True Front-Facing Disc, 2-Way Rotation (Wheel Spin + 3D Wobble), Zero Dark Hole
    ========================================================================== */
 
 import * as THREE from 'three';
@@ -14,21 +14,26 @@ import {
 } from './shaders.js';
 
 // ==========================================================================
-// 1. MASTER SETTINGS
+// 1. MASTER TUNABLE SETTINGS (SPEED & BRIGHTNESS CONTROLS)
 // ==========================================================================
 export const UNIVERSE_SETTINGS = {
+  // Starfield
   starBrightness: 1.25,
   nearStarsCount: 450,
   midStarsCount: 3800,
   farStarsCount: 9500,
 
-  // GALAXY SETTINGS (Yahan se tum speed kam/zyada kar sakte ho!)
+  // GALAXY ROTATION SETTINGS (Yahan se tum dono speed badha ya ghata sakte ho!)
   galaxyBrightness: 1.25,
-  galaxySpeed: 0.04, // <--- Face-On Wheel Spin Speed!
+  spinSpeed: 0.035,    // <--- 1. Chakra/Wheel Spin Speed (Samne ghumne ki speed)
+  wobbleSpeed: 0.15,   // <--- 2. 3D Tilt Precession Speed (Dheere tedha hone ki speed)
 
+  // Soft Clusters & Planets
   clusterBrightness: 0.85,
   planetVisible: true,
-  mouseParallax: 9.5
+  
+  // Camera Dynamics
+  mouseParallax: 2.0
 };
 
 function kelvinToRGB(kelvin) {
@@ -77,7 +82,7 @@ export class Universe {
     this.cometMesh = null;
     this.meteors = [];
 
-    // Scroll Path
+    // Smooth Scroll Path State
     this.cameraPath = null;
     this.scrollProgress = 0;
     this.targetScrollProgress = 0;
@@ -93,11 +98,13 @@ export class Universe {
   init(canvas) {
     this.canvas = canvas;
 
+    // 1. Scene & Camera Setup
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 5500);
     this.camera.position.set(0, 0, 850);
     this.camera.lookAt(0, 0, 0);
 
+    // 2. Direct WebGL2 60FPS Renderer
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: false,
@@ -112,17 +119,22 @@ export class Universe {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
+    // 3. Perfect Round Star Sprite Texture
     this.starTexture = this.createRoundStarSprite();
 
+    // 4. Construct Wide Panoramic Celestial Layers
     this.buildRoundStars();
-    this.buildFaceOnSpinningGalaxies(); // Wheel-spinning facing galaxies
+    this.buildFaceOnChakraGalaxies(); // Galaxies that face forward like open spirals!
     this.buildCornerClusters();
     this.buildSaturnAndRings();
     this.buildDeepSpaceEarth();
     this.buildDeepSpaceComet();
     this.buildFastMeteors();
 
+    // 5. Straight Forward Flight Path (No Snake Zig-Zag!)
     this.initStraightCameraPath();
+
+    // 6. Events
     this.bindEvents();
 
     window.UNIVERSE = this;
@@ -136,11 +148,11 @@ export class Universe {
     const ctx = c.getContext('2d');
 
     const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
-    grad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');
-    grad.addColorStop(0.18, 'rgba(240, 248, 255, 0.95)');
-    grad.addColorStop(0.42, 'rgba(186, 230, 253, 0.6)');
-    grad.addColorStop(0.72, 'rgba(56, 189, 248, 0.15)');
-    grad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
+    grad.addColorStop(0.0, 'rgba(255, 255, 255, 1)');          // Diamond Core
+    grad.addColorStop(0.18, 'rgba(240, 248, 255, 0.95)');       // Smooth Halo
+    grad.addColorStop(0.42, 'rgba(186, 230, 253, 0.6)');        // Ice Blue Ring
+    grad.addColorStop(0.72, 'rgba(56, 189, 248, 0.15)');       // Soft Outer Glow
+    grad.addColorStop(1.0, 'rgba(0, 0, 0, 0)');                // Zero Hard Edges
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, size, size);
 
@@ -149,6 +161,7 @@ export class Universe {
     return tex;
   }
 
+  // --- LAYER 1: STARS (NO DARK HOLE MASK BEHIND TEXT) ---
   buildRoundStars() {
     const layers = [
       { count: UNIVERSE_SETTINGS.farStarsCount, sizeMin: 1.2, sizeMax: 2.0, isNear: 0.0, radiusMin: 1900, radiusMax: 3500 },
@@ -206,7 +219,7 @@ export class Universe {
           uTime: { value: 0 },
           uPixelRatio: { value: this.renderer.getPixelRatio() },
           uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-          uReadability: { value: 0.0 },
+          uReadability: { value: 0.0 }, // 0.0 Kills the artificial dark patch behind text!
           uVelocity: { value: 0 }
         },
         blending: THREE.AdditiveBlending,
@@ -221,9 +234,9 @@ export class Universe {
   }
 
   // =========================================================================
-  // GALAXY SPINNER (WHEEL-SPINNING ON LOCAL DISC NORMAL — NO FLIPPING!)
+  // LAYER 2: FACE-ON CHAKRA GALAXIES (OPEN SPIRAL WHEEL — NOT SQUISHED!)
   // =========================================================================
-  makeGalaxy({ arms = 4, radius = 500, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 14000, seed = 1, speed = 0.15 }) {
+  makeGalaxy({ arms = 4, radius = 700, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 14000, seed = 1, speed = 0.035 }) {
     let s = seed;
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
@@ -282,7 +295,7 @@ export class Universe {
       uniforms: {
         uTime: { value: 0 },
         uPixelRatio: { value: this.renderer.getPixelRatio() },
-        uSpeed: { value: UNIVERSE_SETTINGS.galaxySpeed }
+        uSpeed: { value: speed }
       },
       blending: THREE.AdditiveBlending,
       depthWrite: false,
@@ -294,39 +307,42 @@ export class Universe {
     mesh.rotation.copy(tilt);
     this.scene.add(mesh);
 
-    // Save initial tilt reference for smooth 3D precession
+    // Save initial tilt reference for smooth 3D tilt precession
     this.galaxies.push({ mesh, speed, baseTilt: tilt.clone() });
     return mesh;
   }
 
-  buildFaceOnSpinningGalaxies() {
-    // 1. Cyan Spiral: Facing predominantly towards screen, spins like a wheel!
+  buildFaceOnChakraGalaxies() {
+    // 1. Cyan Spiral: Raised to 82° (1.44 rad) to face the camera directly like a wheel!
     this.makeGalaxy({
       arms: 3,
-      radius: 680,
-      tilt: new THREE.Euler(0.38, 0.25, 0.1), // Face-on camera angle
-      pos: new THREE.Vector3(-1480, 650, -1800),
+      radius: 650,
+      tilt: new THREE.Euler(1.42, 0.15, -0.1), // Face-on camera angle (Open spiral!)
+      pos: new THREE.Vector3(-1420, 620, -1750),
       colorCore: '#E0F2FE',
       colorArm: '#0284C7',
       count: 13000,
       seed: 108,
-      speed: -0.15
+      speed: -UNIVERSE_SETTINGS.spinSpeed
     });
 
-    // 2. Golden Amber Spiral: Facing predominantly towards screen, spins like a wheel!
+    // 2. Golden Amber Spiral: Raised to 80° (1.40 rad) to face the camera directly like a wheel!
     this.makeGalaxy({
       arms: 4,
-      radius: 720,
-      tilt: new THREE.Euler(0.35, -0.28, -0.15), // Face-on camera angle
-      pos: new THREE.Vector3(1450, 620, -1750),
+      radius: 680,
+      tilt: new THREE.Euler(1.40, -0.15, 0.1),  // Face-on camera angle (Open spiral!)
+      pos: new THREE.Vector3(1400, 580, -1700),
       colorCore: '#FFD9A0',
       colorArm: '#6AA6FF',
       count: 15000,
       seed: 42,
-      speed: 0.11
+      speed: UNIVERSE_SETTINGS.spinSpeed
     });
   }
 
+  // =========================================================================
+  // LAYER 3: 2 SOFT ROUND CORNER CLUSTERS
+  // =========================================================================
   buildCornerClusters() {
     const createSoftCluster = (count, scaleRadius, centerPos, coreHex, haloHex) => {
       const geo = new THREE.BufferGeometry();
@@ -374,9 +390,12 @@ export class Universe {
     createSoftCluster(1600, 32, new THREE.Vector3(1150, -550, -1650), '#FFFBEB', '#93C5FD');
   }
 
+  // =========================================================================
+  // LAYER 4: RINGED SATURN (LOWER-RIGHT CORNER)
+  // =========================================================================
   buildSaturnAndRings() {
     this.saturnGroup = new THREE.Group();
-    this.saturnGroup.position.set(1500, -590, -1450);
+    this.saturnGroup.position.set(1200, -480, -1450);
 
     const planetGeo = new THREE.IcosahedronGeometry(88, 4);
     const planetMat = new THREE.ShaderMaterial({
@@ -410,6 +429,9 @@ export class Universe {
     this.scene.add(this.saturnGroup);
   }
 
+  // =========================================================================
+  // LAYER 5: BLUE EARTH & MOON (ENCOUNTERED ON SCROLL INTO ABOUT)
+  // =========================================================================
   buildDeepSpaceEarth() {
     this.earthGroup = new THREE.Group();
     this.earthGroup.position.set(-780, -680, -1050);
@@ -427,6 +449,7 @@ export class Universe {
     const earthMesh = new THREE.Mesh(earthGeo, earthMat);
     this.earthGroup.add(earthMesh);
 
+    // Orbiting Moon
     const moonGeo = new THREE.IcosahedronGeometry(14, 2);
     const moonMat = new THREE.MeshBasicMaterial({ color: 0xcccccc });
     this.moonMesh = new THREE.Mesh(moonGeo, moonMat);
@@ -436,6 +459,9 @@ export class Universe {
     this.scene.add(this.earthGroup);
   }
 
+  // =========================================================================
+  // LAYER 6: ICY COMET WITH STREAMING TAIL
+  // =========================================================================
   buildDeepSpaceComet() {
     const cometCount = 500;
     const geo = new THREE.BufferGeometry();
@@ -473,6 +499,9 @@ export class Universe {
     this.scene.add(this.cometMesh);
   }
 
+  // =========================================================================
+  // LAYER 7: FASTER & MORE ACTIVE METEORS
+  // =========================================================================
   buildFastMeteors() {
     for (let i = 0; i < 3; i++) {
       const geo = new THREE.BufferGeometry();
@@ -509,6 +538,7 @@ export class Universe {
           m.life = 0;
           m.maxLife = Math.floor(Math.random() * 18 + 32);
           m.pos.set((Math.random() - 0.5) * 1800 + 300, Math.random() * 900 + 300, (Math.random() - 0.5) * 500);
+          
           const spd = Math.random() * 30 + 36;
           m.vel.set(-spd, -spd * 0.72, (Math.random() - 0.5) * 6);
           m.mat.opacity = 1;
@@ -576,7 +606,7 @@ export class Universe {
   }
 
   // =========================================================================
-  // ANIMATION LOOP (WHEEL-SPINNING CHAKRA + 3D WOBBLE)
+  // ANIMATION LOOP (CHAKRA WHEEL SPIN ON LOCAL NORMAL + 3D WOBBLE)
   // =========================================================================
   animate() {
     if (this.isPaused) {
@@ -612,14 +642,14 @@ export class Universe {
       layer.material.uniforms.uTime.value = elapsedTime;
     });
 
-    // 4. TRUE WHEEL / CHAKRA SPIN FACING THE SCREEN (NO COIN-FLIPPING!)
+    // 4. TRUE 2-WAY ROTATION (FRONT WHEEL SPIN + SUBTLE 3D WOBBLE)
     this.galaxies.forEach(g => {
-      // Primary Wheel Spin: Rotates around disc normal in front of the screen
-      g.mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), g.speed * 0.4);
+      // Rotation A: Disc-Normal Wheel Spin (Spins circularly facing the user!)
+      g.mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), g.speed * 0.45);
 
-      // Subtle slow 3D precession (Does not flip like a coin!)
-      g.mesh.rotation.x = g.baseTilt.x + Math.sin(elapsedTime * 0.12) * 0.06;
-      g.mesh.rotation.z = g.baseTilt.z + Math.cos(elapsedTime * 0.12) * 0.06;
+      // Rotation B: Subtle 3D Precession Wobble (North-South / East-West slow tilt)
+      g.mesh.rotation.z = g.baseTilt.z + Math.sin(elapsedTime * UNIVERSE_SETTINGS.wobbleSpeed) * 0.08;
+      g.mesh.rotation.y = g.baseTilt.y + Math.cos(elapsedTime * UNIVERSE_SETTINGS.wobbleSpeed) * 0.06;
     });
 
     // 5. Planetary Rotations & Moon Orbit

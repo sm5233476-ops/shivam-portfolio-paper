@@ -319,7 +319,7 @@ export class Universe {
       const r = Math.pow(rnd1, 2.0) * radius;
       const armIndex = i % arms;
       const branchAngle = (armIndex / arms) * Math.PI * 2;
-      const spin = r * 0.010;
+      const spin = r * 0.009;
       const spread = Math.pow(rnd2, 2.8) * (r * 0.35 + 24);
       const angle = branchAngle + spin + (rnd3 - 0.5) * 0.5;
       const yOffset = (pseudoRandom(s++) - 0.5) * spread * 0.45;

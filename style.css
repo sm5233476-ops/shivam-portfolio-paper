@@ -1,12 +1,12 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (STUDIO-GRADE 120FPS STYLESHEET)
-   Metallic 3D Highlights (Zero-Black-Bug), Transparent Nav & Electric Cards
+   SHIVAM MISHRA — THE COSMIC HORIZON (10/10 MASTER STYLESHEET)
+   Fluid River Gradient, 100% Transparent Nav, Electric Laser Cards & 60FPS
    ========================================================================== */
 
 :root {
   --bg-deep: #02030a;
   --accent-blue: #1FA2FF;
-  --accent-cyan: #8FE3FF;
+  --accent-cyan: #38bdf8;
   --text-heading: #F4F1EA;
   --text-body: #D9D6CE;
   --text-silver-bright: #F1F5F9;
@@ -51,26 +51,45 @@ html, body {
 }
 
 /* ==========================================================================
-   METALLIC 3D HIGHLIGHT (CLEAN SINGLE LAYER — ZERO OVERLAP GHOST)
+   FLUID RIVER GRADIENT SYSTEM (NO HALF-WHITE HALF-BLUE WORDS!)
    ========================================================================== */
 
 .highlight-text {
   display: inline-block;
   background: transparent !important;
-  -webkit-text-fill-color: initial !important;
   text-shadow: none !important;
 }
 
+/* Base style for words */
 .highlight-text .word {
-  color: #7dd3fc;
-  background: linear-gradient(135deg, #ffffff 15%, #93e2fd 55%, #0284c7 100%) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  text-shadow: none !important;
-  filter: none !important; /* Kills the box clipping artifact and kills the lag! */
   display: inline-block;
+  text-shadow: none !important;
+  will-change: transform, opacity;
+  transition: color 0.3s ease;
 }
-/* Contrast Shadow: Only for normal non-gradient text */
+
+/* Sequential Phrase-Level Gradient Flow (Word by Word) */
+.highlight-text .word-mask:nth-of-type(1) .word {
+  color: #ffffff !important; /* Word 1 (who / websites) -> Pure Diamond White */
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.45) !important;
+}
+
+.highlight-text .word-mask:nth-of-type(2) .word {
+  color: #e0f2fe !important; /* Word 2 (loves / apps) -> Ice White Sheen */
+  text-shadow: 0 0 18px rgba(224, 242, 254, 0.5) !important;
+}
+
+.highlight-text .word-mask:nth-of-type(3) .word {
+  color: #7dd3fc !important; /* Word 3 (to / and) -> Electric Sky Blue */
+  text-shadow: 0 0 20px rgba(125, 211, 252, 0.6) !important;
+}
+
+.highlight-text .word-mask:nth-of-type(4) .word {
+  color: #38bdf8 !important; /* Word 4 (build. / tools) -> Vivid Cyan Blue */
+  text-shadow: 0 0 24px rgba(56, 189, 248, 0.75) !important;
+}
+
+/* Contrast Shadow: Normal non-highlighted text stays 100% crisp */
 .text-contrast-heading,
 .title-line:not(.highlight-text),
 .about-headline {
@@ -110,8 +129,8 @@ html, body {
   padding: 0 3.5rem;
   display: flex;
   align-items: center;
-  background: transparent !important;
-  border-bottom: none !important;
+  background: transparent !important; /* Pure transparent */
+  border-bottom: none !important;     /* No black line cutting cosmos */
   will-change: transform;
   pointer-events: none;
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
@@ -315,6 +334,9 @@ main {
 }
 
 .btn-hero-primary svg {
+  display: inline-block;
+  overflow: visible;
+  flex-shrink: 0;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -406,7 +428,7 @@ main {
   margin: 0 auto;
 }
 
-/* Section Tag: ABOUT THE DEVELOPER */
+/* Section Tag: ABOUT THE DEVELOPER (Luminous Silver) */
 .section-tag-wrap {
   display: inline-flex;
   align-items: center;

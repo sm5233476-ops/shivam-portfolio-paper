@@ -14,18 +14,18 @@ import {
 } from './shaders.js';
 
 export const UNIVERSE_SETTINGS = {
-  starBrightness: 1.25,
+  starBrightness: 1.45,
   nearStarsCount: 450,
   midStarsCount: 3800,
   farStarsCount: 9500,
 
   // GALAXY SETTINGS (Chakra Spin Speed)
-  galaxyBrightness: 1.25,
+  galaxyBrightness: 1.55,
   galaxySpeed: 0.045,
 
   clusterBrightness: 0.85,
   planetVisible: true,
-  mouseParallax: 2.0
+  mouseParallax: 9.5
 };
 
 function kelvinToRGB(kelvin) {
@@ -216,7 +216,7 @@ export class Universe {
   // =========================================================================
   // FACE-ON CHAKRA WHEEL GALAXIES
   // =========================================================================
-  makeGalaxy({ arms = 4, radius = 700, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 14000, seed = 1, speed = 0.045 }) {
+  makeGalaxy({ arms = 10, radius = 452, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 14000, seed = 1, speed = 0.005 }) {
     let s = seed;
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);

@@ -32,8 +32,8 @@ export const UNIVERSE_SETTINGS = {
   farStarsCount: 8000,
 
   // Dispersed Galaxies
-  galaxyBrightness: 1.35,
-  galaxySpeed: 0.17, // Smooth in-place wheel spin speed
+  galaxyBrightness: 1.15,
+  galaxySpeed: 0.27, // Smooth in-place wheel spin speed
 
   // Soft Clusters & Nebulae
   clusterBrightness: 0.85,
@@ -296,7 +296,7 @@ export class Universe {
   // =========================================================================
   // 2. DISPERSED CHAKRA GALAXIES (IN-PLACE WHEEL SPIN — NO FLIPPING!)
   // =========================================================================
-  makeGalaxy({ arms = 4, radius = 450, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 13000, seed = 1, speed = 0.17 }) {
+  makeGalaxy({ arms = 4, radius = 500, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 13000, seed = 1, speed = 0.17 }) {
     let s = seed;
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
@@ -374,9 +374,9 @@ export class Universe {
     // 1. Cyan Spiral: In Top-Left Periphery, rotates clockwise
     this.makeGalaxy({
       arms: 3,
-      radius: 400,
+      radius: 300,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(75), THREE.MathUtils.degToRad(20), THREE.MathUtils.degToRad(-35)),
-      pos: new THREE.Vector3(-1650, 680, -1950),
+      pos: new THREE.Vector3(-1950, 680, -1950),
       colorCore: '#E0F2FE',
       colorArm: '#0284C7',
       count: 12000,
@@ -387,9 +387,9 @@ export class Universe {
     // 2. Golden Amber Spiral: In Top-Right Periphery, rotates counter-clockwise
     this.makeGalaxy({
       arms: 4,
-      radius: 450,
+      radius: 500,
       tilt: new THREE.Euler(THREE.MathUtils.degToRad(50), THREE.MathUtils.degToRad(-15), 0),
-      pos: new THREE.Vector3(1400, 650, -1750),
+      pos: new THREE.Vector3(1500, 650, -1850),
       colorCore: '#FFD9A0',
       colorArm: '#6AA6FF',
       count: 14000,

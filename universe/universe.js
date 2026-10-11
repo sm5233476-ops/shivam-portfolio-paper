@@ -25,8 +25,8 @@ export const UNIVERSE_SETTINGS = {
 
   // GALAXY ROTATION SETTINGS (Yahan se tum dono speed badha ya ghata sakte ho!)
   galaxyBrightness: 1.25,
-  spinSpeed: 0.135,    // <--- 1. Chakra/Wheel Spin Speed (Samne ghumne ki speed)
-  wobbleSpeed: 0.05,   // <--- 2. 3D Tilt Precession Speed (Dheere tedha hone ki speed)
+  spinSpeed: 0.15,    // <--- 1. Chakra/Wheel Spin Speed (Samne ghumne ki speed)
+  wobbleSpeed: 0.155,   // <--- 2. 3D Tilt Precession Speed (Dheere tedha hone ki speed)
 
   // Soft Clusters & Planets
   clusterBrightness: 0.85,

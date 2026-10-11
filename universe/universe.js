@@ -1,36 +1,33 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE ASTRONOMICAL UNIVERSE (TRANSPARENT 60FPS CHAKRA ENGINE)
-   Alpha: True Canvas + Wheel-Spinning Face-on Galaxies + Stable Flight
+   SHIVAM MISHRA — THE ASTRONOMICAL UNIVERSE (PURE FRONT-FACING FAN SPIN ENGINE)
+   True Front-Facing Disc, 2D Wall-Clock / Fan Rotation, Zero Tumbling & 60FPS
    ========================================================================== */
 
 import * as THREE from 'three';
 
 import { 
   StarShader, 
-  GalaxyShader, 
   PlanetShader, 
   RingShader, 
   CometShader 
 } from './shaders.js';
 
+// ==========================================================================
+// 1. MASTER SETTINGS
+// ==========================================================================
 export const UNIVERSE_SETTINGS = {
-  starBrightness: 1.35,      // तारों की चमक वापस तेज
-  nearStarsCount: 500,
-  midStarsCount: 4000,
-  farStarsCount: 10000,
+  starBrightness: 1.25,
+  nearStarsCount: 450,
+  midStarsCount: 3800,
+  farStarsCount: 9500,
 
-  galaxyBrightness: 1.45,    // गैलेक्सी का चमकदार कोर वापस (Screenshot 2 जैसा)
-  galaxySpeed: 0.045,        // चक्र घूमने की स्पीड
+  // GALAXY SETTINGS (Yahan se tum samne ghumne ki speed adjust kar sakte ho!)
+  galaxyBrightness: 1.3,
+  galaxySpeed: 0.0035, // <--- Pure Fan / Wheel Spin Speed!
 
-  clusterBrightness: 0.95,
+  clusterBrightness: 0.85,
   planetVisible: true,
-  mouseParallax: 9.9,
-
-  // Screenshot 2 वाला ग्लो (Bloom & Exposure)
-  bloomStrength: 0.62,
-  bloomRadius: 0.48,
-  bloomThreshold: 0.82,
-  exposure: 1.15
+  mouseParallax: 2.0
 };
 
 function kelvinToRGB(kelvin) {
@@ -59,6 +56,9 @@ function pseudoRandom(seed) {
   return x - Math.floor(x);
 }
 
+// ==========================================================================
+// 2. THE UNIVERSE ENGINE CLASS
+// ==========================================================================
 export class Universe {
   constructor() {
     this.canvas = null;
@@ -66,6 +66,7 @@ export class Universe {
     this.scene = null;
     this.camera = null;
 
+    // Collections
     this.starTexture = null;
     this.starLayers = [];
     this.galaxies = [];
@@ -75,6 +76,7 @@ export class Universe {
     this.cometMesh = null;
     this.meteors = [];
 
+    // Scroll Path
     this.cameraPath = null;
     this.scrollProgress = 0;
     this.targetScrollProgress = 0;
@@ -95,25 +97,25 @@ export class Universe {
     this.camera.position.set(0, 0, 850);
     this.camera.lookAt(0, 0, 0);
 
-    // ALPHA: TRUE (Allows the rich cosmic blue-indigo gradient to shine through!)
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: false,
       powerPreference: 'high-performance',
-      alpha: true // <--- Lets the colorful space background through!
+      alpha: true
     });
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.15;
-    this.renderer.setClearColor(0x000000, 0.0); // Transparent background!
+    this.renderer.setClearColor(0x000000, 0.0);
 
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     this.starTexture = this.createRoundStarSprite();
 
+    // Build Scene Layers
     this.buildRoundStars();
-    this.buildFaceOnChakraGalaxies();
+    this.buildFrontFacingFanGalaxies(); // <--- True Front-Facing Fan Galaxies!
     this.buildCornerClusters();
     this.buildSaturnAndRings();
     this.buildDeepSpaceEarth();
@@ -204,7 +206,7 @@ export class Universe {
           uTime: { value: 0 },
           uPixelRatio: { value: this.renderer.getPixelRatio() },
           uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-          uReadability: { value: 0.0 }, // Zero dark hole
+          uReadability: { value: 0.0 },
           uVelocity: { value: 0 }
         },
         blending: THREE.AdditiveBlending,
@@ -219,18 +221,13 @@ export class Universe {
   }
 
   // =========================================================================
-  // FACE-ON CHAKRA WHEEL GALAXIES
+  // TRUE FRONT-FACING FAN GALAXIES (BUILT ON X-Y PLANE = ZERO FLIPPING!)
   // =========================================================================
-  makeGalaxy({ arms = 10, radius = 452, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 14000, seed = 1, speed = 0.005 }) {
+  makeFanGalaxy({ arms = 4, radius = 550, pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 13000, seed = 1, speed = 0.0035 }) {
     let s = seed;
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
-    const radii = new Float32Array(count);
-    const angles = new Float32Array(count);
     const colors = new Float32Array(count * 3);
-    const sizes = new Float32Array(count);
-    const dust = new Float32Array(count);
-    const hii = new Float32Array(count);
 
     const cCore = new THREE.Color(colorCore);
     const cArm = new THREE.Color(colorArm);
@@ -244,20 +241,14 @@ export class Universe {
       const r = Math.pow(rnd1, 2.0) * radius;
       const armIndex = i % arms;
       const branchAngle = (armIndex / arms) * Math.PI * 2;
-      const spin = r * 0.003;
-      const spread = Math.pow(rnd2, 2.8) * (r * 0.28 + 20);
-      const angle = branchAngle + spin + (rnd3 - 0.5) * 0.48;
-      const yOffset = (pseudoRandom(s++) - 0.5) * spread * 0.45;
+      const spin = r * 0.0032;
+      const spread = Math.pow(rnd2, 2.6) * (r * 0.26 + 18);
+      const angle = branchAngle + spin + (rnd3 - 0.5) * 0.45;
 
-      positions[i3] = 0;
-      positions[i3 + 1] = yOffset;
-      positions[i3 + 2] = 0;
-
-      radii[i] = r;
-      angles[i] = angle;
-      sizes[i] = 7.0 + pseudoRandom(s++) * 7.5;
-      dust[i] = (rnd2 < 0.22 && r > radius * 0.2) ? 1.0 : 0.0;
-      hii[i] = (rnd3 > 0.88 && r > radius * 0.25) ? 1.0 : 0.0;
+      // BUILT ON X-Y PLANE (FACES SCREEN DIRECTLY LIKE A CLOCK ON A WALL)
+      positions[i3] = Math.cos(angle) * r + (pseudoRandom(s++) - 0.5) * spread; // X (Left-Right)
+      positions[i3 + 1] = Math.sin(angle) * r + (pseudoRandom(s++) - 0.5) * spread; // Y (Up-Down)
+      positions[i3 + 2] = (pseudoRandom(s++) - 0.5) * 40.0;                       // Z (Thin Depth)
 
       const mixRatio = Math.min(1.0, r / (radius * 0.65));
       const c = cCore.clone().lerp(cArm, mixRatio);
@@ -267,60 +258,51 @@ export class Universe {
     }
 
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('aRadius', new THREE.BufferAttribute(radii, 1));
-    geo.setAttribute('aAngle', new THREE.BufferAttribute(angles, 1));
-    geo.setAttribute('aColor', new THREE.BufferAttribute(colors, 3));
-    geo.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
-    geo.setAttribute('aDust', new THREE.BufferAttribute(dust, 1));
-    geo.setAttribute('aHII', new THREE.BufferAttribute(hii, 1));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-    const mat = new THREE.ShaderMaterial({
-      vertexShader: GalaxyShader.vertexShader,
-      fragmentShader: GalaxyShader.fragmentShader,
-      uniforms: {
-        uTime: { value: 0 },
-        uPixelRatio: { value: this.renderer.getPixelRatio() },
-        uSpeed: { value: speed }
-      },
+    const mat = new THREE.PointsMaterial({
+      size: 5.5,
+      vertexColors: true,
       blending: THREE.AdditiveBlending,
+      transparent: true,
       depthWrite: false,
-      transparent: true
+      map: this.starTexture,
+      opacity: 0.92
     });
 
     const mesh = new THREE.Points(geo, mat);
     mesh.position.copy(pos);
-    mesh.rotation.copy(tilt);
-    this.scene.add(mesh);
+    // 100% FLAT ON SCREEN (No 3D tilt that causes flipping)
+    mesh.rotation.set(0, 0, 0);
 
-    this.galaxies.push({ mesh, speed, baseTilt: tilt.clone() });
+    this.scene.add(mesh);
+    this.galaxies.push({ mesh, speed });
     return mesh;
   }
 
-  buildFaceOnChakraGalaxies() {
-// 1. Cyan Spiral (Top-Left): Screenshot 2 वाला खुला हुआ एंगल
-    this.makeGalaxy({
+  buildFrontFacingFanGalaxies() {
+    // 1. Cyan Chakra: Top-Left Corner, Faces Screen directly, Spins Clockwise!
+    this.makeFanGalaxy({
       arms: 3,
-      radius: 680,
-      tilt: new THREE.Euler(0.75, 0.25, -0.2), // Open Face-on Angle
-      pos: new THREE.Vector3(-1420, 620, -1750),
+      radius: 540,
+      pos: new THREE.Vector3(-1250, 480, -1500),
       colorCore: '#E0F2FE',
       colorArm: '#0284C7',
-      count: 14000,
+      count: 12000,
       seed: 108,
-      speed: 0.045
+      speed: UNIVERSE_SETTINGS.galaxySpeed
     });
 
-    // 2. Golden Amber Spiral (Top-Right): Screenshot 2 वाला खुला हुआ एंगल
-    this.makeGalaxy({
+    // 2. Golden Amber Chakra: Top-Right Corner, Faces Screen directly, Spins Counter-Clockwise!
+    this.makeFanGalaxy({
       arms: 4,
-      radius: 720,
-      tilt: new THREE.Euler(0.70, -0.22, 0.15), // Open Face-on Angle
-      pos: new THREE.Vector3(1400, 580, -1700),
+      radius: 560,
+      pos: new THREE.Vector3(1220, 450, -1450),
       colorCore: '#FFD9A0',
-      colorArm: '#6AA6FF',
-      count: 16000,
+      colorArm: '#F59E0B',
+      count: 14000,
       seed: 42,
-      speed: 0.045
+      speed: -UNIVERSE_SETTINGS.galaxySpeed
     });
   }
 
@@ -573,10 +555,14 @@ export class Universe {
     this.starLayers.forEach(l => l.material.uniforms.uResolution.value.set(w, h));
   }
 
+  // =========================================================================
+  // ANIMATION LOOP (PURE 2D FAN SPIN IN FRONT OF SCREEN — ZERO FLIPPING!)
+  // =========================================================================
   animate() {
-    this.galaxies.forEach(g => {
-      g.mesh.rotateZ(g.speed * 0.12); // <--- सीधे चक्र की तरह सामने पहिया घूमेगा!
-    });
+    if (this.isPaused) {
+      requestAnimationFrame(() => this.animate());
+      return;
+    }
 
     requestAnimationFrame(() => this.animate());
 
@@ -606,14 +592,10 @@ export class Universe {
       layer.material.uniforms.uTime.value = elapsedTime;
     });
 
-    // 4. TRUE CHAKRA WHEEL ROTATION FACING THE USER
+    // 4. PURE 2D FAN SPIN FACING THE CAMERA (NO FLIPPING, NO GYROSCOPE WOBBLE!)
     this.galaxies.forEach(g => {
-      // Rotation A: Disc-Normal Wheel Spin (Spins circularly facing screen!)
-      g.mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), g.speed * 0.45);
-
-      // Rotation B: Subtle 3D Precession Wobble
-      g.mesh.rotation.z = g.baseTilt.z + Math.sin(elapsedTime * 0.12) * 0.08;
-      g.mesh.rotation.y = g.baseTilt.y + Math.cos(elapsedTime * 0.12) * 0.06;
+      // Rotates flat around the Z-axis that points straight out of the screen!
+      g.mesh.rotation.z += g.speed;
     });
 
     // 5. Planetary Rotations & Moon Orbit

@@ -1,16 +1,17 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC HORIZON (LIVING NEBULA SKY & 60FPS UI)
+   SHIVAM MISHRA — THE COSMIC HORIZON (10/10 BEHFAR.DEV MILKY WAY & LASER CARDS)
+   Milky Way Stardust River, Fast Electric Laser Beams & Dual-Layer Neon Bloom
    ========================================================================== */
 
 :root {
   --bg-deep: #02030a;
   --accent-blue: #1FA2FF;
-  --accent-cyan: #38bdf8;
+  --accent-cyan: #00f0ff;
   --text-heading: #F4F1EA;
   --text-body: #D9D6CE;
   --text-silver-bright: #F1F5F9;
   --text-muted: #8E8A82;
-  --surface-card: #080e1c;
+  --surface-card: #070c1a;
   --border-subtle: rgba(255, 255, 255, 0.08);
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -29,7 +30,7 @@ html {
 html, body {
   width: 100%;
   min-height: 100vh;
-  background-color: #02030a !important;
+  background-color: var(--bg-deep) !important;
   color: var(--text-heading);
   font-family: var(--font-sans);
   overflow-x: hidden;
@@ -37,7 +38,9 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 3D WebGL Canvas Layer (RICH COLORFUL NEBULA SKY — NO PLAIN BLACK VOID!) */
+/* ==========================================================================
+   3D WEBGL CANVAS LAYER (EXACT BEHFAR.DEV DIAGONAL MILKY WAY RIVER)
+   ========================================================================== */
 #universe-canvas {
   position: fixed;
   top: 0;
@@ -46,36 +49,58 @@ html, body {
   height: 100vh;
   z-index: 0;
   pointer-events: none;
-  /* Deep Space Nebula Gradient: Rich Cosmic Indigo, Ocean Navy & Cyan Core */
-  background: radial-gradient(ellipse at 50% 38%, #0a1838 0%, #050d22 45%, #02040b 100%) !important;
+  /* The behfar.dev Diagonal Stardust River: Teal (Bottom-Left) -> Purple (Center) -> Cyan (Top-Right) */
+  background: 
+    radial-gradient(ellipse 95% 42% at 52% 48%, rgba(42, 18, 78, 0.45) 0%, transparent 68%),
+    radial-gradient(circle 65% at 85% 20%, rgba(12, 48, 88, 0.4) 0%, transparent 65%),
+    radial-gradient(circle 55% at 12% 78%, rgba(8, 52, 60, 0.38) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 35%, #0a193c 0%, #040d22 45%, #010309 100%) !important;
 }
 
 /* ==========================================================================
-   FLUID RIVER GRADIENT SYSTEM (SEAMLESS WHITE-TO-BLUE FLOW)
+   FLUID RIVER GRADIENT SYSTEM (ANIMATED & SEAMLESS WHITE-TO-BLUE FLOW)
    ========================================================================== */
 
 .highlight-text {
   display: inline-block;
-  background: linear-gradient(90deg, #ffffff 0%, #ffffff 32%, #7dd3fc 68%, #0ea5e9 100%) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
+  background: transparent !important;
   text-shadow: none !important;
-  filter: drop-shadow(0 4px 20px rgba(56, 189, 248, 0.45));
 }
 
 .highlight-text .word-mask {
-  display: inline !important;
-  overflow: visible !important;
+  display: inline-block !important;
+  overflow: hidden !important;
+  vertical-align: top;
 }
 
 .highlight-text .word {
-  display: inline !important;
-  color: inherit !important;
-  -webkit-text-fill-color: inherit !important;
-  background: none !important;
+  display: inline-block !important;
+  will-change: transform, opacity;
   text-shadow: none !important;
 }
 
+/* Sequential River Gradient Flow: Word-by-Word */
+.highlight-text .word-mask:nth-of-type(1) .word {
+  color: #ffffff !important; /* Word 1 (who / websites) -> Pure Diamond White */
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.5) !important;
+}
+
+.highlight-text .word-mask:nth-of-type(2) .word {
+  color: #e0f2fe !important; /* Word 2 (loves / apps) -> Ice White Sheen */
+  text-shadow: 0 0 18px rgba(224, 242, 254, 0.55) !important;
+}
+
+.highlight-text .word-mask:nth-of-type(3) .word {
+  color: #7dd3fc !important; /* Word 3 (to / and) -> Electric Sky Blue */
+  text-shadow: 0 0 20px rgba(125, 211, 252, 0.65) !important;
+}
+
+.highlight-text .word-mask:nth-of-type(4) .word {
+  color: #38bdf8 !important; /* Word 4 (build. / tools) -> Vivid Electric Cyan */
+  text-shadow: 0 0 24px rgba(56, 189, 248, 0.8) !important;
+}
+
+/* Contrast Shadow: Normal text stays 100% crisp */
 .text-contrast-heading,
 .title-line:not(.highlight-text),
 .about-headline {
@@ -176,6 +201,7 @@ html, body {
   outline: none;
 }
 
+/* Sliding Electric-Blue Active Indicator */
 .nav-active-line {
   position: absolute;
   bottom: 0;
@@ -191,6 +217,7 @@ html, body {
   will-change: transform, width;
 }
 
+/* 3D Magnetic "Let's Connect" Button */
 .btn-connect {
   display: inline-flex;
   align-items: center;
@@ -260,7 +287,7 @@ main {
 }
 
 .hero-content::before {
-  display: none !important; /* Zero black dabba */
+  display: none !important;
 }
 
 .hero-title {
@@ -414,6 +441,7 @@ main {
   margin: 0 auto;
 }
 
+/* Section Tag: ABOUT THE DEVELOPER */
 .section-tag-wrap {
   display: inline-flex;
   align-items: center;
@@ -438,6 +466,7 @@ main {
   text-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
 }
 
+/* 2-Column Grid */
 .about-grid {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
@@ -459,6 +488,7 @@ main {
   margin-bottom: 2.8rem;
 }
 
+/* Status Badge */
 .about-exp-pill {
   display: inline-flex;
   align-items: center;
@@ -490,6 +520,7 @@ main {
   color: var(--text-heading);
 }
 
+/* Right Column */
 .about-right {
   display: flex;
   flex-direction: column;
@@ -504,7 +535,18 @@ main {
   letter-spacing: -0.01em;
 }
 
-/* 4 CARDS */
+/* SHIVAM MISHRA CELESTIAL WHITE HIGHLIGHT */
+.about-p strong {
+  color: #ffffff !important;
+  font-weight: 700;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.7), 0 0 28px rgba(56, 189, 248, 0.45);
+  display: inline;
+}
+
+/* ==========================================================================
+   4 CARDS: 1.8s HIGH-VOLTAGE LASER BEAM + DUAL NEON BLOOM
+   ========================================================================== */
+
 .about-cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -516,21 +558,23 @@ main {
   position: relative;
   border-radius: 24px;
   background-color: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  padding: 1.5px;
-  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2px; /* 2px precision channel for the laser beam */
+  overflow: visible; /* Allows outer neon glow to bloom outside */
   will-change: transform;
+  cursor: pointer;
 }
 
+/* Dual-Layer Outer Neon Bloom (Fades in on hover) */
 .about-card::after {
   content: '';
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: 0 0 35px rgba(31, 162, 255, 0.35);
+  inset: -3px;
+  border-radius: 27px;
+  box-shadow: 0 0 35px rgba(0, 240, 255, 0.42), 0 0 70px rgba(31, 162, 255, 0.22);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.35s ease;
   z-index: -1;
 }
 
@@ -539,15 +583,16 @@ main {
   opacity: 1;
 }
 
+/* The High-Voltage Electric Border Edge */
 .card__edge {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
+  border-radius: 24px;
   overflow: hidden;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.4s ease;
-  padding: 1.5px;
+  transition: opacity 0.35s ease;
+  padding: 2px;
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -555,16 +600,27 @@ main {
   z-index: 2;
 }
 
+/* Fast 1.8s Snappy Conic Laser Beam */
 .card__edge::before {
   content: '';
   position: absolute;
   inset: -50%;
-  background: conic-gradient(from 0deg, transparent 0 68%, #1FA2FF 84%, #8FE3FF 92%, transparent 100%);
-  animation: spinEdge 2.8s linear infinite;
+  background: conic-gradient(
+    from 0deg, 
+    transparent 0deg, 
+    transparent 65deg, 
+    rgba(31, 162, 255, 0.35) 75deg, 
+    #00f0ff 85deg, 
+    #ffffff 90deg, 
+    #00f0ff 95deg, 
+    rgba(31, 162, 255, 0.35) 105deg, 
+    transparent 118deg
+  );
+  animation: spinLaser 1.8s linear infinite; /* Snappy, high-voltage racing speed! */
   will-change: transform;
 }
 
-@keyframes spinEdge {
+@keyframes spinLaser {
   100% {
     transform: rotate(360deg);
   }
@@ -575,6 +631,7 @@ main {
   opacity: 1;
 }
 
+/* Inner Surface Container */
 .about-card-inner {
   position: relative;
   z-index: 1;
@@ -592,6 +649,13 @@ main {
   align-items: center;
   justify-content: flex-start;
   color: var(--accent-blue);
+  filter: drop-shadow(0 0 10px rgba(31, 162, 255, 0.4));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.about-card:hover .card-icon {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.8));
 }
 
 .card-title {

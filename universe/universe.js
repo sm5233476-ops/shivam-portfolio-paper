@@ -49,7 +49,7 @@ export const UNIVERSE_SETTINGS = {
   colorGold: '#FFB44A',
   
   // Warp & Camera Dynamics
-  warpStrength: 0.6,
+  warpStrength: 0.8,
   mouseParallax: 9.9,
   cameraDamping: 2.8,
 

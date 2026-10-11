@@ -83,27 +83,26 @@ html, body {
   transition: color 0.3s ease;
 }
 
-/* Sequential River Flow: Clean Pure Colors (Zero Shadow Clipping = Zero Dabba!) */
+/* Real Fluid Flow: 'who loves' is pure white, then fades into blue on 'to build.' */
 .highlight-text .word-mask:nth-of-type(1) .word {
-  color: #ffffff !important;
+  color: #ffffff !important; /* who -> Pure White */
   text-shadow: none !important;
 }
 
 .highlight-text .word-mask:nth-of-type(2) .word {
-  color: #e0f2fe !important;
+  color: #ffffff !important; /* loves -> Pure White */
   text-shadow: none !important;
 }
 
 .highlight-text .word-mask:nth-of-type(3) .word {
-  color: #7dd3fc !important;
+  color: #9fe3fc !important; /* to -> Soft Transition Ice-Cyan */
   text-shadow: none !important;
 }
 
 .highlight-text .word-mask:nth-of-type(4) .word {
-  color: #38bdf8 !important;
+  color: #38bdf8 !important; /* build. -> Vivid Electric Blue */
   text-shadow: none !important;
 }
-
 /* Normal Text Crisp Contrast Shadows */
 .text-contrast-heading,
 .title-line:not(.highlight-text),

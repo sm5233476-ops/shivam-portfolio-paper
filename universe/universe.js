@@ -28,7 +28,7 @@ export const UNIVERSE_SETTINGS = {
 
   clusterBrightness: 0.85,
   planetVisible: true,
-  mouseParallax: 2.0
+  mouseParallax: 9.5
 };
 
 function kelvinToRGB(kelvin) {
@@ -223,7 +223,7 @@ export class Universe {
   // =========================================================================
   // GALAXY SPINNER (WHEEL-SPINNING ON LOCAL DISC NORMAL — NO FLIPPING!)
   // =========================================================================
-  makeGalaxy({ arms = 4, radius = 700, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 14000, seed = 1, speed = 0.04 }) {
+  makeGalaxy({ arms = 4, radius = 500, tilt = new THREE.Euler(), pos = new THREE.Vector3(), colorCore = '#FFD9A0', colorArm = '#6AA6FF', count = 14000, seed = 1, speed = 0.15 }) {
     let s = seed;
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(count * 3);
@@ -310,7 +310,7 @@ export class Universe {
       colorArm: '#0284C7',
       count: 13000,
       seed: 108,
-      speed: -0.05
+      speed: -0.15
     });
 
     // 2. Golden Amber Spiral: Facing predominantly towards screen, spins like a wheel!
@@ -323,7 +323,7 @@ export class Universe {
       colorArm: '#6AA6FF',
       count: 15000,
       seed: 42,
-      speed: 0.05
+      speed: 0.11
     });
   }
 
@@ -376,7 +376,7 @@ export class Universe {
 
   buildSaturnAndRings() {
     this.saturnGroup = new THREE.Group();
-    this.saturnGroup.position.set(1200, -480, -1450);
+    this.saturnGroup.position.set(1500, -590, -1450);
 
     const planetGeo = new THREE.IcosahedronGeometry(88, 4);
     const planetMat = new THREE.ShaderMaterial({

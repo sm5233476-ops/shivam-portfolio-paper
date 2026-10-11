@@ -297,30 +297,30 @@ export class Universe {
   }
 
   buildFaceOnChakraGalaxies() {
-    // 1. Cyan Spiral: Facing forward like a wheel!
+// 1. Cyan Spiral (Top-Left): Screenshot 2 वाला खुला हुआ एंगल
     this.makeGalaxy({
       arms: 3,
-      radius: 650,
-      tilt: new THREE.Euler(1.42, 0.15, -0.1),
+      radius: 680,
+      tilt: new THREE.Euler(0.75, 0.25, -0.2), // Open Face-on Angle
       pos: new THREE.Vector3(-1420, 620, -1750),
       colorCore: '#E0F2FE',
       colorArm: '#0284C7',
-      count: 13000,
+      count: 14000,
       seed: 108,
-      speed: -UNIVERSE_SETTINGS.galaxySpeed
+      speed: 0.045
     });
 
-    // 2. Golden Amber Spiral: Facing forward like a wheel!
+    // 2. Golden Amber Spiral (Top-Right): Screenshot 2 वाला खुला हुआ एंगल
     this.makeGalaxy({
       arms: 4,
-      radius: 680,
-      tilt: new THREE.Euler(1.40, -0.15, 0.1),
+      radius: 720,
+      tilt: new THREE.Euler(0.70, -0.22, 0.15), // Open Face-on Angle
       pos: new THREE.Vector3(1400, 580, -1700),
       colorCore: '#FFD9A0',
       colorArm: '#6AA6FF',
-      count: 15000,
+      count: 16000,
       seed: 42,
-      speed: UNIVERSE_SETTINGS.galaxySpeed
+      speed: 0.045
     });
   }
 

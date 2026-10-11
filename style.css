@@ -78,10 +78,10 @@ html, body {
   text-shadow: none !important;
 }
 
-/* Contrast Shadow: Normal non-highlighted text stays 100% crisp */
+/* Contrast Shadow: Clean, subtle and soft */
 .title-line:not(.highlight-text) {
   color: #ffffff;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 8px 30px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
 
 .hero-subtitle,

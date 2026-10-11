@@ -1,6 +1,6 @@
 /* ==========================================================================
    SHIVAM MISHRA — THE COSMIC HORIZON (10/10 MASTER STYLESHEET)
-   Fluid River Gradient, 100% Transparent Nav, Electric Laser Cards & 60FPS
+   Zero Black Box, Pure Fluid River Gradient, 100% Transparent Nav & 60FPS
    ========================================================================== */
 
 :root {
@@ -24,7 +24,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 96px; /* Prevents nav from overlapping headings at rest */
+  scroll-padding-top: 96px;
 }
 
 html, body {
@@ -51,42 +51,30 @@ html, body {
 }
 
 /* ==========================================================================
-   FLUID RIVER GRADIENT SYSTEM (NO HALF-WHITE HALF-BLUE WORDS!)
+   FLUID RIVER GRADIENT SYSTEM (SEAMLESS WHITE-TO-BLUE FLOW)
    ========================================================================== */
 
+/* The entire line flows from pure white to rich electric cyan */
 .highlight-text {
   display: inline-block;
-  background: transparent !important;
+  background: linear-gradient(90deg, #ffffff 0%, #ffffff 32%, #7dd3fc 68%, #0ea5e9 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
   text-shadow: none !important;
+  filter: drop-shadow(0 4px 20px rgba(56, 189, 248, 0.45));
 }
 
-/* Base style for words */
+.highlight-text .word-mask {
+  display: inline !important;
+  overflow: visible !important;
+}
+
 .highlight-text .word {
-  display: inline-block;
+  display: inline !important;
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+  background: none !important;
   text-shadow: none !important;
-  will-change: transform, opacity;
-  transition: color 0.3s ease;
-}
-
-/* Sequential Phrase-Level Gradient Flow (Word by Word) */
-.highlight-text .word-mask:nth-of-type(1) .word {
-  color: #ffffff !important; /* Word 1 (who / websites) -> Pure Diamond White */
-  text-shadow: 0 0 16px rgba(255, 255, 255, 0.45) !important;
-}
-
-.highlight-text .word-mask:nth-of-type(2) .word {
-  color: #e0f2fe !important; /* Word 2 (loves / apps) -> Ice White Sheen */
-  text-shadow: 0 0 18px rgba(224, 242, 254, 0.5) !important;
-}
-
-.highlight-text .word-mask:nth-of-type(3) .word {
-  color: #7dd3fc !important; /* Word 3 (to / and) -> Electric Sky Blue */
-  text-shadow: 0 0 20px rgba(125, 211, 252, 0.6) !important;
-}
-
-.highlight-text .word-mask:nth-of-type(4) .word {
-  color: #38bdf8 !important; /* Word 4 (build. / tools) -> Vivid Cyan Blue */
-  text-shadow: 0 0 24px rgba(56, 189, 248, 0.75) !important;
 }
 
 /* Contrast Shadow: Normal non-highlighted text stays 100% crisp */
@@ -129,8 +117,8 @@ html, body {
   padding: 0 3.5rem;
   display: flex;
   align-items: center;
-  background: transparent !important; /* Pure transparent */
-  border-bottom: none !important;     /* No black line cutting cosmos */
+  background: transparent !important;
+  border-bottom: none !important;
   will-change: transform;
   pointer-events: none;
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
@@ -141,7 +129,6 @@ html, body {
   border-bottom: none !important;
 }
 
-/* Hidden State When Scrolling Down */
 .site-header.nav-hidden {
   transform: translateY(-130%) !important;
   opacity: 0 !important;
@@ -247,7 +234,7 @@ html, body {
 }
 
 /* ==========================================================================
-   HERO SECTION
+   HERO SECTION (ZERO BLACK BOX BEHIND TEXT)
    ========================================================================== */
 
 main {
@@ -275,6 +262,11 @@ main {
   flex-direction: column;
   align-items: center;
   position: relative;
+}
+
+/* BLACK BOX COMPLETELY REMOVED HERE: Direct view of deep space stars! */
+.hero-content::before {
+  display: none !important;
 }
 
 .hero-title {
@@ -428,7 +420,7 @@ main {
   margin: 0 auto;
 }
 
-/* Section Tag: ABOUT THE DEVELOPER (Luminous Silver) */
+/* Section Tag: ABOUT THE DEVELOPER */
 .section-tag-wrap {
   display: inline-flex;
   align-items: center;
@@ -445,7 +437,7 @@ main {
 }
 
 .section-tag {
-  color: #CBD5E1 !important; /* Luminous Silver */
+  color: #CBD5E1 !important;
   font-size: 0.86rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -475,7 +467,7 @@ main {
   margin-bottom: 2.8rem;
 }
 
-/* Status Badge: Available for new projects */
+/* Status Badge */
 .about-exp-pill {
   display: inline-flex;
   align-items: center;
@@ -538,12 +530,11 @@ main {
   border-radius: 24px;
   background-color: var(--surface-card);
   border: 1px solid var(--border-subtle);
-  padding: 1.5px; /* Precision channel for rotating beam */
+  padding: 1.5px;
   overflow: hidden;
   will-change: transform;
 }
 
-/* Soft Outer Electric Glow */
 .about-card::after {
   content: '';
   position: absolute;
@@ -561,7 +552,6 @@ main {
   opacity: 1;
 }
 
-/* The Electric Border Mask Edge */
 .card__edge {
   position: absolute;
   inset: 0;
@@ -598,7 +588,6 @@ main {
   opacity: 1;
 }
 
-/* Opaque Solid Surface (Zero Backdrop-Filter Overhead on Canvas) */
 .about-card-inner {
   position: relative;
   z-index: 1;
@@ -635,10 +624,7 @@ main {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
-/* ==========================================================================
-   RESPONSIVE & ACCESSIBILITY
-   ========================================================================== */
-
+/* Responsive */
 @media (max-width: 992px) {
   .site-header { padding: 0 2rem; }
   .about-grid { grid-template-columns: 1fr; gap: 3.5rem; }

@@ -1,6 +1,6 @@
 /* ==========================================================================
-   SHIVAM MISHRA — MAIN APPLICATION ENGINE (LIGHTWEIGHT 120FPS PURE ENGINE)
-   Page Load Kinetic Slide + Smooth 3D Flight + Zero-Lag Throttled Scroll
+   SHIVAM MISHRA — MAIN APPLICATION ENGINE (ES MODULE - COMPLETE SUITE)
+   3D Space Flight + Visuvate 3D Cylinder Works + Smart Nav + 120FPS Text
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
@@ -30,81 +30,122 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 2. UNIFIED LIGHTWEIGHT SCROLL CONTROLLER (ZERO REFLOWS = 120FPS SILKY SCROLL)
+// 2. 3D CAMERA SPACE FLIGHT ON SCROLL (STRAIGHT FORWARD GLIDE)
 // ==========================================================================
-(function initScrollAndCameraFlight() {
+(function initSpaceFlight() {
+  function setupFlight() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      setTimeout(setupFlight, 50);
+      return;
+    }
+    gsap.registerPlugin(ScrollTrigger);
+
+    ScrollTrigger.create({
+      trigger: "body",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 1.2,
+      onUpdate: (self) => {
+        if (window.UNIVERSE && window.UNIVERSE.setScrollProgress) {
+          window.UNIVERSE.setScrollProgress(self.progress, self.getVelocity());
+        }
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupFlight);
+  } else {
+    setupFlight();
+  }
+})();
+
+// ==========================================================================
+// 3. SMART HYSTERESIS NAVBAR (ACCIDENTAL POP-UP FIX)
+// ==========================================================================
+(function initSmartNav() {
   const header = document.getElementById('site-header');
   const navLinks = document.getElementById('nav-links');
   const activeLine = document.getElementById('nav-active-line');
-  
+  if (!header) return;
+
   let lastScrollY = window.scrollY;
   let isNavHidden = false;
-  let isTicking = false;
 
   window.addEventListener('scroll', () => {
-    if (!isTicking) {
-      window.requestAnimationFrame(() => {
-        const currentY = window.scrollY;
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = maxScroll > 0 ? Math.min(1.0, currentY / maxScroll) : 0;
+    const currentY = window.scrollY;
+    const diff = currentY - lastScrollY;
 
-        // 1. Camera Flight: Glides camera into 3D space with zero heavy overhead
-        if (window.UNIVERSE && window.UNIVERSE.setScrollProgress) {
-          window.UNIVERSE.setScrollProgress(progress);
-        }
-
-        // 2. Smart Nav Hide/Show
-        const diff = currentY - lastScrollY;
-        if (currentY <= 60) {
-          if (isNavHidden && header) {
-            header.classList.remove('nav-hidden');
-            isNavHidden = false;
-          }
-        } else if (diff > 5 && currentY > 100) {
-          if (!isNavHidden && header) {
-            header.classList.add('nav-hidden');
-            isNavHidden = true;
-          }
-        } else if (diff < -18) {
-          if (isNavHidden && header) {
-            header.classList.remove('nav-hidden');
-            isNavHidden = false;
-          }
-        }
-
-        lastScrollY = currentY;
-        isTicking = false;
-      });
-      isTicking = true;
+    // Top (< 60px): always visible
+    if (currentY <= 60) {
+      if (isNavHidden) {
+        header.classList.remove('nav-hidden');
+        isNavHidden = false;
+      }
     }
+    // Scrolling DOWN (> 100px): hide cleanly
+    else if (diff > 4 && currentY > 100) {
+      if (!isNavHidden) {
+        header.classList.add('nav-hidden');
+        isNavHidden = true;
+      }
+    }
+    // Scrolling UP (intentional > 20px): show
+    else if (diff < -20) {
+      if (isNavHidden) {
+        header.classList.remove('nav-hidden');
+        isNavHidden = false;
+      }
+    }
+
+    lastScrollY = currentY;
   }, { passive: true });
 
-  // Mouse near top brings header back
   window.addEventListener('mousemove', (e) => {
-    if (e.clientY <= 70 && isNavHidden && header) {
+    if (e.clientY <= 70 && isNavHidden) {
       header.classList.remove('nav-hidden');
       isNavHidden = false;
     }
   }, { passive: true });
 
-  // Smooth click scroll
-  if (navLinks) {
-    const navItems = navLinks.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
-      item.addEventListener('click', (e) => {
-        const targetId = item.getAttribute('href');
-        if (!targetId || !targetId.startsWith('#')) return;
-        const targetEl = document.querySelector(targetId);
-        if (!targetEl) return;
-        e.preventDefault();
-        targetEl.scrollIntoView({ behavior: 'smooth' });
+  // Active indicator tracking
+  if (activeLine && typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
+    const navItems = navLinks ? navLinks.querySelectorAll('.nav-item') : [];
+    const sections = ['hero', 'about', 'works', 'skills', 'contact'];
+
+    sections.forEach(id => {
+      const sec = document.getElementById(id);
+      const link = navLinks ? navLinks.querySelector(`[data-nav="${id}"]`) : null;
+      if (!sec || !link) return;
+
+      ScrollTrigger.create({
+        trigger: sec,
+        start: "top 45%",
+        end: "bottom 45%",
+        onEnter: () => updateLine(link),
+        onEnterBack: () => updateLine(link)
       });
     });
+
+    function updateLine(link) {
+      navItems.forEach(i => i.classList.remove('is-active'));
+      link.classList.add('is-active');
+      const rect = link.getBoundingClientRect();
+      const parentRect = navLinks.getBoundingClientRect();
+      gsap.to(activeLine, {
+        x: rect.left - parentRect.left,
+        width: rect.width,
+        scaleX: 1,
+        duration: 0.35,
+        ease: "power2.out",
+        overwrite: "auto"
+      });
+    }
   }
 })();
 
 // ==========================================================================
-// 3. SYNCHRONIZED KINETIC WORD REVEAL (HERO LOADS VISIBLY ON PAGE OPEN!)
+// 4. SYNCHRONIZED KINETIC WORD REVEAL (HERO & ABOUT TEXT SLIDE-UP)
 // ==========================================================================
 (function initWordReveal() {
   if (typeof gsap === 'undefined') return;
@@ -136,7 +177,6 @@ window.CONTACT = {
     }
   }
 
-  // Split targets
   const heroTitle = document.querySelector('.hero-title');
   const heroSub = document.querySelector('.hero-subtitle');
   const aboutHeadline = document.querySelector('.about-headline');
@@ -147,7 +187,7 @@ window.CONTACT = {
   if (aboutHeadline) splitWords(aboutHeadline);
   aboutPs.forEach(p => splitWords(p));
 
-  // --- A. HERO SECTION: VISIBLE PAGE LOAD TIMELINE (PLAYS RIGHT IN FRONT OF YOU!) ---
+  // Hero page-load reveal
   const heroWords = document.querySelectorAll('.hero-title .word, .hero-subtitle .word');
   if (heroWords.length > 0) {
     gsap.fromTo(heroWords, 
@@ -158,7 +198,7 @@ window.CONTACT = {
         duration: 0.85,
         ease: "power3.out",
         stagger: 0.04,
-        delay: 0.25, // Gives page time to render so you clearly see it slide up!
+        delay: 0.25,
         onComplete: () => {
           gsap.set(heroWords, { clearProps: "transform,opacity" });
         }
@@ -166,10 +206,9 @@ window.CONTACT = {
     );
   }
 
-  // --- B. ABOUT SECTION: SCROLLTRIGGER REVEAL ---
+  // About scroll reveal
   if (typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
-
     const aboutWords = document.querySelectorAll('.about-headline .word, .about-p .word');
     if (aboutWords.length > 0) {
       gsap.fromTo(aboutWords,
@@ -195,16 +234,15 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 4. FOUR CARDS ENTRANCE & CALM LUXURY LIFT (ZERO RUBBER BOUNCE)
+// 5. FOUR CARDS ENTRANCE & CALM LUXURY LIFT (ABOUT SECTION)
 // ==========================================================================
 (function initCards() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-  const cards = document.querySelectorAll('.card-flow');
+  const cards = document.querySelectorAll('.about-card');
   const grid = document.getElementById('about-cards-grid');
   if (!grid || cards.length === 0) return;
 
-  // Staggered Entrance on Scroll
   gsap.from(cards, {
     scrollTrigger: {
       trigger: grid,
@@ -230,7 +268,74 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 5. 3D MAGNETIC BUTTON TILT
+// 6. VISUVATE 3D CYLINDER WORKS ROTATION ENGINE (DESKTOP PERSPECTIVE)
+// ==========================================================================
+(function initWorksCylinder() {
+  function setupCylinder() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      setTimeout(setupCylinder, 50);
+      return;
+    }
+    gsap.registerPlugin(ScrollTrigger);
+
+    const cylinder = document.getElementById('works-cylinder');
+    const worksSection = document.getElementById('works');
+    if (!cylinder || !worksSection) return;
+
+    // Only enable 3D cylindrical pinning on desktop (> 900px)
+    if (window.innerWidth <= 900) return;
+
+    // Pins the works section while scroll scrubs the 3D cylinder from 0° to -270°
+    ScrollTrigger.create({
+      trigger: worksSection,
+      start: "top top",
+      end: "+=2400", // Smooth scroll distance to cycle through all 4 projects
+      pin: true,
+      scrub: 1.2,
+      onUpdate: (self) => {
+        const rotationY = -self.progress * 270;
+        gsap.to(cylinder, {
+          rotateY: rotationY,
+          duration: 0.4,
+          ease: "power1.out",
+          overwrite: "auto"
+        });
+      }
+    });
+
+    // Subtle 3D mouse parallax on the cylinder viewport
+    const viewport = document.getElementById('works-3d-viewport');
+    if (viewport && window.matchMedia('(pointer: fine)').matches) {
+      viewport.addEventListener('mousemove', (e) => {
+        const rect = viewport.getBoundingClientRect();
+        const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+        gsap.to(cylinder, {
+          rotateX: -y * 8, // Gentle 3D vertical tilt
+          duration: 0.6,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+      });
+      viewport.addEventListener('mouseleave', () => {
+        gsap.to(cylinder, {
+          rotateX: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupCylinder);
+  } else {
+    setupCylinder();
+  }
+})();
+
+// ==========================================================================
+// 7. 3D MAGNETIC BUTTON TILT
 // ==========================================================================
 (function initTilt() {
   const btns = document.querySelectorAll('.btn-connect, .btn-hero-primary, .btn-hero-secondary');

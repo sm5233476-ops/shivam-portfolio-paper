@@ -725,13 +725,15 @@ main {
   transform-style: preserve-3d;
   will-change: transform;
   cursor: pointer;
-  /* 4 Cards arranged along a 3D cylindrical ring at 90-degree radial offsets */
+  /* 6 Cards arranged along a 3D cylindrical ring at 60-degree radial offsets */
 }
 
-.project-card-3d[data-card-idx="0"] { transform: rotateY(0deg) translateZ(480px); }
-.project-card-3d[data-card-idx="1"] { transform: rotateY(90deg) translateZ(480px); }
-.project-card-3d[data-card-idx="2"] { transform: rotateY(180deg) translateZ(480px); }
-.project-card-3d[data-card-idx="3"] { transform: rotateY(270deg) translateZ(480px); }
+.project-card-3d[data-card-idx="0"] { transform: rotateY(0deg) translateZ(580px); }
+.project-card-3d[data-card-idx="1"] { transform: rotateY(60deg) translateZ(580px); }
+.project-card-3d[data-card-idx="2"] { transform: rotateY(120deg) translateZ(580px); }
+.project-card-3d[data-card-idx="3"] { transform: rotateY(180deg) translateZ(580px); }
+.project-card-3d[data-card-idx="4"] { transform: rotateY(240deg) translateZ(580px); }
+.project-card-3d[data-card-idx="5"] { transform: rotateY(300deg) translateZ(580px); }
 
 /* Obsidian 3D Glass Surface */
 .card-3d-glass {

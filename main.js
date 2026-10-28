@@ -268,7 +268,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 6. VISUVATE TRUE 3D HELICAL VORTEX ENGINE (CONTINUOUS CORKSCREW FLIGHT)
+// 6. VISUVATE TRUE 3D HELICAL VORTEX ENGINE (CAMERA-FACING 3D BANKING)
 // ==========================================================================
 (function initVisuvateHelix() {
   function setupHelix() {
@@ -289,18 +289,17 @@ window.CONTACT = {
     if (window.innerWidth <= 900) return;
 
     const totalCards = cards.length;
-    // Spiral angular spacing between cards (~65° per card for an organic corkscrew)
-    const angleStep = (Math.PI * 2) / (totalCards * 0.95);
-    const radiusX = 490; // Horizontal orbit radius
-    const radiusZ = 420; // Depth orbit radius
-    const verticalPitch = 130; // Vertical height offset per card along the helix
+    // Spiral angular spacing around the helical loop
+    const angleStep = (Math.PI * 2) / totalCards;
+    const radiusX = 520; // Horizontal orbit radius
+    const radiusZ = 380; // Depth orbit radius
+    const verticalPitch = 120; // Vertical height offset per card along the helix
 
-    // Parametric 3D Helix positioner function
+    // Parametric 3D Helix positioner function with Camera-Facing Banking
     function updateHelix(progress) {
-      // Corkscrew scroll rotation: cycles through ~1.3 full spiral loops
+      // Corkscrew scroll rotation
       const scrollAngle = progress * Math.PI * 2.4;
-      // Vertical flight drift as user scrolls
-      const scrollYOffset = progress * (verticalPitch * totalCards * 0.75);
+      const scrollYOffset = progress * (verticalPitch * totalCards * 0.7);
 
       cards.forEach((card, i) => {
         // Current angle of the card in the helix
@@ -310,19 +309,20 @@ window.CONTACT = {
         const x = Math.sin(theta) * radiusX;
         const z = Math.cos(theta) * radiusZ;
         
-        // Staggered Y position down the helix + upward scroll drift
+        // Staggered Y position down the helix + offset down from navbar
         const baseY = (i - (totalCards - 1) / 2) * verticalPitch;
-        const y = baseY - scrollYOffset + (progress * 190);
+        const y = baseY - scrollYOffset + (progress * 180) + 40; // +40px clears the top nav dock
 
-        // Natural tangential orientations: facing camera when reaching front
-        const rotY = -(theta * (180 / Math.PI));
-        const rotX = Math.cos(theta) * 11; // Banking pitch
-        const rotZ = Math.sin(theta) * 5;  // Subtle corkscrew roll
+        // VISUVATE CAMERA-FACING FORMULA:
+        // Instead of spinning 180° backwards, cards bank dynamically towards the viewer!
+        const rotY = -Math.sin(theta) * 38; // Dynamic yaw banking
+        const rotX = -Math.cos(theta) * 18 + 6; // Dynamic pitch (top cards tilt back, bottom tilt up)
+        const rotZ = -Math.sin(theta) * 7;  // Dynamic corkscrew roll
 
         // Depth calculations: front cards are crisp, distant cards soften
         const depthFactor = (z + radiusZ) / (2 * radiusZ); // 0 (back) to 1 (front)
-        const opacity = gsap.utils.clamp(0.42, 1.0, 0.42 + depthFactor * 0.58);
-        const scale = gsap.utils.clamp(0.86, 1.05, 0.88 + depthFactor * 0.16);
+        const opacity = gsap.utils.clamp(0.48, 1.0, 0.48 + depthFactor * 0.52);
+        const scale = gsap.utils.clamp(0.85, 1.06, 0.88 + depthFactor * 0.18);
 
         // Direct hardware-accelerated 60 FPS matrix transform
         card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, ${z.toFixed(2)}px) rotateY(${rotY.toFixed(2)}deg) rotateX(${rotX.toFixed(2)}deg) rotateZ(${rotZ.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
@@ -353,8 +353,8 @@ window.CONTACT = {
       const my = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
 
       gsap.to(helixContainer, {
-        rotateY: mx * 11,
-        rotateX: -my * 8,
+        rotateY: mx * 10,
+        rotateX: -my * 7,
         duration: 0.6,
         ease: "power2.out",
         overwrite: "auto"
@@ -378,7 +378,6 @@ window.CONTACT = {
     setupHelix();
   }
 })();
-
 // ==========================================================================
 // 7. 3D MAGNETIC BUTTON TILT
 // ==========================================================================

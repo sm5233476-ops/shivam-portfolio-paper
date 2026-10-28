@@ -268,69 +268,114 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 6. VISUVATE 3D CYLINDER WORKS ROTATION ENGINE (6-PROJECT SYNC)
+// 6. VISUVATE TRUE 3D HELICAL VORTEX ENGINE (CONTINUOUS CORKSCREW FLIGHT)
 // ==========================================================================
-(function initWorksCylinder() {
-  function setupCylinder() {
+(function initVisuvateHelix() {
+  function setupHelix() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-      setTimeout(setupCylinder, 50);
+      setTimeout(setupHelix, 50);
       return;
     }
     gsap.registerPlugin(ScrollTrigger);
 
-    const cylinder = document.getElementById('works-cylinder');
     const worksSection = document.getElementById('works');
-    if (!cylinder || !worksSection) return;
+    const stage = document.getElementById('visuvate-stage');
+    const helixContainer = document.getElementById('visuvate-helix');
+    const cards = document.querySelectorAll('.helix-card');
 
-    // Only enable 3D cylindrical pinning on desktop (> 900px)
+    if (!worksSection || !stage || !helixContainer || cards.length === 0) return;
+
+    // Only enable 3D helical pinning on desktop / tablet screens (> 900px)
     if (window.innerWidth <= 900) return;
 
-    // Pins the works section while scroll scrubs the 3D cylinder from 0° to -300° across 6 projects
+    const totalCards = cards.length;
+    // Spiral angular spacing between cards (~65° per card for an organic corkscrew)
+    const angleStep = (Math.PI * 2) / (totalCards * 0.95);
+    const radiusX = 490; // Horizontal orbit radius
+    const radiusZ = 420; // Depth orbit radius
+    const verticalPitch = 130; // Vertical height offset per card along the helix
+
+    // Parametric 3D Helix positioner function
+    function updateHelix(progress) {
+      // Corkscrew scroll rotation: cycles through ~1.3 full spiral loops
+      const scrollAngle = progress * Math.PI * 2.4;
+      // Vertical flight drift as user scrolls
+      const scrollYOffset = progress * (verticalPitch * totalCards * 0.75);
+
+      cards.forEach((card, i) => {
+        // Current angle of the card in the helix
+        const theta = (i * angleStep) - scrollAngle;
+
+        // 3D coordinates in space
+        const x = Math.sin(theta) * radiusX;
+        const z = Math.cos(theta) * radiusZ;
+        
+        // Staggered Y position down the helix + upward scroll drift
+        const baseY = (i - (totalCards - 1) / 2) * verticalPitch;
+        const y = baseY - scrollYOffset + (progress * 190);
+
+        // Natural tangential orientations: facing camera when reaching front
+        const rotY = -(theta * (180 / Math.PI));
+        const rotX = Math.cos(theta) * 11; // Banking pitch
+        const rotZ = Math.sin(theta) * 5;  // Subtle corkscrew roll
+
+        // Depth calculations: front cards are crisp, distant cards soften
+        const depthFactor = (z + radiusZ) / (2 * radiusZ); // 0 (back) to 1 (front)
+        const opacity = gsap.utils.clamp(0.42, 1.0, 0.42 + depthFactor * 0.58);
+        const scale = gsap.utils.clamp(0.86, 1.05, 0.88 + depthFactor * 0.16);
+
+        // Direct hardware-accelerated 60 FPS matrix transform
+        card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, ${z.toFixed(2)}px) rotateY(${rotY.toFixed(2)}deg) rotateX(${rotX.toFixed(2)}deg) rotateZ(${rotZ.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+        card.style.opacity = opacity.toFixed(2);
+        card.style.zIndex = Math.round((z + radiusZ) * 10);
+      });
+    }
+
+    // Set initial positions
+    updateHelix(0);
+
+    // Pin works section and drive the 3D corkscrew flight with scroll scrub
     ScrollTrigger.create({
       trigger: worksSection,
       start: "top top",
-      end: "+=3600", // Optimized scroll runway for 6 full projects
+      end: "+=3400", // Smooth flight runway
       pin: true,
       scrub: 1.2,
       onUpdate: (self) => {
-        const rotationY = -self.progress * 300;
-        gsap.to(cylinder, {
-          rotateY: rotationY,
-          duration: 0.4,
-          ease: "power1.out",
-          overwrite: "auto"
-        });
+        updateHelix(self.progress);
       }
     });
 
-    // Subtle 3D mouse parallax on the cylinder viewport
-    const viewport = document.getElementById('works-3d-viewport');
-    if (viewport && window.matchMedia('(pointer: fine)').matches) {
-      viewport.addEventListener('mousemove', (e) => {
-        const rect = viewport.getBoundingClientRect();
-        const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
-        gsap.to(cylinder, {
-          rotateX: -y * 8, // Gentle 3D vertical tilt
-          duration: 0.6,
-          ease: "power2.out",
-          overwrite: "auto"
-        });
+    // Visuvate 3D Spatial Mouse Parallax
+    stage.addEventListener('mousemove', (e) => {
+      const rect = stage.getBoundingClientRect();
+      const mx = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+      const my = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+
+      gsap.to(helixContainer, {
+        rotateY: mx * 11,
+        rotateX: -my * 8,
+        duration: 0.6,
+        ease: "power2.out",
+        overwrite: "auto"
       });
-      viewport.addEventListener('mouseleave', () => {
-        gsap.to(cylinder, {
-          rotateX: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          overwrite: "auto"
-        });
+    });
+
+    stage.addEventListener('mouseleave', () => {
+      gsap.to(helixContainer, {
+        rotateY: 0,
+        rotateX: 0,
+        duration: 0.9,
+        ease: "power2.out",
+        overwrite: "auto"
       });
-    }
+    });
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupCylinder);
+    document.addEventListener('DOMContentLoaded', setupHelix);
   } else {
-    setupCylinder();
+    setupHelix();
   }
 })();
 

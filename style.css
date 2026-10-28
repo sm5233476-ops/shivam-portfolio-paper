@@ -949,3 +949,213 @@ main {
   .exp-dot { animation: none; }
   .scroll-pill { animation: none; }
 }
+/* ==========================================================================
+   THE COSMIC VISUVATE — CORE STYLESHEET
+   Shivam Mishra | Creative Technologist & Senior Front-End Engineer
+   ========================================================================== */
+
+:root {
+  --bg-space: #050608;
+  --bg-card: rgba(255, 255, 255, 0.025);
+  --border-card: rgba(255, 255, 255, 0.08);
+  --border-card-hover: rgba(99, 102, 241, 0.45);
+  --text-primary: #e6ebf0;
+  --text-muted: rgba(255, 255, 255, 0.55);
+  --accent-indigo: #6366f1;
+  --accent-emerald: #10b981;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-grotesk: 'Space Grotesk', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  background-color: var(--bg-space);
+  font-family: var(--font-sans);
+}
+
+body {
+  background-color: var(--bg-space);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Selection */
+::selection {
+  background: var(--accent-indigo);
+  color: #ffffff;
+}
+
+/* Typography Helpers */
+.font-grotesk {
+  font-family: var(--font-grotesk);
+}
+
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Deep Ambient Vignette Background */
+.bg-radial-gradient {
+  background: radial-gradient(circle at 50% 35%, rgba(99, 102, 241, 0.08) 0%, rgba(5, 6, 8, 0.6) 55%, rgba(5, 6, 8, 0.98) 100%);
+  pointer-events: none;
+}
+
+/* WebGL Starfield Background */
+#universe-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+/* ==========================================================================
+   VISUVATE FLOATING MORPHING DOCK
+   ========================================================================== */
+.nav-dock {
+  background: rgba(12, 14, 20, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-card);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  will-change: transform, border-color, background-color;
+}
+
+.nav-dock.scrolled {
+  background: rgba(8, 10, 15, 0.88);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 16px 48px -8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(99, 102, 241, 0.15);
+  transform: translateY(-2px);
+}
+
+.nav-link {
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--accent-indigo);
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ==========================================================================
+   SELECTED WORKS: 3D CARD DYNAMICS
+   ========================================================================== */
+.works-stage {
+  perspective: 1200px;
+}
+
+.work-card {
+  transform-style: preserve-3d;
+  background: rgba(14, 17, 24, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-card);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.work-card:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 35px -5px rgba(99, 102, 241, 0.2);
+}
+
+.work-card img {
+  transform-origin: center center;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.work-card:hover img {
+  transform: scale(1.06);
+}
+
+/* ==========================================================================
+   OBSIDIAN BENTO ARCHITECTURE TILES
+   ========================================================================== */
+.bento-tile {
+  background: rgba(12, 15, 22, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-card);
+  transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+}
+
+.bento-tile:hover {
+  background: rgba(18, 22, 32, 0.6);
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-4px);
+}
+
+/* ==========================================================================
+   SUBTLE ACCENT PULSES & GLOWS
+   ========================================================================== */
+@keyframes cosmic-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+.glow-beacon {
+  animation: cosmic-pulse 4s infinite ease-in-out;
+}
+
+/* ==========================================================================
+   CUSTOM SYSTEM SCROLLBAR
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050608;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  border: 2px solid #050608;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.6);
+}
+
+/* Utility Layout Support for Pure CSS environments */
+.aspect-\[16\/10\] {
+  aspect-ratio: 16 / 10;
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+  .nav-dock {
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+  }
+}

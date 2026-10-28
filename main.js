@@ -268,7 +268,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 6. VISUVATE 3D CYLINDER WORKS ROTATION ENGINE (DESKTOP PERSPECTIVE)
+// 6. VISUVATE 3D CYLINDER WORKS ROTATION ENGINE (6-PROJECT SYNC)
 // ==========================================================================
 (function initWorksCylinder() {
   function setupCylinder() {
@@ -285,15 +285,15 @@ window.CONTACT = {
     // Only enable 3D cylindrical pinning on desktop (> 900px)
     if (window.innerWidth <= 900) return;
 
-    // Pins the works section while scroll scrubs the 3D cylinder from 0° to -270°
+    // Pins the works section while scroll scrubs the 3D cylinder from 0° to -300° across 6 projects
     ScrollTrigger.create({
       trigger: worksSection,
       start: "top top",
-      end: "+=2400", // Smooth scroll distance to cycle through all 4 projects
+      end: "+=3600", // Optimized scroll runway for 6 full projects
       pin: true,
       scrub: 1.2,
       onUpdate: (self) => {
-        const rotationY = -self.progress * 270;
+        const rotationY = -self.progress * 300;
         gsap.to(cylinder, {
           rotateY: rotationY,
           duration: 0.4,

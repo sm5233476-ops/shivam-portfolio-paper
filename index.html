@@ -33,20 +33,32 @@
   <canvas id="universe-canvas"></canvas>
 
   <!-- Minimal Smart Header (72px Engineering-Grade) -->
+  <!-- Visuvate Morphing Header (Wide on Hero -> Floats as Pill Dock on Scroll) -->
   <header class="site-header" id="site-header">
-    <nav class="nav-container">
+    <nav class="nav-container" id="nav-container">
+
+      <!-- Left Logo (Visuvate Style) -->
+      <a href="#hero" class="nav-logo" aria-label="Shivam Mishra Home">
+        <span class="logo-pulse-dot" aria-hidden="true"></span>
+        <span class="logo-brand">SHIVAM</span>
+      </a>
+
+      <!-- Center Navigation Links -->
       <div class="nav-links" id="nav-links">
         <a href="#about" class="nav-item" data-nav="about">about</a>
         <a href="#works" class="nav-item" data-nav="works">works</a>
         <a href="#skills" class="nav-item" data-nav="skills">skills</a>
         <a href="#contact" class="nav-item" data-nav="contact">contact</a>
-        <!-- Sliding Electric-Blue Active Indicator -->
+        <!-- Sliding Electric Indicator -->
         <span class="nav-active-line" id="nav-active-line" aria-hidden="true"></span>
       </div>
+
+      <!-- Right CTA Button -->
       <a href="https://wa.me/919899452192?text=Hi%20Shivam,%20let's%20build%20something%20extraordinary." class="btn-connect" target="_blank" rel="noopener noreferrer">
         <span>Let's Connect</span>
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
+
     </nav>
   </header>
 

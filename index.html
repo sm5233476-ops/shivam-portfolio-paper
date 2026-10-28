@@ -1,379 +1,355 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shivam Mishra — Creative Technologist & Senior Front-End Engineer</title>
-  <meta name="description" content="Portfolio of Shivam Mishra — Creative Technologist & Senior Front-End Engineer specializing in high-performance digital atmosphere, WebGL experiences, and precision interfaces." />
-
-  <!-- Typography -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Shivam Mishra — A Web Developer Who Loves to Build</title>
+  <meta name="description" content="Designing and engineering high-impact digital experiences, web apps, and AI solutions with relentless focus on design, conversion, and speed.">
+  
+  <!-- Modern Clean Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Core Stylesheet -->
-  <link rel="stylesheet" href="style.css" />
-
-  <!-- Import Map for Three.js 0.169.0 -->
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
-      }
-    }
-  </script>
-
-  <!-- GSAP & ScrollTrigger -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- GSAP Core & ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Modern ES Module Import Map for Three.js 0.169.0 & Addons -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+    }
+  }
+  </script>
+  
+  <link rel="stylesheet" href="style.css?v=15">
 </head>
-<body class="bg-[#050608] text-[#e1e7ec] antialiased selection:bg-[#4f46e5] selection:text-white overflow-x-hidden">
+<body>
 
-  <!-- Deep 3D Universe Canvas (Behfar-inspired 60FPS Space Flight) -->
-  <canvas id="universe-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+  <!-- Fullscreen WebGL2 Cosmic Canvas -->
+  <canvas id="universe-canvas"></canvas>
 
-  <!-- Ambient Vignette & Noise Overlay -->
-  <div class="fixed inset-0 pointer-events-none z-[1] bg-radial-gradient"></div>
-
-  <!-- Visuvate Morphing Floating Pill Dock -->
-  <header class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-fit px-4">
-    <nav id="nav-dock" class="nav-dock backdrop-blur-xl border border-white/10 rounded-full px-5 py-2.5 flex items-center gap-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] transition-all duration-300">
-      <a href="#hero" class="nav-logo flex items-center gap-2 group">
-        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="font-grotesk font-semibold tracking-wider text-sm text-white/90 group-hover:text-white transition-colors">SHIVAM</span>
-      </a>
-      <div class="h-3.5 w-px bg-white/15"></div>
-      <ul class="flex items-center gap-5 text-xs font-medium tracking-wide text-white/70">
-        <li><a href="#works" class="nav-link hover:text-white transition-colors">Works</a></li>
-        <li><a href="#architecture" class="nav-link hover:text-white transition-colors">Systems</a></li>
-        <li><a href="#about" class="nav-link hover:text-white transition-colors">About</a></li>
-      </ul>
-      <a href="https://wa.me/919899452192?text=Hi%20Shivam%2C%20let%27s%20build%20something%20exceptional." target="_blank" rel="noopener noreferrer" class="cta-pill text-xs font-semibold px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white text-white hover:text-black border border-white/20 transition-all duration-200">
-        Connect
+  <!-- Minimal Smart Header (72px Engineering-Grade) -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container">
+      <div class="nav-links" id="nav-links">
+        <a href="#about" class="nav-item" data-nav="about">about</a>
+        <a href="#works" class="nav-item" data-nav="works">works</a>
+        <a href="#skills" class="nav-item" data-nav="skills">skills</a>
+        <a href="#contact" class="nav-item" data-nav="contact">contact</a>
+        <!-- Sliding Electric-Blue Active Indicator -->
+        <span class="nav-active-line" id="nav-active-line" aria-hidden="true"></span>
+      </div>
+      <a href="https://wa.me/919899452192?text=Hi%20Shivam,%20let's%20build%20something%20extraordinary." class="btn-connect" target="_blank" rel="noopener noreferrer">
+        <span>Let's Connect</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </nav>
   </header>
 
-  <!-- Main Content Flow -->
-  <main class="relative z-10 w-full">
-
+  <!-- Main Experience -->
+  <main>
     <!-- HERO SECTION -->
-    <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-6 relative pt-24 pb-16">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 mb-8 backdrop-blur-md">
-        <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
-        <span class="text-xs uppercase tracking-widest text-white/70 font-mono">Creative Technologist &middot; 2026 Edition</span>
-      </div>
+    <section id="hero" class="hero-section">
+      <div class="hero-content">
 
-      <h1 class="font-grotesk text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight max-w-5xl text-balance leading-[1.08] mb-8">
-        Engineering <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-indigo-200 to-indigo-400">Digital Atmosphere</span> & WebGL Realities.
-      </h1>
+        <!-- Architectural 2-Line Headline -->
+        <h1 class="hero-title" data-reveal="words">
+          <span class="title-line">A web developer</span>
+          <span class="title-line highlight-text">who loves to build.</span>
+        </h1>
 
-      <p class="max-w-2xl text-base sm:text-lg text-white/60 leading-relaxed font-light mb-10">
-        Bridging the divide between high-fidelity visual aesthetics and rock-solid architectural engineering. Real-time 3D, seamless motion systems, and revenue-driven web products.
-      </p>
-
-      <div class="flex flex-wrap items-center justify-center gap-4">
-        <a href="#works" class="px-7 py-3.5 rounded-full bg-white text-black font-semibold text-sm tracking-wide hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.25)]">
-          Explore Selected Works
-        </a>
-        <a href="https://wa.me/919899452192?text=Hi%20Shivam%2C%20let%27s%20discuss%20a%20new%20project." target="_blank" rel="noopener noreferrer" class="px-7 py-3.5 rounded-full bg-white/5 border border-white/15 text-white/90 font-medium text-sm tracking-wide hover:bg-white/10 hover:border-white/30 transition-all backdrop-blur-sm">
-          Direct WhatsApp CTA &rarr;
-        </a>
-      </div>
-
-      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40">
-        <span class="text-[10px] uppercase font-mono tracking-widest">Scroll To Orbit</span>
-        <div class="w-4 h-7 rounded-full border border-white/20 flex justify-center p-1">
-          <div class="w-1 h-1.5 rounded-full bg-white/60 animate-bounce"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SELECTED WORKS (Curved 3D Helical Stage) -->
-    <section id="works" class="min-h-screen relative py-32 px-6 max-w-7xl mx-auto">
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-        <div>
-          <span class="text-xs uppercase tracking-widest font-mono text-indigo-400">Flagship Deployments</span>
-          <h2 class="text-3xl sm:text-5xl font-grotesk font-bold tracking-tight text-white mt-2">
-            Selected Works
-          </h2>
-        </div>
-        <p class="text-sm text-white/50 max-w-md">
-          Six live web architectures engineered with high-impact aesthetics, real-time conversion UX, and fluid animations.
+        <!-- High-Impact Studio Subtitle -->
+        <p class="hero-subtitle" data-reveal="words">
+          Websites, SaaS products and AI-powered apps, designed with care and engineered for speed.
         </p>
-      </div>
 
-      <!-- Carousel Stage / Grid Container -->
-      <div id="works-stage" class="works-stage grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        
-        <!-- Project 1: Lumina Dental Studio -->
-        <article class="work-card group relative rounded-2xl overflow-hidden bg-white/[0.03] border border-white/10 hover:border-indigo-500/50 transition-all duration-500 flex flex-col">
-          <div class="aspect-[16/10] overflow-hidden relative bg-[#0d0f14]">
-            <img src="dental.jpg" alt="Lumina Dental Studio" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0c10] via-transparent to-transparent opacity-80"></div>
-            <span class="absolute top-4 left-4 text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-full bg-black/60 border border-white/10 backdrop-blur-md text-emerald-400">
-              CLINICAL UX / BOOKING ENGINE
-            </span>
-          </div>
-          <div class="p-6 flex flex-col flex-1 justify-between bg-[#0a0c10]/80 backdrop-blur-sm">
-            <div>
-              <h3 class="font-grotesk text-xl font-bold text-white group-hover:text-indigo-300 transition-colors">
-                Lumina Dental Studio
-              </h3>
-              <p class="text-xs text-white/60 mt-2 leading-relaxed">
-                Modern dental practice platform featuring an interactive before/after transformation slider and frictionless booking flow.
-              </p>
-            </div>
-            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-              <span class="text-[11px] font-mono text-white/40">React / Motion / Flow</span>
-              <a href="https://lumina-dental-studio-iota.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-white/90 hover:text-indigo-400 flex items-center gap-1">
-                Live Deployment &nearr;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 2: Ironcrest Roofing & Restoration -->
-        <article class="work-card group relative rounded-2xl overflow-hidden bg-white/[0.03] border border-white/10 hover:border-amber-500/50 transition-all duration-500 flex flex-col">
-          <div class="aspect-[16/10] overflow-hidden relative bg-[#0d0f14]">
-            <img src="roofing.jpg" alt="Ironcrest Roofing & Restoration" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0c10] via-transparent to-transparent opacity-80"></div>
-            <span class="absolute top-4 left-4 text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-full bg-black/60 border border-white/10 backdrop-blur-md text-amber-400">
-              CALCULATOR / ESTIMATE ENGINE
-            </span>
-          </div>
-          <div class="p-6 flex flex-col flex-1 justify-between bg-[#0a0c10]/80 backdrop-blur-sm">
-            <div>
-              <h3 class="font-grotesk text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
-                Ironcrest Roofing &amp; Restoration
-              </h3>
-              <p class="text-xs text-white/60 mt-2 leading-relaxed">
-                High-converting contractor site with an instant interactive roofing estimate calculator and commercial lead qualification pipeline.
-              </p>
-            </div>
-            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-              <span class="text-[11px] font-mono text-white/40">Interactive Logic / Leads</span>
-              <a href="https://roofing-portfolio-two.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-white/90 hover:text-amber-400 flex items-center gap-1">
-                Live Deployment &nearr;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 3: Cinder & Cedar Coffee Roasters -->
-        <article class="work-card group relative rounded-2xl overflow-hidden bg-white/[0.03] border border-white/10 hover:border-orange-500/50 transition-all duration-500 flex flex-col">
-          <div class="aspect-[16/10] overflow-hidden relative bg-[#0d0f14]">
-            <img src="coffee.jpg" alt="Cinder & Cedar Coffee Roasters" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0c10] via-transparent to-transparent opacity-80"></div>
-            <span class="absolute top-4 left-4 text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-full bg-black/60 border border-white/10 backdrop-blur-md text-orange-400">
-              E-COMMERCE / CART ARCHITECTURE
-            </span>
-          </div>
-          <div class="p-6 flex flex-col flex-1 justify-between bg-[#0a0c10]/80 backdrop-blur-sm">
-            <div>
-              <h3 class="font-grotesk text-xl font-bold text-white group-hover:text-orange-300 transition-colors">
-                Cinder &amp; Cedar Coffee Roasters
-              </h3>
-              <p class="text-xs text-white/60 mt-2 leading-relaxed">
-                Artisanal roastery e-commerce platform with dynamic cart drawer, roast profile taxonomy, and seamless direct checkout funnel.
-              </p>
-            </div>
-            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-              <span class="text-[11px] font-mono text-white/40">E-Commerce / State / UX</span>
-              <a href="https://cinder-cedar-coffee-roasters.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-white/90 hover:text-orange-400 flex items-center gap-1">
-                Live Deployment &nearr;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 4: Sunstone Valley Comfort Co. -->
-        <article class="work-card group relative rounded-2xl overflow-hidden bg-white/[0.03] border border-white/10 hover:border-cyan-500/50 transition-all duration-500 flex flex-col">
-          <div class="aspect-[16/10] overflow-hidden relative bg-[#0d0f14]">
-            <img src="hvac.jpg" alt="Sunstone Valley Comfort Co." class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0c10] via-transparent to-transparent opacity-80"></div>
-            <span class="absolute top-4 left-4 text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-full bg-black/60 border border-white/10 backdrop-blur-md text-cyan-400">
-              24/7 HVAC / DISPATCH FLOW
-            </span>
-          </div>
-          <div class="p-6 flex flex-col flex-1 justify-between bg-[#0a0c10]/80 backdrop-blur-sm">
-            <div>
-              <h3 class="font-grotesk text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
-                Sunstone Valley Comfort Co.
-              </h3>
-              <p class="text-xs text-white/60 mt-2 leading-relaxed">
-                Emergency AC repair and HVAC services web system engineered with instant emergency dispatch triggers and localized routing.
-              </p>
-            </div>
-            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-              <span class="text-[11px] font-mono text-white/40">Cloudflare Workers / Flow</span>
-              <a href="https://sunstone-valley-hva.sm5233476.workers.dev/" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-white/90 hover:text-cyan-400 flex items-center gap-1">
-                Live Deployment &nearr;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 5: Basil & Fire Neapolitan Pizzeria -->
-        <article class="work-card group relative rounded-2xl overflow-hidden bg-white/[0.03] border border-white/10 hover:border-rose-500/50 transition-all duration-500 flex flex-col">
-          <div class="aspect-[16/10] overflow-hidden relative bg-[#0d0f14]">
-            <img src="pizza.jpg" alt="Basil & Fire Neapolitan Pizzeria" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0c10] via-transparent to-transparent opacity-80"></div>
-            <span class="absolute top-4 left-4 text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-full bg-black/60 border border-white/10 backdrop-blur-md text-rose-400">
-              CULINARY COMMERCE / ORDERING
-            </span>
-          </div>
-          <div class="p-6 flex flex-col flex-1 justify-between bg-[#0a0c10]/80 backdrop-blur-sm">
-            <div>
-              <h3 class="font-grotesk text-xl font-bold text-white group-hover:text-rose-300 transition-colors">
-                Basil &amp; Fire Neapolitan Pizzeria
-              </h3>
-              <p class="text-xs text-white/60 mt-2 leading-relaxed">
-                Sensory-rich wood-fired pizzeria digital menu and online ordering application optimized for zero friction on mobile devices.
-              </p>
-            </div>
-            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-              <span class="text-[11px] font-mono text-white/40">Mobile-First / High Conversion</span>
-              <a href="https://basil-fire-ordering.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-white/90 hover:text-rose-400 flex items-center gap-1">
-                Live Deployment &nearr;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 6: AlwaysOn Assistant (Live Product) -->
-        <article class="work-card group relative rounded-2xl overflow-hidden bg-white/[0.03] border border-white/10 hover:border-purple-500/50 transition-all duration-500 flex flex-col">
-          <div class="aspect-[16/10] overflow-hidden relative bg-[#0d0f14]">
-            <img src="alwayson.jpg" alt="AlwaysOn Assistant" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0c10] via-transparent to-transparent opacity-80"></div>
-            <span class="absolute top-4 left-4 text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-full bg-black/60 border border-white/10 backdrop-blur-md text-purple-400">
-              FLAGSHIP AI SAAS PRODUCT
-            </span>
-          </div>
-          <div class="p-6 flex flex-col flex-1 justify-between bg-[#0a0c10]/80 backdrop-blur-sm">
-            <div>
-              <h3 class="font-grotesk text-xl font-bold text-white group-hover:text-purple-300 transition-colors">
-                AlwaysOn Assistant
-              </h3>
-              <p class="text-xs text-white/60 mt-2 leading-relaxed">
-                Lightweight, embeddable autonomous AI concierge widget custom-tuned for local service businesses to convert traffic 24/7.
-              </p>
-            </div>
-            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-              <span class="text-[11px] font-mono text-white/40">Autonomous AI / SaaS Embed</span>
-              <a href="https://alwayson-assistant.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-white/90 hover:text-purple-400 flex items-center gap-1">
-                Live Deployment &nearr;
-              </a>
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- ARCHITECTURAL PILLARS / OBSIDIAN BENTO -->
-    <section id="architecture" class="py-32 px-6 max-w-7xl mx-auto border-t border-white/10">
-      <div class="mb-16">
-        <span class="text-xs uppercase tracking-widest font-mono text-indigo-400">Visuvate Philosophy</span>
-        <h2 class="text-3xl sm:text-5xl font-grotesk font-bold tracking-tight text-white mt-2">
-          Platform Architecture &amp; Consistency
-        </h2>
-        <p class="text-sm text-white/50 max-w-xl mt-3">
-          Zero bloat. Deterministic frame rates. Modular system architectures that scale effortlessly from boutique agencies to enterprise platforms.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bento-tile p-8 rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-md flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-mono text-sm mb-6">
-            01
-          </div>
-          <div>
-            <h3 class="font-grotesk text-lg font-bold text-white mb-2">Deterministic 60 FPS</h3>
-            <p class="text-xs text-white/60 leading-relaxed">
-              Custom WebGL shaders and pure GPU matrix transforms bypass main-thread layout thrashing, guaranteeing butter-smooth performance on any screen.
-            </p>
-          </div>
+        <!-- Luxury Glass Action Buttons -->
+        <div class="hero-actions">
+          <a href="#works" class="btn-hero-primary">
+            <span>Explore Projects</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="20"></line><polyline points="19 13 12 20 5 13"></polyline></svg>
+          </a>
+          <a href="#contact" class="btn-hero-secondary">
+            <span>Get in Touch</span>
+          </a>
         </div>
 
-        <div class="bento-tile p-8 rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-md flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 font-mono text-sm mb-6">
-            02
-          </div>
-          <div>
-            <h3 class="font-grotesk text-lg font-bold text-white mb-2">High-Conversion UX</h3>
-            <p class="text-xs text-white/60 leading-relaxed">
-              Aesthetic visual depth paired with ruthlessly optimized interaction paths—turning casual visitors into qualified inquiries.
-            </p>
-          </div>
-        </div>
+      </div>
 
-        <div class="bento-tile p-8 rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-md flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-mono text-sm mb-6">
-            03
-          </div>
-          <div>
-            <h3 class="font-grotesk text-lg font-bold text-white mb-2">Systematic Longevity</h3>
-            <p class="text-xs text-white/60 leading-relaxed">
-              Clean modular ES-next architecture without heavyweight runtime baggage, built to withstand rapid platform iterations.
-            </p>
-          </div>
+      <!-- Minimal Bottom Scroll Cue -->
+      <div class="hero-scroll">
+        <div class="scroll-track">
+          <div class="scroll-pill"></div>
         </div>
+        <span>scroll</span>
       </div>
     </section>
 
     <!-- ABOUT SECTION -->
-    <section id="about" class="py-32 px-6 max-w-5xl mx-auto border-t border-white/10">
-      <span class="text-xs uppercase tracking-widest font-mono text-indigo-400">Profile</span>
-      <h2 class="text-3xl sm:text-5xl font-grotesk font-bold tracking-tight text-white mt-2 mb-8">
-        Behind The Interface
-      </h2>
-      <div class="text-base sm:text-lg text-white/70 space-y-6 leading-relaxed font-light">
-        <p>
-          I am <strong class="text-white font-medium">Shivam Mishra</strong>, a Creative Technologist and Senior Front-End Engineer obsessed with the intersection of real-time graphics, tactile typography, and mission-critical web applications.
-        </p>
-        <p>
-          Over the past several years, I have architected custom digital solutions across multiple domains—from high-conversion contractor platforms and interactive dental experiences to autonomous AI customer concierge engines. Every build is executed with obsessive attention to fluid motion dynamics, micro-interactions, and pristine clean-code foundations.
-        </p>
+    <section id="about" class="about-section">
+      <div class="about-container">
+
+        <!-- Section Label: Luminous Silver Tag -->
+        <div class="section-tag-wrap">
+          <span class="tag-pulse-dot" aria-hidden="true"></span>
+          <span class="section-tag">ABOUT THE DEVELOPER</span>
+        </div>
+
+        <!-- 2-Column Editorial Grid -->
+        <div class="about-grid">
+
+          <!-- Left Column: Headline & Status Badge -->
+          <div class="about-left">
+            <h2 class="about-headline" data-reveal="words">
+              I design and build the <span class="highlight-text">websites, apps and tools</span> that businesses grow on.
+            </h2>
+            
+            <div class="about-exp-pill">
+              <span class="exp-dot" aria-hidden="true"></span>
+              <span class="exp-badge">Available for new projects</span>
+            </div>
+          </div>
+
+          <!-- Right Column: Narrative Paragraphs & 4 SVG Cards -->
+          <div class="about-right">
+            <p class="about-p" data-reveal="words">
+              I'm Shivam Mishra, a web developer working with businesses of every size: company websites, e-commerce stores, SaaS products, internal tools and AI-powered apps.
+            </p>
+            <p class="about-p" data-reveal="words">
+              I care about the details clients feel but rarely see: clean architecture, fast load times, smooth motion and interfaces that make the next step obvious. Whatever the idea, I take it from first sketch to a live, production-ready product.
+            </p>
+
+            <!-- 4 Cards Grid (Electric Edge + SVG Line Icons) -->
+            <div class="about-cards-grid" id="about-cards-grid">
+              
+              <!-- Card 1: Bolt (Speed & 60 FPS) -->
+              <div class="about-card card-flow" data-card="1">
+                <div class="card__edge" aria-hidden="true"></div>
+                <div class="about-card-inner">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FA2FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                  </div>
+                  <h3 class="card-title">Speed & 60 FPS</h3>
+                  <p class="card-desc">Lean, optimized code and silky, GPU-accelerated motion that stays smooth on modern devices.</p>
+                </div>
+              </div>
+
+              <!-- Card 2: Cursor-Click (Conversion-minded UX) -->
+              <div class="about-card card-flow" data-card="2">
+                <div class="card__edge" aria-hidden="true"></div>
+                <div class="about-card-inner">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FA2FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+                      <path d="M13 13l6 6"></path>
+                    </svg>
+                  </div>
+                  <h3 class="card-title">Conversion-minded UX</h3>
+                  <p class="card-desc">Layouts built around your visitors' next step, so it is clear what to do and easy to do it.</p>
+                </div>
+              </div>
+
+              <!-- Card 3: Bot (AI & automation) -->
+              <div class="about-card card-flow" data-card="3">
+                <div class="card__edge" aria-hidden="true"></div>
+                <div class="about-card-inner">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FA2FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                      <circle cx="12" cy="5" r="2"></circle>
+                      <path d="M12 7v4"></path>
+                      <line x1="8" y1="16" x2="8" y2="16"></line>
+                      <line x1="16" y1="16" x2="16" y2="16"></line>
+                    </svg>
+                  </div>
+                  <h3 class="card-title">AI & automation</h3>
+                  <p class="card-desc">Chat assistants, lead capture and smart workflows that take care of the routine work.</p>
+                </div>
+              </div>
+
+              <!-- Card 4: Layers (Sites, stores & apps) -->
+              <div class="about-card card-flow" data-card="4">
+                <div class="card__edge" aria-hidden="true"></div>
+                <div class="about-card-inner">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FA2FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                      <polyline points="2 17 12 22 22 17"></polyline>
+                      <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                  </div>
+                  <h3 class="card-title">Sites, stores & apps</h3>
+                  <p class="card-desc">Company sites, online stores, SaaS products and custom tools, built end to end.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </section>
 
-    <!-- CONTACT / FOOTER SECTION -->
-    <footer id="contact" class="py-32 px-6 border-t border-white/10 bg-[#040507] relative overflow-hidden">
-      <div class="max-w-5xl mx-auto flex flex-col items-center text-center">
-        <span class="text-xs uppercase tracking-widest font-mono text-indigo-400 mb-4">Initialize Collaboration</span>
-        <h2 class="text-4xl sm:text-6xl font-grotesk font-bold text-white tracking-tight mb-8">
-          Ready to construct something monumental?
-        </h2>
-        <p class="text-sm sm:text-base text-white/60 max-w-lg mb-10">
-          Whether you need a flagship brand universe, high-performance web platform, or customized AI widget integration, let's start the dialogue.
-        </p>
+    <!-- Slots for Upcoming Phases -->
+    <!-- ==== BLOCK 1: INDEX.HTML WORKS SECTION START ==== -->
+    <!-- WORKS SECTION (VISUVATE 3D CURVED CAROUSEL SHOWCASE) -->
+    <section id="works" class="works-section">
+      <div class="works-container">
 
-        <!-- CTA Buttons -->
-        <div class="flex flex-wrap items-center justify-center gap-4 mb-16">
-          <a href="https://wa.me/919899452192?text=Hi%20Shivam%2C%20let%27s%20collaborate." target="_blank" rel="noopener noreferrer" class="px-8 py-4 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-sm tracking-wide shadow-[0_0_30px_rgba(16,185,129,0.3)] transition-all">
-            Open WhatsApp Channel &rarr;
-          </a>
-          <a href="mailto:8hivammishra8@gmail.com" class="px-8 py-4 rounded-full bg-white/5 border border-white/20 hover:bg-white/10 text-white font-medium text-sm tracking-wide transition-all">
-            8hivammishra8@gmail.com
-          </a>
+        <!-- Section Label -->
+        <div class="section-tag-wrap">
+          <span class="tag-pulse-dot" aria-hidden="true"></span>
+          <span class="section-tag">SELECTED WORKS // 04</span>
         </div>
 
-        <!-- Social Bar -->
-        <div class="flex items-center gap-8 text-xs font-mono text-white/50 border-t border-white/10 pt-10 w-full justify-between">
-          <span>&copy; Shivam Mishra &middot; All Rights Reserved</span>
-          <div class="flex items-center gap-6">
-            <a href="https://instagram.com/shivam.0nyx" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Instagram @shivam.0nyx</a>
-            <a href="https://wa.me/919899452192" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">WhatsApp</a>
+        <!-- Section Editorial Headline -->
+        <div class="works-header-wrap">
+          <h2 class="works-headline" data-reveal="words">
+            Featured products and client builds, engineered for performance.
+          </h2>
+          <p class="works-cue">
+            <span>✦ Scroll to rotate 3D project cylinder</span>
+          </p>
+        </div>
+
+        <!-- Visuvate-Style 3D Curved Stage Viewport -->
+        <div class="works-3d-viewport" id="works-3d-viewport">
+          <div class="works-cylinder" id="works-cylinder">
+
+            <!-- PROJECT 01: Lumina Dental Studio -->
+            <article class="project-card-3d" data-card-idx="0">
+              <div class="card-3d-glass">
+                <div class="project-media">
+                  <img src="dental.jpg" alt="Lumina Dental Studio Concept" class="project-img" loading="lazy" onerror="this.parentElement.classList.add('media-fallback')">
+                  <div class="media-sheen" aria-hidden="true"></div>
+                </div>
+                <div class="project-info">
+                  <div class="project-meta">
+                    <span class="project-idx">01</span>
+                    <span class="project-badge">Concept Project</span>
+                  </div>
+                  <h3 class="project-title">Lumina Dental Studio</h3>
+                  <p class="project-desc">Dental clinic website with custom appointment booking flow, financing calculator, and before/after smile sliders.</p>
+                  <div class="project-tags">
+                    <span>Booking Flow</span>
+                    <span>Financing Calc</span>
+                    <span>Before/After Slider</span>
+                  </div>
+                  <div class="project-cta-wrap">
+                    <a href="https://lumina-dental-studio-iota.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-live-project">
+                      <span>View Live Site</span>
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- PROJECT 02: Ironcrest Roofing & Restoration -->
+            <article class="project-card-3d" data-card-idx="1">
+              <div class="card-3d-glass">
+                <div class="project-media">
+                  <img src="roofing.jpg" alt="Ironcrest Roofing & Restoration Concept" class="project-img" loading="lazy" onerror="this.parentElement.classList.add('media-fallback')">
+                  <div class="media-sheen" aria-hidden="true"></div>
+                </div>
+                <div class="project-info">
+                  <div class="project-meta">
+                    <span class="project-idx">02</span>
+                    <span class="project-badge">Concept Project</span>
+                  </div>
+                  <h3 class="project-title">Ironcrest Roofing</h3>
+                  <p class="project-desc">Roofing and restoration contractor website featuring an instant estimate calculator and inspection booking.</p>
+                  <div class="project-tags">
+                    <span>Estimate Calculator</span>
+                    <span>Inspection Booking</span>
+                    <span>Project Sliders</span>
+                  </div>
+                  <div class="project-cta-wrap">
+                    <a href="https://roofing-portfolio-two.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-live-project">
+                      <span>View Live Site</span>
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- PROJECT 03: Cinder & Cedar Coffee Roasters -->
+            <article class="project-card-3d" data-card-idx="2">
+              <div class="card-3d-glass">
+                <div class="project-media">
+                  <img src="coffee.jpg" alt="Cinder & Cedar Coffee Roasters Concept" class="project-img" loading="lazy" onerror="this.parentElement.classList.add('media-fallback')">
+                  <div class="media-sheen" aria-hidden="true"></div>
+                </div>
+                <div class="project-info">
+                  <div class="project-meta">
+                    <span class="project-idx">03</span>
+                    <span class="project-badge">Concept Project</span>
+                  </div>
+                  <h3 class="project-title">Cinder & Cedar Coffee</h3>
+                  <p class="project-desc">Direct-to-consumer artisanal coffee store with interactive product search, cart drawer, and subscription checkout.</p>
+                  <div class="project-tags">
+                    <span>Product Search</span>
+                    <span>Cart Drawer</span>
+                    <span>Demo Checkout</span>
+                  </div>
+                  <div class="project-cta-wrap">
+                    <a href="https://cinder-cedar-coffee-roasters.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-live-project">
+                      <span>View Live Site</span>
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- PROJECT 04: AlwaysOn Assistant -->
+            <article class="project-card-3d" data-card-idx="3">
+              <div class="card-3d-glass">
+                <div class="project-media">
+                  <img src="alwayson.jpg" alt="AlwaysOn Assistant Live Product" class="project-img" loading="lazy" onerror="this.parentElement.classList.add('media-fallback')">
+                  <div class="media-sheen" aria-hidden="true"></div>
+                </div>
+                <div class="project-info">
+                  <div class="project-meta">
+                    <span class="project-idx">04</span>
+                    <span class="project-badge highlight-live">Live Product ✦</span>
+                  </div>
+                  <h3 class="project-title">AlwaysOn Assistant</h3>
+                  <p class="project-desc">Embeddable AI chat assistant that answers customer inquiries, automates booking, and captures high-intent leads 24/7.</p>
+                  <div class="project-tags">
+                    <span>AI Chat Widget</span>
+                    <span>Lead Capture</span>
+                    <span>Live SaaS</span>
+                  </div>
+                  <div class="project-cta-wrap">
+                    <a href="https://alwayson-assistant.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-live-project btn-live-highlight">
+                      <span>Launch App</span>
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
           </div>
         </div>
-      </div>
-    </footer>
 
+      </div>
+    </section>
+<!-- ==== BLOCK 1: INDEX.HTML WORKS SECTION END ==== -->
+    <!-- @@SLOT:skills @@ -->
+    <!-- @@SLOT:contact @@ -->
   </main>
 
-  <!-- Modular Script Bootstrapper -->
-  <script type="module" src="main.js"></script>
+  <!-- Main ES Module Script -->
+  <script type="module" src="main.js?v=15"></script>
 </body>
 </html>

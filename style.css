@@ -1,6 +1,6 @@
 /* ==========================================================================
-   SHIVAM MISHRA — THE COSMIC PORTFOLIO (60FPS BUTTERY PERFORMANCE)
-   Zero-Lag Compositing, True Morphing Nav Dock & Clean Works Stage
+   SHIVAM MISHRA — THE COSMIC VISUVATE (AWWWARDS-GRADE MASTER STYLESHEET)
+   Rock-Solid 60 FPS, Smart Morphing Nav Dock, Zero-Overlap Works Stage
    ========================================================================== */
 
 :root {
@@ -101,12 +101,12 @@ html, body {
 }
 
 /* ==========================================================================
-   HEADER & NAVIGATION — TRUE VISUVATE MORPHING DOCK
+   HEADER & NAVIGATION — TRUE VISUVATE MORPHING SMART DOCK
    ========================================================================== */
 
 .site-header {
   position: fixed;
-  top: 1.5rem;
+  top: 1.6rem;
   left: 0;
   width: 100%;
   z-index: 1000;
@@ -115,10 +115,20 @@ html, body {
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1), top 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.35s ease, 
+              padding 0.4s ease, 
+              top 0.4s ease;
 }
 
-/* State 1: TOP HERO (Wide edge-to-edge, Transparent) */
+/* Smart Scroll Hide: Slides away on downward scroll */
+.site-header.nav-hidden {
+  transform: translateY(-145%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* State 1: TOP HERO (Wide edge-to-edge, Pure Clean Glass) */
 .nav-container {
   pointer-events: auto;
   width: 100%;
@@ -130,10 +140,14 @@ html, body {
   background: transparent;
   border: 1px solid transparent;
   border-radius: 9999px;
-  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: max-width 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              padding 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.45s ease, 
+              border-color 0.45s ease, 
+              box-shadow 0.45s ease;
 }
 
-/* State 2: SCROLLED (Shrinks & joins smoothly into center glass pill) */
+/* State 2: SCROLLED (Shrinks smoothly into Center Floating Pill Dock) */
 .site-header.is-scrolled {
   top: 1.2rem;
   padding: 0 1rem;
@@ -143,19 +157,19 @@ html, body {
   max-width: 480px;
   justify-content: space-between;
   gap: 1.5rem;
-  padding: 0.45rem 0.65rem 0.45rem 1.4rem;
-  background: rgba(10, 14, 26, 0.88);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  padding: 0.42rem 0.65rem 0.42rem 1.4rem;
+  background: rgba(8, 12, 26, 0.88);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.85), 0 0 20px rgba(56, 189, 248, 0.1);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.85), 0 0 20px rgba(56, 189, 248, 0.12);
 }
 
 .nav-links {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 2.2rem;
+  gap: 2.4rem;
 }
 
 .nav-item {
@@ -193,7 +207,7 @@ html, body {
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Let's Connect Button */
+/* Let's Connect CTA Button */
 .btn-connect {
   display: inline-flex;
   align-items: center;
@@ -392,7 +406,7 @@ main {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  padding: 9rem 2rem 8rem 2rem;
+  padding: 9rem 3.5rem 8rem 3.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -576,29 +590,13 @@ main {
   background: transparent;
 }
 
-/* Minimal Top Indicator Tag (Never Overlaps Cards!) */
-.works-simple-tag {
+/* Top-Left Aligned Tag (Matches 'ABOUT THE DEVELOPER' alignment - ZERO Card Overlap) */
+.works-top-header {
   position: absolute;
-  top: 4.8rem;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 3.5rem;
+  left: 3.5rem;
   z-index: 10;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.45rem 1.2rem;
-  border-radius: 9999px;
-  background: rgba(10, 15, 30, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.12);
   pointer-events: none;
-}
-
-.works-tag-text {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: var(--text-silver-bright);
 }
 
 /* 3D Helical Stage Pin Wrapper */
@@ -658,7 +656,7 @@ main {
   width: 100%;
   height: 100%;
   border-radius: 18px;
-  background: #080d1c; /* Pure GPU friendly solid dark slate */
+  background: #080d1c; /* Pure GPU-friendly solid obsidian */
   border: 1px solid rgba(255, 255, 255, 0.18);
   overflow: hidden;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.1);
@@ -725,14 +723,13 @@ main {
 }
 
 /* ==========================================================================
-   SKILLS SECTION (CLEAN 4-CARD BENTO GRID — NO DEAD GAP)
+   SKILLS SECTION (CLEAN 4-CARD BENTO GRID)
    ========================================================================== */
 
 .skills-section {
   position: relative;
   width: 100%;
-  min-height: auto;
-  padding: 8rem 2rem 8rem 2rem;
+  padding: 8rem 3.5rem 8rem 3.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -961,9 +958,12 @@ main {
 
 @media (max-width: 992px) {
   .site-header { padding: 0 2rem; }
+  .about-section { padding: 8rem 2rem 6rem 2rem; }
   .about-grid { grid-template-columns: 1fr; gap: 3.5rem; }
   .about-left { position: static; }
   .about-headline { font-size: 2.4rem; }
+  .works-top-header { left: 2rem; top: 2.5rem; }
+  .skills-section { padding: 6rem 2rem; }
   .skills-bento-grid { grid-template-columns: 1fr; }
 }
 
@@ -979,10 +979,12 @@ main {
   .about-section { padding: 6rem 1.2rem; }
   .about-cards-grid { grid-template-columns: 1fr; }
   .visuvate-works-section { padding: 6rem 1.2rem; min-height: auto; }
+  .works-top-header { left: 1.2rem; top: 2rem; }
   .visuvate-stage-pin { height: auto; }
   .visuvate-stage { height: auto; perspective: none; overflow-x: auto; display: block; padding-bottom: 2rem; }
   .visuvate-helix { display: flex; flex-direction: row; gap: 1.2rem; transform: none !important; width: max-content; padding: 1rem 0; }
   .helix-card { position: relative; width: 290px; transform: none !important; }
+  .skills-section { padding: 5rem 1.2rem; }
   .contact-actions { flex-direction: column; width: 100%; }
   .btn-contact-primary, .btn-contact-secondary { width: 100%; justify-content: center; }
   .site-footer { flex-direction: column; gap: 1.5rem; text-align: center; }

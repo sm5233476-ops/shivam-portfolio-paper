@@ -1,6 +1,6 @@
 /* ==========================================================================
-   SHIVAM MISHRA — MAIN APPLICATION ENGINE (ES MODULE - COMPLETE SUITE)
-   3D Space Flight + Visuvate 3D Cylinder Works + Smart Nav + 120FPS Text
+   LUMIFEX — MASTER APPLICATION ENGINE (ES MODULE)
+   3D Space Flight + Visuvate Morphing Dock + Calm 3D Helical Orbit (60 FPS)
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
@@ -44,7 +44,7 @@ window.CONTACT = {
       trigger: "body",
       start: "top top",
       end: "bottom bottom",
-      scrub: 1.2,
+      scrub: 1.0,
       onUpdate: (self) => {
         if (window.UNIVERSE && window.UNIVERSE.setScrollProgress) {
           window.UNIVERSE.setScrollProgress(self.progress, self.getVelocity());
@@ -61,7 +61,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 3. SMART HYSTERESIS NAVBAR (ACCIDENTAL POP-UP FIX)
+// 3. TRUE VISUVATE MORPHING DOCK & SMART SCROLL HIDE/SHOW
 // ==========================================================================
 (function initSmartNav() {
   const header = document.getElementById('site-header');
@@ -76,22 +76,30 @@ window.CONTACT = {
     const currentY = window.scrollY;
     const diff = currentY - lastScrollY;
 
-    // Top (< 60px): always visible
+    // 1. Morph between Wide Hero and Compact Center Pill
+    if (currentY > 60) {
+      header.classList.add('is-scrolled');
+    } else {
+      header.classList.remove('is-scrolled');
+    }
+
+    // 2. Smart Scroll Hide/Show
+    // At top (< 60px): Always visible
     if (currentY <= 60) {
       if (isNavHidden) {
         header.classList.remove('nav-hidden');
         isNavHidden = false;
       }
     }
-    // Scrolling DOWN (> 100px): hide cleanly
-    else if (diff > 4 && currentY > 100) {
+    // Scrolling DOWN (> 6px diff & > 120px depth): Hide cleanly
+    else if (diff > 6 && currentY > 120) {
       if (!isNavHidden) {
         header.classList.add('nav-hidden');
         isNavHidden = true;
       }
     }
-    // Scrolling UP (intentional > 20px): show
-    else if (diff < -20) {
+    // Scrolling UP (intentional > 8px): Show smoothly
+    else if (diff < -8) {
       if (isNavHidden) {
         header.classList.remove('nav-hidden');
         isNavHidden = false;
@@ -101,8 +109,9 @@ window.CONTACT = {
     lastScrollY = currentY;
   }, { passive: true });
 
+  // Reveal when mouse approaches top
   window.addEventListener('mousemove', (e) => {
-    if (e.clientY <= 70 && isNavHidden) {
+    if (e.clientY <= 65 && isNavHidden) {
       header.classList.remove('nav-hidden');
       isNavHidden = false;
     }
@@ -111,7 +120,7 @@ window.CONTACT = {
   // Active indicator tracking
   if (activeLine && typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
     const navItems = navLinks ? navLinks.querySelectorAll('.nav-item') : [];
-    const sections = ['hero', 'about', 'works', 'skills', 'contact'];
+    const sections = ['about', 'works', 'skills', 'contact'];
 
     sections.forEach(id => {
       const sec = document.getElementById(id);
@@ -145,7 +154,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 4. SYNCHRONIZED KINETIC WORD REVEAL (HERO & ABOUT TEXT SLIDE-UP)
+// 4. KINETIC WORD REVEAL (HERO & ABOUT TEXT SLIDE-UP)
 // ==========================================================================
 (function initWordReveal() {
   if (typeof gsap === 'undefined') return;
@@ -187,7 +196,6 @@ window.CONTACT = {
   if (aboutHeadline) splitWords(aboutHeadline);
   aboutPs.forEach(p => splitWords(p));
 
-  // Hero page-load reveal
   const heroWords = document.querySelectorAll('.hero-title .word, .hero-subtitle .word');
   if (heroWords.length > 0) {
     gsap.fromTo(heroWords, 
@@ -206,7 +214,6 @@ window.CONTACT = {
     );
   }
 
-  // About scroll reveal
   if (typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
     const aboutWords = document.querySelectorAll('.about-headline .word, .about-p .word');
@@ -234,7 +241,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 5. FOUR CARDS ENTRANCE & CALM LUXURY LIFT (ABOUT SECTION)
+// 5. FOUR CARDS ENTRANCE (ABOUT SECTION)
 // ==========================================================================
 (function initCards() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
@@ -256,7 +263,6 @@ window.CONTACT = {
     ease: "power2.out"
   });
 
-  // Calm Tactile Lift on Hover
   cards.forEach(card => {
     card.addEventListener('mouseenter', () => {
       gsap.to(card, { y: -5, duration: 0.3, ease: "power2.out", overwrite: "auto" });
@@ -268,7 +274,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 6. VISUVATE TRUE 3D HELICAL VORTEX ENGINE (CAMERA-FACING 3D BANKING)
+// 6. VISUVATE TRUE 3D HELICAL VORTEX ENGINE (CALM, LUXURIOUS 60 FPS ORBIT)
 // ==========================================================================
 (function initVisuvateHelix() {
   function setupHelix() {
@@ -278,51 +284,44 @@ window.CONTACT = {
     }
     gsap.registerPlugin(ScrollTrigger);
 
-    const worksSection = document.getElementById('works');
+    const pinStage = document.getElementById('visuvate-stage-pin');
     const stage = document.getElementById('visuvate-stage');
     const helixContainer = document.getElementById('visuvate-helix');
     const cards = document.querySelectorAll('.helix-card');
 
-    if (!worksSection || !stage || !helixContainer || cards.length === 0) return;
+    if (!pinStage || !stage || !helixContainer || cards.length === 0) return;
 
-    // Only enable 3D helical pinning on desktop / tablet screens (> 900px)
+    // Desktop/Tablet only (> 900px)
     if (window.innerWidth <= 900) return;
 
     const totalCards = cards.length;
-    // Spiral angular spacing around the helical loop
     const angleStep = (Math.PI * 2) / totalCards;
-    const radiusX = 520; // Horizontal orbit radius
-    const radiusZ = 380; // Depth orbit radius
-    const verticalPitch = 120; // Vertical height offset per card along the helix
+    const radiusX = 510; // Horizontal orbit width
+    const radiusZ = 370; // Depth orbit
+    const verticalPitch = 100; // Vertical stagger per card
 
-    // Parametric 3D Helix positioner function with Camera-Facing Banking
     function updateHelix(progress) {
-      // Corkscrew scroll rotation
-      const scrollAngle = progress * Math.PI * 2.4;
-      const scrollYOffset = progress * (verticalPitch * totalCards * 0.7);
+      // Calm, majestic rotation cadence (increased runway prevents rushing)
+      const scrollAngle = progress * Math.PI * 2.0;
+      const scrollYOffset = progress * (verticalPitch * totalCards * 0.65);
 
       cards.forEach((card, i) => {
-        // Current angle of the card in the helix
         const theta = (i * angleStep) - scrollAngle;
-
-        // 3D coordinates in space
         const x = Math.sin(theta) * radiusX;
         const z = Math.cos(theta) * radiusZ;
         
-        // Staggered Y position down the helix + offset down from navbar
         const baseY = (i - (totalCards - 1) / 2) * verticalPitch;
-        const y = baseY - scrollYOffset + (progress * 180) + 40; // +40px clears the top nav dock
+        const y = baseY - scrollYOffset + (progress * 130);
 
-        // VISUVATE CAMERA-FACING FORMULA:
-        // Instead of spinning 180° backwards, cards bank dynamically towards the viewer!
-        const rotY = -Math.sin(theta) * 38; // Dynamic yaw banking
-        const rotX = -Math.cos(theta) * 18 + 6; // Dynamic pitch (top cards tilt back, bottom tilt up)
-        const rotZ = -Math.sin(theta) * 7;  // Dynamic corkscrew roll
+        // Camera-facing dynamic banking: Cards stay readable, zero backwards flipping
+        const rotY = -Math.sin(theta) * 36;
+        const rotX = -Math.cos(theta) * 16 + 4;
+        const rotZ = -Math.sin(theta) * 6;
 
-        // Depth calculations: front cards are crisp, distant cards soften
-        const depthFactor = (z + radiusZ) / (2 * radiusZ); // 0 (back) to 1 (front)
-        const opacity = gsap.utils.clamp(0.48, 1.0, 0.48 + depthFactor * 0.52);
-        const scale = gsap.utils.clamp(0.85, 1.06, 0.88 + depthFactor * 0.18);
+        // Depth calculations: Front cards are crisp, distant cards soften
+        const depthFactor = (z + radiusZ) / (2 * radiusZ);
+        const opacity = gsap.utils.clamp(0.45, 1.0, 0.45 + depthFactor * 0.55);
+        const scale = gsap.utils.clamp(0.86, 1.05, 0.88 + depthFactor * 0.17);
 
         // Direct hardware-accelerated 60 FPS matrix transform
         card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, ${z.toFixed(2)}px) rotateY(${rotY.toFixed(2)}deg) rotateX(${rotX.toFixed(2)}deg) rotateZ(${rotZ.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
@@ -331,22 +330,22 @@ window.CONTACT = {
       });
     }
 
-    // Set initial positions
+    // Set initial layout
     updateHelix(0);
 
-    // Pin works section and drive the 3D corkscrew flight with scroll scrub
+    // Pin ONLY the 3D Stage after heading has scrolled (ZERO collision!)
     ScrollTrigger.create({
-      trigger: worksSection,
+      trigger: pinStage,
       start: "top top",
-      end: "+=3400", // Smooth flight runway
+      end: "+=4600", // Calm, smooth runway
       pin: true,
-      scrub: 1.2,
+      scrub: 1.0,
       onUpdate: (self) => {
         updateHelix(self.progress);
       }
     });
 
-    // Visuvate 3D Spatial Mouse Parallax
+    // 3D Spatial Mouse Parallax
     stage.addEventListener('mousemove', (e) => {
       const rect = stage.getBoundingClientRect();
       const mx = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
@@ -378,11 +377,12 @@ window.CONTACT = {
     setupHelix();
   }
 })();
+
 // ==========================================================================
 // 7. 3D MAGNETIC BUTTON TILT
 // ==========================================================================
 (function initTilt() {
-  const btns = document.querySelectorAll('.btn-connect, .btn-hero-primary, .btn-hero-secondary');
+  const btns = document.querySelectorAll('.btn-connect, .btn-hero-primary, .btn-hero-secondary, .btn-contact-primary');
   btns.forEach(btn => {
     btn.addEventListener('mousemove', (e) => {
       const rect = btn.getBoundingClientRect();

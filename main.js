@@ -1,6 +1,6 @@
 /* ==========================================================================
-   LUMIFEX — MASTER APPLICATION ENGINE (ES MODULE)
-   Permanent Visuvate Frosted Dock + Zero-Collision 3D Helix + 60 FPS WebGL
+   LUMIFEX — MASTER APPLICATION ENGINE (120 FPS HIGH REFRESH MOTION)
+   Fluid Visuvate Morphing Dock + Grand Spacious 3D Helical Orbit
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
@@ -61,7 +61,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 3. TRUE VISUVATE FLOATING FROSTED DOCK (PERMANENT — NEVER HIDES!)
+// 3. TRUE VISUVATE MORPHING DOCK (FLUID SCROLL INTERPOLATION)
 // ==========================================================================
 (function initSmartNav() {
   const header = document.getElementById('site-header');
@@ -69,7 +69,7 @@ window.CONTACT = {
   const activeLine = document.getElementById('nav-active-line');
   if (!header) return;
 
-  // Pure Visuvate Morph: Always stays visible on screen!
+  // Fluid transition between Wide Hero layout and Center Frosted Glass Pill
   window.addEventListener('scroll', () => {
     if (window.scrollY > 40) {
       header.classList.add('is-scrolled');
@@ -81,7 +81,7 @@ window.CONTACT = {
   // Active indicator line tracking
   if (activeLine && typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
     const navItems = navLinks ? navLinks.querySelectorAll('.nav-item') : [];
-    const sections = ['about', 'works', 'skills', 'contact'];
+    const sections = ['about', 'works'];
 
     sections.forEach(id => {
       const sec = document.getElementById(id);
@@ -235,7 +235,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 6. VISUVATE TRUE 3D HELICAL VORTEX (ZERO-COLLISION & SMOOTH EXIT FADE)
+// 6. VISUVATE GRAND 3D HELICAL VORTEX (WIDE CIRCLE & 120 FPS CADENCE)
 // ==========================================================================
 (function initVisuvateHelix() {
   function setupHelix() {
@@ -247,31 +247,26 @@ window.CONTACT = {
 
     const worksSection = document.getElementById('works');
     const stage = document.getElementById('visuvate-stage');
-    const helixContainer = document.getElementById('visuvate-helix') || document.querySelector('.works-helix-container');
+    const helixContainer = document.getElementById('visuvate-helix');
     const cards = document.querySelectorAll('.helix-card');
 
     if (!worksSection || !stage || !helixContainer || cards.length === 0) return;
 
-    // Desktop only (> 900px)
+    // Desktop/Tablet only (> 900px)
     if (window.innerWidth <= 900) return;
 
     const totalCards = cards.length;
     const angleStep = (Math.PI * 2) / totalCards;
-    const radiusX = 500;
-    const radiusZ = 360;
-    const verticalPitch = 90;
+
+    // GRAND SPACIOUS HELIX DIMENSIONS (Cards have ample room to breathe!)
+    const radiusX = 660; // 32% wider horizontal orbit (no choking!)
+    const radiusZ = 480; // Deep 3D depth dimension
+    const verticalPitch = 135; // Distinct vertical height stagger
 
     function updateHelix(progress) {
-      // Rotation cadence
-      const scrollAngle = progress * Math.PI * 1.9;
-      const scrollYOffset = progress * (verticalPitch * totalCards * 0.6);
-
-      // CRITICAL COLLISION FIX: As works section finishes, cards fade out completely!
-      let exitFade = 1;
-      if (progress > 0.82) {
-        exitFade = Math.max(0, 1 - (progress - 0.82) / 0.15);
-      }
-      helixContainer.style.opacity = exitFade.toFixed(2);
+      // Calm, majestic rotational velocity
+      const scrollAngle = progress * Math.PI * 1.95;
+      const scrollYOffset = progress * (verticalPitch * totalCards * 0.65);
 
       cards.forEach((card, i) => {
         const theta = (i * angleStep) - scrollAngle;
@@ -279,30 +274,32 @@ window.CONTACT = {
         const z = Math.cos(theta) * radiusZ;
         
         const baseY = (i - (totalCards - 1) / 2) * verticalPitch;
-        const y = baseY - scrollYOffset + (progress * 110);
+        const y = baseY - scrollYOffset + (progress * 130);
 
-        // Camera-facing dynamic banking:
-        const rotY = -Math.sin(theta) * 34;
-        const rotX = -Math.cos(theta) * 14 + 3;
-        const rotZ = -Math.sin(theta) * 5;
+        // Camera-facing dynamic banking: Cards stay readable, zero backwards flipping
+        const rotY = -Math.sin(theta) * 36;
+        const rotX = -Math.cos(theta) * 15 + 4;
+        const rotZ = -Math.sin(theta) * 6;
 
+        // Depth calculations: Front cards are crisp, distant cards soften
         const depthFactor = (z + radiusZ) / (2 * radiusZ);
-        const opacity = (gsap.utils.clamp(0.48, 1.0, 0.48 + depthFactor * 0.52)) * exitFade;
-        const scale = gsap.utils.clamp(0.88, 1.05, 0.88 + depthFactor * 0.16);
+        const opacity = gsap.utils.clamp(0.48, 1.0, 0.48 + depthFactor * 0.52);
+        const scale = gsap.utils.clamp(0.88, 1.05, 0.88 + depthFactor * 0.17);
 
+        // Pure GPU hardware-accelerated transform (Zero layout thrashing = 120 FPS)
         card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, ${z.toFixed(2)}px) rotateY(${rotY.toFixed(2)}deg) rotateX(${rotX.toFixed(2)}deg) rotateZ(${rotZ.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
         card.style.opacity = opacity.toFixed(2);
-        card.style.zIndex = Math.round((z + radiusZ) * 10);
       });
     }
 
+    // Set initial layout
     updateHelix(0);
 
-    // Pin the entire works section cleanly!
+    // Pin works section cleanly with calm, smooth runway
     ScrollTrigger.create({
       trigger: worksSection,
       start: "top top",
-      end: "+=3600",
+      end: "+=3800",
       pin: true,
       scrub: 1.0,
       onUpdate: (self) => {
@@ -317,8 +314,8 @@ window.CONTACT = {
       const my = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
 
       gsap.to(helixContainer, {
-        rotateY: mx * 9,
-        rotateX: -my * 6,
+        rotateY: mx * 10,
+        rotateX: -my * 7,
         duration: 0.6,
         ease: "power2.out",
         overwrite: "auto"
@@ -329,7 +326,7 @@ window.CONTACT = {
       gsap.to(helixContainer, {
         rotateY: 0,
         rotateX: 0,
-        duration: 0.8,
+        duration: 0.9,
         ease: "power2.out",
         overwrite: "auto"
       });
@@ -347,7 +344,7 @@ window.CONTACT = {
 // 7. 3D MAGNETIC BUTTON TILT
 // ==========================================================================
 (function initTilt() {
-  const btns = document.querySelectorAll('.btn-connect, .btn-hero-primary, .btn-hero-secondary, .btn-contact-primary');
+  const btns = document.querySelectorAll('.btn-connect, .btn-hero-primary, .btn-hero-secondary');
   btns.forEach(btn => {
     btn.addEventListener('mousemove', (e) => {
       const rect = btn.getBoundingClientRect();

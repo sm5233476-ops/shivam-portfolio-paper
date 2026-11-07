@@ -1,6 +1,6 @@
 /* ==========================================================================
    LUMIFEX — MASTER APPLICATION ENGINE (ES MODULE)
-   3D Space Flight + Visuvate Morphing Dock + Calm 3D Helical Orbit (60 FPS)
+   Permanent Visuvate Frosted Dock + Zero-Collision 3D Helix + 60 FPS WebGL
    ========================================================================== */
 
 import { Universe } from './universe/universe.js';
@@ -30,7 +30,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 2. 3D CAMERA SPACE FLIGHT ON SCROLL (STRAIGHT FORWARD GLIDE)
+// 2. 3D CAMERA SPACE FLIGHT ON SCROLL
 // ==========================================================================
 (function initSpaceFlight() {
   function setupFlight() {
@@ -61,7 +61,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 3. TRUE VISUVATE MORPHING DOCK & SMART SCROLL HIDE/SHOW
+// 3. TRUE VISUVATE FLOATING FROSTED DOCK (PERMANENT — NEVER HIDES!)
 // ==========================================================================
 (function initSmartNav() {
   const header = document.getElementById('site-header');
@@ -69,55 +69,16 @@ window.CONTACT = {
   const activeLine = document.getElementById('nav-active-line');
   if (!header) return;
 
-  let lastScrollY = window.scrollY;
-  let isNavHidden = false;
-
+  // Pure Visuvate Morph: Always stays visible on screen!
   window.addEventListener('scroll', () => {
-    const currentY = window.scrollY;
-    const diff = currentY - lastScrollY;
-
-    // 1. Morph between Wide Hero and Compact Center Pill
-    if (currentY > 60) {
+    if (window.scrollY > 40) {
       header.classList.add('is-scrolled');
     } else {
       header.classList.remove('is-scrolled');
     }
-
-    // 2. Smart Scroll Hide/Show
-    // At top (< 60px): Always visible
-    if (currentY <= 60) {
-      if (isNavHidden) {
-        header.classList.remove('nav-hidden');
-        isNavHidden = false;
-      }
-    }
-    // Scrolling DOWN (> 6px diff & > 120px depth): Hide cleanly
-    else if (diff > 6 && currentY > 120) {
-      if (!isNavHidden) {
-        header.classList.add('nav-hidden');
-        isNavHidden = true;
-      }
-    }
-    // Scrolling UP (intentional > 8px): Show smoothly
-    else if (diff < -8) {
-      if (isNavHidden) {
-        header.classList.remove('nav-hidden');
-        isNavHidden = false;
-      }
-    }
-
-    lastScrollY = currentY;
   }, { passive: true });
 
-  // Reveal when mouse approaches top
-  window.addEventListener('mousemove', (e) => {
-    if (e.clientY <= 65 && isNavHidden) {
-      header.classList.remove('nav-hidden');
-      isNavHidden = false;
-    }
-  }, { passive: true });
-
-  // Active indicator tracking
+  // Active indicator line tracking
   if (activeLine && typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
     const navItems = navLinks ? navLinks.querySelectorAll('.nav-item') : [];
     const sections = ['about', 'works', 'skills', 'contact'];
@@ -154,7 +115,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 4. KINETIC WORD REVEAL (HERO & ABOUT TEXT SLIDE-UP)
+// 4. KINETIC WORD REVEAL (HERO & ABOUT TEXT)
 // ==========================================================================
 (function initWordReveal() {
   if (typeof gsap === 'undefined') return;
@@ -274,7 +235,7 @@ window.CONTACT = {
 })();
 
 // ==========================================================================
-// 6. VISUVATE TRUE 3D HELICAL VORTEX ENGINE (CALM, LUXURIOUS 60 FPS ORBIT)
+// 6. VISUVATE TRUE 3D HELICAL VORTEX (ZERO-COLLISION & SMOOTH EXIT FADE)
 // ==========================================================================
 (function initVisuvateHelix() {
   function setupHelix() {
@@ -284,26 +245,33 @@ window.CONTACT = {
     }
     gsap.registerPlugin(ScrollTrigger);
 
-    const pinStage = document.getElementById('visuvate-stage-pin');
+    const worksSection = document.getElementById('works');
     const stage = document.getElementById('visuvate-stage');
-    const helixContainer = document.getElementById('visuvate-helix');
+    const helixContainer = document.getElementById('visuvate-helix') || document.querySelector('.works-helix-container');
     const cards = document.querySelectorAll('.helix-card');
 
-    if (!pinStage || !stage || !helixContainer || cards.length === 0) return;
+    if (!worksSection || !stage || !helixContainer || cards.length === 0) return;
 
-    // Desktop/Tablet only (> 900px)
+    // Desktop only (> 900px)
     if (window.innerWidth <= 900) return;
 
     const totalCards = cards.length;
     const angleStep = (Math.PI * 2) / totalCards;
-    const radiusX = 510; // Horizontal orbit width
-    const radiusZ = 370; // Depth orbit
-    const verticalPitch = 100; // Vertical stagger per card
+    const radiusX = 500;
+    const radiusZ = 360;
+    const verticalPitch = 90;
 
     function updateHelix(progress) {
-      // Calm, majestic rotation cadence (increased runway prevents rushing)
-      const scrollAngle = progress * Math.PI * 2.0;
-      const scrollYOffset = progress * (verticalPitch * totalCards * 0.65);
+      // Rotation cadence
+      const scrollAngle = progress * Math.PI * 1.9;
+      const scrollYOffset = progress * (verticalPitch * totalCards * 0.6);
+
+      // CRITICAL COLLISION FIX: As works section finishes, cards fade out completely!
+      let exitFade = 1;
+      if (progress > 0.82) {
+        exitFade = Math.max(0, 1 - (progress - 0.82) / 0.15);
+      }
+      helixContainer.style.opacity = exitFade.toFixed(2);
 
       cards.forEach((card, i) => {
         const theta = (i * angleStep) - scrollAngle;
@@ -311,33 +279,30 @@ window.CONTACT = {
         const z = Math.cos(theta) * radiusZ;
         
         const baseY = (i - (totalCards - 1) / 2) * verticalPitch;
-        const y = baseY - scrollYOffset + (progress * 130);
+        const y = baseY - scrollYOffset + (progress * 110);
 
-        // Camera-facing dynamic banking: Cards stay readable, zero backwards flipping
-        const rotY = -Math.sin(theta) * 36;
-        const rotX = -Math.cos(theta) * 16 + 4;
-        const rotZ = -Math.sin(theta) * 6;
+        // Camera-facing dynamic banking:
+        const rotY = -Math.sin(theta) * 34;
+        const rotX = -Math.cos(theta) * 14 + 3;
+        const rotZ = -Math.sin(theta) * 5;
 
-        // Depth calculations: Front cards are crisp, distant cards soften
         const depthFactor = (z + radiusZ) / (2 * radiusZ);
-        const opacity = gsap.utils.clamp(0.45, 1.0, 0.45 + depthFactor * 0.55);
-        const scale = gsap.utils.clamp(0.86, 1.05, 0.88 + depthFactor * 0.17);
+        const opacity = (gsap.utils.clamp(0.48, 1.0, 0.48 + depthFactor * 0.52)) * exitFade;
+        const scale = gsap.utils.clamp(0.88, 1.05, 0.88 + depthFactor * 0.16);
 
-        // Direct hardware-accelerated 60 FPS matrix transform
         card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, ${z.toFixed(2)}px) rotateY(${rotY.toFixed(2)}deg) rotateX(${rotX.toFixed(2)}deg) rotateZ(${rotZ.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
         card.style.opacity = opacity.toFixed(2);
         card.style.zIndex = Math.round((z + radiusZ) * 10);
       });
     }
 
-    // Set initial layout
     updateHelix(0);
 
-    // Pin ONLY the 3D Stage after heading has scrolled (ZERO collision!)
+    // Pin the entire works section cleanly!
     ScrollTrigger.create({
-      trigger: pinStage,
+      trigger: worksSection,
       start: "top top",
-      end: "+=4600", // Calm, smooth runway
+      end: "+=3600",
       pin: true,
       scrub: 1.0,
       onUpdate: (self) => {
@@ -352,8 +317,8 @@ window.CONTACT = {
       const my = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
 
       gsap.to(helixContainer, {
-        rotateY: mx * 10,
-        rotateX: -my * 7,
+        rotateY: mx * 9,
+        rotateX: -my * 6,
         duration: 0.6,
         ease: "power2.out",
         overwrite: "auto"
@@ -364,7 +329,7 @@ window.CONTACT = {
       gsap.to(helixContainer, {
         rotateY: 0,
         rotateX: 0,
-        duration: 0.9,
+        duration: 0.8,
         ease: "power2.out",
         overwrite: "auto"
       });

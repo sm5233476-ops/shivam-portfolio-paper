@@ -1,6 +1,6 @@
 /* ==========================================================================
    LUMIFEX — THE COSMIC PORTFOLIO (AWWWARDS-GRADE MASTER STYLESHEET)
-   Visuvate Morphing Dock + Pure 16:10 Helical Cards + 60 FPS Performance
+   Permanent Visuvate Frosted Pill Dock + Zero-Collision 3D Showcase + 60 FPS
    ========================================================================== */
 
 :root {
@@ -101,12 +101,12 @@ html, body {
 }
 
 /* ==========================================================================
-   HEADER & NAVIGATION — TRUE VISUVATE MORPHING DOCK (SCREENSHOT 2 & 3)
+   HEADER & NAVIGATION — TRUE VISUVATE FLOATING FROSTED DOCK (PERMANENT)
    ========================================================================== */
 
 .site-header {
   position: fixed;
-  top: 1.6rem;
+  top: 1.4rem;
   left: 0;
   width: 100%;
   z-index: 1000;
@@ -115,20 +115,11 @@ html, body {
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity 0.35s ease, 
-              padding 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
-              top 0.45s ease;
+  /* Always stays on screen — NEVER hides! */
+  transition: padding 0.45s cubic-bezier(0.16, 1, 0.3, 1), top 0.45s ease;
 }
 
-/* Smart Scroll Hide: Slides away on downward scroll */
-.site-header.nav-hidden {
-  transform: translateY(-145%) !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-/* State 1: TOP HERO (Wide edge-to-edge layout - Screenshot 2) */
+/* State 1: TOP HERO (Wide Layout) */
 .nav-container {
   pointer-events: auto;
   width: 100%;
@@ -136,18 +127,18 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.6rem 0;
+  padding: 0.5rem 0;
   background: transparent;
   border: 1px solid transparent;
   border-radius: 9999px;
-  transition: max-width 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
-              padding 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+  transition: max-width 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              padding 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
               background-color 0.45s ease, 
               border-color 0.45s ease, 
               box-shadow 0.45s ease;
 }
 
-/* Brand Logo: Lumifex (Left Side Wordmark) */
+/* Brand Logo (Lumifex) */
 .nav-brand {
   display: inline-flex;
   align-items: center;
@@ -173,22 +164,22 @@ html, body {
   color: #ffffff;
 }
 
-/* State 2: SCROLLED (Shrinks into Center Floating Glass Pill - Screenshot 3) */
+/* State 2: SCROLLED (Shrinks into Translucent Frosted Glass Pill) */
 .site-header.is-scrolled {
-  top: 1.2rem;
+  top: 1.1rem;
   padding: 0 1rem;
 }
 
 .site-header.is-scrolled .nav-container {
-  max-width: 580px;
+  max-width: fit-content;
   justify-content: space-between;
-  gap: 1.8rem;
-  padding: 0.42rem 0.65rem 0.42rem 1.4rem;
-  background: rgba(8, 12, 26, 0.88);
+  gap: 1.6rem;
+  padding: 0.42rem 0.55rem 0.42rem 1.4rem;
+  background: rgba(8, 12, 26, 0.68) !important;
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.85), 0 0 25px rgba(56, 189, 248, 0.14);
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.12) !important;
 }
 
 .nav-links {
@@ -201,7 +192,7 @@ html, body {
 .nav-item {
   position: relative;
   display: inline-block;
-  color: rgba(241, 245, 249, 0.8);
+  color: rgba(241, 245, 249, 0.82);
   font-family: var(--font-sans);
   font-size: 0.92rem;
   font-weight: 600;
@@ -233,12 +224,12 @@ html, body {
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Let's Connect CTA Button */
+/* Let's Connect CTA Button (Fits perfectly inside the pill) */
 .btn-connect {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  padding: 0.62rem 1.4rem;
+  padding: 0.6rem 1.35rem;
   background: #ffffff !important;
   border: 1px solid #ffffff;
   border-radius: 9999px;
@@ -436,6 +427,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
 }
 
 .about-container {
@@ -601,41 +593,30 @@ main {
 }
 
 /* ==========================================================================
-   WORKS SECTION — FIRST INTRO HEADER -> THEN 3D HELIX (SCREENSHOT 4)
+   WORKS SECTION — ZERO COLLISION PURE 3D HELICAL STAGE
    ========================================================================== */
 
 .visuvate-works-section {
   position: relative;
   width: 100%;
+  min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background: transparent;
+  z-index: 5;
 }
 
-/* 1. Professional Editorial Intro Header (Above the 3D pin - Zero Card Overlap) */
-.works-flow-header {
-  position: relative;
-  width: 100%;
-  max-width: 1360px;
-  margin: 0 auto;
-  padding: 8rem 3.5rem 3rem 3.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+/* Minimal Corner Badge (Sits in top-left corner — NEVER overlaps cards!) */
+.works-corner-tag {
+  position: absolute;
+  top: 3.5rem;
+  left: 3.5rem;
   z-index: 10;
+  pointer-events: none;
 }
 
-.works-flow-title {
-  font-family: var(--font-sans);
-  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-  color: var(--text-heading);
-  max-width: 860px;
-}
-
-/* 2. Pinned 3D Helical Helix Stage (Screenshot 4: Clean Full-Bleed Browser Cards) */
+/* Pinned 3D Stage Wrapper */
 .visuvate-stage-pin {
   position: relative;
   width: 100%;
@@ -657,6 +638,7 @@ main {
   pointer-events: none;
 }
 
+.works-helix-container,
 .visuvate-helix {
   position: relative;
   width: 100%;
@@ -668,7 +650,7 @@ main {
   will-change: transform, opacity;
 }
 
-/* PURE 16:10 BROWSER MOCKUP (NO TEXT PILLS BENEATH = SCREENSHOT 4 EXACT) */
+/* 16:10 Pure Full-Bleed Browser Mockup (No Text Pills) */
 .helix-card {
   position: absolute;
   width: clamp(330px, 28vw, 420px);
@@ -692,7 +674,7 @@ main {
   width: 100%;
   height: 100%;
   border-radius: 20px;
-  background: #080d1c; /* Pure GPU-friendly solid dark obsidian */
+  background: #080d1c; /* Pure GPU solid dark slate */
   border: 1px solid rgba(255, 255, 255, 0.18);
   overflow: hidden;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 25px rgba(56, 189, 248, 0.12);
@@ -733,16 +715,18 @@ main {
 }
 
 /* ==========================================================================
-   SKILLS SECTION (CLEAN 4-CARD BENTO GRID)
+   SKILLS SECTION (HIGH Z-INDEX & CLEAN CLEARANCE — NO 3D OVERLAP!)
    ========================================================================== */
 
 .skills-section {
   position: relative;
   width: 100%;
-  padding: 8rem 3.5rem 8rem 3.5rem;
+  padding: 10rem 3.5rem 8rem 3.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--bg-deep) !important; /* Solid space background clears 3D cards */
+  z-index: 20; /* Sits cleanly above works */
 }
 
 .skills-container {
@@ -839,7 +823,7 @@ main {
 }
 
 /* ==========================================================================
-   CONTACT SECTION
+   CONTACT SECTION (HIGH Z-INDEX & CLEAN CLEARANCE)
    ========================================================================== */
 
 .contact-section {
@@ -850,6 +834,8 @@ main {
   align-items: center;
   justify-content: center;
   text-align: center;
+  background: var(--bg-deep) !important;
+  z-index: 20;
 }
 
 .contact-container {
@@ -972,7 +958,7 @@ main {
   .about-grid { grid-template-columns: 1fr; gap: 3.5rem; }
   .about-left { position: static; }
   .about-headline { font-size: 2.4rem; }
-  .works-flow-header { padding: 6rem 2rem 2rem 2rem; }
+  .works-corner-tag { left: 2rem; top: 2.5rem; }
   .skills-section { padding: 6rem 2rem; }
   .skills-bento-grid { grid-template-columns: 1fr; }
 }
@@ -988,10 +974,11 @@ main {
   .hero-scroll { display: none; }
   .about-section { padding: 6rem 1.2rem; }
   .about-cards-grid { grid-template-columns: 1fr; }
-  .works-flow-header { padding: 5rem 1.2rem 1.5rem 1.2rem; }
+  .visuvate-works-section { padding: 6rem 1.2rem; min-height: auto; }
+  .works-corner-tag { left: 1.2rem; top: 2rem; }
   .visuvate-stage-pin { height: auto; }
   .visuvate-stage { height: auto; perspective: none; overflow-x: auto; display: block; padding-bottom: 2rem; }
-  .visuvate-helix { display: flex; flex-direction: row; gap: 1.2rem; transform: none !important; width: max-content; padding: 1rem 0; }
+  .works-helix-container, .visuvate-helix { display: flex; flex-direction: row; gap: 1.2rem; transform: none !important; width: max-content; padding: 1rem 0; }
   .helix-card { position: relative; width: 290px; transform: none !important; }
   .skills-section { padding: 5rem 1.2rem; }
   .contact-actions { flex-direction: column; width: 100%; }

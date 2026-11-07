@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Shivam Mishra — Web Developer &amp; AI Builder</title>
+  <title>Shivam Mishra — Web Developer &amp; Creative Technologist</title>
   <meta name="description" content="Websites, SaaS products and AI-powered apps, designed with care and engineered for speed.">
 
-  <!-- Google Fonts -->
+  <!-- Clean Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -26,14 +26,14 @@
   </script>
 
   <!-- Master Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=25">
+  <link rel="stylesheet" href="style.css?v=30">
 </head>
 <body>
 
   <!-- Fullscreen WebGL2 Cosmic Canvas (Fixed in Background) -->
   <canvas id="universe-canvas"></canvas>
 
-  <!-- Visuvate Morphing Header: Wide on Hero (Screenshot 2) -> Center Pill on Scroll (Screenshot 3) -->
+  <!-- Visuvate Morphing Header: Wide on Hero -> Center Pill on Scroll -->
   <header class="site-header" id="site-header">
     <nav class="nav-container" id="nav-container">
 
@@ -65,12 +65,150 @@
   <!-- Main Experience -->
   <main>
 
-    <!-- (Keep Hero & About untouched) -->
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+      <div class="hero-content">
+
+        <!-- Headline -->
+        <h1 class="hero-title" data-reveal="words">
+          <span class="title-line">A web developer</span>
+          <span class="title-line highlight-text">who loves to build.</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="hero-subtitle" data-reveal="words">
+          Websites, SaaS products and AI-powered apps, designed with care and engineered for speed.
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="hero-actions">
+          <a href="#works" class="btn-hero-primary">
+            <span>Explore Projects</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="20"></line><polyline points="19 13 12 20 5 13"></polyline></svg>
+          </a>
+          <a href="#contact" class="btn-hero-secondary">
+            <span>Get in Touch</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Scroll Cue -->
+      <div class="hero-scroll">
+        <div class="scroll-track">
+          <div class="scroll-pill"></div>
+        </div>
+        <span>scroll</span>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="about-section">
+      <div class="about-container">
+
+        <!-- Section Label -->
+        <div class="section-tag-wrap">
+          <span class="tag-pulse-dot" aria-hidden="true"></span>
+          <span class="section-tag">ABOUT THE DEVELOPER</span>
+        </div>
+
+        <div class="about-grid">
+
+          <!-- Left Column -->
+          <div class="about-left">
+            <h2 class="about-headline" data-reveal="words">
+              I design and build the <span class="highlight-text">websites, apps and tools</span> that businesses grow on.
+            </h2>
+
+            <div class="about-exp-pill">
+              <span class="exp-dot" aria-hidden="true"></span>
+              <span class="exp-badge">Available for new projects</span>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="about-right">
+            <p class="about-p" data-reveal="words">
+              I'm Shivam Mishra, a web developer working with businesses of every size: company websites, e-commerce stores, SaaS products, internal tools and AI-powered apps.
+            </p>
+            <p class="about-p" data-reveal="words">
+              I care about the details clients feel but rarely see: clean architecture, fast load times, smooth motion and interfaces that make the next step obvious. Whatever the idea, I take it from first sketch to a live, production-ready product.
+            </p>
+
+            <!-- 4 Feature Cards -->
+            <div class="about-cards-grid" id="about-cards-grid">
+
+              <!-- Card 1 -->
+              <div class="about-card" data-card="1">
+                <div class="about-card-inner">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FA2FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                  </div>
+                  <h3 class="card-title">Speed &amp; 60 FPS</h3>
+                  <p class="card-desc">Lean, optimized code and silky, GPU-accelerated motion that stays smooth on modern devices.</p>
+                </div>
+              </div>
+
+              <!-- Card 2 -->
+              <div class="about-card" data-card="2">
+                <div class="about-card-inner">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FA2FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+                      <path d="M13 13l6 6"></path>
+                    </svg>
+                  </div>
+                  <h3 class="card-title">Conversion-minded UX</h3>
+                  <p class="card-desc">Layouts built around your visitors' next step, so it is clear what to do and easy to do it.</p>
+                </div>
+              </div>
+
+              <!-- Card 3 -->
+              <div class="about-card" data-card="3">
+                <div class="about-card-inner">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FA2FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                      <circle cx="12" cy="5" r="2"></circle>
+                      <path d="M12 7v4"></path>
+                      <line x1="8" y1="16" x2="8" y2="16"></line>
+                      <line x1="16" y1="16" x2="16" y2="16"></line>
+                    </svg>
+                  </div>
+                  <h3 class="card-title">AI &amp; automation</h3>
+                  <p class="card-desc">Chat assistants, lead capture and smart workflows that take care of the routine work.</p>
+                </div>
+              </div>
+
+              <!-- Card 4 -->
+              <div class="about-card" data-card="4">
+                <div class="about-card-inner">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FA2FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                      <polyline points="2 17 12 22 22 17"></polyline>
+                      <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                  </div>
+                  <h3 class="card-title">Sites, stores &amp; apps</h3>
+                  <p class="card-desc">Company sites, online stores, SaaS products and custom tools, built end to end.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
 
     <!-- WORKS SECTION (FIRST INTRO HEADING -> THEN VISUVATE 3D HELIX) -->
     <section id="works" class="visuvate-works-section">
 
-      <!-- 1. Professional Editorial Intro (Sits cleanly ABOVE the 3D pin - ZERO Card Overlap) -->
+      <!-- 1. Professional Editorial Intro Header (Above 3D pin - ZERO Card Overlap) -->
       <div class="works-flow-header">
         <div class="section-tag-wrap">
           <span class="tag-pulse-dot" aria-hidden="true"></span>
@@ -81,7 +219,7 @@
         </h2>
       </div>
 
-      <!-- 2. Pinned 3D Helical Helix Stage (Exact Screenshot 4: Pure Full-Bleed Browser Cards!) -->
+      <!-- 2. Pinned 3D Helical Helix Stage (Screenshot 4: Clean Full-Bleed Browser Cards!) -->
       <div class="visuvate-stage-pin" id="visuvate-stage-pin">
         <div class="visuvate-stage" id="visuvate-stage">
           <div class="visuvate-helix" id="visuvate-helix">
@@ -163,10 +301,12 @@
       </div>
 
     </section>
+
     <!-- SKILLS SECTION -->
     <section id="skills" class="skills-section">
       <div class="skills-container">
 
+        <!-- Section Label -->
         <div class="section-tag-wrap">
           <span class="tag-pulse-dot" aria-hidden="true"></span>
           <span class="section-tag">SKILLS</span>
@@ -181,7 +321,7 @@
           </p>
         </div>
 
-        <!-- 4-Card Client Services Bento Grid -->
+        <!-- 4-Card Bento Grid -->
         <div class="skills-bento-grid">
 
           <!-- Skill 1 -->
@@ -267,6 +407,7 @@
     <section id="contact" class="contact-section">
       <div class="contact-container">
 
+        <!-- Section Label -->
         <div class="section-tag-wrap contact-tag-wrap">
           <span class="tag-pulse-dot" aria-hidden="true"></span>
           <span class="section-tag">COLLABORATION // 2026</span>
@@ -279,6 +420,7 @@
           Whether you need a flagship website, an interactive tool, or an AI chat assistant for your business, let's start the dialogue.
         </p>
 
+        <!-- CTA Buttons -->
         <div class="contact-actions">
           <a href="https://wa.me/919899452192?text=Hi%20Shivam,%20let's%20build%20something%20extraordinary." target="_blank" rel="noopener noreferrer" class="btn-contact-primary">
             <span>Open WhatsApp Channel</span>
@@ -289,6 +431,7 @@
           </a>
         </div>
 
+        <!-- Sleek Minimal Footer -->
         <footer class="site-footer">
           <div class="footer-copy">
             &copy; 2026 Shivam Mishra &middot; All Rights Reserved
@@ -305,6 +448,7 @@
 
   </main>
 
-  <script type="module" src="main.js?v=25"></script>
+  <!-- Modular Script Bootstrapper -->
+  <script type="module" src="main.js?v=30"></script>
 </body>
 </html>
